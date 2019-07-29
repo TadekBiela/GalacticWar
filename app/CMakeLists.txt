@@ -5,7 +5,8 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+                               bulletmodel.cpp)
 
 qt5_use_modules(${PROJECT_NAME} Core Widgets Gui)
 
