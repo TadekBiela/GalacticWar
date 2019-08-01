@@ -24,7 +24,6 @@ protected:
     bullet_type m_type;
     int         m_damage;
     int         m_direction;
-    int         m_moveTimeDelay;
     QTimer      m_moveTimer;
 };
 

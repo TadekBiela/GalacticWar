@@ -30,7 +30,7 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-target_link_libraries(${PROJECT_NAME} gtest Qt5::Core Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} gtest Qt5::Core Qt5::Widgets Qt5::Gui)
 add_test(NAME bulletmodeltests COMMAND ${PROJECT_NAME})
 
 file(COPY  ${STD_LIB}
