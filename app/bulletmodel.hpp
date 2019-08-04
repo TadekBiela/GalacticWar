@@ -1,12 +1,13 @@
 #ifndef BULLETMODEL_H
 #define BULLETMODEL_H
 
+#include "bullettype.hpp"
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QPointF>
 #include <QTimer>
-#include "bullettype.hpp"
 
-class BulletModel : public QObject, public ::QGraphicsPixmapItem
+class BulletModel : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
