@@ -1,12 +1,13 @@
 #ifndef BULLETMODEL_H
 #define BULLETMODEL_H
 
-#include "gameobject.hpp"
 #include "bullettype.hpp"
+#include <QObject>
+#include <QGraphicsPixmapItem>
 #include <QPointF>
 #include <QTimer>
 
-class BulletModel : public GameObject
+class BulletModel : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
@@ -18,8 +19,10 @@ public:
     ~BulletModel();
     bullet_type getType() const;
     int         getDamage() const;
+
 public slots:
     void move();
+
 protected:
     bullet_type m_type;
     int         m_damage;
