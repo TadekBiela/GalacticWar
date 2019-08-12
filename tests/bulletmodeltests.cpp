@@ -18,7 +18,6 @@ public:
                                          moveTimeDelay){}
 
     bullet_type getType() const        { return m_type; }
-    QPointF getPosition() const        { return QGraphicsItem::pos(); }
     int getDamage() const              { return m_damage; }
     int getDirection() const           { return m_direction; }
     const QTimer& getMoveTimer() const { return m_moveTimer; }
@@ -31,11 +30,11 @@ class BulletModelTestsClass : public testing::Test
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_IsEqual)
 {
     BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 5, 50);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    bullet_type   resultBulletType = bulletModel.getType();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
     EXPECT_EQ(resultBulletType,           bullet_type::playerDefaultBullet);
     EXPECT_EQ(resultPosition,             QPointF(3, 5));
@@ -48,11 +47,11 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectIfMoveTimeDelayIsWrong_IsEqual)
 {
     BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 5, -10);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    bullet_type   resultBulletType = bulletModel.getType();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
     EXPECT_EQ(resultBulletType,                      bullet_type::playerDefaultBullet);
     EXPECT_EQ(resultPosition,                        QPointF(3, 5));
@@ -65,11 +64,11 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectI
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectDirectionIsMoreThan360Deg_IsEqual)
 {
     BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 450, 10);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    bullet_type   resultBulletType = bulletModel.getType();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
     EXPECT_EQ(resultBulletType,           bullet_type::playerDefaultBullet);
     EXPECT_EQ(resultPosition,             QPointF(3, 5));
@@ -82,11 +81,11 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectD
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectDirectionIsLessThan0Deg_IsEqual)
 {
     BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, -30, 10);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    bullet_type   resultBulletType = bulletModel.getType();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
     EXPECT_EQ(resultBulletType,           bullet_type::playerDefaultBullet);
     EXPECT_EQ(resultPosition,             QPointF(3, 5));

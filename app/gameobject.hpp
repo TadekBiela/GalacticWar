@@ -10,7 +10,7 @@ class GameObject : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     GameObject();
-    const QPointF getPos() const { return QGraphicsPixmapItem::pos(); }
+    virtual const QPointF getPosition() const { return QGraphicsPixmapItem::pos(); }
 };
 
 #endif // GAMEOBJECT_HPP
