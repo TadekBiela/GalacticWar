@@ -9,7 +9,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                bulletmodeltests.cpp
                                ../app/gameobject.cpp
                                ../app/bulletmodel.cpp)
-qt5_use_modules(${PROJECT_NAME} Core Widgets Gui)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
