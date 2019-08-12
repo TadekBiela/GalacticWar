@@ -7,6 +7,7 @@ set(STD_LIB C:/Qt/Tools/mingw730_32/bin/libstdc++-6.dll)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui)
 add_executable(${PROJECT_NAME} main.cpp
                                bulletmodeltests.cpp
+                               ../app/gameobject.cpp
                                ../app/bulletmodel.cpp)
 qt5_use_modules(${PROJECT_NAME} Core Widgets Gui)
 
