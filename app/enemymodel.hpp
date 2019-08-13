@@ -5,16 +5,16 @@
 #include <QGraphicsPixmapItem>
 #include <QPointF>
 #include <QTimer>
-#include <QMediaPlayer>
 
 class EnemyModel : public QObject, public QGraphicsPixmapItem
 {
 public:
-    EnemyModel(int level,
-               int health,
-               int damage,
-               int moveTimeDelay,
-               int fireTimeDelay);
+    EnemyModel(int     level,
+               QPointF position,
+               int     health,
+               int     damage,
+               int     moveTimeDelay,
+               int     fireTimeDelay);
     ~EnemyModel();
 
 signals:
@@ -24,24 +24,18 @@ public slots:
     void fire();
     void move();
     void animation();
-    void destroy();
 
 protected:
     void hit(int damage);
+    void destroy();
 
-    int          m_level;
-    int          m_health;
-    int          m_damage;
-    int          m_moveTimeDelay;
-    int          m_fireTimeDelay;
-    int          m_animationTime;
-    int          m_animationFrameIdx;
-    int          m_destroyTime;
-    QTimer       m_fireTimer;
-    QTimer       m_moveTimer;
-    QTimer       m_animationTimer;
-    QTimer       m_destroyTimer;
-    QMediaPlayer m_destroySound;
+    int    m_level;
+    int    m_health;
+    int    m_damage;
+    int    m_animationFrameIdx;
+    QTimer m_fireTimer;
+    QTimer m_moveTimer;
+    QTimer m_animationTimer;
 };
 
 #endif // ENEMYMODEL_HPP

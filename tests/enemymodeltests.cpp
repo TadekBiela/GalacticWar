@@ -4,30 +4,27 @@
 class EnemyModelTest : public EnemyModel
 {
 public:
-    explicit EnemyModelTest(int level,
-                            int health,
-                            int damage,
-                            int moveTimeDelay,
-                            int fireTimeDelay) :
+    explicit EnemyModelTest(int     level,
+                            QPointF position,
+                            int     health,
+                            int     damage,
+                            int     moveTimeDelay,
+                            int     fireTimeDelay) :
                             EnemyModel(level,
+                                       position,
                                        health,
                                        damage,
                                        moveTimeDelay,
                                        fireTimeDelay){}
 
     int                 getLevel()             const { return m_level; }
+    QPointF             getPosition()          const { return pos(); }
     int                 getHealth()            const { return m_health; }
     int                 getDamage()            const { return m_damage; }
-    int                 getMoveTimeDelay()     const { return m_moveTimeDelay; }
-    int                 getFireTimeDelay()     const { return m_fireTimeDelay; }
-    int                 getAnimationTime()     const { return m_animationTime; }
     int                 getAnimationFrameIdx() const { return m_animationFrameIdx; }
-    int                 getDestroyTime()       const { return m_destroyTime; }
     const QTimer&       getFireTimer()         const { return m_fireTimer; }
     const QTimer&       getMoveTimer()         const { return m_moveTimer; }
     const QTimer&       getAnimationTimer()    const { return m_animationTimer; }
-    const QTimer&       getDestroyTimer()      const { return m_destroyTimer; }
-    const QMediaPlayer& getDestroySound()      const { return m_destroySound; }
 };
 
 class EnemyModelTestsClass : public testing::Test
@@ -36,20 +33,28 @@ class EnemyModelTestsClass : public testing::Test
 
 TEST_F(EnemyModelTestsClass, EnemyModel_CheckIfConstructorIsBuildModelCorrect_IsEqual)
 {
-    EnemyModelTest enemyModel(1, 30, 15, 20, 10);
-    int                 resultLevel             = enemyModel.getLevel();
-    int                 resultHealth            = enemyModel.getHealth();
-    int                 resultDamage            = enemyModel.getDamage();
-    int                 resultMoveTimeDelay     = enemyModel.getMoveTimeDelay();
-    int                 resultFireTimeDelay     = enemyModel.getFireTimeDelay();
-    int                 resultAnimationTime     = enemyModel.getAnimationTime();
-    int                 resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
-    int                 resultDestroyTime       = enemyModel.getDestroyTime();
-    const QTimer&       resultFireTimer         = enemyModel.getFireTimer();
-    const QTimer&       resultMoveTimer         = enemyModel.getMoveTimer();
-    const QTimer&       resultAnimationTimer    = enemyModel.getAnimationTimer();
-    const QTimer&       resultDestroyTimer      = enemyModel.getDestroyTimer();
-    const QMediaPlayer& resultDestroySound      = enemyModel.getDestroySound();
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    int     resultLevel             = enemyModel.getLevel();
+    QPointF resultPosition          = enemyModel.getPosition();
+    int     resultHealth            = enemyModel.getHealth();
+    int     resultDamage            = enemyModel.getDamage();
+    int     resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+    bool    resultFireTimerIsActive = enemyModel.getMoveTimer().isActive();
+    bool    resultMoveTimerIsActive = enemyModel.getFireTimer().isActive();
+    bool    resultAnimTimerIsActive = enemyModel.getAnimationTimer().isActive();
+    int     resultMoveTime          = enemyModel.getMoveTimer().remainingTime();
+    int     resultFireTime          = enemyModel.getFireTimer().remainingTime();
+    int     resultAnimationTime     = enemyModel.getAnimationTimer().remainingTime();
 
-    EXPECT_EQ(1, 1);
+    EXPECT_EQ(resultLevel,             1);
+    EXPECT_EQ(resultPosition,          QPointF(2, 7));
+    EXPECT_EQ(resultHealth,            30);
+    EXPECT_EQ(resultDamage,            15);
+    EXPECT_EQ(resultAnimationFrameIdx, 0);
+    EXPECT_EQ(resultMoveTimerIsActive, true);
+    EXPECT_EQ(resultFireTimerIsActive, true);
+    EXPECT_EQ(resultAnimTimerIsActive, true);
+    EXPECT_NEAR(resultMoveTime,        20, 1);
+    EXPECT_NEAR(resultFireTime,        10, 1);
+    EXPECT_NEAR(resultAnimationTime,    5, 1);
 }

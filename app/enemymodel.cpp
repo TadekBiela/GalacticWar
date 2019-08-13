@@ -1,12 +1,28 @@
 #include "enemymodel.hpp"
+#include "definitions.hpp"
 
-EnemyModel::EnemyModel(int level,
-                       int health,
-                       int damage,
-                       int moveTimeDelay,
-                       int fireTimeDelay)
+EnemyModel::EnemyModel(int     level,
+                       QPointF position,
+                       int     health,
+                       int     damage,
+                       int     moveTimeDelay,
+                       int     fireTimeDelay)
+                        : m_level(level),
+                          m_health(health),
+                          m_damage(damage),
+                          m_animationFrameIdx(0)
 {
+    setPos(position);
 
+    connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
+    connect(&m_fireTimer,      SIGNAL(timeout()), this, SLOT(fire()));
+    connect(&m_animationTimer, SIGNAL(timeout()), this, SLOT(animation()));
+    m_moveTimer.setInterval(moveTimeDelay);
+    m_fireTimer.setInterval(fireTimeDelay);
+    m_animationTimer.setInterval(def::animationFrameDuration);
+    m_moveTimer.start();
+    m_fireTimer.start();
+    m_animationTimer.start();
 }
 
 EnemyModel::~EnemyModel()
