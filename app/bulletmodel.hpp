@@ -1,5 +1,5 @@
-#ifndef BULLETMODEL_H
-#define BULLETMODEL_H
+#ifndef BULLETMODEL_HPP
+#define BULLETMODEL_HPP
 
 #include "bullettype.hpp"
 #include <QObject>
@@ -30,4 +30,4 @@ protected:
     QTimer      m_moveTimer;
 };
 
-#endif //BULLETMODEL_H
+#endif //BULLETMODEL_HPP
