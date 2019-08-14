@@ -5,6 +5,7 @@ set(CMAKE_AUTOUIC ON)
 set(STD_LIB C:/Qt/Tools/mingw730_32/bin/libstdc++-6.dll)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
+find_package(Qt5Test REQUIRED)
 add_executable(${PROJECT_NAME} main.cpp
                                bulletmodeltests.cpp
                                enemymodeltests.cpp
@@ -31,7 +32,7 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-target_link_libraries(${PROJECT_NAME} gtest Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia)
+target_link_libraries(${PROJECT_NAME} gtest Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia Qt5::Test)
 add_test(NAME bulletmodeltests COMMAND ${PROJECT_NAME})
 
 file(COPY  ${STD_LIB}

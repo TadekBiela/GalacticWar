@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../app/enemymodel.hpp"
+#include <QSignalSpy>
 
 class EnemyModelTest : public EnemyModel
 {
@@ -17,21 +18,26 @@ public:
                                        moveTimeDelay,
                                        fireTimeDelay){}
 
-    int                 getLevel()             const { return m_level; }
-    QPointF             getPosition()          const { return pos(); }
-    int                 getHealth()            const { return m_health; }
-    int                 getDamage()            const { return m_damage; }
-    int                 getAnimationFrameIdx() const { return m_animationFrameIdx; }
-    const QTimer&       getFireTimer()         const { return m_fireTimer; }
-    const QTimer&       getMoveTimer()         const { return m_moveTimer; }
-    const QTimer&       getAnimationTimer()    const { return m_animationTimer; }
+    int           getLevel()             const { return m_level; }
+    QPointF       getPosition()          const { return pos(); }
+    int           getHealth()            const { return m_health; }
+    int           getDamage()            const { return m_damage; }
+    int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
+    const QTimer& getFireTimer()         const { return m_fireTimer; }
+    const QTimer& getMoveTimer()         const { return m_moveTimer; }
+    const QTimer& getAnimationTimer()    const { return m_animationTimer; }
+
+public slots: //dummy implementation - slots not tested in this class
+    void fire(){}
+    void move(){}
+    void animation(){}
 };
 
 class EnemyModelTestsClass : public testing::Test
 {
 };
 
-TEST_F(EnemyModelTestsClass, EnemyModel_CheckIfConstructorIsBuildModelCorrect_IsEqual)
+TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
     int     resultLevel             = enemyModel.getLevel();
@@ -57,4 +63,52 @@ TEST_F(EnemyModelTestsClass, EnemyModel_CheckIfConstructorIsBuildModelCorrect_Is
     EXPECT_NEAR(resultMoveTime,        20, 1);
     EXPECT_NEAR(resultFireTime,        10, 1);
     EXPECT_NEAR(resultAnimationTime,    5, 1);
+}
+
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsLessThanHealth_IsEqual)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+
+    enemyModel.hit(13);
+    int resultHealth = enemyModel.getHealth();
+
+    EXPECT_EQ(resultHealth, 17);
+    EXPECT_FALSE(signalDestroy.wait(10));
+}
+
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsZero)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+
+    enemyModel.hit(30);
+    int resultHealth = enemyModel.getHealth();
+
+    EXPECT_EQ(resultHealth, 0);
+    EXPECT_TRUE(signalDestroy.wait(10));
+}
+
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsZero)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+
+    enemyModel.hit(43);
+    int resultHealth = enemyModel.getHealth();
+
+    EXPECT_EQ(resultHealth, 0);
+    EXPECT_TRUE(signalDestroy.wait(10));
+}
+
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+
+    enemyModel.hit(0);
+    int resultHealth = enemyModel.getHealth();
+
+    EXPECT_EQ(resultHealth, 30);
+    EXPECT_FALSE(signalDestroy.wait(10));
 }

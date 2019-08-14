@@ -30,21 +30,6 @@ EnemyModel::~EnemyModel()
 
 }
 
-void EnemyModel::fire()
-{
-
-}
-
-void EnemyModel::move()
-{
-
-}
-
-void EnemyModel::animation()
-{
-
-}
-
 void EnemyModel::destroy()
 {
 

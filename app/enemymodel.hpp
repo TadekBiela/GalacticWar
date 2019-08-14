@@ -16,19 +16,18 @@ public:
                int     moveTimeDelay,
                int     fireTimeDelay);
     ~EnemyModel();
+    void hit(int damage);
+    void destroy();
 
 signals:
     void destroyed(QPointF position, int level);
 
 public slots:
-    void fire();
-    void move();
-    void animation();
+    virtual void fire() = 0;
+    virtual void move() = 0;
+    virtual void animation() = 0;
 
 protected:
-    void hit(int damage);
-    void destroy();
-
     int    m_level;
     int    m_health;
     int    m_damage;
