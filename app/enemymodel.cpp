@@ -32,10 +32,15 @@ EnemyModel::~EnemyModel()
 
 void EnemyModel::destroy()
 {
-
+    emit this->destroyed(pos(), m_level);
 }
 
 void EnemyModel::hit(int damage)
 {
-
+    m_health -= damage;
+    if(m_health <= 0)
+    {
+        m_health = 0;
+        destroy();
+    }
 }

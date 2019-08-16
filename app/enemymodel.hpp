@@ -8,6 +8,7 @@
 
 class EnemyModel : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
 public:
     EnemyModel(int     level,
                QPointF position,

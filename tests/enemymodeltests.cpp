@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "definitions.hpp"
 #include "../app/enemymodel.hpp"
 #include <QSignalSpy>
 
@@ -68,47 +69,61 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsLessThanHealth_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemyModel.hit(13);
-    int resultHealth = enemyModel.getHealth();
+    int resultHealth      = enemyModel.getHealth();
+    int resultSignalCount = signalDestroy.count();
 
-    EXPECT_EQ(resultHealth, 17);
-    EXPECT_FALSE(signalDestroy.wait(10));
+    EXPECT_EQ(resultHealth,      17);
+    EXPECT_EQ(resultSignalCount, 0);
 }
 
-TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsZero)
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemyModel.hit(30);
-    int resultHealth = enemyModel.getHealth();
+    int             resultHealth      = enemyModel.getHealth();
+    int             resultSignalCount = signalDestroy.count();
+    QList<QVariant> resultSignal      = signalDestroy.takeFirst();
 
-    EXPECT_EQ(resultHealth, 0);
-    EXPECT_TRUE(signalDestroy.wait(10));
+    EXPECT_EQ(resultHealth,                  0);
+    EXPECT_EQ(resultSignalCount,             1);
+    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
+    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
 }
 
-TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsZero)
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemyModel.hit(43);
-    int resultHealth = enemyModel.getHealth();
+    int             resultHealth      = enemyModel.getHealth();
+    int             resultSignalCount = signalDestroy.count();
+    QList<QVariant> resultSignal      = signalDestroy.takeFirst();
 
-    EXPECT_EQ(resultHealth, 0);
-    EXPECT_TRUE(signalDestroy.wait(10));
+    EXPECT_EQ(resultHealth,                  0);
+    EXPECT_EQ(resultSignalCount,             1);
+    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
+    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, SIGNAL(destroyed(QPointF position, int level)));
+    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemyModel.hit(0);
-    int resultHealth = enemyModel.getHealth();
+    int resultHealth      = enemyModel.getHealth();
+    int resultSignalCount = signalDestroy.count();
 
-    EXPECT_EQ(resultHealth, 30);
-    EXPECT_FALSE(signalDestroy.wait(10));
+    EXPECT_EQ(resultHealth,      30);
+    EXPECT_EQ(resultSignalCount, 0);
 }
