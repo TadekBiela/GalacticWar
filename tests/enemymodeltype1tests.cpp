@@ -1,7 +1,11 @@
 #include <gtest/gtest.h>
 #include "definitions.hpp"
 #include "../app/enemymodeltype1.hpp"
+#include "../app/bullettype.hpp"
+#include "../app/bulletmodel.hpp"
 #include <QSignalSpy>
+#include <QGraphicsScene>
+#include <iostream>
 
 class EnemyModelType1Test : public EnemyModelType1
 {
@@ -49,4 +53,23 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     EXPECT_NEAR(resultMoveTime,        30, 1);
     EXPECT_NEAR(resultFireTime,        15, 1);
     EXPECT_NEAR(resultAnimationTime,    5, 1);
+}
+
+TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
+{
+    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(2, 7));
+    QGraphicsScene       mockScene;
+    mockScene.addItem(enemyModel);
+
+    enemyModel->fire();
+    QList<QGraphicsItem*> sceneItems        = mockScene.items();
+    EnemyModelType1Test*  resultEnemyModel  = dynamic_cast<EnemyModelType1Test*>(sceneItems[1]);
+    BulletModel*          resultBulletModel = dynamic_cast<BulletModel*>(sceneItems[0]);
+
+    EXPECT_EQ(resultEnemyModel->getLevel(),    1);
+    EXPECT_EQ(resultEnemyModel->getPosition(), QPointF(2, 7));
+    EXPECT_EQ(resultBulletModel->getType(),    bullet_type::enemyBullet);
+    EXPECT_EQ(resultBulletModel->pos(),        QPointF(2, 7));
+    EXPECT_EQ(resultBulletModel->getDamage(),  10);
+    delete enemyModel;
 }
