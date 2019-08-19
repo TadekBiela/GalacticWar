@@ -8,11 +8,7 @@ class EnemyModelType1 : public EnemyModel
 {
     Q_OBJECT
 public:
-    EnemyModelType1(QPointF position,
-                    int     health,
-                    int     damage,
-                    int     moveTimeDelay,
-                    int     fireTimeDelay);
+    EnemyModelType1(QPointF position);
     ~EnemyModelType1();
 
 public slots:

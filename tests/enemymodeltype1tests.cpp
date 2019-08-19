@@ -6,16 +6,8 @@
 class EnemyModelType1Test : public EnemyModelType1
 {
 public:
-    explicit EnemyModelType1Test(QPointF position,
-                                 int     health,
-                                 int     damage,
-                                 int     moveTimeDelay,
-                                 int     fireTimeDelay) :
-                                 EnemyModelType1(position,
-                                                 health,
-                                                 damage,
-                                                 moveTimeDelay,
-                                                 fireTimeDelay){}
+    explicit EnemyModelType1Test(QPointF position) :
+                                 EnemyModelType1(position){}
 
     int           getLevel()             const { return m_level; }
     QPointF       getPosition()          const { return pos(); }
@@ -33,7 +25,7 @@ class EnemyModelType1TestClass : public testing::Test
 
 TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorrect_IsEqual)
 {
-    EnemyModelType1Test enemyModel(QPointF(2, 7), 30, 15, 20, 10);
+    EnemyModelType1Test enemyModel(QPointF(2, 7));
     int     resultLevel             = enemyModel.getLevel();
     QPointF resultPosition          = enemyModel.getPosition();
     int     resultHealth            = enemyModel.getHealth();
@@ -48,13 +40,13 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
 
     EXPECT_EQ(resultLevel,             1);
     EXPECT_EQ(resultPosition,          QPointF(2, 7));
-    EXPECT_EQ(resultHealth,            30);
-    EXPECT_EQ(resultDamage,            15);
+    EXPECT_EQ(resultHealth,            2);
+    EXPECT_EQ(resultDamage,            10);
     EXPECT_EQ(resultAnimationFrameIdx, 0);
     EXPECT_EQ(resultMoveTimerIsActive, true);
     EXPECT_EQ(resultFireTimerIsActive, true);
     EXPECT_EQ(resultAnimTimerIsActive, true);
-    EXPECT_NEAR(resultMoveTime,        20, 1);
-    EXPECT_NEAR(resultFireTime,        10, 1);
+    EXPECT_NEAR(resultMoveTime,        30, 1);
+    EXPECT_NEAR(resultFireTime,        15, 1);
     EXPECT_NEAR(resultAnimationTime,    5, 1);
 }
