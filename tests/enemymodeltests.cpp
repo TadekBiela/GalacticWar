@@ -49,18 +49,18 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     bool    resultFireTimerIsActive = enemyModel.getMoveTimer().isActive();
     bool    resultMoveTimerIsActive = enemyModel.getFireTimer().isActive();
     bool    resultAnimTimerIsActive = enemyModel.getAnimationTimer().isActive();
-    int     resultMoveTime          = enemyModel.getMoveTimer().remainingTime();
-    int     resultFireTime          = enemyModel.getFireTimer().remainingTime();
-    int     resultAnimationTime     = enemyModel.getAnimationTimer().remainingTime();
+    int     resultMoveTime          = enemyModel.getMoveTimer().interval();
+    int     resultFireTime          = enemyModel.getFireTimer().interval();
+    int     resultAnimationTime     = enemyModel.getAnimationTimer().interval();
 
     EXPECT_EQ(resultLevel,             1);
     EXPECT_EQ(resultPosition,          QPointF(2, 7));
     EXPECT_EQ(resultHealth,            30);
     EXPECT_EQ(resultDamage,            15);
     EXPECT_EQ(resultAnimationFrameIdx, 0);
-    EXPECT_EQ(resultMoveTimerIsActive, true);
-    EXPECT_EQ(resultFireTimerIsActive, true);
-    EXPECT_EQ(resultAnimTimerIsActive, true);
+    EXPECT_EQ(resultMoveTimerIsActive, false);
+    EXPECT_EQ(resultFireTimerIsActive, false);
+    EXPECT_EQ(resultAnimTimerIsActive, false);
     EXPECT_NEAR(resultMoveTime,        20, 1);
     EXPECT_NEAR(resultFireTime,        10, 1);
     EXPECT_NEAR(resultAnimationTime,    5, 1);

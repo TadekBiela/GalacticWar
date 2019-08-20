@@ -5,7 +5,6 @@
 #include "../app/bulletmodel.hpp"
 #include <QSignalSpy>
 #include <QGraphicsScene>
-#include <iostream>
 
 class EnemyModelType1Test : public EnemyModelType1
 {
@@ -38,18 +37,18 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     bool    resultFireTimerIsActive = enemyModel.getMoveTimer().isActive();
     bool    resultMoveTimerIsActive = enemyModel.getFireTimer().isActive();
     bool    resultAnimTimerIsActive = enemyModel.getAnimationTimer().isActive();
-    int     resultMoveTime          = enemyModel.getMoveTimer().remainingTime();
-    int     resultFireTime          = enemyModel.getFireTimer().remainingTime();
-    int     resultAnimationTime     = enemyModel.getAnimationTimer().remainingTime();
+    int     resultMoveTime          = enemyModel.getMoveTimer().interval();
+    int     resultFireTime          = enemyModel.getFireTimer().interval();
+    int     resultAnimationTime     = enemyModel.getAnimationTimer().interval();
 
     EXPECT_EQ(resultLevel,             1);
     EXPECT_EQ(resultPosition,          QPointF(2, 7));
     EXPECT_EQ(resultHealth,            2);
     EXPECT_EQ(resultDamage,            10);
     EXPECT_EQ(resultAnimationFrameIdx, 0);
-    EXPECT_EQ(resultMoveTimerIsActive, true);
-    EXPECT_EQ(resultFireTimerIsActive, true);
-    EXPECT_EQ(resultAnimTimerIsActive, true);
+    EXPECT_EQ(resultMoveTimerIsActive, false);
+    EXPECT_EQ(resultFireTimerIsActive, false);
+    EXPECT_EQ(resultAnimTimerIsActive, false);
     EXPECT_NEAR(resultMoveTime,        30, 1);
     EXPECT_NEAR(resultFireTime,        15, 1);
     EXPECT_NEAR(resultAnimationTime,    5, 1);
@@ -57,8 +56,8 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
 
 TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
 {
-    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(2, 7));
     QGraphicsScene       mockScene;
+    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(2, 7));
     mockScene.addItem(enemyModel);
 
     enemyModel->fire();

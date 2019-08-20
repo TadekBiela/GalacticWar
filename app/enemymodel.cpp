@@ -20,9 +20,6 @@ EnemyModel::EnemyModel(int     level,
     m_moveTimer.setInterval(moveTimeDelay);
     m_fireTimer.setInterval(fireTimeDelay);
     m_animationTimer.setInterval(def::animationFrameDuration);
-    m_moveTimer.start();
-    m_fireTimer.start();
-    m_animationTimer.start();
 }
 
 EnemyModel::~EnemyModel()
@@ -43,4 +40,18 @@ void EnemyModel::hit(int damage)
         m_health = 0;
         destroy();
     }
+}
+
+void EnemyModel::start()
+{
+    m_moveTimer.start();
+    m_fireTimer.start();
+    m_animationTimer.start();
+}
+
+void EnemyModel::stop()
+{
+    m_moveTimer.stop();
+    m_fireTimer.stop();
+    m_animationTimer.stop();
 }

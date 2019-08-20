@@ -24,6 +24,8 @@ signals:
     void destroyed(QPointF position, int level);
 
 public slots:
+    virtual void start();
+    virtual void stop();
     virtual void fire() = 0;
     virtual void move() = 0;
     virtual void animation() = 0;
