@@ -132,3 +132,75 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     delete enemyModel;
     delete randomGenerator;
 }
+
+TEST_F(EnemyModelType1TestClass, Move_PositionIsOnLeftSideOfSceneCheckIfEnemyMoveToDown_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(0);
+    QPointF              expectedPosition(200.00l, 210.00l);
+    QGraphicsScene       mockScene(0, 0, 600, 800);
+    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(200, 200), randomGenerator);
+    mockScene.addItem(enemyModel);
+
+    enemyModel->move();
+    QPointF resultPosition = enemyModel->getPosition();
+
+    EXPECT_NEAR(resultPosition.x(), expectedPosition.x(), 0.01);
+    EXPECT_NEAR(resultPosition.y(), expectedPosition.y(), 0.01);
+    delete enemyModel;
+    delete randomGenerator;
+}
+
+TEST_F(EnemyModelType1TestClass, Move_PositionIsOnLeftSideOfSceneCheckIfEnemyMoveToRight_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(1);
+    QPointF              expectedPosition(201.74l, 209.85l);
+    QGraphicsScene       mockScene(0, 0, 600, 800);
+    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(200, 200), randomGenerator);
+    mockScene.addItem(enemyModel);
+
+    enemyModel->move();
+    QPointF resultPosition = enemyModel->getPosition();
+
+    EXPECT_NEAR(resultPosition.x(), expectedPosition.x(), 0.01);
+    EXPECT_NEAR(resultPosition.y(), expectedPosition.y(), 0.01);
+    delete enemyModel;
+    delete randomGenerator;
+}
+
+TEST_F(EnemyModelType1TestClass, Move_PositionIsOnRightSideOfSceneCheckIfEnemyMoveToDown_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(0);
+    QPointF              expectedPosition(450.00l, 10.00l);
+    QGraphicsScene       mockScene(0, 0, 600, 800);
+    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
+    mockScene.addItem(enemyModel);
+
+    enemyModel->move();
+    QPointF resultPosition = enemyModel->getPosition();
+
+    EXPECT_NEAR(resultPosition.x(), expectedPosition.x(), 0.01);
+    EXPECT_NEAR(resultPosition.y(), expectedPosition.y(), 0.01);
+    delete enemyModel;
+    delete randomGenerator;
+}
+
+TEST_F(EnemyModelType1TestClass, Move_PositionIsOnRightSideOfSceneCheckIfEnemyMoveToLeft_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(1);
+    QPointF              expectedPosition(448.26l, 19.85l);
+    QGraphicsScene       mockScene(0, 0, 600, 800);
+    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
+    mockScene.addItem(enemyModel);
+
+    enemyModel->move();
+    QPointF resultPosition = enemyModel->getPosition();
+
+    EXPECT_NEAR(resultPosition.x(), expectedPosition.x(), 0.01);
+    EXPECT_NEAR(resultPosition.y(), expectedPosition.y(), 0.01);
+    delete enemyModel;
+    delete randomGenerator;
+}
