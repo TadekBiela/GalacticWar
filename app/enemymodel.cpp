@@ -10,6 +10,7 @@ EnemyModel::EnemyModel(int     level,
                         : m_level(level),
                           m_health(health),
                           m_damage(damage),
+                          m_direction(0),
                           m_animationFrameIdx(0)
 {
     setPos(position);

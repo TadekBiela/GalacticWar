@@ -23,6 +23,7 @@ public:
     QPointF       getPosition()          const { return pos(); }
     int           getHealth()            const { return m_health; }
     int           getDamage()            const { return m_damage; }
+    int           getDirection()         const { return m_direction; }
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
     const QTimer& getFireTimer()         const { return m_fireTimer; }
     const QTimer& getMoveTimer()         const { return m_moveTimer; }
@@ -45,6 +46,7 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     QPointF resultPosition          = enemyModel.getPosition();
     int     resultHealth            = enemyModel.getHealth();
     int     resultDamage            = enemyModel.getDamage();
+    int     resultDirection         = enemyModel.getDirection();
     int     resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
     bool    resultFireTimerIsActive = enemyModel.getMoveTimer().isActive();
     bool    resultMoveTimerIsActive = enemyModel.getFireTimer().isActive();
@@ -57,6 +59,7 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     EXPECT_EQ(resultPosition,          QPointF(2, 7));
     EXPECT_EQ(resultHealth,            30);
     EXPECT_EQ(resultDamage,            15);
+    EXPECT_EQ(resultDirection,         0);
     EXPECT_EQ(resultAnimationFrameIdx, 0);
     EXPECT_EQ(resultMoveTimerIsActive, false);
     EXPECT_EQ(resultFireTimerIsActive, false);

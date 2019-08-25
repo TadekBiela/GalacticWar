@@ -10,6 +10,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                bulletmodeltests.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
+                               randomgeneratorstub.cpp
                                ../app/bulletmodel.cpp
                                ../app/enemymodel.cpp
                                ../app/enemymodeltype1.cpp)

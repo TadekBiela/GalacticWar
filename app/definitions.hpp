@@ -9,6 +9,10 @@ namespace def
     const double pi                     = 3.14159265;
     const double radianConversionFactor = pi / 180;
 
+    //Scene size
+    const int sceneWight  = 600;
+    const int sceneHeight = 800;
+
     //Defalut directions
     const int up = 0;
     const int down = 180;
