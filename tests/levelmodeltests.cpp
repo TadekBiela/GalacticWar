@@ -35,10 +35,10 @@ TEST_F(LevelModelTestsClass, NextLevel_CurrentLevelShouldIncreaseAndSentTwoDiffe
     QList<QVariant>    resultSignal2Change     = signalChange.takeFirst();
     EnemyConfiguration resultEnemyLevelConfig  = qvariant_cast<EnemyConfiguration>(resultSignal2Change.at(0));
 
-    EXPECT_EQ(resultCurrentLevel,               1);
+    EXPECT_EQ(resultCurrentLevel,               2);
     EXPECT_EQ(resultSignalUpdateCount,          1);
     EXPECT_EQ(resultSignalChangeCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 2);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType1, expectedEnemyLevelConfig.proportionOfEnemyType1);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType2, expectedEnemyLevelConfig.proportionOfEnemyType2);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType3, expectedEnemyLevelConfig.proportionOfEnemyType3);

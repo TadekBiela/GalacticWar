@@ -20,7 +20,7 @@ public slots:
     void nextLevel();
 
 protected:
-    int                             m_currentLevel = 0;
+    int                             m_currentLevel = 1;
     static const EnemyConfiguration s_enemyLevelConfigurations[def::maxNumOfLevel];
 };
 

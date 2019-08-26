@@ -24,5 +24,13 @@ LevelModel::~LevelModel()
 
 void LevelModel::nextLevel()
 {
-
+    if(++m_currentLevel <= def::maxNumOfLevel)
+    {
+        emit updateLevelView(m_currentLevel);
+        emit changeEnemyModelConfiguration(s_enemyLevelConfigurations[m_currentLevel-1]);
+    }
+    else
+    {
+        m_currentLevel = def::maxNumOfLevel;
+    }
 }
