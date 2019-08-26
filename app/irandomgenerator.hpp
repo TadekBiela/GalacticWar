@@ -4,7 +4,8 @@
 class IRandomGenerator
 {
 public:
-    IRandomGenerator() {};
+    IRandomGenerator() {}
+    virtual ~IRandomGenerator() {}
     virtual int bounded(int lowest, int highest) = 0;
 
 };

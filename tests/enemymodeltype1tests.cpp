@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "definitions.hpp"
+#include "utdefinitions.hpp"
 #include "randomgeneratorstub.hpp"
 #include "../app/enemymodeltype1.hpp"
 #include "../app/bullettype.hpp"

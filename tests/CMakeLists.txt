@@ -7,15 +7,27 @@ set(STD_LIB C:/Qt/Tools/mingw730_32/bin/libstdc++-6.dll)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 find_package(Qt5Test REQUIRED)
 add_executable(${PROJECT_NAME} main.cpp
+                               ../app/bulletmodel.hpp
+                               ../app/bulletmodel.cpp
+                               ../app/bullettype.hpp
+                               ../app/definitions.hpp
+                               ../app/enemyconfiguration.hpp
+                               ../app/enemymodel.hpp
+                               ../app/enemymodel.cpp
+                               ../app/enemymodeltype1.hpp
+                               ../app/enemymodeltype1.cpp
+                               ../app/functions.hpp
+                               ../app/functions.cpp
+                               ../app/irandomgenerator.hpp
+                               ../app/levelmodel.hpp
+                               ../app/levelmodel.cpp
                                bulletmodeltests.cpp
+                               utdefinitions.hpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
-                               randomgeneratorstub.cpp
-                               ../app/bulletmodel.cpp
-                               ../app/enemymodel.cpp
-                               ../app/enemymodeltype1.cpp
-                               ../app/functions.cpp
-                               ../app/levelmodel.cpp)
+                               levelmodeltests.cpp
+                               randomgeneratorstub.hpp
+                               randomgeneratorstub.cpp)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

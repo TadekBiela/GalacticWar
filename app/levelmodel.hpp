@@ -9,7 +9,7 @@ class LevelModel : public QObject
 {
     Q_OBJECT
 public:
-    explicit LevelModel();
+    LevelModel();
     ~LevelModel();
 
 signals:

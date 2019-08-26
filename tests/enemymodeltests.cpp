@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "definitions.hpp"
+#include "utdefinitions.hpp"
 #include "../app/enemymodel.hpp"
 #include <QSignalSpy>
 
