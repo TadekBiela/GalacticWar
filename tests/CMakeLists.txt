@@ -13,7 +13,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                randomgeneratorstub.cpp
                                ../app/bulletmodel.cpp
                                ../app/enemymodel.cpp
-                               ../app/enemymodeltype1.cpp)
+                               ../app/enemymodeltype1.cpp
+                               ../app/functions.cpp)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

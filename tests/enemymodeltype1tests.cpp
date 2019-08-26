@@ -191,7 +191,7 @@ TEST_F(EnemyModelType1TestClass, Move_PositionIsOnRightSideOfSceneCheckIfEnemyMo
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(1);
-    QPointF              expectedPosition(448.26l, 19.85l);
+    QPointF              expectedPosition(448.26l, 9.85l);
     QGraphicsScene       mockScene(0, 0, 600, 800);
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
     mockScene.addItem(enemyModel);

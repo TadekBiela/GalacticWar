@@ -1,8 +1,9 @@
 #include "enemymodeltype1.hpp"
 #include "bulletmodel.hpp"
 #include "definitions.hpp"
+#include "functions.hpp"
 #include <QGraphicsScene>
-#include <iostream>
+
 EnemyModelType1::EnemyModelType1(QPointF           position,
                                  IRandomGenerator* generator) :
                                  EnemyModel(1,
@@ -34,7 +35,7 @@ void EnemyModelType1::fire()
 
 void EnemyModelType1::move()
 {
-
+    setPos(moveForward(pos(), m_direction));
 }
 
 void EnemyModelType1::animation()

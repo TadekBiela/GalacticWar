@@ -1,5 +1,6 @@
 #include "bulletmodel.hpp"
 #include "definitions.hpp"
+#include "functions.hpp"
 #include <QtMath>
 
 BulletModel::BulletModel(bullet_type type,
@@ -40,16 +41,5 @@ int BulletModel::getDamage() const
 
 void BulletModel::move()
 {
-    int halfXaxisFactor = ((m_direction / 180) * 2 - 1) * -1; // Should be only 1 or -1
-    int halfYaxisFactor = static_cast<bool>((m_direction / 90) % 3) * 2 - 1;
-    qreal sinDirectionAngle = qFabs(qSin(m_direction * def::radianConversionFactor));
-    qreal cosDirectionAngle = qFabs(qCos(m_direction * def::radianConversionFactor));
-    qreal xOffset = sinDirectionAngle * def::moveVectorLength * halfXaxisFactor;
-    qreal yOffset = cosDirectionAngle * def::moveVectorLength * halfYaxisFactor;
-
-    QPointF position = pos();
-    position.setX(position.x() + xOffset);
-    position.setY(position.y() + yOffset);
-
-    setPos(position);
+    setPos(moveForward(pos(), m_direction));
 }
