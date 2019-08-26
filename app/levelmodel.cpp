@@ -34,3 +34,10 @@ void LevelModel::nextLevel()
         m_currentLevel = def::maxNumOfLevel;
     }
 }
+
+void LevelModel::reset()
+{
+    m_currentLevel = 1;
+    emit updateLevelView(m_currentLevel);
+    emit changeEnemyModelConfiguration(s_enemyLevelConfigurations[m_currentLevel-1]);
+}

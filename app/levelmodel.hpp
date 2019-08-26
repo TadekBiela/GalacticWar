@@ -18,6 +18,7 @@ signals:
 
 public slots:
     void nextLevel();
+    void reset();
 
 protected:
     int                             m_currentLevel = 1;

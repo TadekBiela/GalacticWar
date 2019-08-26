@@ -65,3 +65,32 @@ TEST_F(LevelModelTestsClass, NextLevel_CurrentLevelIsMaxShouldDontIncreaseAndSen
     EXPECT_EQ(resultSignalUpdateCount, 0);
     EXPECT_EQ(resultSignalChangeCount, 0);
 }
+
+TEST_F(LevelModelTestsClass, Reset_CurrentLevelShouldBe0AndSentTwoDifferentSignals_IsEqual)
+{
+    EnemyConfiguration expectedEnemyLevelConfig = { 75, 25,  0,  0,  0,  0 };
+    LevelModelTests    levelModel;
+    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::updateLevelView);
+    qRegisterMetaType<EnemyConfiguration>();
+    QSignalSpy         signalChange(&levelModel, &LevelModelTests::changeEnemyModelConfiguration);
+    signalUpdate.wait(utdef::minSignalTimeDelay);
+
+    levelModel.reset();
+    int                resultCurrentLevel      = levelModel.getCurrentLevel();
+    int                resultSignalUpdateCount = signalUpdate.count();
+    int                resultSignalChangeCount = signalChange.count();
+    QList<QVariant>    resultSignalUpdate      = signalUpdate.takeFirst();
+    QList<QVariant>    resultSignal2Change     = signalChange.takeFirst();
+    EnemyConfiguration resultEnemyLevelConfig  = qvariant_cast<EnemyConfiguration>(resultSignal2Change.at(0));
+
+    EXPECT_EQ(resultCurrentLevel,               1);
+    EXPECT_EQ(resultSignalUpdateCount,          1);
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 1);
+    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType1, expectedEnemyLevelConfig.proportionOfEnemyType1);
+    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType2, expectedEnemyLevelConfig.proportionOfEnemyType2);
+    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType3, expectedEnemyLevelConfig.proportionOfEnemyType3);
+    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType4, expectedEnemyLevelConfig.proportionOfEnemyType4);
+    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType5, expectedEnemyLevelConfig.proportionOfEnemyType5);
+    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType6, expectedEnemyLevelConfig.proportionOfEnemyType6);
+}
