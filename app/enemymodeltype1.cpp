@@ -40,5 +40,8 @@ void EnemyModelType1::move()
 
 void EnemyModelType1::animation()
 {
-
+    if(++m_animationFrameIdx >= def::maxFrameIdx)
+    {
+        m_animationFrameIdx = 0;
+    }
 }

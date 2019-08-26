@@ -8,6 +8,7 @@ namespace def
     const int    moveVectorLength       = 10;
     const double pi                     = 3.14159265;
     const double radianConversionFactor = pi / 180;
+    const int    maxFrameIdx            = 5;
 
     //Scene size
     const int sceneWight  = 600;
