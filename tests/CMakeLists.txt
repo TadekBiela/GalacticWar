@@ -21,11 +21,14 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/irandomgenerator.hpp
                                ../app/levelmodel.hpp
                                ../app/levelmodel.cpp
+                               ../app/menumodel.hpp
+                               ../app/menumodel.cpp
                                bulletmodeltests.cpp
                                utdefinitions.hpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
                                levelmodeltests.cpp
+                               menumodeltests.cpp
                                randomgeneratorstub.hpp
                                randomgeneratorstub.cpp)
 
