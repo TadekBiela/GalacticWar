@@ -5,8 +5,9 @@
 #include <QMultiHash>
 #include <QPair>
 
-typedef QMultiHash<int, QString> PlayerScoreMap;
-typedef QPair<int, QString>      PlayerScore;
+typedef QMultiHash<int, QString>           PlayerScoreMap;
+typedef QMultiHash<int, QString>::iterator PlayerScoreMapIterator;
+typedef QPair<int, QString>                PlayerScore;
 
 class MenuModel : public QObject
 {
@@ -16,8 +17,8 @@ public:
     ~MenuModel();
 
 signals:
-     void updateHighScore(PlayerScoreMap::Iterator highScoreIterator,
-                          int                      size);
+     void updateHighScore(PlayerScoreMapIterator highScoreIterator,
+                          int                    size);
 
 public slots:
      void addRecordToHighScore(PlayerScore newPlayerScore);

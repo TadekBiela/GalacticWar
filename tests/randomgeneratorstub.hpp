@@ -6,7 +6,7 @@
 class RandomGeneratorStub : public IRandomGenerator
 {
 public:
-    virtual ~RandomGeneratorStub() {};
+    virtual ~RandomGeneratorStub() {}
     void setRandomGeneratorFakeResult(int number);
     int  getRandomGeneratorFakeResult();
     int  bounded(int lowest, int highest);
