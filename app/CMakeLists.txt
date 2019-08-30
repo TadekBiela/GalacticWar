@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype1.cpp
                                functions.hpp
                                functions.cpp
+                               ifilemanager.hpp
                                irandomgenerator.hpp
                                levelmodel.hpp
                                levelmodel.cpp

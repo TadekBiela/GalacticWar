@@ -18,19 +18,21 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/enemymodeltype1.cpp
                                ../app/functions.hpp
                                ../app/functions.cpp
+                               ../app/ifilemanager.hpp
                                ../app/irandomgenerator.hpp
                                ../app/levelmodel.hpp
                                ../app/levelmodel.cpp
                                ../app/menumodel.hpp
                                ../app/menumodel.cpp
+                               stubs/filemanagerstub.hpp
+                               stubs/randomgeneratorstub.hpp
+                               mocks/filemanagermock.hpp
                                bulletmodeltests.cpp
                                utdefinitions.hpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
                                levelmodeltests.cpp
-                               menumodeltests.cpp
-                               randomgeneratorstub.hpp
-                               randomgeneratorstub.cpp)
+                               menumodeltests.cpp)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

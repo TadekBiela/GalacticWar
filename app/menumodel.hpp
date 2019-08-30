@@ -1,6 +1,7 @@
 #ifndef MENUMODEL_HPP
 #define MENUMODEL_HPP
 
+#include "ifilemanager.hpp"
 #include <QObject>
 #include <QMultiHash>
 #include <QPair>
@@ -13,7 +14,7 @@ class MenuModel : public QObject
 {
     Q_OBJECT
 public:
-    MenuModel();
+    MenuModel(IFileManager* fileManager);
     ~MenuModel();
 
 signals:
@@ -26,6 +27,7 @@ public slots:
 
 protected:
      PlayerScoreMap m_highScore;
+     IFileManager*  m_fileManager;
 };
 
 #endif // MENUMODEL_HPP

@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
-#include "utdefinitions.hpp"
 #include "../app/menumodel.hpp"
+#include "../app/ifilemanager.hpp"
+#include "utdefinitions.hpp"
+#include "stubs/filemanagerstub.hpp"
+#include "mocks/filemanagermock.hpp"
 #include <QSignalSpy>
 
 Q_DECLARE_METATYPE(PlayerScoreMapIterator)
@@ -8,7 +11,9 @@ Q_DECLARE_METATYPE(PlayerScoreMapIterator)
 class MenuModelTests : public MenuModel
 {
 public:
+    MenuModelTests(IFileManager* fileManager) : MenuModel(fileManager) {}
     const PlayerScoreMap& getHighScore() const { return m_highScore; }
+    void setHighScore(const PlayerScoreMap& newHighScore) { m_highScore = newHighScore; }
 };
 
 class MenuModelTestsClass : public testing::Test
@@ -18,12 +23,13 @@ class MenuModelTestsClass : public testing::Test
 TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddOneNewRecordCheckIfHighScoreMapHaveItAndUpdateSignalWasSent_IsEqual)
 {
     qRegisterMetaType<PlayerScoreMapIterator>();
-    PlayerScoreMap expectedHighScore       = { {1000, "Bob"} };
-    auto           expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
-    auto           expectedSecondParamType = QVariant::Int;
-    PlayerScore    newRecord(1000, "Bob");
-    MenuModelTests menuModel;
-    QSignalSpy     signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    PlayerScoreMap   expectedHighScore       = { {1000, "Bob"} };
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
+    PlayerScore      newRecord(1000, "Bob");
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.addRecordToHighScore(newRecord);
@@ -40,18 +46,20 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddOneNewRecordCheckIfHighScore
     EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 1);
+    delete fileManager;
 }
 
 TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddTwoNewRecordsCheckOrderByScoreAndIfUpdateSignalWasSent_IsEqual)
 {
     qRegisterMetaType<PlayerScoreMapIterator>();
-    PlayerScoreMap expectedHighScore       = { {1000, "Bob"}, {900, "Andy"} };
-    auto           expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
-    auto           expectedSecondParamType = QVariant::Int;
-    PlayerScore    newRecord1(1000, "Bob");
-    PlayerScore    newRecord2( 900, "Andy");
-    MenuModelTests menuModel;
-    QSignalSpy     signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    PlayerScoreMap   expectedHighScore       = { {1000, "Bob"}, {900, "Andy"} };
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
+    PlayerScore      newRecord1(1000, "Bob");
+    PlayerScore      newRecord2( 900, "Andy");
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.addRecordToHighScore(newRecord1);
@@ -71,19 +79,21 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddTwoNewRecordsCheckOrderBySco
     EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 2);
+    delete fileManager;
 }
 
 TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsCheckOrderByScoreAndIfUpdateSignalWasSent_IsEqual)
 {
     qRegisterMetaType<PlayerScoreMapIterator>();
-    PlayerScoreMap expectedHighScore       = { {1200, "Ed"}, {1000, "Bob"}, {900, "Andy"} };
-    auto           expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
-    auto           expectedSecondParamType = QVariant::Int;
-    PlayerScore    newRecord1(1000, "Bob");
-    PlayerScore    newRecord2( 900, "Andy");
-    PlayerScore    newRecord3(1200, "Ed");
-    MenuModelTests menuModel;
-    QSignalSpy     signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    PlayerScoreMap   expectedHighScore       = { {1200, "Ed"}, {1000, "Bob"}, {900, "Andy"} };
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
+    PlayerScore      newRecord1(1000, "Bob");
+    PlayerScore      newRecord2( 900, "Andy");
+    PlayerScore      newRecord3(1200, "Ed");
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.addRecordToHighScore(newRecord1);
@@ -106,19 +116,21 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsCheckOrderByS
     EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 3);
+    delete fileManager;
 }
 
 TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSamePlayerNameCheckOrderByScoreAndIfUpdateSignalWasSent_IsEqual)
 {
     qRegisterMetaType<PlayerScoreMapIterator>();
-    PlayerScoreMap expectedHighScore       = { {1200, "Bob"}, {1000, "Bob"}, {900, "Bob"} };
-    auto           expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
-    auto           expectedSecondParamType = QVariant::Int;
-    PlayerScore    newRecord1(1000, "Bob");
-    PlayerScore    newRecord2( 900, "Bob");
-    PlayerScore    newRecord3(1200, "Bob");
-    MenuModelTests menuModel;
-    QSignalSpy     signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    PlayerScoreMap   expectedHighScore       = { {1200, "Bob"}, {1000, "Bob"}, {900, "Bob"} };
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
+    PlayerScore      newRecord1(1000, "Bob");
+    PlayerScore      newRecord2( 900, "Bob");
+    PlayerScore      newRecord3(1200, "Bob");
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.addRecordToHighScore(newRecord1);
@@ -141,19 +153,21 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSamePl
     EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 3);
+    delete fileManager;
 }
 
 TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSameScoreNameCheckOrderByScoreAndIfUpdateSignalWasSent_IsEqual)
 {
     qRegisterMetaType<PlayerScoreMapIterator>();
-    PlayerScoreMap expectedHighScore       = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"} };
-    auto           expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
-    auto           expectedSecondParamType = QVariant::Int;
-    PlayerScore    newRecord1(1000, "Bob");
-    PlayerScore    newRecord2(1000, "Andy");
-    PlayerScore    newRecord3(1000, "Ed");
-    MenuModelTests menuModel;
-    QSignalSpy     signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    PlayerScoreMap   expectedHighScore       = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"} };
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
+    PlayerScore      newRecord1(1000, "Bob");
+    PlayerScore      newRecord2(1000, "Andy");
+    PlayerScore      newRecord3(1000, "Ed");
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.addRecordToHighScore(newRecord1);
@@ -176,4 +190,50 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSameSc
     EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
     EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 3);
+    delete fileManager;
+}
+
+TEST_F(MenuModelTestsClass, SaveHighScore_CheckCorrectWorking_IsEqual)
+{
+    PlayerScoreMap   highScore           = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"} };
+    QString          expectedFileContent = "1000 Andy 1000 Bob 1000 Ed ";
+    FileManagerMock* fileManager = new FileManagerMock();
+    MenuModelTests   menuModel(fileManager);
+    menuModel.setHighScore(highScore);
+
+    menuModel.saveHighScore();
+    QString resultFileContent = fileManager->getFileContent();
+
+    EXPECT_EQ(resultFileContent, expectedFileContent);
+    delete fileManager;
+}
+
+TEST_F(MenuModelTestsClass, SaveHighScore_OnlyOneRecordCheckCorrectWorking_IsEqual)
+{
+    PlayerScoreMap   highScore           = { {1000, "Andy"} };
+    QString          expectedFileContent = "1000 Andy ";
+    FileManagerMock* fileManager = new FileManagerMock();
+    MenuModelTests   menuModel(fileManager);
+    menuModel.setHighScore(highScore);
+
+    menuModel.saveHighScore();
+    QString resultFileContent = fileManager->getFileContent();
+
+    EXPECT_EQ(resultFileContent, expectedFileContent);
+    delete fileManager;
+}
+
+TEST_F(MenuModelTestsClass, SaveHighScore_ZeroRecordsCheckCorrectWorking_IsEqual)
+{
+    PlayerScoreMap   highScore           = { };
+    QString          expectedFileContent = "";
+    FileManagerMock* fileManager = new FileManagerMock();
+    MenuModelTests   menuModel(fileManager);
+    menuModel.setHighScore(highScore);
+
+    menuModel.saveHighScore();
+    QString resultFileContent = fileManager->getFileContent();
+
+    EXPECT_EQ(resultFileContent, expectedFileContent);
+    delete fileManager;
 }

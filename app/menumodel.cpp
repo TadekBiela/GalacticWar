@@ -1,6 +1,6 @@
 #include "menumodel.hpp"
 
-MenuModel::MenuModel()
+MenuModel::MenuModel(IFileManager *fileManager)
 {
 
 }

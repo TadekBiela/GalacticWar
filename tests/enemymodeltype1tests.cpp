@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
-#include "randomgeneratorstub.hpp"
+#include "stubs/randomgeneratorstub.hpp"
 #include "../app/enemymodeltype1.hpp"
 #include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
