@@ -6,9 +6,10 @@
 class FileManagerMock : public IFileManager
 {
 public:
-    void saveFile(const QString data) { m_fileContent = data; }
-    void loadFile(QMultiHash<int, QString>::iterator highScoreIterator, int size) {}
+    void    saveFile(const QString data) { m_fileContent = data; }
+    QString loadFile(const QString fileName) { return m_fileContent; }
     QString getFileContent() const { return m_fileContent; }
+    void    setFileContent(const QString data) { m_fileContent = data; }
 
 private:
     QString m_fileContent;

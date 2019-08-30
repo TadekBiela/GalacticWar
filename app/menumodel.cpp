@@ -25,3 +25,8 @@ void MenuModel::saveHighScore()
     }
     m_fileManager->saveFile(dataToSave);
 }
+
+void MenuModel::loadHighScore()
+{
+
+}

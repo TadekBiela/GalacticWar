@@ -24,6 +24,7 @@ signals:
 public slots:
      void addRecordToHighScore(PlayerScore newPlayerScore);
      void saveHighScore();
+     void loadHighScore();
 
 protected:
      PlayerScoreMap m_highScore;

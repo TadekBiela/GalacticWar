@@ -237,3 +237,45 @@ TEST_F(MenuModelTestsClass, SaveHighScore_ZeroRecordsCheckCorrectWorking_IsEqual
     EXPECT_EQ(resultFileContent.toStdString(), expectedFileContent.toStdString());
     delete fileManager;
 }
+
+TEST_F(MenuModelTestsClass, LoadHighScore_CheckCorrectWorking_IsEqual)
+{
+    PlayerScoreMap   expectedhighScore = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"}, {1300, "Fred"} };
+    FileManagerMock* fileManager       = new FileManagerMock();
+    fileManager->setFileContent(QString("1000 Ed 1000 1000 Bob Andy 1300 Fred "));
+    MenuModelTests   menuModel(fileManager);
+
+    menuModel.loadHighScore();
+    PlayerScoreMap resultHighScore = menuModel.getHighScore();
+
+    EXPECT_EQ(resultHighScore, expectedhighScore);
+    delete fileManager;
+}
+
+TEST_F(MenuModelTestsClass, LoadHighScore_OneRecordInFileCheckCorrectWorking_IsEqual)
+{
+    PlayerScoreMap   expectedhighScore = { {1300, "Fred"} };
+    FileManagerMock* fileManager       = new FileManagerMock();
+    fileManager->setFileContent(QString("1300 Fred "));
+    MenuModelTests   menuModel(fileManager);
+
+    menuModel.loadHighScore();
+    PlayerScoreMap resultHighScore = menuModel.getHighScore();
+
+    EXPECT_EQ(resultHighScore, expectedhighScore);
+    delete fileManager;
+}
+
+TEST_F(MenuModelTestsClass, LoadHighScore_ZeroRecordsInFileCheckCorrectWorking_IsEqual)
+{
+    PlayerScoreMap   expectedhighScore = {};
+    FileManagerMock* fileManager       = new FileManagerMock();
+    fileManager->setFileContent(QString(""));
+    MenuModelTests   menuModel(fileManager);
+
+    menuModel.loadHighScore();
+    PlayerScoreMap resultHighScore = menuModel.getHighScore();
+
+    EXPECT_EQ(resultHighScore, expectedhighScore);
+    delete fileManager;
+}

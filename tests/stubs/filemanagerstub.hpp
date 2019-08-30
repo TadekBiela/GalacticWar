@@ -7,7 +7,7 @@ class FileManagerStub : public IFileManager
 {
 public:
     void saveFile(const QString data) {}
-    void loadFile(QMultiHash<int, QString>::iterator highScoreIterator, int size) {}
+    QString loadFile(const QString fileName) {}
 };
 
 #endif // FILEMANAGIERSTUB_HPP
