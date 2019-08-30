@@ -195,8 +195,8 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSameSc
 
 TEST_F(MenuModelTestsClass, SaveHighScore_CheckCorrectWorking_IsEqual)
 {
-    PlayerScoreMap   highScore           = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"} };
-    QString          expectedFileContent = "1000 Andy 1000 Bob 1000 Ed ";
+    PlayerScoreMap   highScore           = { {1000, "Andy"},{1000, "Bob"}, {1000, "Ed"} };
+    QString          expectedFileContent = "1000 Ed 1000 Bob 1000 Andy ";
     FileManagerMock* fileManager = new FileManagerMock();
     MenuModelTests   menuModel(fileManager);
     menuModel.setHighScore(highScore);
@@ -204,7 +204,7 @@ TEST_F(MenuModelTestsClass, SaveHighScore_CheckCorrectWorking_IsEqual)
     menuModel.saveHighScore();
     QString resultFileContent = fileManager->getFileContent();
 
-    EXPECT_EQ(resultFileContent, expectedFileContent);
+    EXPECT_EQ(resultFileContent.toStdString(), expectedFileContent.toStdString());
     delete fileManager;
 }
 
@@ -219,7 +219,7 @@ TEST_F(MenuModelTestsClass, SaveHighScore_OnlyOneRecordCheckCorrectWorking_IsEqu
     menuModel.saveHighScore();
     QString resultFileContent = fileManager->getFileContent();
 
-    EXPECT_EQ(resultFileContent, expectedFileContent);
+    EXPECT_EQ(resultFileContent.toStdString(), expectedFileContent.toStdString());
     delete fileManager;
 }
 
@@ -234,6 +234,6 @@ TEST_F(MenuModelTestsClass, SaveHighScore_ZeroRecordsCheckCorrectWorking_IsEqual
     menuModel.saveHighScore();
     QString resultFileContent = fileManager->getFileContent();
 
-    EXPECT_EQ(resultFileContent, expectedFileContent);
+    EXPECT_EQ(resultFileContent.toStdString(), expectedFileContent.toStdString());
     delete fileManager;
 }

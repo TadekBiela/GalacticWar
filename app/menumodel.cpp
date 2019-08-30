@@ -1,6 +1,6 @@
 #include "menumodel.hpp"
 
-MenuModel::MenuModel(IFileManager *fileManager)
+MenuModel::MenuModel(IFileManager *fileManager) : m_fileManager(fileManager)
 {
 
 }
@@ -18,5 +18,10 @@ void MenuModel::addRecordToHighScore(PlayerScore newPlayerScore)
 
 void MenuModel::saveHighScore()
 {
-
+    QString dataToSave;
+    for(PlayerScoreMapIterator it = m_highScore.begin(); it != m_highScore.end(); it++)
+    {
+        dataToSave += QString::number(it.key()) + " " + it.value() + " ";
+    }
+    m_fileManager->saveFile(dataToSave);
 }
