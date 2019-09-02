@@ -16,6 +16,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/enemymodel.cpp
                                ../app/enemymodeltype1.hpp
                                ../app/enemymodeltype1.cpp
+                               ../app/firefunctions.hpp
+                               ../app/firefunctions.cpp
                                ../app/functions.hpp
                                ../app/functions.cpp
                                ../app/ifilemanager.hpp
@@ -24,6 +26,9 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/levelmodel.cpp
                                ../app/menumodel.hpp
                                ../app/menumodel.cpp
+                               ../app/playermodel.hpp
+                               ../app/playermodel.cpp
+                               ../app/weapontype.hpp
                                stubs/filemanagerstub.hpp
                                stubs/randomgeneratorstub.hpp
                                mocks/filemanagermock.hpp
@@ -32,7 +37,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
                                levelmodeltests.cpp
-                               menumodeltests.cpp)
+                               menumodeltests.cpp
+                               playermodeltests.cpp)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

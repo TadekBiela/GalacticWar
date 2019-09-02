@@ -30,7 +30,6 @@ protected:
     void changeWeapon(weapon_type weapon);
 
     QPointF     m_moveDirection;
-    int         m_moveTypeDelay;
     weapon_type m_weapon;
     ::fire      m_fireFuncPtr;
     QTimer      m_moveTimer;

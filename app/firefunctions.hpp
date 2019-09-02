@@ -5,4 +5,6 @@
 
 typedef void (*fire)(QPointF, int);
 
+void defaultFireFunc(QPointF startPosition, int baseDamage);
+
 #endif // FIREFUNCTIONS_HPP
