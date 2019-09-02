@@ -28,5 +28,14 @@ void MenuModel::saveHighScore()
 
 void MenuModel::loadHighScore()
 {
-
+    QString     data     = m_fileManager->loadFile("hs.txt");
+    QStringList dataList = data.split(" ", QString::SplitBehavior::SkipEmptyParts);
+    for(int i = 0; i < dataList.size() - 1; i += 2)
+    {
+        m_highScore.insert(dataList.at(i).toInt(), dataList.at(i + 1));
+    }
+    if(m_highScore.size() != 0)
+    {
+        emit updateHighScore(m_highScore.begin(), m_highScore.size());
+    }
 }

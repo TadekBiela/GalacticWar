@@ -240,42 +240,69 @@ TEST_F(MenuModelTestsClass, SaveHighScore_ZeroRecordsCheckCorrectWorking_IsEqual
 
 TEST_F(MenuModelTestsClass, LoadHighScore_CheckCorrectWorking_IsEqual)
 {
-    PlayerScoreMap   expectedhighScore = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"}, {1300, "Fred"} };
+    qRegisterMetaType<PlayerScoreMapIterator>();
+    PlayerScoreMap   expectedhighScore = { {300, "Andy"}, {1000, "Ed"}, {1000, "Bob"}, {1000, "Andy"}, {1300, "Fred"}};
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
     FileManagerMock* fileManager       = new FileManagerMock();
-    fileManager->setFileContent(QString("1000 Ed 1000 1000 Bob Andy 1300 Fred "));
+    fileManager->setFileContent(QString("300 Andy 1000 Ed 1000 Bob 1000 Andy 1300 Fred "));
     MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.loadHighScore();
-    PlayerScoreMap resultHighScore = menuModel.getHighScore();
+    auto resultHighScore         = menuModel.getHighScore();
+    int  resultSignalUpdateCount = signalUpdate.count();
+    auto resultSignalUpdate      = signalUpdate.takeLast();
 
-    EXPECT_EQ(resultHighScore, expectedhighScore);
+    EXPECT_EQ(resultHighScore,                  expectedhighScore);
+    EXPECT_EQ(resultSignalUpdateCount,          1);
+    EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
+    EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
+    EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 5);
     delete fileManager;
 }
 
 TEST_F(MenuModelTestsClass, LoadHighScore_OneRecordInFileCheckCorrectWorking_IsEqual)
 {
+    qRegisterMetaType<PlayerScoreMapIterator>();
     PlayerScoreMap   expectedhighScore = { {1300, "Fred"} };
+    auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
+    auto             expectedSecondParamType = QVariant::Int;
     FileManagerMock* fileManager       = new FileManagerMock();
     fileManager->setFileContent(QString("1300 Fred "));
     MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.loadHighScore();
-    PlayerScoreMap resultHighScore = menuModel.getHighScore();
+    auto resultHighScore         = menuModel.getHighScore();
+    int  resultSignalUpdateCount = signalUpdate.count();
+    auto resultSignalUpdate      = signalUpdate.takeLast();
 
-    EXPECT_EQ(resultHighScore, expectedhighScore);
+    EXPECT_EQ(resultHighScore,                  expectedhighScore);
+    EXPECT_EQ(resultSignalUpdateCount,          1);
+    EXPECT_EQ(resultSignalUpdate.at(0).type(),  expectedFirstParamType);
+    EXPECT_EQ(resultSignalUpdate.at(1).type(),  expectedSecondParamType);
+    EXPECT_EQ(resultSignalUpdate.at(1).toInt(), 1);
     delete fileManager;
 }
 
 TEST_F(MenuModelTestsClass, LoadHighScore_ZeroRecordsInFileCheckCorrectWorking_IsEqual)
 {
+    qRegisterMetaType<PlayerScoreMapIterator>();
     PlayerScoreMap   expectedhighScore = {};
     FileManagerMock* fileManager       = new FileManagerMock();
     fileManager->setFileContent(QString(""));
     MenuModelTests   menuModel(fileManager);
+    QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
+    signalUpdate.wait(utdef::minSignalTimeDelay);
 
     menuModel.loadHighScore();
-    PlayerScoreMap resultHighScore = menuModel.getHighScore();
+    auto resultHighScore         = menuModel.getHighScore();
+    int  resultSignalUpdateCount = signalUpdate.count();
 
-    EXPECT_EQ(resultHighScore, expectedhighScore);
+    EXPECT_EQ(resultHighScore,         expectedhighScore);
+    EXPECT_EQ(resultSignalUpdateCount, 0);
     delete fileManager;
 }
