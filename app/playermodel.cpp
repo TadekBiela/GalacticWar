@@ -51,7 +51,7 @@ void PlayerModel::startFire()
 
 void PlayerModel::stopFire()
 {
-
+    m_fireTimer.stop();
 }
 
 void PlayerModel::changeDirection()
