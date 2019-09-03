@@ -7,11 +7,18 @@
 PlayerModel::PlayerModel() :
                          m_moveDirection(def::halfSceneWight, def::halfSceneHeight),
                          m_weapon(weapon_type::defaultWeapon),
-                         m_fireFuncPtr(&defaultFireFunc)
+                         m_fireFuncPtr(&defaultFireFunc),
+                         m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
+                         m_fireTimeDelay(def::defaultPlayerFireTimeDelay)
 {
     setPos(m_moveDirection);
+
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
+    m_moveTimer.setInterval(m_moveTimeDelay);
+    m_fireTimer.setInterval(m_fireTimeDelay);
+
+    m_moveTimer.start();
 }
 
 PlayerModel::~PlayerModel()
@@ -32,6 +39,11 @@ void PlayerModel::move()
 }
 
 void PlayerModel::fire()
+{
+
+}
+
+void PlayerModel::startFire()
 {
 
 }

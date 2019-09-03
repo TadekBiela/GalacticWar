@@ -22,6 +22,7 @@ signals:
 public slots:
     void move();
     void fire();
+    void startFire();
     void stopFire();
     void changeDirection();
     void changePlayerAtribute(special_reward_type specialReward);
@@ -32,6 +33,8 @@ protected:
     QPointF     m_moveDirection;
     weapon_type m_weapon;
     ::fire      m_fireFuncPtr;
+    int         m_moveTimeDelay;
+    int         m_fireTimeDelay;
     QTimer      m_moveTimer;
     QTimer      m_fireTimer;
 };

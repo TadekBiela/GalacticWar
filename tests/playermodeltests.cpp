@@ -11,9 +11,12 @@ public:
     QPointF       getMoveDirection() const { return m_moveDirection; }
     weapon_type   getWeapon()        const { return m_weapon; }
     ::fire        getFireFuncPtr()   const { return m_fireFuncPtr; }
+    int           getMoveTimeDelay() const { return m_moveTimeDelay; }
+    int           getFireTimeDelay() const { return m_fireTimeDelay; }
     const QTimer& getMoveTimer()     const { return m_moveTimer; }
     const QTimer& getFireTimer()     const { return m_fireTimer; }
     void          setMoveDirection(QPointF moveDirection) { m_moveDirection = moveDirection; }
+    void          setFireTimeDelay(int fireTimeDelay)     { m_fireTimeDelay = fireTimeDelay; }
 };
 
 class PlayerModelTestsClass : public testing::Test
@@ -29,15 +32,21 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     QPointF       resultPosition      = playerModel.getPosition();
     weapon_type   resultWeapon        = playerModel.getWeapon();
     ::fire        resultFireFuncPtr   = playerModel.getFireFuncPtr();
+    int           resultFireMoveDelay = playerModel.getMoveTimeDelay();
+    int           resultFireTimeDelay = playerModel.getFireTimeDelay();
     const QTimer& resultMoveTimer     = playerModel.getMoveTimer();
     const QTimer& resultFireTimer     = playerModel.getFireTimer();
 
     EXPECT_EQ(resultMoveDirection,        QPointF(def::halfSceneWight, def::halfSceneHeight));
     EXPECT_EQ(resultWeapon,               weapon_type::defaultWeapon);
     EXPECT_EQ(resultFireFuncPtr,          &defaultFireFunc);
-    EXPECT_EQ(resultMoveTimer.isActive(), false);
+    EXPECT_EQ(resultFireMoveDelay,        def::defaultPlayerMoveTimeDelay);
+    EXPECT_EQ(resultFireTimeDelay,        def::defaultPlayerFireTimeDelay);
+    EXPECT_EQ(resultMoveTimer.isActive(), true);
     EXPECT_EQ(resultFireTimer.isActive(), false);
-    EXPECT_FLOAT_EQ(resultMoveTimer.remainingTime(), -1);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(), def::defaultPlayerMoveTimeDelay);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), def::defaultPlayerFireTimeDelay);
+    EXPECT_NEAR(    resultMoveTimer.remainingTime(), def::defaultPlayerMoveTimeDelay, 1);
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
@@ -93,4 +102,29 @@ TEST_F(PlayerModelTestsClass, Move_MoveDirectionIsEqualAsDefMoveVectorLenghtDown
 
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+}
+
+TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfiguration_IsEqual)
+{
+    PlayerModelTest playerModel;
+
+    playerModel.startFire();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  def::defaultPlayerFireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), def::defaultPlayerFireTimeDelay, 0.01);
+}
+
+TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithChangedFireTimeDelay_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.setFireTimeDelay(8);
+
+    playerModel.startFire();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  8);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), 8, 0.01);
 }
