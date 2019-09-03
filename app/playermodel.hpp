@@ -30,7 +30,8 @@ public slots:
 protected:
     void changeWeapon(weapon_type weapon);
 
-    QPointF     m_moveDirection;
+    bool        m_isMoving;
+    int         m_direction;
     weapon_type m_weapon;
     int         m_damage;
     ::fire      m_fireFuncPtr;

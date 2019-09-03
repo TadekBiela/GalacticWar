@@ -5,14 +5,15 @@
 #include <QLineF>
 
 PlayerModel::PlayerModel() :
-                         m_moveDirection(def::halfSceneWight, def::halfSceneHeight),
+                         m_isMoving(false),
+                         m_direction(0),
                          m_weapon(weapon_type::defaultWeapon),
                          m_damage(def::defaultPlayerDamage),
                          m_fireFuncPtr(&defaultFireFunc),
                          m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
                          m_fireTimeDelay(def::defaultPlayerFireTimeDelay)
 {
-    setPos(m_moveDirection);
+    setPos(def::halfSceneWight, def::halfSceneHeight);
 
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
@@ -29,13 +30,9 @@ PlayerModel::~PlayerModel()
 
 void PlayerModel::move()
 {
-    QLineF vector(QGraphicsItem::pos(), m_moveDirection);
-    int    length = static_cast<int>(vector.length());
-
-    if(length >= def::moveVectorLength)
+    if(m_isMoving)
     {
-        int direction = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
-        setPos(moveForward(pos(), direction));
+        setPos(moveForward(pos(), m_direction));
     }
 }
 
@@ -57,7 +54,10 @@ void PlayerModel::stopFire()
 
 void PlayerModel::changeDirection(QPointF newDirection)
 {
-    m_moveDirection = newDirection;
+    QLineF vector(QGraphicsItem::pos(), newDirection);
+    int    length = static_cast<int>(vector.length());
+    m_isMoving    = length >= def::moveVectorLength;
+    m_direction   = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
 }
 
 void PlayerModel::changePlayerAtribute(special_reward_type specialReward)
