@@ -24,7 +24,7 @@ public slots:
     void fire();
     void startFire();
     void stopFire();
-    void changeDirection();
+    void changeDirection(QPointF newDirection);
     void changePlayerAtribute(special_reward_type specialReward);
 
 protected:

@@ -54,9 +54,9 @@ void PlayerModel::stopFire()
     m_fireTimer.stop();
 }
 
-void PlayerModel::changeDirection()
+void PlayerModel::changeDirection(QPointF newDirection)
 {
-
+    m_moveDirection = newDirection;
 }
 
 void PlayerModel::changePlayerAtribute(special_reward_type specialReward)
