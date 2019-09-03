@@ -45,7 +45,8 @@ void PlayerModel::fire()
 
 void PlayerModel::startFire()
 {
-
+    m_fireTimer.setInterval(m_fireTimeDelay);
+    m_fireTimer.start();
 }
 
 void PlayerModel::stopFire()
