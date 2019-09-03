@@ -10,6 +10,7 @@ public:
     QPointF       getPosition()      const { return QGraphicsItem::pos(); }
     QPointF       getMoveDirection() const { return m_moveDirection; }
     weapon_type   getWeapon()        const { return m_weapon; }
+    int           getDamage()        const { return m_damage; }
     ::fire        getFireFuncPtr()   const { return m_fireFuncPtr; }
     int           getMoveTimeDelay() const { return m_moveTimeDelay; }
     int           getFireTimeDelay() const { return m_fireTimeDelay; }
@@ -32,6 +33,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     QPointF       resultMoveDirection = playerModel.getMoveDirection();
     QPointF       resultPosition      = playerModel.getPosition();
     weapon_type   resultWeapon        = playerModel.getWeapon();
+    int           resultDamage        = playerModel.getDamage();
     ::fire        resultFireFuncPtr   = playerModel.getFireFuncPtr();
     int           resultFireMoveDelay = playerModel.getMoveTimeDelay();
     int           resultFireTimeDelay = playerModel.getFireTimeDelay();
@@ -40,6 +42,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
 
     EXPECT_EQ(resultMoveDirection,        QPointF(def::halfSceneWight, def::halfSceneHeight));
     EXPECT_EQ(resultWeapon,               weapon_type::defaultWeapon);
+    EXPECT_EQ(resultDamage,               def::defaultPlayerDamage);
     EXPECT_EQ(resultFireFuncPtr,          &defaultFireFunc);
     EXPECT_EQ(resultFireMoveDelay,        def::defaultPlayerMoveTimeDelay);
     EXPECT_EQ(resultFireTimeDelay,        def::defaultPlayerFireTimeDelay);

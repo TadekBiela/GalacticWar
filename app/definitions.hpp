@@ -12,8 +12,9 @@ namespace def
     const int    maxNumOfLevel          = 10;
 
     //Player default configuration
-    const int    defaultPlayerMoveTimeDelay  = 15;
-    const int    defaultPlayerFireTimeDelay  = 10;
+    const int defaultPlayerDamage         = 1;
+    const int defaultPlayerMoveTimeDelay  = 15;
+    const int defaultPlayerFireTimeDelay  = 10;
 
     //Scene size
     const int sceneWight  = 600;

@@ -7,6 +7,7 @@
 PlayerModel::PlayerModel() :
                          m_moveDirection(def::halfSceneWight, def::halfSceneHeight),
                          m_weapon(weapon_type::defaultWeapon),
+                         m_damage(def::defaultPlayerDamage),
                          m_fireFuncPtr(&defaultFireFunc),
                          m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
                          m_fireTimeDelay(def::defaultPlayerFireTimeDelay)
@@ -40,7 +41,7 @@ void PlayerModel::move()
 
 void PlayerModel::fire()
 {
-
+    m_fireFuncPtr(QGraphicsItem::pos(), m_damage);
 }
 
 void PlayerModel::startFire()

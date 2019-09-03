@@ -32,6 +32,7 @@ protected:
 
     QPointF     m_moveDirection;
     weapon_type m_weapon;
+    int         m_damage;
     ::fire      m_fireFuncPtr;
     int         m_moveTimeDelay;
     int         m_fireTimeDelay;
