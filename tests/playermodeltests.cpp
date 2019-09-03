@@ -17,6 +17,7 @@ public:
     const QTimer& getFireTimer()     const { return m_fireTimer; }
     void          setMoveDirection(QPointF moveDirection) { m_moveDirection = moveDirection; }
     void          setFireTimeDelay(int fireTimeDelay)     { m_fireTimeDelay = fireTimeDelay; }
+    void          startFireTimer()                        { m_fireTimer.start(); }
 };
 
 class PlayerModelTestsClass : public testing::Test
@@ -127,4 +128,17 @@ TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithChangedFireTimeDe
     EXPECT_EQ(resultFireTimer.isActive(),        true);
     EXPECT_FLOAT_EQ(resultFireTimer.interval(),  8);
     EXPECT_NEAR(resultFireTimer.remainingTime(), 8, 0.01);
+}
+
+TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.startFireTimer();
+
+    playerModel.stopFire();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultFireTimer.isActive(),            false);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      def::defaultPlayerFireTimeDelay);
+    EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
 }
