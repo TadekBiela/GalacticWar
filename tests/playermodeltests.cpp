@@ -22,8 +22,11 @@ class PlayerModelTestsClass : public testing::Test
 
 TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
+    QPointF expectedPosition(QPointF(def::halfSceneWight, def::halfSceneHeight));
+
     PlayerModelTest playerModel;
     QPointF       resultMoveDirection = playerModel.getMoveDirection();
+    QPointF       resultPosition      = playerModel.getPosition();
     weapon_type   resultWeapon        = playerModel.getWeapon();
     ::fire        resultFireFuncPtr   = playerModel.getFireFuncPtr();
     const QTimer& resultMoveTimer     = playerModel.getMoveTimer();
@@ -36,48 +39,58 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_EQ(resultFireTimer.isActive(), false);
     EXPECT_FLOAT_EQ(resultMoveTimer.remainingTime(), -1);
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
 }
 
 TEST_F(PlayerModelTestsClass, Move_MoveDirectionIsUpOfCurrentPositionPlayerShouldFlyUpBy10Pixels_IsEqual)
 {
+    QPointF         expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
     PlayerModelTest playerModel;
     playerModel.setMoveDirection(QPointF(def::halfSceneWight, def::halfSceneHeight - 50));
 
     playerModel.move();
     QPointF resultPosition = playerModel.getPosition();
 
-    EXPECT_EQ(resultPosition,  QPointF(def::halfSceneWight, def::halfSceneHeight - 10));
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
 }
 
 TEST_F(PlayerModelTestsClass, Move_MoveDirectionIsEqualAsCurrentPlayerPositionShouldDontMove_IsEqual)
 {
+    QPointF         expectedPosition(def::halfSceneWight, def::halfSceneHeight);
     PlayerModelTest playerModel;
     playerModel.setMoveDirection(QPointF(def::halfSceneWight, def::halfSceneHeight));
 
     playerModel.move();
     QPointF resultPosition = playerModel.getPosition();
 
-    EXPECT_EQ(resultPosition,  QPointF(def::halfSceneWight, def::halfSceneHeight));
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
 }
 
 TEST_F(PlayerModelTestsClass, Move_MoveDirectionIsOnly5PixLeftSideOfCurrentPlayerPositionShouldMoveOnly5pix_IsEqual)
 {
+    QPointF         expectedPosition(def::halfSceneWight, def::halfSceneHeight);
     PlayerModelTest playerModel;
     playerModel.setMoveDirection(QPointF(def::halfSceneWight - 5, def::halfSceneHeight));
 
     playerModel.move();
     QPointF resultPosition = playerModel.getPosition();
 
-    EXPECT_EQ(resultPosition,  QPointF(def::halfSceneWight - 5, def::halfSceneHeight));
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
 }
 
 TEST_F(PlayerModelTestsClass, Move_MoveDirectionIsEqualAsDefMoveVectorLenghtDownOfCurrentPlayerPositionShouldMoveDown_IsEqual)
 {
+    QPointF         expectedPosition(def::halfSceneWight, def::halfSceneHeight + def::moveVectorLength);
     PlayerModelTest playerModel;
     playerModel.setMoveDirection(QPointF(def::halfSceneWight, def::halfSceneHeight + def::moveVectorLength));
 
     playerModel.move();
     QPointF resultPosition = playerModel.getPosition();
 
-    EXPECT_EQ(resultPosition,  QPointF(def::halfSceneWight, def::halfSceneHeight + def::moveVectorLength));
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
 }
