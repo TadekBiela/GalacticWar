@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
+#include "utdefinitions.hpp"
 #include "../app/definitions.hpp"
 #include "../app/playermodel.hpp"
+#include <QSignalSpy>
 
 class PlayerModelTest : public PlayerModel
 {
@@ -10,17 +12,15 @@ public:
     QPointF       getPosition()      const { return QGraphicsItem::pos(); }
     bool          getIsMovingFlag()  const { return m_isMoving; }
     int           getDirection()     const { return m_direction; }
-    weapon_type   getWeapon()        const { return m_weapon; }
-    int           getDamage()        const { return m_damage; }
-    ::fire        getFireFuncPtr()   const { return m_fireFuncPtr; }
+    weapon        getWeapon()        const { return m_weapon; }
     int           getMoveTimeDelay() const { return m_moveTimeDelay; }
-    int           getFireTimeDelay() const { return m_fireTimeDelay; }
+    int           getFireTimeDelay() const { return m_weapon.fireTimeDelay; }
     const QTimer& getMoveTimer()     const { return m_moveTimer; }
     const QTimer& getFireTimer()     const { return m_fireTimer; }
-    void          setIsMovingFlag(bool isMoving)      { m_isMoving = isMoving; }
-    void          setDirection(int newDirection)      { m_direction = newDirection; }
-    void          setFireTimeDelay(int fireTimeDelay) { m_fireTimeDelay = fireTimeDelay; }
-    void          startFireTimer()                    { m_fireTimer.start(); }
+    void          setIsMovingFlag(bool isMoving) { m_isMoving  = isMoving; }
+    void          setDirection(int newDirection) { m_direction = newDirection; }
+    void          setWeapon(weapon newWeapon)    { m_weapon    = newWeapon; }
+    void          startFireTimer()               { m_fireTimer.start(); }
 };
 
 class PlayerModelTestsClass : public testing::Test
@@ -35,9 +35,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     int           resultIsMovingFlag      = playerModel.getIsMovingFlag();
     int           resultDirection         = playerModel.getDirection();
     QPointF       resultPosition          = playerModel.getPosition();
-    weapon_type   resultWeapon            = playerModel.getWeapon();
-    int           resultDamage            = playerModel.getDamage();
-    ::fire        resultFireFuncPtr       = playerModel.getFireFuncPtr();
+    weapon        resultWeapon            = playerModel.getWeapon();
     int           resultFireMoveDelay     = playerModel.getMoveTimeDelay();
     int           resultFireTimeDelay     = playerModel.getFireTimeDelay();
     const QTimer& resultMoveTimer         = playerModel.getMoveTimer();
@@ -46,15 +44,13 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
 
     EXPECT_EQ(      resultIsMovingFlag,              false);
     EXPECT_EQ(      resultDirection,                 0);
-    EXPECT_EQ(      resultWeapon,                    weapon_type::defaultWeapon);
-    EXPECT_EQ(      resultDamage,                    def::defaultPlayerDamage);
-    EXPECT_EQ(      resultFireFuncPtr,               &defaultFireFunc);
+    EXPECT_EQ(      resultWeapon.type,               defaultWeapon.type);
     EXPECT_EQ(      resultFireMoveDelay,             def::defaultPlayerMoveTimeDelay);
-    EXPECT_EQ(      resultFireTimeDelay,             def::defaultPlayerFireTimeDelay);
+    EXPECT_EQ(      resultFireTimeDelay,             defaultWeapon.fireTimeDelay);
     EXPECT_EQ(      resultMoveTimer.isActive(),      true);
     EXPECT_EQ(      resultFireTimer.isActive(),      false);
     EXPECT_FLOAT_EQ(resultMoveTimer.interval(),      def::defaultPlayerMoveTimeDelay);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      def::defaultPlayerFireTimeDelay);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      defaultWeapon.fireTimeDelay);
     EXPECT_NEAR(    resultMoveRemainingTime,         def::defaultPlayerMoveTimeDelay, 1);
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
     EXPECT_FLOAT_EQ(resultPosition.x(),              expectedPosition.x());
@@ -143,21 +139,8 @@ TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfigurat
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
     EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  def::defaultPlayerFireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), def::defaultPlayerFireTimeDelay, 1);
-}
-
-TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithChangedFireTimeDelay_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setFireTimeDelay(8);
-
-    playerModel.startFire();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  8);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), 8, 1);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  defaultWeapon.fireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), defaultWeapon.fireTimeDelay, 1);
 }
 
 TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
@@ -169,6 +152,80 @@ TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
     EXPECT_EQ(resultFireTimer.isActive(),            false);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      def::defaultPlayerFireTimeDelay);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      defaultWeapon.fireTimeDelay);
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardCheckIfChangeHealthSignalWillBeSend_IsEqual)
+{
+    PlayerModelTest playerModel;
+    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
+    signalChange.wait(utdef::minSignalTimeDelay);
+
+    playerModel.changePlayerAtribute(special_reward_type::health);
+    int             resultSignalChangeCount = signalChange.count();
+    QList<QVariant> resultSignalChange      = signalChange.takeFirst();
+
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasDefaultWeaponPlayerShouldChangeWeaponToRed_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.setWeapon(defaultWeapon);
+
+    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
+    weapon        resultWeapon    = playerModel.getWeapon();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultWeapon.type,                 redWeapons[0].type);
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  redWeapons[0].fireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), redWeapons[0].fireTimeDelay, 1);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasDiffrentWeaponTypePlayerShouldChangeWeaponToRed_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.setWeapon(yellowWeapons[3]);
+
+    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
+    weapon        resultWeapon    = playerModel.getWeapon();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultWeapon.type,                 redWeapons[0].type);
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  redWeapons[0].fireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), redWeapons[0].fireTimeDelay, 1);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasRedWeapon0PlayerShouldChangeWeaponToRed1_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.setWeapon(redWeapons[0]);
+
+    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
+    weapon        resultWeapon    = playerModel.getWeapon();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultWeapon.type,                 redWeapons[1].type);
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  redWeapons[1].fireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), redWeapons[1].fireTimeDelay, 1);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasRedWeaponMaxPlayerShouldntChangeWeapon_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.setWeapon(redWeapons[4]);
+
+    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
+    weapon        resultWeapon    = playerModel.getWeapon();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultWeapon.type,                 redWeapons[4].type);
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  redWeapons[4].fireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), redWeapons[4].fireTimeDelay, 1);
 }

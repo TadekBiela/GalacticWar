@@ -1,24 +1,20 @@
 #include "playermodel.hpp"
 #include "definitions.hpp"
-#include "firefunctions.hpp"
 #include "functions.hpp"
 #include <QLineF>
 
 PlayerModel::PlayerModel() :
                          m_isMoving(false),
                          m_direction(0),
-                         m_weapon(weapon_type::defaultWeapon),
-                         m_damage(def::defaultPlayerDamage),
-                         m_fireFuncPtr(&defaultFireFunc),
-                         m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
-                         m_fireTimeDelay(def::defaultPlayerFireTimeDelay)
+                         m_weapon(defaultWeapon),
+                         m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
 {
     setPos(def::halfSceneWight, def::halfSceneHeight);
 
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
     m_moveTimer.setInterval(m_moveTimeDelay);
-    m_fireTimer.setInterval(m_fireTimeDelay);
+    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 
     m_moveTimer.start();
 }
@@ -38,12 +34,12 @@ void PlayerModel::move()
 
 void PlayerModel::fire()
 {
-    m_fireFuncPtr(QGraphicsItem::pos(), m_damage);
+    m_weapon.fireFuncPtr(QGraphicsItem::pos(), m_weapon.damage);
 }
 
 void PlayerModel::startFire()
 {
-    m_fireTimer.setInterval(m_fireTimeDelay);
+    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
     m_fireTimer.start();
 }
 

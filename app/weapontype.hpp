@@ -3,7 +3,7 @@
 
 enum weapon_type
 {
-    defaultWeapon = 0,
+    defWeapon = 0,
     redWeapon,
     yellowWeapon,
     blueWeapon

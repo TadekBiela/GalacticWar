@@ -10,11 +10,10 @@ namespace def
     const double radianConversionFactor = pi / 180;
     const int    maxFrameIdx            = 5;
     const int    maxNumOfLevel          = 10;
+    const int    maxWeaponLevel         = 5;
 
     //Player default configuration
-    const int defaultPlayerDamage         = 1;
     const int defaultPlayerMoveTimeDelay  = 15;
-    const int defaultPlayerFireTimeDelay  = 10;
 
     //Scene size
     const int sceneWight  = 600;

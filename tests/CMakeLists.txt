@@ -28,6 +28,9 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/menumodel.cpp
                                ../app/playermodel.hpp
                                ../app/playermodel.cpp
+                               ../app/specialrewardtype.hpp
+                               ../app/weapons.hpp
+                               ../app/weapons.cpp
                                ../app/weapontype.hpp
                                stubs/filemanagerstub.hpp
                                stubs/randomgeneratorstub.hpp

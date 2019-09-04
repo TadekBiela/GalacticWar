@@ -1,9 +1,8 @@
 #ifndef PLAYERMODEL_HPP
 #define PLAYERMODEL_HPP
 
-#include "firefunctions.hpp"
 #include "specialrewardtype.hpp"
-#include "weapontype.hpp"
+#include "weapons.hpp"
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QPointF>
@@ -17,7 +16,7 @@ public:
     ~PlayerModel();
 
 signals:
-    void playerHit(int damage);
+    void playerChangeHealth(int healthPoints);
 
 public slots:
     void move();
@@ -30,15 +29,12 @@ public slots:
 protected:
     void changeWeapon(weapon_type weapon);
 
-    bool        m_isMoving;
-    int         m_direction;
-    weapon_type m_weapon;
-    int         m_damage;
-    ::fire      m_fireFuncPtr;
-    int         m_moveTimeDelay;
-    int         m_fireTimeDelay;
-    QTimer      m_moveTimer;
-    QTimer      m_fireTimer;
+    bool   m_isMoving;
+    int    m_direction;
+    weapon m_weapon;
+    int    m_moveTimeDelay;
+    QTimer m_moveTimer;
+    QTimer m_fireTimer;
 };
 
 #endif // PLAYERMODEL_HPP
