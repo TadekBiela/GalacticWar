@@ -3,6 +3,7 @@
 #include "../app/definitions.hpp"
 #include "../app/playermodel.hpp"
 #include <QSignalSpy>
+#include <tr1/tuple>
 
 class PlayerModelTest : public PlayerModel
 {
@@ -174,81 +175,6 @@ TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardCheckIfC
     EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
 }
 
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasDefaultWeaponPlayerShouldChangeWeaponToRed_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(defaultWeapon);
-
-    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultWeapon.type,                 weapons[0].type);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[0].fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[0].fireTimeDelay, 1);
-}
-
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponYellowWhenPlayerHasDefaultWeaponPlayerShouldChangeWeaponToYellow_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(defaultWeapon);
-
-    playerModel.changePlayerAtribute(special_reward_type::weaponYellow);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultWeapon.type,                 weapons[5].type);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[5].fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[5].fireTimeDelay, 1);
-}
-
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponBlueWhenPlayerHasDefaultWeaponPlayerShouldChangeWeaponToBlue_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(defaultWeapon);
-
-    playerModel.changePlayerAtribute(special_reward_type::weaponBlue);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultWeapon.type,                 weapons[10].type);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[10].fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[10].fireTimeDelay, 1);
-}
-
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasDiffrentWeaponTypePlayerShouldChangeWeaponToRed_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(weapons[8]); //Yellow Weapon Tier 3
-
-    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultWeapon.type,                 weapons[0].type);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[0].fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[0].fireTimeDelay, 1);
-}
-
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasRedWeapon0PlayerShouldChangeWeaponToRed1_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(weapons[0]);
-
-    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultWeapon.type,                 weapons[1].type);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[1].fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[1].fireTimeDelay, 1);
-}
-
 TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasRedWeaponMaxPlayerShouldntChangeWeapon_IsEqual)
 {
     PlayerModelTest playerModel;
@@ -264,3 +190,43 @@ TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerH
     EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[4].fireTimeDelay);
     EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[4].fireTimeDelay, 1);
 }
+
+typedef std::tr1::tuple<weapon, int, special_reward_type, weapon> input_params;
+
+class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
+{
+};
+
+TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
+{
+    weapon              currentWeapon         = std::tr1::get<0>(GetParam());
+    int                 currentWeaponTier     = std::tr1::get<1>(GetParam());
+    special_reward_type newWeaponRewardType   = std::tr1::get<2>(GetParam());
+    weapon_type         expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
+    int                 expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
+    PlayerModelTest playerModel;
+    playerModel.setWeapon(currentWeapon);
+    playerModel.setWeaponTier(currentWeaponTier);
+
+    playerModel.changePlayerAtribute(newWeaponRewardType);
+    weapon        resultWeapon    = playerModel.getWeapon();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(resultWeapon.type,                 expectedWeaponType);
+    EXPECT_EQ(resultFireTimer.isActive(),        true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  expectedFireTimeDelay);
+    EXPECT_NEAR(resultFireTimer.remainingTime(), expectedFireTimeDelay, 1);
+}
+
+INSTANTIATE_TEST_CASE_P(,
+                        PlayerModelTestsParamClass,
+                        testing::Values(std::tr1::make_tuple(defaultWeapon, 0, special_reward_type::weaponRed,    weapons[0]),
+                                        std::tr1::make_tuple(defaultWeapon, 0, special_reward_type::weaponYellow, weapons[5]),
+                                        std::tr1::make_tuple(defaultWeapon, 0, special_reward_type::weaponBlue,   weapons[10]),
+                                        std::tr1::make_tuple(weapons[8],    3, special_reward_type::weaponRed,    weapons[0]),
+                                        std::tr1::make_tuple(weapons[0],    0, special_reward_type::weaponRed,    weapons[1]),
+                                        std::tr1::make_tuple(weapons[4],    4, special_reward_type::weaponRed,    weapons[4]),
+                                        std::tr1::make_tuple(weapons[4],    4, special_reward_type::weaponBlue,   weapons[10])
+                                        ));
+
+
