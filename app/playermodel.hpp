@@ -32,6 +32,7 @@ protected:
     bool   m_isMoving;
     int    m_direction;
     weapon m_weapon;
+    int    m_weaponTier;
     int    m_moveTimeDelay;
     QTimer m_moveTimer;
     QTimer m_fireTimer;

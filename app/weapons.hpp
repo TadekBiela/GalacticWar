@@ -13,9 +13,7 @@ struct weapon
     int         fireTimeDelay;
 };
 
-extern const weapon defaultWeapon;
-extern const weapon redWeapons[def::maxWeaponLevel];
-extern const weapon yellowWeapons[def::maxWeaponLevel];
-extern const weapon blueWeapons[def::maxWeaponLevel];
+extern weapon defaultWeapon;
+extern weapon weapons[3 * def::maxWeaponLevel];
 
 #endif // WEAPONS_HPP

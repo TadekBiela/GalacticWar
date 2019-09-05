@@ -7,6 +7,7 @@ PlayerModel::PlayerModel() :
                          m_isMoving(false),
                          m_direction(0),
                          m_weapon(defaultWeapon),
+                         m_weaponTier(0),
                          m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
 {
     setPos(def::halfSceneWight, def::halfSceneHeight);
@@ -58,11 +59,38 @@ void PlayerModel::changeDirection(QPointF newDirection)
 
 void PlayerModel::changePlayerAtribute(special_reward_type specialReward)
 {
-
+    switch (specialReward)
+    {
+        case special_reward_type::health:
+            emit playerChangeHealth(100);
+            break;
+        case special_reward_type::weaponRed:
+            changeWeapon(weapon_type::redWeapon);
+            break;
+        case special_reward_type::weaponYellow:
+            changeWeapon(weapon_type::yellowWeapon);
+            break;
+        case special_reward_type::weaponBlue:
+            changeWeapon(weapon_type::blueWeapon);
+            break;
+    }
 }
 
 void PlayerModel::changeWeapon(weapon_type weapon)
 {
-
+    if(weapon != m_weapon.type)
+    {
+        m_weapon = weapons[weapon * def::maxWeaponLevel];
+        m_weaponTier = 0;
+    }
+    else
+    {
+        if(m_weaponTier < 4)
+        {
+            m_weaponTier++;
+        }
+        m_weapon = weapons[(weapon * def::maxWeaponLevel) + m_weaponTier];
+    }
+    startFire();
 }
 
