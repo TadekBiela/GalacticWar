@@ -30,8 +30,8 @@ TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEq
     reward_type   resultType         = rewardModel.getType();
     int           resultAnimFrameIdx = rewardModel.getAnimationFrameIdx();
     const QTimer& resultAnimTimer    = rewardModel.getAnimationTimer();
-    const QTimer& resultDestroyTimer = rewardModel.getDestroyTimer();
     int           resultAnimTime     = resultAnimTimer.remainingTime();
+    const QTimer& resultDestroyTimer = rewardModel.getDestroyTimer();
     int           resultDestroyTime  = resultDestroyTimer.remainingTime();
 
     EXPECT_EQ(resultType,                          reward_type::rewardCoin);
