@@ -10,7 +10,7 @@ class RewardModel : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    RewardModel();
+    RewardModel(reward_type type);
     ~RewardModel();
     void collected();
 

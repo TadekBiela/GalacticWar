@@ -1,6 +1,6 @@
 #include "rewardmodel.hpp"
 
-RewardModel::RewardModel()
+RewardModel::RewardModel(reward_type type)
 {
 
 }

@@ -28,6 +28,9 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/menumodel.cpp
                                ../app/playermodel.hpp
                                ../app/playermodel.cpp
+                               ../app/rewardmodel.hpp
+                               ../app/rewardmodel.cpp
+                               ../app/rewardtype.hpp
                                ../app/specialrewardtype.hpp
                                ../app/weapons.hpp
                                ../app/weapons.cpp
@@ -41,7 +44,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype1tests.cpp
                                levelmodeltests.cpp
                                menumodeltests.cpp
-                               playermodeltests.cpp)
+                               playermodeltests.cpp
+                               rewardmodeltests.cpp)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .

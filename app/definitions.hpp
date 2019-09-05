@@ -15,6 +15,9 @@ namespace def
     //Player default configuration
     const int defaultPlayerMoveTimeDelay  = 15;
 
+    //Reward default configuration
+    const int defaultRewardDestroyTimeDelay  = 1000;
+
     //Scene size
     const int sceneWight  = 600;
     const int sceneHeight = 800;
