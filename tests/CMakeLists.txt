@@ -31,7 +31,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/rewardmodel.hpp
                                ../app/rewardmodel.cpp
                                ../app/rewardtypes.hpp
-                               ../app/specialrewardtype.hpp
                                ../app/weapons.hpp
                                ../app/weapons.cpp
                                ../app/weapontype.hpp
