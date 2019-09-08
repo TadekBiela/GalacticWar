@@ -40,3 +40,12 @@ TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_NEAR(resultAnimTime,                    def::animationFrameDuration, 1);
     EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
 }
+
+TEST_F(RewardModelTestsClass, Destroy_CheckCorrectWorking_IsEqual)
+{
+    RewardModelTest* rewardModel = new RewardModelTest;
+
+    rewardModel->destroy();
+
+    EXPECT_EQ(rewardModel, nullptr);
+}
