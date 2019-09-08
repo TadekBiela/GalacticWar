@@ -2,6 +2,7 @@
 #include "../app/definitions.hpp"
 #include "../app/rewardmodel.hpp"
 #include <QTimer>
+#include <QGraphicsScene>
 
 class RewardModelTest : public RewardModel
 {
@@ -41,11 +42,16 @@ TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
 }
 
-TEST_F(RewardModelTestsClass, Destroy_CheckCorrectWorking_IsEqual)
+TEST_F(RewardModelTestsClass, Destroy_CheckCorrectWorking_IsZero)
 {
+    QGraphicsScene   scene;
     RewardModelTest* rewardModel = new RewardModelTest;
+    scene.addItem(rewardModel);
+    int resultShouldBeOne = scene.items().size();
 
     rewardModel->destroy();
+    int resultShouldBeZero = scene.items().size();
 
-    EXPECT_EQ(rewardModel, nullptr);
+    EXPECT_EQ(resultShouldBeOne,  1);
+    EXPECT_EQ(resultShouldBeZero, 0);
 }

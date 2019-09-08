@@ -19,5 +19,5 @@ RewardModel::~RewardModel()
 
 void RewardModel::destroy()
 {
-
+    delete this;
 }
