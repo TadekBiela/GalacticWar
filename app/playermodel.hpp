@@ -1,7 +1,7 @@
 #ifndef PLAYERMODEL_HPP
 #define PLAYERMODEL_HPP
 
-#include "specialrewardtype.hpp"
+#include "rewardtypes.hpp"
 #include "weapons.hpp"
 #include <QObject>
 #include <QGraphicsPixmapItem>
@@ -24,7 +24,7 @@ public slots:
     void startFire();
     void stopFire();
     void changeDirection(QPointF newDirection);
-    void changePlayerAtribute(special_reward_type specialReward);
+    void changePlayerAtribute(special_type specialReward);
 
 protected:
     void changeWeapon(weapon_type weapon);

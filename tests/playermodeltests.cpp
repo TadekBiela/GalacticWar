@@ -167,7 +167,7 @@ TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardCheckIfC
     QSignalSpy      signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
     signalChange.wait(utdef::minSignalTimeDelay);
 
-    playerModel.changePlayerAtribute(special_reward_type::health);
+    playerModel.changePlayerAtribute(special_type::health);
     int             resultSignalChangeCount = signalChange.count();
     QList<QVariant> resultSignalChange      = signalChange.takeFirst();
 
@@ -175,23 +175,7 @@ TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardCheckIfC
     EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
 }
 
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedWeaponRedWhenPlayerHasRedWeaponMaxPlayerShouldntChangeWeapon_IsEqual)
-{
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(weapons[4]);
-    playerModel.setWeaponTier(4);
-
-    playerModel.changePlayerAtribute(special_reward_type::weaponRed);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-    EXPECT_EQ(resultWeapon.type,                 weapons[4].type);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  weapons[4].fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), weapons[4].fireTimeDelay, 1);
-}
-
-typedef std::tr1::tuple<weapon, int, special_reward_type, weapon> input_params;
+typedef std::tr1::tuple<weapon, int, special_type, weapon> input_params;
 
 class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
 {
@@ -199,11 +183,11 @@ class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
 
 TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
 {
-    weapon              currentWeapon         = std::tr1::get<0>(GetParam());
-    int                 currentWeaponTier     = std::tr1::get<1>(GetParam());
-    special_reward_type newWeaponRewardType   = std::tr1::get<2>(GetParam());
-    weapon_type         expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
-    int                 expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
+    weapon       currentWeapon         = std::tr1::get<0>(GetParam());
+    int          currentWeaponTier     = std::tr1::get<1>(GetParam());
+    special_type newWeaponRewardType   = std::tr1::get<2>(GetParam());
+    weapon_type  expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
+    int          expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
     PlayerModelTest playerModel;
     playerModel.setWeapon(currentWeapon);
     playerModel.setWeaponTier(currentWeaponTier);
@@ -220,13 +204,13 @@ TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
 
 INSTANTIATE_TEST_CASE_P(,
                         PlayerModelTestsParamClass,
-                        testing::Values(std::tr1::make_tuple(defaultWeapon, 0, special_reward_type::weaponRed,    weapons[0]),
-                                        std::tr1::make_tuple(defaultWeapon, 0, special_reward_type::weaponYellow, weapons[5]),
-                                        std::tr1::make_tuple(defaultWeapon, 0, special_reward_type::weaponBlue,   weapons[10]),
-                                        std::tr1::make_tuple(weapons[8],    3, special_reward_type::weaponRed,    weapons[0]),
-                                        std::tr1::make_tuple(weapons[0],    0, special_reward_type::weaponRed,    weapons[1]),
-                                        std::tr1::make_tuple(weapons[4],    4, special_reward_type::weaponRed,    weapons[4]),
-                                        std::tr1::make_tuple(weapons[4],    4, special_reward_type::weaponBlue,   weapons[10])
+                        testing::Values(std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponRed,    weapons[0]),
+                                        std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponYellow, weapons[5]),
+                                        std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponBlue,   weapons[10]),
+                                        std::tr1::make_tuple(weapons[8],    3, special_type::weaponRed,    weapons[0]),
+                                        std::tr1::make_tuple(weapons[0],    0, special_type::weaponRed,    weapons[1]),
+                                        std::tr1::make_tuple(weapons[4],    4, special_type::weaponRed,    weapons[4]),
+                                        std::tr1::make_tuple(weapons[4],    4, special_type::weaponBlue,   weapons[10])
                                         ));
 
 

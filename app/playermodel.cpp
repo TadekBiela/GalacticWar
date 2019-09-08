@@ -57,20 +57,20 @@ void PlayerModel::changeDirection(QPointF newDirection)
     m_direction   = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
 }
 
-void PlayerModel::changePlayerAtribute(special_reward_type specialReward)
+void PlayerModel::changePlayerAtribute(special_type specialReward)
 {
     switch (specialReward)
     {
-        case special_reward_type::health:
+        case special_type::health:
             emit playerChangeHealth(100);
             break;
-        case special_reward_type::weaponRed:
+        case special_type::weaponRed:
             changeWeapon(weapon_type::redWeapon);
             break;
-        case special_reward_type::weaponYellow:
+        case special_type::weaponYellow:
             changeWeapon(weapon_type::yellowWeapon);
             break;
-        case special_reward_type::weaponBlue:
+        case special_type::weaponBlue:
             changeWeapon(weapon_type::blueWeapon);
             break;
     }

@@ -29,7 +29,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                playermodel.cpp
                                rewardmodel.hpp
                                rewardmodel.cpp
-                               rewardtype.hpp
+                               rewardtypes.hpp
                                specialrewardtype.hpp
                                weapons.hpp
                                weapons.cpp
