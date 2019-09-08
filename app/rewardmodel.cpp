@@ -1,8 +1,7 @@
 #include "rewardmodel.hpp"
 #include "definitions.hpp"
 
-RewardModel::RewardModel(reward_type type) :
-                         m_type(type),
+RewardModel::RewardModel() :
                          m_animationFrameIdx(0)
 {
     connect(&m_animationTimer, SIGNAL(timeout()), this, SLOT(animation()));
@@ -14,11 +13,6 @@ RewardModel::RewardModel(reward_type type) :
 }
 
 RewardModel::~RewardModel()
-{
-
-}
-
-void RewardModel::collected()
 {
 
 }
