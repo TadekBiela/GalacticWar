@@ -10,7 +10,7 @@ class RewardModel : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     RewardModel();
-    ~RewardModel();
+    virtual ~RewardModel();
     virtual void collect() = 0;
 
 public slots:

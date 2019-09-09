@@ -16,7 +16,7 @@ public:
                int     damage,
                int     moveTimeDelay,
                int     fireTimeDelay);
-    ~EnemyModel();
+    virtual ~EnemyModel();
     void hit(int damage);
     void destroy();
 
