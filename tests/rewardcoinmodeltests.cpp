@@ -62,3 +62,14 @@ TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeR
 
     EXPECT_EQ(resultAnimFrameIdx, 0);
 }
+
+TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckIfWillBeSetToMax_IsEqual)
+{
+    RewardCoinModelTest rewardCoinModel(coin_type::bronze);
+    rewardCoinModel.setAnimationFrameIdx(def::maxAnimationFrameIdx - 1);
+
+    rewardCoinModel.animation();
+    int resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
+}
