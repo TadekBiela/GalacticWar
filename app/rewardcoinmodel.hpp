@@ -17,7 +17,7 @@ public slots:
     void animation();
 
 protected:
-    coin_type m_type
+    coin_type m_type;
 };
 
 #endif // REWARDCOINMODEL_HPP
