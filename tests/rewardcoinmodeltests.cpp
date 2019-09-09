@@ -55,7 +55,7 @@ TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeInc
 TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeResetTo0_IsZero)
 {
     RewardCoinModelTest rewardCoinModel(coin_type::bronze);
-    rewardCoinModel.setAnimationFrameIdx(def::maxFrameIdx);
+    rewardCoinModel.setAnimationFrameIdx(def::maxAnimationFrameIdx);
 
     rewardCoinModel.animation();
     int resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
