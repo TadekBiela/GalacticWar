@@ -6,9 +6,10 @@
 
 class RewardCoinModel : public RewardModel
 {
+    Q_OBJECT
 public:
     RewardCoinModel(coin_type type);
-    void collected();
+    void collect();
 
 signals:
     void collected(coin_type type);

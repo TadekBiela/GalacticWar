@@ -7,7 +7,7 @@ RewardCoinModel::RewardCoinModel(coin_type type) :
 
 }
 
-void RewardCoinModel::collected()
+void RewardCoinModel::collect()
 {
 
 }

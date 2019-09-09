@@ -14,7 +14,7 @@ public:
     const QTimer& getDestroyTimer()      const { return m_destroyTimer; }
 
 // dummy implementation
-    void collected() {}
+    void collect() {}
 public slots:
     void animation() {}
 };

@@ -11,7 +11,7 @@ class RewardModel : public QObject, public QGraphicsPixmapItem
 public:
     RewardModel();
     ~RewardModel();
-    virtual void collected() = 0;
+    virtual void collect() = 0;
 
 public slots:
     virtual void animation() = 0;

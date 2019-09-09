@@ -1,9 +1,13 @@
 #include <gtest/gtest.h>
+#include "utdefinitions.hpp"
 #include "../app/definitions.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardtypes.hpp"
 #include <QTimer>
 #include <QGraphicsScene>
+#include <QSignalSpy>
+
+Q_DECLARE_METATYPE(coin_type)
 
 class RewardCoinModelTest : public RewardCoinModel
 {
@@ -72,4 +76,20 @@ TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckI
     int resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
 
     EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
+}
+
+TEST_F(RewardCoinModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType_IsEqual)
+{
+    qRegisterMetaType<coin_type>();
+    RewardCoinModelTest rewardCoinModel(coin_type::silver);
+    QSignalSpy          signalCollect(&rewardCoinModel, &RewardCoinModel::collect);
+    signalCollect.wait(utdef::minSignalTimeDelay);
+
+    rewardCoinModel.collect();
+    int             resultSignalCollectCount = signalCollect.count();
+    QList<QVariant> resultSignalCollect      = signalCollect.takeFirst();
+    coin_type       resultType               = qvariant_cast<coin_type>(resultSignalCollect.at(0));
+
+    EXPECT_EQ(resultSignalCollectCount, 1);
+    EXPECT_EQ(resultType,               coin_type::silver);
 }
