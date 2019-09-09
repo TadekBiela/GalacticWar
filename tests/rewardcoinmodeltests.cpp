@@ -81,15 +81,21 @@ TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckI
 TEST_F(RewardCoinModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType_IsEqual)
 {
     qRegisterMetaType<coin_type>();
-    RewardCoinModelTest rewardCoinModel(coin_type::silver);
-    QSignalSpy          signalCollect(&rewardCoinModel, &RewardCoinModel::collect);
+    QGraphicsScene       scene;
+    RewardCoinModelTest* rewardCoinModel = new RewardCoinModelTest(coin_type::silver);
+    scene.addItem(rewardCoinModel);
+    int resultShouldBeOne = scene.items().size();
+    QSignalSpy signalCollect(rewardCoinModel, &RewardCoinModelTest::collected);
     signalCollect.wait(utdef::minSignalTimeDelay);
 
-    rewardCoinModel.collect();
+    rewardCoinModel->collect();
     int             resultSignalCollectCount = signalCollect.count();
     QList<QVariant> resultSignalCollect      = signalCollect.takeFirst();
     coin_type       resultType               = qvariant_cast<coin_type>(resultSignalCollect.at(0));
+    int             resultShouldBeZero       = scene.items().size();
 
     EXPECT_EQ(resultSignalCollectCount, 1);
     EXPECT_EQ(resultType,               coin_type::silver);
+    EXPECT_EQ(resultShouldBeOne,        1);
+    EXPECT_EQ(resultShouldBeZero,       0);
 }

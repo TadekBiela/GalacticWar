@@ -9,7 +9,8 @@ RewardCoinModel::RewardCoinModel(coin_type type) :
 
 void RewardCoinModel::collect()
 {
-
+    emit collected(m_type);
+    destroy();
 }
 
 void RewardCoinModel::animation()
