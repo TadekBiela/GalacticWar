@@ -1,6 +1,7 @@
 #ifndef SCOREMODEL_HPP
 #define SCOREMODEL_HPP
 
+#include "definitions.hpp"
 #include <QObject>
 
 class ScoreModel : public QObject
@@ -17,8 +18,10 @@ public slots:
     void addScorePoints(int value);
 
 protected:
-    int m_currentScorePerLevel;
+    int m_currentTresholdIdx;
     int m_totalScore;
+
+    static const int s_scoreTresholds[def::maxNumOfLevel];
 };
 
 #endif // SCOREMODEL_HPP
