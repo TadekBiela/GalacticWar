@@ -28,7 +28,7 @@ TEST_F(HealthViewTestsClass, UpdateHealthView_UpdateWithValue30_IsEqual)
     healthView.updateHealthView(30);
     const QProgressBar& resultHealthBar = healthView.getHealthBar();
 
-    EXPECT_EQ(resultHealthBar.value(), 10);
+    EXPECT_EQ(resultHealthBar.value(), 30);
 }
 
 TEST_F(HealthViewTestsClass, UpdateHealthView_UpdateWithMaxValue_IsEqual)
