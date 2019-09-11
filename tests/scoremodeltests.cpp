@@ -108,6 +108,6 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanMaxTresholdShouldEm
     EXPECT_EQ(resultCurrentTresholdIdx,         9);
     EXPECT_EQ(resultTotalScore,                 300400);
     EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 0);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 100);
     EXPECT_EQ(resultSignalAchivedCount,         0);
 }
