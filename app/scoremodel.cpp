@@ -6,7 +6,9 @@ const int ScoreModel::s_scoreTresholds[def::maxNumOfLevel] =
     55000, 95000, 150000, 210000, 300000
 };
 
-ScoreModel::ScoreModel()
+ScoreModel::ScoreModel() :
+    m_currentTresholdIdx(0),
+    m_totalScore(0)
 {
 
 }
