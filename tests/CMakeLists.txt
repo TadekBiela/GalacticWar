@@ -20,6 +20,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/firefunctions.cpp
                                ../app/functions.hpp
                                ../app/functions.cpp
+                               ../app/healthview.hpp
+                               ../app/healthview.cpp
                                ../app/ifilemanager.hpp
                                ../app/irandomgenerator.hpp
                                ../app/levelmodel.hpp
@@ -47,6 +49,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                utdefinitions.hpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
+                               healthviewtests.cpp
                                levelmodeltests.cpp
                                menumodeltests.cpp
                                playermodeltests.cpp
