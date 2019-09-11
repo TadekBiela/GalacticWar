@@ -19,6 +19,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                firefunctions.cpp
                                functions.hpp
                                functions.cpp
+                               healthview.hpp
+                               healthview.cpp
                                ifilemanager.hpp
                                irandomgenerator.hpp
                                levelmodel.hpp
