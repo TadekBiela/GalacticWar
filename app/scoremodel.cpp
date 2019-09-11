@@ -2,8 +2,8 @@
 
 const int ScoreModel::s_scoreTresholds[def::maxNumOfLevel] =
 {
-    1000,  1500,  2500,  4000,  6000,
-    8500, 12000, 15000, 20000, 30000
+     1000,  3000,   7000,  15000,  30000,
+    55000, 95000, 150000, 210000, 300000
 };
 
 ScoreModel::ScoreModel()
