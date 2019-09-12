@@ -40,6 +40,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                rewardtypes.hpp
                                scoremodel.hpp
                                scoremodel.cpp
+                               scoreview.hpp
+                               scoreview.cpp
                                weapons.hpp
                                weapons.cpp
                                weapontype.hpp)
