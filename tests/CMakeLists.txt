@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/irandomgenerator.hpp
                                ../app/levelmodel.hpp
                                ../app/levelmodel.cpp
+                               ../app/levelview.hpp
+                               ../app/levelview.cpp
                                ../app/menumodel.hpp
                                ../app/menumodel.cpp
                                ../app/playermodel.hpp
@@ -51,6 +53,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype1tests.cpp
                                healthviewtests.cpp
                                levelmodeltests.cpp
+                               levelviewtests.cpp
                                menumodeltests.cpp
                                playermodeltests.cpp
                                rewardmodeltests.cpp
