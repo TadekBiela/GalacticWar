@@ -41,6 +41,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/rewardtypes.hpp
                                ../app/scoremodel.hpp
                                ../app/scoremodel.cpp
+                               ../app/scoreview.hpp
+                               ../app/scoreview.cpp
                                ../app/weapons.hpp
                                ../app/weapons.cpp
                                ../app/weapontype.hpp
@@ -59,7 +61,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                rewardmodeltests.cpp
                                rewardcoinmodeltests.cpp
                                rewardspecialmodeltests.cpp
-                               scoremodeltests.cpp)
+                               scoremodeltests.cpp
+                               scoreviewtests.cpp)
 
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
