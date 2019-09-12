@@ -25,6 +25,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                irandomgenerator.hpp
                                levelmodel.hpp
                                levelmodel.cpp
+                               levelview.hpp
+                               levelview.cpp
                                menumodel.hpp
                                menumodel.cpp
                                playermodel.hpp
