@@ -21,7 +21,7 @@ TEST_F(LevelViewTestsClass, Update_UpdateWithValue1_IsOne)
     levelView.update(1);
     const QLabel& resultLevelLabel = levelView.getLevelLabel();
 
-    EXPECT_EQ(resultLevelLabel.text(), QString(1));
+    EXPECT_EQ(resultLevelLabel.text().toStdString(), "1");
 }
 
 TEST_F(LevelViewTestsClass, Update_UpdateWithValueMax_IsEqual)
@@ -31,5 +31,5 @@ TEST_F(LevelViewTestsClass, Update_UpdateWithValueMax_IsEqual)
     levelView.update(def::maxNumOfLevel);
     const QLabel& resultLevelLabel = levelView.getLevelLabel();
 
-    EXPECT_EQ(resultLevelLabel.text(), QString(def::maxNumOfLevel));
+    EXPECT_EQ(resultLevelLabel.text().toStdString(), "10");
 }
