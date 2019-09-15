@@ -25,6 +25,10 @@ namespace def
     const int halfSceneWight  = sceneWight  / 2;
     const int halfSceneHeight = sceneHeight / 2;
 
+    //Buttons
+    const int buttonWight  = 50;
+    const int buttonHeight = 150;
+
     //Defalut directions
     const int up    = 0;
     const int down  = 180;
