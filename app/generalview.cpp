@@ -14,12 +14,22 @@ GeneralView::GeneralView() :
 
 }
 
+GeneralView::~GeneralView()
+{
+
+}
+
 void GeneralView::menu()
 {
 
 }
 
 void GeneralView::startGame()
+{
+
+}
+
+void GeneralView::pause()
 {
 
 }

@@ -6,13 +6,14 @@
 #include <QGraphicsScene>
 #include <QLabel>
 #include <QPushButton>
+#include <QListWidget>
 
 class GeneralView : public QMainWindow
 {
     Q_OBJECT
 public:
     GeneralView();
-    ~GeneralView()
+    ~GeneralView();
 
 public slots:
     void menu();
@@ -33,6 +34,7 @@ protected:
     QPushButton m_quitButton;        // Menu
     QPushButton m_backToMenuButton;  // HighScore
     QPushButton m_saveAfterGameOver; // GameOver
+    QListWidget m_highScoreList;     // HighScore
 };
 
 #endif // GENERALVIEW_HPP
