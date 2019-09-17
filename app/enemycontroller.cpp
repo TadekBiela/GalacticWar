@@ -1,6 +1,8 @@
 #include "enemycontroller.hpp"
 
-EnemyController::EnemyController(GeneralView* view)
+EnemyController::EnemyController(GeneralView*      view,
+                                 IRandomGenerator* generator) :
+                                 m_generator(generator)
 {
 
 }

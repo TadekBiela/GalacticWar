@@ -3,6 +3,7 @@
 
 #include "enemyconfiguration.hpp"
 #include "generalview.hpp"
+#include "irandomgenerator.hpp"
 #include <QObject>
 #include <QGraphicsItem>
 #include <QPointF>
@@ -12,7 +13,8 @@ class EnemyController : public QObject
 {
     Q_OBJECT
 public:
-    EnemyController(GeneralView* view);
+    EnemyController(GeneralView*      view,
+                    IRandomGenerator* generator);
     ~EnemyController();
 
 signals:
@@ -29,6 +31,7 @@ protected slots:
 protected:
     EnemyConfiguration m_currentConfiguration;
     QTimer             m_enemySpawnTimer;
+    IRandomGenerator*  m_generator;
 };
 
 #endif // ENEMYCONTROLLER_HPP

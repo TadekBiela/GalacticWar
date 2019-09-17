@@ -19,6 +19,7 @@ public:
     virtual ~EnemyModel();
     void hit(int damage);
     void destroy();
+    int getLevel() const { return  m_level; }
 
 signals:
     void destroyed(QPointF position, int level);
