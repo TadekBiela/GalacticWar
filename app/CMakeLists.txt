@@ -11,6 +11,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                bullettype.hpp
                                definitions.hpp
                                enemyconfiguration.hpp
+                               enemycontroller.hpp
+                               enemycontroller.cpp
                                enemymodel.hpp
                                enemymodel.cpp
                                enemymodeltype1.hpp
