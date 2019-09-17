@@ -17,7 +17,7 @@ void EnemyController::changeEnemyConfiguration(EnemyConfiguration newConfigurati
 
 void EnemyController::destroyed(QPointF position, int enemyLevel)
 {
-
+    emit enemyDestroyed(position, enemyLevel);
 }
 
 void EnemyController::spawnEnemy()
