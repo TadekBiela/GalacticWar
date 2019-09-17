@@ -12,6 +12,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/bullettype.hpp
                                ../app/definitions.hpp
                                ../app/enemyconfiguration.hpp
+                               ../app/enemycontroller.hpp
+                               ../app/enemycontroller.cpp
                                ../app/enemymodel.hpp
                                ../app/enemymodel.cpp
                                ../app/enemymodeltype1.hpp
@@ -53,6 +55,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                mocks/filemanagermock.hpp
                                bulletmodeltests.cpp
                                utdefinitions.hpp
+                               enemycontrollertests.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
                                generalviewtests.cpp
