@@ -12,7 +12,7 @@ EnemyController::~EnemyController()
 
 void EnemyController::changeEnemyConfiguration(EnemyConfiguration newConfiguration)
 {
-
+    m_currentConfiguration = newConfiguration;
 }
 
 void EnemyController::destroyed(QPointF position, int enemyLevel)
