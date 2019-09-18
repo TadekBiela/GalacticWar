@@ -73,11 +73,12 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndE
     signalAdd.wait(utdef::minSignalTimeDelay);
 
     enemyController.spawnEnemyTest();
-    int resultSignalDestroyedCount = signalAdd.count();
-    EnemyModel* resultEnemy = qvariant_cast<EnemyModel*>(signalAdd.at(0).at(0));
+    int  resultSignalAddCount = signalAdd.count();
+    auto resultEnemy          = signalAdd.takeFirst().at(0).value<QGraphicsItem*>();
+    int  resultEnemyLevel     = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
 
-    EXPECT_EQ(resultSignalDestroyedCount, 1);
-    EXPECT_EQ(resultEnemy->getLevel(),    1);
+    EXPECT_EQ(resultSignalAddCount, 1);
+    EXPECT_EQ(resultEnemyLevel,     1);
     delete view;
     delete generator;
     delete resultEnemy;
