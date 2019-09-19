@@ -6,6 +6,7 @@
 #include "../app/definitions.hpp"
 #include <QSignalSpy>
 #include <QPointF>
+#include <QTimer>
 #include <vector>
 
 class EnemyControllerTest : public EnemyController
@@ -17,7 +18,7 @@ public:
                                                  generator){}
 
     int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
-    const QTimer& getEnemySpawTiemr()      { return m_enemySpawnTimer; }
+    const QTimer& getEnemySpawnTimer()     { return m_enemySpawnTimer; }
 
 public slots:
     void spawnEnemyTest() { EnemyController::spawnEnemy(); }
@@ -101,25 +102,28 @@ TEST_F(EnemyControllerTestsClass, Destroyed_ShouldEmitEnemyDestroyedSignalWithSa
     delete view;
     delete generator;
 }
+
 TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndEmitSignalToView_IsEqual)
 {
-    int sequance[2] = { 1, 40 };
-    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(2, sequance);
+    int sequance[3] = { 1, 40, 230 };
+    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(3, sequance);
     GeneralView* view = new GeneralView;
     EnemyControllerTest enemyController(view, generator);
     QSignalSpy signalAdd(&enemyController, &EnemyControllerTest::addEnemyToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
 
     enemyController.spawnEnemyTest();
-    int  resultSignalAddCount = signalAdd.count();
-    auto resultEnemy          = signalAdd.takeFirst().at(0).value<QGraphicsItem*>();
-    int  resultEnemyLevel     = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
-    auto resultEnemyPosition  = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
+    int  resultSignalAddCount  = signalAdd.count();
+    auto resultEnemy           = signalAdd.takeFirst().at(0).value<QGraphicsItem*>();
+    int  resultEnemyLevel      = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
+    auto resultEnemyPosition   = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
+    int  resultEnemySpawnDelay = enemyController.getEnemySpawnTimer().interval();
 
     EXPECT_EQ(resultSignalAddCount,    1);
     EXPECT_EQ(resultEnemyLevel,        1);
     EXPECT_EQ(resultEnemyPosition.x(), 40);
     EXPECT_EQ(resultEnemyPosition.y(), -def::animationFrameHeight);
+    EXPECT_NEAR(resultEnemySpawnDelay, 230, 2);
     delete view;
     delete generator;
     delete resultEnemy;

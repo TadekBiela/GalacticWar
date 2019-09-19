@@ -59,4 +59,7 @@ void EnemyController::spawnEnemy()
             break;
     }
     emit addEnemyToScene(enemy);
+    int newEnemySPawnDelay = m_generator->bounded(def::minEnemySpawnTimeDelay,
+                                                  def::maxEnemySpawnTimeDelay);
+    m_enemySpawnTimer.setInterval(newEnemySPawnDelay);
 }
