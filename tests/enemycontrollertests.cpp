@@ -3,6 +3,7 @@
 #include "stubs/randomgeneratorstub.hpp"
 #include "../app/enemycontroller.hpp"
 #include "../app/enemymodeltype1.hpp"
+#include "../app/definitions.hpp"
 #include <QSignalSpy>
 #include <QPointF>
 
@@ -65,20 +66,23 @@ TEST_F(EnemyControllerTestsClass, Destroyed_ShouldEmitEnemyDestroyedSignalWithSa
 }
 TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndEmitSignalToView_IsEqual)
 {
-    RandomGeneratorStub* generator = new RandomGeneratorStub();
-    generator->setRandomGeneratorFakeResult(1);
-    GeneralView*         view      = new GeneralView;
-    EnemyControllerTest  enemyController(view, generator);
-    QSignalSpy           signalAdd(&enemyController, &EnemyControllerTest::addEnemyToScene);
+    int sequance[2] = { 1, 40 };
+    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(2, sequance);
+    GeneralView* view = new GeneralView;
+    EnemyControllerTest enemyController(view, generator);
+    QSignalSpy signalAdd(&enemyController, &EnemyControllerTest::addEnemyToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
 
     enemyController.spawnEnemyTest();
     int  resultSignalAddCount = signalAdd.count();
     auto resultEnemy          = signalAdd.takeFirst().at(0).value<QGraphicsItem*>();
     int  resultEnemyLevel     = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
+    auto resultEnemyPosition  = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
 
-    EXPECT_EQ(resultSignalAddCount, 1);
-    EXPECT_EQ(resultEnemyLevel,     1);
+    EXPECT_EQ(resultSignalAddCount,    1);
+    EXPECT_EQ(resultEnemyLevel,        1);
+    EXPECT_EQ(resultEnemyPosition.x(), 40);
+    EXPECT_EQ(resultEnemyPosition.y(), -def::animationFrameHeight);
     delete view;
     delete generator;
     delete resultEnemy;

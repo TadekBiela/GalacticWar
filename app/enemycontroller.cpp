@@ -27,11 +27,13 @@ void EnemyController::destroyed(QPointF position, int enemyLevel)
 void EnemyController::spawnEnemy()
 {
     EnemyModel* enemy;
-    int enemyType = m_generator->bounded(1, 6);
+    int enemyType = m_generator->bounded(0, 99);
+    QPointF enemyPosition(m_generator->bounded(0, def::sceneWight - def::animationFrameWight),
+                          -def::animationFrameHeight);
     switch (enemyType)
     {
         case 1:
-            enemy = new EnemyModelType1(QPointF(0, 0), m_generator);
+            enemy = new EnemyModelType1(enemyPosition, m_generator);
             break;
     }
     emit addEnemyToScene(enemy);

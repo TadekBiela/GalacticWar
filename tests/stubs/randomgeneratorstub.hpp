@@ -20,4 +20,27 @@ private:
     int m_randomgeneratorfakeResult;
 };
 
+
+class RandomSequanceGeneratorStub : public IRandomGenerator
+{
+public:
+    RandomSequanceGeneratorStub(int sequanceLenght, int sequance[])
+    {
+        m_seqLenght = sequanceLenght;
+        m_sequance  = sequance;
+    }
+    virtual ~RandomSequanceGeneratorStub() {}
+    int bounded(int lowest, int highest)
+    {
+        int result = m_sequance[m_seqCount];
+        m_seqCount = (m_seqCount + 1 < m_seqLenght) ? (m_seqCount + 1) : m_seqCount;
+        return result;
+    }
+
+private:
+    int  m_seqCount  = 0;
+    int  m_seqLenght;
+    int* m_sequance;
+};
+
 #endif // RANDOMGENERATORFAKE_HPP
