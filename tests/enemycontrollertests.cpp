@@ -6,6 +6,7 @@
 #include "../app/definitions.hpp"
 #include <QSignalSpy>
 #include <QPointF>
+#include <vector>
 
 class EnemyControllerTest : public EnemyController
 {
@@ -15,8 +16,8 @@ public:
                                  EnemyController(view,
                                                  generator){}
 
-    EnemyConfiguration getCurrConfig()     { return m_currentConfiguration; }
-    const QTimer&      getEnemySpawTiemr() { return m_enemySpawnTimer; }
+    int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
+    const QTimer& getEnemySpawTiemr()      { return m_enemySpawnTimer; }
 
 public slots:
     void spawnEnemyTest() { EnemyController::spawnEnemy(); }
@@ -26,22 +27,58 @@ class EnemyControllerTestsClass : public testing::Test
 {
 };
 
-TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigShouldReplaceCurrent_IsEqual)
+TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigShouldGenerateNewPercentDistributionTab_IsEqual)
 {
-    EnemyConfiguration   inputConfig = { 10, 15, 20, 25, 30, 0 };
+    EnemyConfiguration inputConfig = { 10, 15, 20, 25, 30, 0 };
+    std::vector<int>   expected    =
+                       { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
     RandomGeneratorStub* generator   = new RandomGeneratorStub();
     GeneralView*         view        = new GeneralView;
     EnemyControllerTest  enemyController(view, generator);
 
     enemyController.changeEnemyConfiguration(inputConfig);
-    EnemyConfiguration resultCurrConfig = enemyController.getCurrConfig();
+    std::vector<int> resultEnemyPercDistTab;
+    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
+                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
 
-    EXPECT_EQ(resultCurrConfig.proportionOfEnemyType1, 10);
-    EXPECT_EQ(resultCurrConfig.proportionOfEnemyType2, 15);
-    EXPECT_EQ(resultCurrConfig.proportionOfEnemyType3, 20);
-    EXPECT_EQ(resultCurrConfig.proportionOfEnemyType4, 25);
-    EXPECT_EQ(resultCurrConfig.proportionOfEnemyType5, 30);
-    EXPECT_EQ(resultCurrConfig.proportionOfEnemyType6,  0);
+    ASSERT_EQ(resultEnemyPercDistTab, expected);
+    delete view;
+    delete generator;
+}
+
+TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigNotContainFirstEnemyTypeShouldGenerateNewPercentDistributionTab_IsEqual)
+{
+    EnemyConfiguration inputConfig = { 0, 15, 20, 25, 30, 10 };
+    std::vector<int>   expected    =
+                       { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+    RandomGeneratorStub* generator   = new RandomGeneratorStub();
+    GeneralView*         view        = new GeneralView;
+    EnemyControllerTest  enemyController(view, generator);
+
+    enemyController.changeEnemyConfiguration(inputConfig);
+    std::vector<int> resultEnemyPercDistTab;
+    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
+                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
+
+    ASSERT_EQ(resultEnemyPercDistTab, expected);
     delete view;
     delete generator;
 }

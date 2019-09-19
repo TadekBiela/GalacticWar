@@ -1,6 +1,7 @@
 #ifndef ENEMYCONTROLLER_HPP
 #define ENEMYCONTROLLER_HPP
 
+#include "definitions.hpp"
 #include "enemyconfiguration.hpp"
 #include "generalview.hpp"
 #include "irandomgenerator.hpp"
@@ -29,7 +30,7 @@ protected slots:
     void spawnEnemy();
 
 protected:
-    EnemyConfiguration m_currentConfiguration;
+    int                m_enemyPercentDistributionTab[def::percentDistTabSize];
     QTimer             m_enemySpawnTimer;
     IRandomGenerator*  m_generator;
 };

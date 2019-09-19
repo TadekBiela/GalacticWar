@@ -10,8 +10,13 @@ namespace def
     const double radianConversionFactor = pi / 180;
     const int    maxAnimationFrames     = 5;
     const int    maxAnimationFrameIdx   = 4;
+    const int    animationFrameWight    = 50;
+    const int    animationFrameHeight   = 50;
     const int    maxNumOfLevel          = 10;
     const int    maxWeaponLevel         = 5;
+    const int    minEnemySpawnTimeDelay = 100;
+    const int    maxEnemySpawnTimeDelay = 500;
+    const int    percentDistTabSize     = 100;
 
     //Player default configuration
     const int defaultPlayerMoveTimeDelay  = 15;
