@@ -8,6 +8,7 @@ EnemyController::EnemyController(GeneralView*      view,
     EnemyConfiguration setupConfig = { 100, 0, 0, 0, 0, 0 };
     changeEnemyConfiguration(setupConfig);
 
+    connect(this, SIGNAL(addEnemyToScene(QGraphicsItem*)), view, SLOT(addGameObject(QGraphicsItem*)));
     connect(&m_enemySpawnTimer, SIGNAL(timeout()), this, SLOT(spawnEnemy()));
     m_enemySpawnTimer.setInterval(def::minEnemySpawnTimeDelay);
     m_enemySpawnTimer.start();

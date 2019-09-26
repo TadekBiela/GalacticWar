@@ -7,6 +7,7 @@
 #include <QSignalSpy>
 #include <QPointF>
 #include <QTimer>
+#include <QGraphicsScene>
 #include <vector>
 
 class EnemyControllerTest : public EnemyController
@@ -22,6 +23,12 @@ public:
 
 public slots:
     void spawnEnemyTest() { EnemyController::spawnEnemy(); }
+};
+
+class GeneralViewMock : public GeneralView
+{
+public:
+    const QGraphicsScene& getScene()  { return m_scene; }
 };
 
 class EnemyControllerTestsClass : public testing::Test
@@ -105,8 +112,8 @@ TEST_F(EnemyControllerTestsClass, Destroyed_ShouldEmitEnemyDestroyedSignalWithSa
 
 TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndEmitSignalToView_IsEqual)
 {
-    int sequance[3] = { 1, 40, 230 };
-    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(3, sequance);
+    int sequance[4] = { 1, 40, 0, 230 };
+    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(4, sequance);
     GeneralView* view = new GeneralView;
     EnemyControllerTest enemyController(view, generator);
     QSignalSpy signalAdd(&enemyController, &EnemyControllerTest::addEnemyToScene);
@@ -114,7 +121,7 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndE
 
     enemyController.spawnEnemyTest();
     int  resultSignalAddCount  = signalAdd.count();
-    auto resultEnemy           = signalAdd.takeFirst().at(0).value<QGraphicsItem*>();
+    auto resultEnemy           = qvariant_cast<QGraphicsItem*>(signalAdd.takeFirst().at(0));
     int  resultEnemyLevel      = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
     auto resultEnemyPosition   = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
     int  resultEnemySpawnDelay = enemyController.getEnemySpawnTimer().interval();
@@ -124,7 +131,28 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndE
     EXPECT_EQ(resultEnemyPosition.x(), 40);
     EXPECT_EQ(resultEnemyPosition.y(), -def::animationFrameHeight);
     EXPECT_NEAR(resultEnemySpawnDelay, 230, 2);
-    delete view;
-    delete generator;
     delete resultEnemy;
+    delete generator;
+    delete view;
+}
+
+TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfEnemyWillBeAddedToView_IsEqual)
+{
+    int sequance[4] = { 1, 40, 0, 230 };
+    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(4, sequance);
+    GeneralViewMock* view = new GeneralViewMock;
+    EnemyControllerTest enemyController(dynamic_cast<GeneralView*>(view), generator);
+
+    enemyController.spawnEnemyTest();
+    const QGraphicsScene& resultScene     = view->getScene();
+    QList<QGraphicsItem*> resultItemsList = resultScene.items();
+    EnemyModel*           resultEnemy     = dynamic_cast<EnemyModel*>(resultItemsList.at(0));
+
+    EXPECT_EQ(resultItemsList.size(),  1);
+    EXPECT_EQ(resultEnemy->getLevel(), 1);
+    EXPECT_EQ(resultEnemy->pos().x(),  40);
+    EXPECT_EQ(resultEnemy->pos().y(),  -def::animationFrameHeight);
+    delete resultEnemy;
+    delete generator;
+    delete view;
 }

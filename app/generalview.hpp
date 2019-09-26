@@ -21,7 +21,7 @@ public slots:
     void pause();
     void gameOver();
     void highScore();
-    void addGameObject(QGraphicsItem *newObject);
+    void addGameObject(QGraphicsItem* newObject);
 
 protected:
     QGraphicsScene m_scene;
