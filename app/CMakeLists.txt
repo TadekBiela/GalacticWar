@@ -25,6 +25,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                healthview.cpp
                                ifilemanager.hpp
                                irandomgenerator.hpp
+                               levelcontroller.hpp
+                               levelcontroller.cpp
                                levelmodel.hpp
                                levelmodel.cpp
                                levelview.hpp
