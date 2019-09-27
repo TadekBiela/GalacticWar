@@ -15,15 +15,16 @@ public:
 signals:
     void addRecordToHighScore(PlayerScore newRecord);
     void saveHighScore();
+    void activateEnemySpawning();
+    void deactivateEnemySpawning();
+    void activatePlayer();
+    void deactivatePlayer();
 
 public slots:
     void startGame();
     void gameOver();
-    void highScore();
-    void back();
     void save(PlayerScore newPlayerScore);
     void updateHighScore(PlayerScoreMapIterator highScoreIterator);
-    void quit();
 };
 
 #endif // MENUCONTROLLER_HPP
