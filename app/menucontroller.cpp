@@ -1,0 +1,42 @@
+#include "menucontroller.hpp"
+
+MenuController::MenuController(GeneralView* view,
+                               MenuModel*   model)
+{
+
+}
+
+void MenuController::startGame()
+{
+
+}
+
+void MenuController::gameOver()
+{
+
+}
+
+void MenuController::highScore()
+{
+
+}
+
+void MenuController::back()
+{
+
+}
+
+void MenuController::save(PlayerScore newPlayerScore)
+{
+
+}
+
+void MenuController::updateHighScore(PlayerScoreMapIterator highScoreIterator)
+{
+
+}
+
+void MenuController::quit()
+{
+
+}

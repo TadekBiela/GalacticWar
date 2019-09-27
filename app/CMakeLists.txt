@@ -31,6 +31,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                levelmodel.cpp
                                levelview.hpp
                                levelview.cpp
+                               menucontroller.hpp
+                               menucontroller.cpp
                                menumodel.hpp
                                menumodel.cpp
                                playermodel.hpp
