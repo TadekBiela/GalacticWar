@@ -2,13 +2,16 @@
 #define LEVELCONTROLLER_HPP
 
 #include "enemyconfiguration.hpp"
+#include "levelmodel.hpp"
+#include "levelview.hpp"
 #include <QObject>
 
 class LevelController : public QObject
 {
     Q_OBJECT
 public:
-    LevelController();
+    LevelController(LevelModel* levelModel,
+                    LevelView*  levelView);
 
 signals:
     void nextLevelInModel();

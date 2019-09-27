@@ -1,6 +1,7 @@
 #include "levelcontroller.hpp"
 
-LevelController::LevelController()
+LevelController::LevelController(LevelModel* levelModel,
+                                 LevelView*  levelView)
 {
 
 }
