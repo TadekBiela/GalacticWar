@@ -15,12 +15,10 @@ public:
 
 signals:
     void nextLevelInModel();
-    void updateLevelInView(int value);
     void changeEnemyConfiguration(EnemyConfiguration newEnemyConfiguration);
 
 public slots:
     void nextLevel();
-    void updateLevelView(int value);
     void changeEnemyConfig(EnemyConfiguration newEnemyConfiguration);
 };
 
