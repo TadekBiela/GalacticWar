@@ -12,7 +12,7 @@ void MenuController::startGame()
     emit activatePlayer();
 }
 
-void MenuController::gameOver()
+void MenuController::stopGame()
 {
     emit deactivateEnemySpawning();
     emit deactivatePlayer();

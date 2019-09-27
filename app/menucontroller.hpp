@@ -22,7 +22,7 @@ signals:
 
 public slots:
     void startGame();
-    void gameOver();
+    void stopGame();
     void save(PlayerScore newPlayerScore);
     void updateHighScore(PlayerScoreMapIterator highScoreIterator);
 };

@@ -40,7 +40,7 @@ TEST_F(MenuControllerTestsClass, StartGame_CheckIfWillBeSendTwoSignalsToActivate
     delete view;
 }
 
-TEST_F(MenuControllerTestsClass, GameOver_CheckIfWillBeSendTwoSignalsToDeactivatePlayerAndEnemies_IsEqual)
+TEST_F(MenuControllerTestsClass, StopGame_CheckIfWillBeSendTwoSignalsToDeactivatePlayerAndEnemies_IsEqual)
 {
     FileManagerStub*   fileMgr = new FileManagerStub;
     MenuModel*         model   = new MenuModel(fileMgr);
@@ -50,7 +50,7 @@ TEST_F(MenuControllerTestsClass, GameOver_CheckIfWillBeSendTwoSignalsToDeactivat
     QSignalSpy signalDeactPlayer(&menuController, &MenuControllerTest::deactivatePlayer);
     signalDeactPlayer.wait(utdef::minSignalTimeDelay);
 
-    menuController.gameOver();
+    menuController.stopGame();
     int resultSignalDeactEnemySpawnCount = signalDeactEnemySpawn.count();
     int resultSignalDeactPlayerCount     = signalDeactPlayer.count();
 
