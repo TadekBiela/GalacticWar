@@ -13,5 +13,5 @@ void LevelController::nextLevel()
 
 void LevelController::changeEnemyConfig(EnemyConfiguration newEnemyConfiguration)
 {
-
+    emit changeEnemyConfiguration(newEnemyConfiguration);
 }
