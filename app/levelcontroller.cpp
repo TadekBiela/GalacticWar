@@ -8,7 +8,7 @@ LevelController::LevelController(LevelModel* levelModel,
 
 void LevelController::nextLevel()
 {
-
+    emit nextLevelInModel();
 }
 
 void LevelController::updateLevelView(int value)
