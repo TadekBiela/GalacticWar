@@ -14,7 +14,8 @@ void MenuController::startGame()
 
 void MenuController::gameOver()
 {
-
+    emit deactivateEnemySpawning();
+    emit deactivatePlayer();
 }
 
 void MenuController::save(PlayerScore newPlayerScore)
