@@ -8,7 +8,8 @@ MenuController::MenuController(GeneralView* view,
 
 void MenuController::startGame()
 {
-
+    emit activateEnemySpawning();
+    emit activatePlayer();
 }
 
 void MenuController::gameOver()
