@@ -37,6 +37,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                menucontroller.cpp
                                menumodel.hpp
                                menumodel.cpp
+                               playercontroller.hpp
+                               playercontroller.cpp
                                playermodel.hpp
                                playermodel.cpp
                                rewardmodel.hpp
