@@ -23,5 +23,6 @@ void MenuController::stopGame()
 
 void MenuController::gameOver()
 {
-
+    emit deactivateEnemySpawning();
+    emit playerDefeated();
 }
