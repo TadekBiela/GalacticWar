@@ -13,18 +13,17 @@ public:
                    MenuModel*   model);
 
 signals:
-    void addRecordToHighScore(PlayerScore newRecord);
     void saveHighScore();
     void activateEnemySpawning();
     void deactivateEnemySpawning();
     void activatePlayer();
     void deactivatePlayer();
+    void playerDefeated();
 
 public slots:
     void startGame();
     void stopGame();
-    void save(PlayerScore newPlayerScore);
-    void updateHighScore(PlayerScoreMapIterator highScoreIterator);
+    void gameOver();
 };
 
 #endif // MENUCONTROLLER_HPP

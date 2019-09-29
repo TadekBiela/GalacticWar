@@ -3,7 +3,10 @@
 MenuController::MenuController(GeneralView* view,
                                MenuModel*   model)
 {
-
+    connect(view,  SIGNAL(save(PlayerScore)),
+            model, SLOT(addRecordToHighScore(PlayerScore)));
+    connect(model, SIGNAL(updateHighScore(PlayerScoreMapIterator, int)),
+            view,  SLOT(updateHighScoreList(PlayerScoreMapIterator, int)));
 }
 
 void MenuController::startGame()
@@ -18,12 +21,7 @@ void MenuController::stopGame()
     emit deactivatePlayer();
 }
 
-void MenuController::save(PlayerScore newPlayerScore)
-{
-
-}
-
-void MenuController::updateHighScore(PlayerScoreMapIterator highScoreIterator)
+void MenuController::gameOver()
 {
 
 }
