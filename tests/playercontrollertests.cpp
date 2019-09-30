@@ -1,0 +1,50 @@
+#include <gtest/gtest.h>
+#include "../app/playercontroller.hpp"
+#include "../app/playermodel.hpp"
+#include "../app/generalview.hpp"
+#include "../app/healthview.hpp"
+#include <QDebug>
+class PlayerControllerTest : public PlayerController
+{
+public:
+    PlayerControllerTest(GeneralView* view,
+                         HealthView*  healthVodel) :
+                         PlayerController(view,
+                                          healthVodel) {}
+    PlayerModel* getPlayerModel() { return m_player; }
+    void defeat() { delete m_player; m_player = nullptr; }
+};
+
+class PlayerControllerTestsClass : public testing::Test
+{
+};
+
+TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPlayerWasDefeated_IsEqual)
+{
+    GeneralView*         view       = new GeneralView;
+    HealthView*          healthView = new HealthView;
+    PlayerControllerTest playerController(view, healthView);
+    playerController.defeat();
+
+    playerController.createNew();
+    PlayerModel* resultPlayer = playerController.getPlayerModel();
+
+    EXPECT_TRUE(resultPlayer != nullptr);
+    delete healthView;
+    delete view;
+}
+
+TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPlayerIsStillAlive_IsEqual)
+{
+    GeneralView*         view       = new GeneralView;
+    HealthView*          healthView = new HealthView;
+    PlayerControllerTest playerController(view, healthView);
+    PlayerModel*         oldPlayer = playerController.getPlayerModel();
+
+    playerController.createNew();
+    PlayerModel* resultPlayer = playerController.getPlayerModel();
+
+    EXPECT_TRUE(resultPlayer != oldPlayer);
+    delete healthView;
+    delete view;
+}

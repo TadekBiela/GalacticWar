@@ -10,7 +10,10 @@ PlayerController::PlayerController(GeneralView* view,
 
 PlayerController::~PlayerController()
 {
-    delete m_player;
+    if(m_player != nullptr)
+    {
+        delete m_player;
+    }
 }
 
 void PlayerController::createNew()
