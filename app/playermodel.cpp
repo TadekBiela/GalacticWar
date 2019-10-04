@@ -6,6 +6,7 @@
 PlayerModel::PlayerModel() :
                          m_isMoving(false),
                          m_direction(0),
+                         m_health(def::maxPlayerHealth),
                          m_weapon(defaultWeapon),
                          m_weaponTier(0),
                          m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
@@ -62,7 +63,8 @@ void PlayerModel::changePlayerAtribute(special_type specialReward)
     switch (specialReward)
     {
         case special_type::health:
-            emit playerChangeHealth(100);
+            m_health = m_health > def::maxPlayerHealth ? def::maxPlayerHealth : m_health + 100;
+            emit playerChangeHealth(m_health);
             break;
         case special_type::weaponRed:
             changeWeapon(weapon_type::redWeapon);

@@ -31,6 +31,7 @@ protected:
 
     bool   m_isMoving;
     int    m_direction;
+    int    m_health;
     weapon m_weapon;
     int    m_weaponTier;
     int    m_moveTimeDelay;

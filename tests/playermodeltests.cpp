@@ -13,6 +13,7 @@ public:
     QPointF       getPosition()      const { return QGraphicsItem::pos(); }
     bool          getIsMovingFlag()  const { return m_isMoving; }
     int           getDirection()     const { return m_direction; }
+    int           getHealth()        const { return m_health; }
     weapon        getWeapon()        const { return m_weapon; }
     int           getWeaponTier()    const { return m_weaponTier; }
     int           getMoveTimeDelay() const { return m_moveTimeDelay; }
@@ -21,6 +22,7 @@ public:
     const QTimer& getFireTimer()     const { return m_fireTimer; }
     void          setIsMovingFlag(bool isMoving)   { m_isMoving   = isMoving; }
     void          setDirection(int newDirection)   { m_direction  = newDirection; }
+    void          setHealth(int healthValue)       { m_health = healthValue; }
     void          setWeapon(weapon newWeapon)      { m_weapon     = newWeapon; }
     void          setWeaponTier(int newWeaponTier) { m_weaponTier = newWeaponTier; }
     void          startFireTimer()                 { m_fireTimer.start(); }
@@ -38,6 +40,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     int           resultIsMovingFlag      = playerModel.getIsMovingFlag();
     int           resultDirection         = playerModel.getDirection();
     QPointF       resultPosition          = playerModel.getPosition();
+    int           resultHealth            = playerModel.getHealth();
     weapon        resultWeapon            = playerModel.getWeapon();
     int           resultWeaponTier        = playerModel.getWeaponTier();
     int           resultFireMoveDelay     = playerModel.getMoveTimeDelay();
@@ -48,6 +51,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
 
     EXPECT_EQ(      resultIsMovingFlag,              false);
     EXPECT_EQ(      resultDirection,                 0);
+    EXPECT_EQ(      resultHealth,                    def::maxPlayerHealth);
     EXPECT_EQ(      resultWeapon.type,               defaultWeapon.type);
     EXPECT_EQ(      resultWeaponTier,                0);
     EXPECT_EQ(      resultFireMoveDelay,             def::defaultPlayerMoveTimeDelay);
@@ -161,16 +165,52 @@ TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
 }
 
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardCheckIfChangeHealthSignalWillBeSend_IsEqual)
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthShouldIncrease_IsEqual)
 {
     PlayerModelTest playerModel;
+    playerModel.setHealth(500);
+    QSignalSpy signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
+    signalChange.wait(utdef::minSignalTimeDelay);
+
+    playerModel.changePlayerAtribute(special_type::health);
+    int             resultHealth            = playerModel.getHealth();
+    int             resultSignalChangeCount = signalChange.count();
+    QList<QVariant> resultSignalChange      = signalChange.takeFirst();
+
+    EXPECT_EQ(resultHealth,                     600);
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(), 60);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsMax_IsEqual)
+{
+    PlayerModelTest playerModel; //Max health is default
     QSignalSpy      signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
     signalChange.wait(utdef::minSignalTimeDelay);
 
     playerModel.changePlayerAtribute(special_type::health);
+    int             resultHealth            = playerModel.getHealth();
     int             resultSignalChangeCount = signalChange.count();
     QList<QVariant> resultSignalChange      = signalChange.takeFirst();
 
+    EXPECT_EQ(resultHealth,                     1000);
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
+}
+
+TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsNearMaxAndShouldBeMax_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.setHealth(990);
+    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
+    signalChange.wait(utdef::minSignalTimeDelay);
+
+    playerModel.changePlayerAtribute(special_type::health);
+    int             resultHealth            = playerModel.getHealth();
+    int             resultSignalChangeCount = signalChange.count();
+    QList<QVariant> resultSignalChange      = signalChange.takeFirst();
+
+    EXPECT_EQ(resultHealth,                     1000);
     EXPECT_EQ(resultSignalChangeCount,          1);
     EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
 }

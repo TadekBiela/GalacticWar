@@ -19,6 +19,7 @@ namespace def
     const int    percentDistTabSize     = 100;
 
     //Player default configuration
+    const int maxPlayerHealth             = 1000;
     const int defaultPlayerMoveTimeDelay  = 15;
 
     //Reward default configuration
