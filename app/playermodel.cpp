@@ -63,8 +63,8 @@ void PlayerModel::changePlayerAtribute(special_type specialReward)
     switch (specialReward)
     {
         case special_type::health:
-            m_health = m_health > def::maxPlayerHealth ? def::maxPlayerHealth : m_health + 100;
-            emit playerChangeHealth(m_health);
+            m_health = m_health + 100 > def::maxPlayerHealth ? def::maxPlayerHealth : m_health + 100;
+            emit playerChangeHealth(m_health / 10);
             break;
         case special_type::weaponRed:
             changeWeapon(weapon_type::redWeapon);

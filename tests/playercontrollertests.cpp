@@ -1,9 +1,11 @@
 #include <gtest/gtest.h>
+#include "../app/definitions.hpp"
 #include "../app/playercontroller.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/generalview.hpp"
 #include "../app/healthview.hpp"
 #include <QDebug>
+
 class PlayerControllerTest : public PlayerController
 {
 public:
@@ -39,12 +41,14 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     GeneralView*         view       = new GeneralView;
     HealthView*          healthView = new HealthView;
     PlayerControllerTest playerController(view, healthView);
-    PlayerModel*         oldPlayer = playerController.getPlayerModel();
+    PlayerModel*         oldPlayer  = playerController.getPlayerModel();
+    oldPlayer->setHealth(500);
 
     playerController.createNew();
-    PlayerModel* resultPlayer = playerController.getPlayerModel();
+    PlayerModel* resultPlayer       = playerController.getPlayerModel();
+    int          resultPlayerHealth = resultPlayer->getHealth();
 
-    EXPECT_TRUE(resultPlayer != oldPlayer);
+    EXPECT_EQ(resultPlayerHealth, def::maxPlayerHealth);
     delete healthView;
     delete view;
 }

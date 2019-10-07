@@ -18,7 +18,11 @@ PlayerController::~PlayerController()
 
 void PlayerController::createNew()
 {
-
+    if(m_player != nullptr)
+    {
+        delete m_player;
+    }
+    m_player = new PlayerModel;
 }
 
 void PlayerController::activate()

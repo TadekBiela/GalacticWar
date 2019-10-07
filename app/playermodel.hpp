@@ -14,6 +14,8 @@ class PlayerModel : public QObject, public QGraphicsPixmapItem
 public:
     PlayerModel();
     ~PlayerModel();
+    void setHealth(int health) { m_health = health; }
+    int getHealth() const { return m_health; }
 
 signals:
     void playerChangeHealth(int healthPoints);
