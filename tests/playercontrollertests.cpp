@@ -5,28 +5,7 @@
 #include "../app/playermodel.hpp"
 #include "../app/generalview.hpp"
 #include "../app/healthview.hpp"
-#include <QTimer>
 #include <QSignalSpy>
-
-class PlayerModelMock : public PlayerModel
-{
-public:
-    PlayerModelMock() {}
-
-    void setHealth(int health) { m_health = health; }
-    int           getHealth()    const { return m_health; }
-    const QTimer& getMoveTimer() const { return m_moveTimer; }
-    const QTimer& getFireTimer() const { return m_fireTimer; }
-
-//    bool   m_isMoving;
-//    int    m_direction;
-//    int    m_health;
-//    weapon m_weapon;
-//    int    m_weaponTier;
-//    int    m_moveTimeDelay;
-//    QTimer m_moveTimer;
-//    QTimer m_fireTimer;
-};
 
 class PlayerControllerTest : public PlayerController
 {
@@ -35,15 +14,6 @@ public:
                          HealthView*  healthVodel) :
                          PlayerController(view,
                                           healthVodel) {}
-    PlayerControllerTest(GeneralView*     view,
-                         HealthView*      healthVodel,
-                         PlayerModelMock* playerMock) :
-                         PlayerController(view,
-                                          healthVodel)
-    {
-        delete m_player;
-        m_player = playerMock;
-    }
     PlayerModel* getPlayerModel() { return m_player; }
     void defeat()
     {
