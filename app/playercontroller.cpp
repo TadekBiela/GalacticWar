@@ -32,5 +32,5 @@ void PlayerController::defeated()
 
 void PlayerController::changePlayerAtribute(special_type reward)
 {
-
+    emit changeAtribute(reward);
 }
