@@ -1,11 +1,13 @@
 #include <gtest/gtest.h>
+#include "utdefinitions.hpp"
 #include "../app/definitions.hpp"
 #include "../app/playercontroller.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/generalview.hpp"
 #include "../app/healthview.hpp"
 #include <QTimer>
-#include <QDebug>
+#include <QSignalSpy>
+
 class PlayerModelMock : public PlayerModel
 {
 public:
@@ -82,6 +84,22 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     int          resultPlayerHealth = resultPlayer->getHealth();
 
     EXPECT_EQ(resultPlayerHealth, def::maxPlayerHealth);
+    delete healthView;
+    delete view;
+}
+
+TEST_F(PlayerControllerTestsClass, Defeated_CheckIfWillEmitPlayerDefeatedSingal_IsEqual)
+{
+    GeneralView*         view       = new GeneralView;
+    HealthView*          healthView = new HealthView;
+    PlayerControllerTest playerController(view, healthView);
+    QSignalSpy           signalDefeated(&playerController, &PlayerControllerTest::playerDefeated);
+    signalDefeated.wait(utdef::minSignalTimeDelay);
+
+    playerController.defeated();
+    int resultSignalCount = signalDefeated.count();
+
+    EXPECT_EQ(resultSignalCount, 1);
     delete healthView;
     delete view;
 }
