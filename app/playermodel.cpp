@@ -17,7 +17,6 @@ PlayerModel::PlayerModel() :
     connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
     m_moveTimer.setInterval(m_moveTimeDelay);
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
-    blockSignals(true);
 }
 
 PlayerModel::~PlayerModel()

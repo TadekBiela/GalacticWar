@@ -118,7 +118,7 @@ TEST_P(BulletModelTestsParamClass, Move_CheckChangingPositionDependenceOfDirecti
     EXPECT_NEAR(resultPosition.y(), expectedPosition.y(), 0.01);
 }
 
-INSTANTIATE_TEST_CASE_P(,
+INSTANTIATE_TEST_CASE_P(Move,
                         BulletModelTestsParamClass,
                         testing::Values(std::make_pair(    0, QPointF(300.00l, 190.00l)),   //Move to up
                                         std::make_pair(  360, QPointF(300.00l, 190.00l)),   //Move to up with 360 deg (should be equal as 0 deg)
