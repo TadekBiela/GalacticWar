@@ -235,10 +235,8 @@ TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
     weapon        resultWeapon    = playerModel.getWeapon();
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
-    EXPECT_EQ(resultWeapon.type,                 expectedWeaponType);
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  expectedFireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), expectedFireTimeDelay, 1);
+    EXPECT_EQ(resultWeapon.type,                expectedWeaponType);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), expectedFireTimeDelay);
 }
 
 INSTANTIATE_TEST_CASE_P(ChangePlayerAtribute,

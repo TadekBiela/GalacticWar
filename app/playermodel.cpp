@@ -39,7 +39,6 @@ void PlayerModel::fire()
 
 void PlayerModel::startFire()
 {
-    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
     m_fireTimer.start();
 }
 
@@ -91,6 +90,6 @@ void PlayerModel::changeWeapon(weapon_type weapon)
         }
         m_weapon = weapons[(weapon * def::maxWeaponLevel) + m_weaponTier];
     }
-    startFire();
+    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 }
 
