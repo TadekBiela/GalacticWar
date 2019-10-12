@@ -27,7 +27,7 @@ void PlayerController::createNew()
 
 void PlayerController::defeated()
 {
-
+    emit playerDefeated();
 }
 
 void PlayerController::changePlayerAtribute(special_type reward)
