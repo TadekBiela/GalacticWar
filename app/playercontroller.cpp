@@ -25,16 +25,6 @@ void PlayerController::createNew()
     m_player = new PlayerModel;
 }
 
-void PlayerController::activate()
-{
-
-}
-
-void PlayerController::deactivate()
-{
-
-}
-
 void PlayerController::defeated()
 {
 

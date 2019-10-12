@@ -23,8 +23,6 @@ signals:
 
 public slots:
     void createNew();
-    void activate();
-    void deactivate();
     void defeated();
     void changePlayerAtribute(special_type reward);
 

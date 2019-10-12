@@ -85,24 +85,3 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     delete healthView;
     delete view;
 }
-
-TEST_F(PlayerControllerTestsClass, Activate_CheckIfPlayerModelWillActiveAllTimersAndSignalsWillBeNotBlocked_IsEqual)
-{
-    GeneralView*         view       = new GeneralView;
-    HealthView*          healthView = new HealthView;
-    PlayerModelMock*     playerMock = new PlayerModelMock;
-    PlayerControllerTest playerController(view, healthView, playerMock);
-
-
-    playerController.activate();
-    PlayerModelMock* resultPlayer         = dynamic_cast<PlayerModelMock*>(playerController.getPlayerModel());
-    bool             resultIsSlotBlocked  = resultPlayer->signalsBlocked();
-    bool             resultMoveTimerActiv = resultPlayer->getMoveTimer().isActive();
-    bool             resultFireTimerActiv = resultPlayer->getFireTimer().isActive();
-
-    EXPECT_FALSE(resultIsSlotBlocked);
-    EXPECT_TRUE(resultMoveTimerActiv);
-    EXPECT_TRUE(resultFireTimerActiv);
-    delete healthView;
-    delete view;
-}
