@@ -5,7 +5,10 @@
 #include "../app/playermodel.hpp"
 #include "../app/generalview.hpp"
 #include "../app/healthview.hpp"
+#include "../app/rewardtypes.hpp"
 #include <QSignalSpy>
+
+Q_DECLARE_METATYPE(special_type)
 
 class PlayerControllerTest : public PlayerController
 {
@@ -70,6 +73,25 @@ TEST_F(PlayerControllerTestsClass, Defeated_CheckIfWillEmitPlayerDefeatedSingal_
     int resultSignalCount = signalDefeated.count();
 
     EXPECT_EQ(resultSignalCount, 1);
+    delete healthView;
+    delete view;
+}
+
+TEST_F(PlayerControllerTestsClass, ChangePlayerAtribute_CheckIfWillEmitChangeAtributeSingal_IsEqual)
+{
+    qRegisterMetaType<special_type>();
+    GeneralView*         view       = new GeneralView;
+    HealthView*          healthView = new HealthView;
+    PlayerControllerTest playerController(view, healthView);
+    QSignalSpy           signalDefeated(&playerController, &PlayerControllerTest::changeAtribute);
+    signalDefeated.wait(utdef::minSignalTimeDelay);
+
+    playerController.changePlayerAtribute(special_type::health);
+    int          resultSignalCount = signalDefeated.count();
+    special_type resultRevardType  = qvariant_cast<special_type>(signalDefeated.takeFirst().at(0));
+
+    EXPECT_EQ(resultSignalCount, 1);
+    EXPECT_EQ(resultRevardType,  special_type::health);
     delete healthView;
     delete view;
 }
