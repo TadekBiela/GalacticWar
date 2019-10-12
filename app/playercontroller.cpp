@@ -23,6 +23,7 @@ void PlayerController::createNew()
         delete m_player;
     }
     m_player = new PlayerModel;
+    emit addPlayerToScene(m_player);
 }
 
 void PlayerController::defeated()

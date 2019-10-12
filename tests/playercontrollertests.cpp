@@ -34,12 +34,18 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     GeneralView*         view       = new GeneralView;
     HealthView*          healthView = new HealthView;
     PlayerControllerTest playerController(view, healthView);
+    QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
+    signalAdd.wait(utdef::minSignalTimeDelay);
     playerController.defeat();
 
     playerController.createNew();
-    PlayerModel* resultPlayer = playerController.getPlayerModel();
+    PlayerModel*   resultPlayer           = playerController.getPlayerModel();
+    int            resultSignalCount      = signalAdd.count();
+    QGraphicsItem* resultPlayerFromSignal = qvariant_cast<QGraphicsItem*>(signalAdd.takeFirst().at(0));
 
     EXPECT_TRUE(resultPlayer != nullptr);
+    EXPECT_EQ(resultSignalCount,      1);
+    EXPECT_EQ(resultPlayerFromSignal, resultPlayer);
     delete healthView;
     delete view;
 }
@@ -49,14 +55,20 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     GeneralView*         view       = new GeneralView;
     HealthView*          healthView = new HealthView;
     PlayerControllerTest playerController(view, healthView);
+    QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
+    signalAdd.wait(utdef::minSignalTimeDelay);
     PlayerModel*         oldPlayer  = playerController.getPlayerModel();
     oldPlayer->setHealth(500);
 
     playerController.createNew();
-    PlayerModel* resultPlayer       = playerController.getPlayerModel();
-    int          resultPlayerHealth = resultPlayer->getHealth();
+    PlayerModel*   resultPlayer           = playerController.getPlayerModel();
+    int            resultPlayerHealth     = resultPlayer->getHealth();
+    int            resultSignalCount      = signalAdd.count();
+    QGraphicsItem* resultPlayerFromSignal = qvariant_cast<QGraphicsItem*>(signalAdd.takeFirst().at(0));
 
-    EXPECT_EQ(resultPlayerHealth, def::maxPlayerHealth);
+    EXPECT_EQ(resultPlayerHealth,     def::maxPlayerHealth);
+    EXPECT_EQ(resultSignalCount,      1);
+    EXPECT_EQ(resultPlayerFromSignal, resultPlayer);
     delete healthView;
     delete view;
 }
