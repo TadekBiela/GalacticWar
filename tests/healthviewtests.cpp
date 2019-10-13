@@ -11,41 +11,41 @@ class HealthViewTestsClass : public testing::Test
 {
 };
 
-TEST_F(HealthViewTestsClass, UpdateHealthView_UpdateWithValue0_IsZero)
+TEST_F(HealthViewTestsClass, Update_UpdateWithValue0_IsZero)
 {
     HealthViewTests healthView;
 
-    healthView.updateHealthView(0);
+    healthView.update(0);
     const QProgressBar& resultHealthBar = healthView.getHealthBar();
 
     EXPECT_EQ(resultHealthBar.value(), 0);
 }
 
-TEST_F(HealthViewTestsClass, UpdateHealthView_UpdateWithValue30_IsEqual)
+TEST_F(HealthViewTestsClass, Update_UpdateWithValue30_IsEqual)
 {
     HealthViewTests healthView;
 
-    healthView.updateHealthView(30);
+    healthView.update(30);
     const QProgressBar& resultHealthBar = healthView.getHealthBar();
 
     EXPECT_EQ(resultHealthBar.value(), 30);
 }
 
-TEST_F(HealthViewTestsClass, UpdateHealthView_UpdateWithMaxValue_IsEqual)
+TEST_F(HealthViewTestsClass, Update_UpdateWithMaxValue_IsEqual)
 {
     HealthViewTests healthView;
 
-    healthView.updateHealthView(100);
+    healthView.update(100);
     const QProgressBar& resultHealthBar = healthView.getHealthBar();
 
     EXPECT_EQ(resultHealthBar.value(), 100);
 }
 
-TEST_F(HealthViewTestsClass, UpdateHealthView_UpdateWithMoreThanMaxValueShouldntIncreaseMoreThanMax_IsEqual)
+TEST_F(HealthViewTestsClass, Update_UpdateWithMoreThanMaxValueShouldntIncreaseMoreThanMax_IsEqual)
 {
     HealthViewTests healthView;
 
-    healthView.updateHealthView(120);
+    healthView.update(120);
     const QProgressBar& resultHealthBar = healthView.getHealthBar();
 
     EXPECT_EQ(resultHealthBar.value(), 100);

@@ -13,7 +13,7 @@ public:
     ~HealthView();
 
 public slots:
-    void updateHealthView(int value);
+    void update(int value);
 
 protected:
     QGraphicsPixmapItem m_healthGraphic;

@@ -10,7 +10,7 @@ HealthView::~HealthView()
 
 }
 
-void HealthView::updateHealthView(int value)
+void HealthView::update(int value)
 {
     m_healthBar.setValue(value < 100 ? value : 100);
 }
