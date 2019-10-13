@@ -18,10 +18,9 @@ public:
                          PlayerController(view,
                                           healthVodel) {}
     PlayerModel* getPlayerModel() { return m_player; }
-    void defeat()
+    void createPlayer()
     {
-        delete m_player;
-        m_player = nullptr;
+        m_player = new PlayerModel;
     }
 };
 
@@ -33,10 +32,9 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
 {
     GeneralView*         view       = new GeneralView;
     HealthView*          healthView = new HealthView;
-    PlayerControllerTest playerController(view, healthView);
+    PlayerControllerTest playerController(view, healthView); // default Player is not created
     QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
-    playerController.defeat();
 
     playerController.createNew();
     PlayerModel*   resultPlayer           = playerController.getPlayerModel();
@@ -57,6 +55,7 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     PlayerControllerTest playerController(view, healthView);
     QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
+    playerController.createPlayer();
     PlayerModel*         oldPlayer  = playerController.getPlayerModel();
     oldPlayer->setHealth(500);
 
