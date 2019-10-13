@@ -18,7 +18,7 @@ public:
     int getHealth() const { return m_health; }
 
 signals:
-    void playerChangeHealth(int healthPoints);
+    void changeHealth(int healthPoints);
 
 public slots:
     void move();
@@ -26,7 +26,7 @@ public slots:
     void startFire();
     void stopFire();
     void changeDirection(QPointF newDirection);
-    void changePlayerAtribute(special_type specialReward);
+    void changeAtribute(special_type specialReward);
 
 protected:
     void changeWeapon(weapon_type weapon);

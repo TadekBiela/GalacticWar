@@ -164,14 +164,14 @@ TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
 }
 
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthShouldIncrease_IsEqual)
+TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthShouldIncrease_IsEqual)
 {
     PlayerModelTest playerModel;
     playerModel.setHealth(500);
-    QSignalSpy signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
+    QSignalSpy signalChange(&playerModel, &PlayerModelTest::changeHealth);
     signalChange.wait(utdef::minSignalTimeDelay);
 
-    playerModel.changePlayerAtribute(special_type::health);
+    playerModel.changeAtribute(special_type::health);
     int             resultHealth            = playerModel.getHealth();
     int             resultSignalChangeCount = signalChange.count();
 //    QList<QVariant> resultSignalChange      = signalChange.takeFirst();
@@ -181,13 +181,13 @@ TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHe
 //    EXPECT_EQ(resultSignalChange.at(0).toInt(), 60);
 }
 
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsMax_IsEqual)
+TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsMax_IsEqual)
 {
     PlayerModelTest playerModel; //Max health is default
-    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
+    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::changeHealth);
     signalChange.wait(utdef::minSignalTimeDelay);
 
-    playerModel.changePlayerAtribute(special_type::health);
+    playerModel.changeAtribute(special_type::health);
     int             resultHealth            = playerModel.getHealth();
     int             resultSignalChangeCount = signalChange.count();
     QList<QVariant> resultSignalChange      = signalChange.takeFirst();
@@ -197,14 +197,14 @@ TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHe
     EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
 }
 
-TEST_F(PlayerModelTestsClass, ChangePlayerAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsNearMaxAndShouldBeMax_IsEqual)
+TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsNearMaxAndShouldBeMax_IsEqual)
 {
     PlayerModelTest playerModel;
     playerModel.setHealth(990);
-    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::playerChangeHealth);
+    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::changeHealth);
     signalChange.wait(utdef::minSignalTimeDelay);
 
-    playerModel.changePlayerAtribute(special_type::health);
+    playerModel.changeAtribute(special_type::health);
     int             resultHealth            = playerModel.getHealth();
     int             resultSignalChangeCount = signalChange.count();
     QList<QVariant> resultSignalChange      = signalChange.takeFirst();
@@ -220,7 +220,7 @@ class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
 {
 };
 
-TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
+TEST_P(PlayerModelTestsParamClass, ChangeAtribute_CollectedWeapon_IsEqual)
 {
     weapon       currentWeapon         = std::tr1::get<0>(GetParam());
     int          currentWeaponTier     = std::tr1::get<1>(GetParam());
@@ -231,7 +231,7 @@ TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
     playerModel.setWeapon(currentWeapon);
     playerModel.setWeaponTier(currentWeaponTier);
 
-    playerModel.changePlayerAtribute(newWeaponRewardType);
+    playerModel.changeAtribute(newWeaponRewardType);
     weapon        resultWeapon    = playerModel.getWeapon();
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
@@ -239,7 +239,7 @@ TEST_P(PlayerModelTestsParamClass, ChangePlayerAtribute_CollectedWeapon_IsEqual)
     EXPECT_FLOAT_EQ(resultFireTimer.interval(), expectedFireTimeDelay);
 }
 
-INSTANTIATE_TEST_CASE_P(ChangePlayerAtribute,
+INSTANTIATE_TEST_CASE_P(ChangeAtribute,
                         PlayerModelTestsParamClass,
                         testing::Values(std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponRed,    weapons[0]),
                                         std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponYellow, weapons[5]),

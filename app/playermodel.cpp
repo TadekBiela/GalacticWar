@@ -55,13 +55,13 @@ void PlayerModel::changeDirection(QPointF newDirection)
     m_direction   = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
 }
 
-void PlayerModel::changePlayerAtribute(special_type specialReward)
+void PlayerModel::changeAtribute(special_type specialReward)
 {
     switch (specialReward)
     {
         case special_type::health:
             m_health = m_health + 100 > def::maxPlayerHealth ? def::maxPlayerHealth : m_health + 100;
-            emit playerChangeHealth(m_health / 10);
+            emit changeHealth(m_health / 10);
             break;
         case special_type::weaponRed:
             changeWeapon(weapon_type::redWeapon);
