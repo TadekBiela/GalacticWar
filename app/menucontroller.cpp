@@ -12,13 +12,11 @@ MenuController::MenuController(GeneralView* view,
 void MenuController::startGame()
 {
     emit activateEnemySpawning();
-    emit activatePlayer();
 }
 
 void MenuController::stopGame()
 {
     emit deactivateEnemySpawning();
-    emit deactivatePlayer();
 }
 
 void MenuController::gameOver()

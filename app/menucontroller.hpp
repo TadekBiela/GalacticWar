@@ -16,8 +16,6 @@ signals:
     void saveHighScore();
     void activateEnemySpawning();
     void deactivateEnemySpawning();
-    void activatePlayer();
-    void deactivatePlayer();
     void playerDefeated();
 
 public slots:
