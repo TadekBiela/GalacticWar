@@ -1,9 +1,12 @@
 #include <gtest/gtest.h>
+#include "utdefinitions.hpp"
 #include "../app/generalview.hpp"
 #include "../app/definitions.hpp"
+#include <QEvent>
 #include <QLabel>
 #include <QPushButton>
 #include <QListWidget>
+#include <QSignalSpy>
 
 class GeneralViewTests : public GeneralView
 {
@@ -151,4 +154,59 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        true);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           true);
+}
+
+TEST_F(GeneralViewTestsClass, MousePressEvent_CheckIfSignalWillBeSend_IsEqual)
+{
+    QMouseEvent      event(QEvent::MouseButtonPress,
+                           QPointF(0, 0),
+                           Qt::LeftButton,
+                           Qt::LeftButton,
+                           Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalPressed(&generalView, &GeneralViewTests::mousePressed);
+    signalPressed.wait(utdef::minSignalTimeDelay);
+
+    generalView.mousePressEvent(&event);
+    int resultSignalPressedCount = signalPressed.count();
+
+    EXPECT_EQ(resultSignalPressedCount, 1);
+}
+
+TEST_F(GeneralViewTestsClass, MouseReleaseEvent_CheckIfSignalWillBeSend_IsEqual)
+{
+    QMouseEvent      event(QEvent::MouseButtonRelease,
+                           QPointF(0, 0),
+                           Qt::LeftButton,
+                           Qt::LeftButton,
+                           Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalReleased(&generalView, &GeneralViewTests::mouseReleased);
+    signalReleased.wait(utdef::minSignalTimeDelay);
+
+    generalView.mouseReleaseEvent(&event);
+    int resultSignalReleasedCount = signalReleased.count();
+
+    EXPECT_EQ(resultSignalReleasedCount, 1);
+}
+
+TEST_F(GeneralViewTestsClass, MouseMoveEvent_CheckIfSignalWillBeSend_IsEqual)
+{
+    const QPointF    expectedPosition(100, 400);
+    QMouseEvent      event(QEvent::MouseMove,
+                           expectedPosition,
+                           Qt::LeftButton,
+                           Qt::LeftButton,
+                           Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalMoved(&generalView, &GeneralViewTests::mouseMoved);
+    signalMoved.wait(utdef::minSignalTimeDelay);
+
+    generalView.mouseMoveEvent(&event);
+    int resultSignalMovedCount = signalMoved.count();
+    QPointF resultPosition = signalMoved.takeFirst().at(0).toPointF();
+
+    EXPECT_EQ(resultSignalMovedCount,   1);
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
 }

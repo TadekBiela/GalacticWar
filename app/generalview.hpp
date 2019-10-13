@@ -7,6 +7,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QListWidget>
+#include <QMouseEvent>
+#include <QPointF>
 
 class GeneralView : public QMainWindow
 {
@@ -15,6 +17,11 @@ public:
     GeneralView();
     ~GeneralView();
 
+signals:
+    void mousePressed();
+    void mouseReleased();
+    void mouseMoved(QPointF newPosition);
+
 public slots:
     void menu();
     void startGame();
@@ -22,6 +29,9 @@ public slots:
     void gameOver();
     void highScore();
     void addGameObject(QGraphicsItem* newObject);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
 
 protected:
     QGraphicsScene m_scene;

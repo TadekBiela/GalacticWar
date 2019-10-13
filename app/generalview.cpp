@@ -88,3 +88,18 @@ void GeneralView::addGameObject(QGraphicsItem* newObject)
 {
     m_scene.addItem(newObject);
 }
+
+void GeneralView::mousePressEvent(QMouseEvent* event)
+{
+    emit mousePressed();
+}
+
+void GeneralView::mouseReleaseEvent(QMouseEvent* event)
+{
+    emit mouseReleased();
+}
+
+void GeneralView::mouseMoveEvent(QMouseEvent* event)
+{
+    emit mouseMoved(event->localPos());
+}
