@@ -16,7 +16,7 @@ class GeneralView : public QMainWindow
     Q_OBJECT
 public:
     GeneralView();
-    ~GeneralView();
+    virtual ~GeneralView();
 
 signals:
     void mousePressed();
@@ -28,7 +28,7 @@ public slots:
     void menu();
     void startGame();
     void pause();
-    void gameOver();
+    void gameOver(int score);
     void highScore();
     void addGameObject(QGraphicsItem* newObject);
     void mousePressEvent(QMouseEvent* event);
@@ -43,6 +43,8 @@ protected:
     QLabel      m_title;             // Menu
     QLabel      m_author;            // Menu
     QLabel      m_pause;             // Menu
+    QLabel      m_player;            // GameOver
+    QLabel      m_score;             // GameOver
     QPushButton m_startButton;       // Menu
     QPushButton m_highScoreButton;   // Menu
     QPushButton m_quitButton;        // Menu
