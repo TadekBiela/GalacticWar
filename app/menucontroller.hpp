@@ -16,11 +16,13 @@ signals:
     void saveHighScore();
     void activateEnemySpawning();
     void deactivateEnemySpawning();
-    void playerDefeated();
+    void getScore();
+    void playerDefeated(int score);
 
 public slots:
     void startGame();
     void stopGame();
+    void updateScore(int score);
     void gameOver();
 };
 

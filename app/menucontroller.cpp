@@ -19,8 +19,13 @@ void MenuController::stopGame()
     emit deactivateEnemySpawning();
 }
 
+void MenuController::updateScore(int score)
+{
+    emit playerDefeated(score);
+}
+
 void MenuController::gameOver()
 {
     emit deactivateEnemySpawning();
-    emit playerDefeated();
+    emit getScore();
 }

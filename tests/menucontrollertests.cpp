@@ -55,19 +55,39 @@ TEST_F(MenuControllerTestsClass, StopGame_CheckIfWillBeSendSignalToDeactivateEne
     delete view;
 }
 
-TEST_F(MenuControllerTestsClass, GameOver_CheckIfBeSendTwoSignalsToStopAllGameAndSwitchViewToGameOver_IsEqual)
+TEST_F(MenuControllerTestsClass, UpdateScore_CheckIfBeSendignalToStopAllGameAndSwitchViewToGameOver_IsEqual)
+{
+    FileManagerStub*   fileMgr = new FileManagerStub;
+    MenuModel*         model   = new MenuModel(fileMgr);
+    GeneralView*       view    = new GeneralView;
+    MenuControllerTest menuController(view, model);
+    QSignalSpy signalPlayerDef(&menuController, &MenuControllerTest::playerDefeated);
+    signalPlayerDef.wait(utdef::minSignalTimeDelay);
+
+    menuController.updateScore(240);
+    int resultSignalPlayerDefCount     = signalPlayerDef.count();
+    int resutlScoreFromPlayerDefSignal = signalPlayerDef.takeFirst().at(0).toInt();
+
+    EXPECT_EQ(resultSignalPlayerDefCount,     1);
+    EXPECT_EQ(resutlScoreFromPlayerDefSignal, 240);
+    delete model;
+    delete fileMgr;
+    delete view;
+}
+
+TEST_F(MenuControllerTestsClass, GameOver_CheckIfBeSendTwoSignalsToStopAllGameAndGetScoreFromScoreController_IsEqual)
 {
     FileManagerStub*   fileMgr = new FileManagerStub;
     MenuModel*         model   = new MenuModel(fileMgr);
     GeneralView*       view    = new GeneralView;
     MenuControllerTest menuController(view, model);
     QSignalSpy signalDeactEnemySpawn(&menuController, &MenuControllerTest::deactivateEnemySpawning);
-    QSignalSpy signalPlayerDef(&menuController, &MenuControllerTest::playerDefeated);
-    signalPlayerDef.wait(utdef::minSignalTimeDelay);
+    QSignalSpy signalGetScore(&menuController, &MenuControllerTest::getScore);
+    signalGetScore.wait(utdef::minSignalTimeDelay);
 
     menuController.gameOver();
     int resultSignalDeactEnemySpawnCount = signalDeactEnemySpawn.count();
-    int resultSignalPlayerDefCount       = signalPlayerDef.count();
+    int resultSignalPlayerDefCount       = signalGetScore.count();
 
     EXPECT_EQ(resultSignalDeactEnemySpawnCount, 1);
     EXPECT_EQ(resultSignalPlayerDefCount,       1);
