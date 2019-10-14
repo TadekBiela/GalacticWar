@@ -103,3 +103,13 @@ void GeneralView::mouseMoveEvent(QMouseEvent* event)
 {
     emit mouseMoved(event->localPos());
 }
+
+void GeneralView::savePlayerScore()
+{
+
+}
+
+void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
+{
+
+}

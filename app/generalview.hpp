@@ -1,6 +1,7 @@
 #ifndef GENERALVIEW_HPP
 #define GENERALVIEW_HPP
 
+#include "menumodel.hpp"
 #include <QMainWindow>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
@@ -21,6 +22,7 @@ signals:
     void mousePressed();
     void mouseReleased();
     void mouseMoved(QPointF newPosition);
+    void save(PlayerScore newPlayerScore);
 
 public slots:
     void menu();
@@ -32,6 +34,8 @@ public slots:
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
+    void savePlayerScore();
+    void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
 
 protected:
     QGraphicsScene m_scene;
