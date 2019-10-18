@@ -49,6 +49,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/rewardspecialmodel.hpp
                                ../app/rewardspecialmodel.cpp
                                ../app/rewardtypes.hpp
+                               ../app/scorecontroller.hpp
+                               ../app/scorecontroller.cpp
                                ../app/scoremodel.hpp
                                ../app/scoremodel.cpp
                                ../app/scoreview.hpp
@@ -76,6 +78,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                rewardmodeltests.cpp
                                rewardcoinmodeltests.cpp
                                rewardspecialmodeltests.cpp
+                               scorecontrollertests.cpp
                                scoremodeltests.cpp
                                scoreviewtests.cpp)
 
