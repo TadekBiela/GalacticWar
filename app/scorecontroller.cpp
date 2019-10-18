@@ -29,5 +29,5 @@ void ScoreController::addScorePoints(coin_type coin)
 
 void ScoreController::maxPerLevelAchieved()
 {
-
+    emit maxScorePerLevelAchieved();
 }
