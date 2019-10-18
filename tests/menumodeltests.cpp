@@ -156,10 +156,10 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSamePl
     delete fileManager;
 }
 
-TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSameScoreNameCheckOrderByScoreAndIfUpdateSignalWasSent_IsEqual)
+TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSameScoreNameCheckOrderIsSameAsInsertOrderAndIfUpdateSignalWasSent_IsEqual)
 {
     qRegisterMetaType<PlayerScoreMapIterator>();
-    PlayerScoreMap   expectedHighScore       = { {1000, "Andy"}, {1000, "Bob"}, {1000, "Ed"} };
+    PlayerScoreMap   expectedHighScore       = { {1000, "Bob"}, {1000, "Andy"}, {1000, "Ed"} };
     auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
     auto             expectedSecondParamType = QVariant::Int;
     PlayerScore      newRecord1(1000, "Bob");

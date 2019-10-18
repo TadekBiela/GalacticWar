@@ -3,12 +3,12 @@
 
 #include "ifilemanager.hpp"
 #include <QObject>
-#include <QMultiHash>
+#include <QMultiMap>
 #include <QPair>
 
-typedef QMultiHash<int, QString>           PlayerScoreMap;
-typedef QMultiHash<int, QString>::iterator PlayerScoreMapIterator;
-typedef QPair<int, QString>                PlayerScore;
+typedef QMultiMap<int, QString>           PlayerScoreMap;
+typedef QMultiMap<int, QString>::iterator PlayerScoreMapIterator;
+typedef QPair<int, QString>               PlayerScore;
 
 class MenuModel : public QObject
 {
