@@ -18,13 +18,13 @@ signals:
     void get();
     void updateScore(int score);
     void addPoints(int points);
-    void maxScorePerLevelAchived();
+    void maxScorePerLevelAchieved();
 
 public slots:
     void getScore();
     void update(int score);
     void addScorePoints(coin_type coin);
-    void maxPerLevelAchived();
+    void maxPerLevelAchieved();
 };
 
 #endif // SCORECONTROLLER_HPP

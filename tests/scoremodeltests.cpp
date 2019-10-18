@@ -21,19 +21,34 @@ TEST_F(ScoreModelTestsClass, ScoreModelConstructor_CheckBuildModelCorrect_IsEqua
 {
     ScoreModelTests scoreModel;
     int resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
-    int resultTotalScore           = scoreModel.getTotalScore();
+    int resultTotalScore         = scoreModel.getTotalScore();
 
     EXPECT_EQ(resultCurrentTresholdIdx, 0);
     EXPECT_EQ(resultTotalScore,         0);
 }
 
-TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsLessThanFirstTresholdShouldOnlyEmitOneSignal_IsEqual)
+TEST_F(ScoreModelTestsClass, Get_CheckIfSendUpdateSignalWithTotalScoreValue_IsEqual)
 {
     ScoreModelTests scoreModel;
-    QSignalSpy      signalUpdate(&scoreModel, ScoreModelTests::updateScoreView);
+    scoreModel.setTotalScore(100);
+    QSignalSpy signalUpdate(&scoreModel, ScoreModelTests::update);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
-    scoreModel.addScorePoints(300);
+    scoreModel.get();
+    int resultSignalUpdateCount = signalUpdate.count();
+    int resultScore = signalUpdate.takeFirst().at(0).toInt();
+
+    EXPECT_EQ(resultSignalUpdateCount, 1);
+    EXPECT_EQ(resultScore,             100);
+}
+
+TEST_F(ScoreModelTestsClass, AddPoints_AddPointsLessThanFirstTresholdShouldOnlyEmitOneSignal_IsEqual)
+{
+    ScoreModelTests scoreModel;
+    QSignalSpy      signalUpdate(&scoreModel, ScoreModelTests::updateView);
+    signalUpdate.wait(utdef::minSignalTimeDelay);
+
+    scoreModel.addPoints(300);
     int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
     int  resultTotalScore         = scoreModel.getTotalScore();
     int  resultSignalUpdateCount  = signalUpdate.count();
@@ -48,16 +63,16 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsLessThanFirstTresholdShould
 TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanFirstTresholdShouldEmitTwoSignals_IsEqual)
 {
     ScoreModelTests scoreModel;
-    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateScoreView);
-    QSignalSpy      signalAchived(&scoreModel, ScoreModelTests::maxScorePerLevelAchieved);
+    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateView);
+    QSignalSpy      signalAchieved(&scoreModel, ScoreModelTests::maxPerLevelAchieved);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
-    scoreModel.addScorePoints(1200);
+    scoreModel.addPoints(1200);
     int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
     int  resultTotalScore         = scoreModel.getTotalScore();
     int  resultSignalUpdateCount  = signalUpdate.count();
     auto resultSignalUpdate       = signalUpdate.takeFirst();
-    int  resultSignalAchivedCount = signalAchived.count();
+    int  resultSignalAchivedCount = signalAchieved.count();
 
     EXPECT_EQ(resultCurrentTresholdIdx,         1);
     EXPECT_EQ(resultTotalScore,                 1200);
@@ -71,16 +86,16 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsEqualThanThirdTresholdShoul
     ScoreModelTests scoreModel;
     scoreModel.setCurrentTresholdIdx(2);
     scoreModel.setTotalScore(6500);
-    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateScoreView);
-    QSignalSpy      signalAchived(&scoreModel, ScoreModelTests::maxScorePerLevelAchieved);
+    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateView);
+    QSignalSpy      signalAchieved(&scoreModel, ScoreModelTests::maxPerLevelAchieved);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
-    scoreModel.addScorePoints(500);
+    scoreModel.addPoints(500);
     int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
     int  resultTotalScore         = scoreModel.getTotalScore();
     int  resultSignalUpdateCount  = signalUpdate.count();
     auto resultSignalUpdate       = signalUpdate.takeFirst();
-    int  resultSignalAchivedCount = signalAchived.count();
+    int  resultSignalAchivedCount = signalAchieved.count();
 
     EXPECT_EQ(resultCurrentTresholdIdx,         3);
     EXPECT_EQ(resultTotalScore,                 7000);
@@ -94,16 +109,16 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanMaxTresholdShouldEm
     ScoreModelTests scoreModel;
     scoreModel.setCurrentTresholdIdx(9);
     scoreModel.setTotalScore(299900);
-    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateScoreView);
-    QSignalSpy      signalAchived(&scoreModel, ScoreModelTests::maxScorePerLevelAchieved);
+    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateView);
+    QSignalSpy      signalAchieved(&scoreModel, ScoreModelTests::maxPerLevelAchieved);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
-    scoreModel.addScorePoints(500);
+    scoreModel.addPoints(500);
     int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
     int  resultTotalScore         = scoreModel.getTotalScore();
     int  resultSignalUpdateCount  = signalUpdate.count();
     auto resultSignalUpdate       = signalUpdate.takeFirst();
-    int  resultSignalAchivedCount = signalAchived.count();
+    int  resultSignalAchivedCount = signalAchieved.count();
 
     EXPECT_EQ(resultCurrentTresholdIdx,         9);
     EXPECT_EQ(resultTotalScore,                 300400);

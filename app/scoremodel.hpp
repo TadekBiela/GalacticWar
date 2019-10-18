@@ -9,13 +9,16 @@ class ScoreModel : public QObject
     Q_OBJECT
 public:
     ScoreModel();
+    virtual ~ScoreModel();
 
 signals:
-    void updateScoreView(int newValue);
-    void maxScorePerLevelAchieved();
+    void update(int score);
+    void updateView(int value);
+    void maxPerLevelAchieved();
 
 public slots:
-    void addScorePoints(int value);
+    void get();
+    void addPoints(int points);
 
 protected:
     int m_currentTresholdIdx;

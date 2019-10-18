@@ -13,9 +13,19 @@ ScoreModel::ScoreModel() :
 
 }
 
-void ScoreModel::addScorePoints(int newValue)
+ScoreModel::~ScoreModel()
 {
-    m_totalScore += newValue;
+
+}
+
+void ScoreModel::get()
+{
+
+}
+
+void ScoreModel::addPoints(int points)
+{
+    m_totalScore += points;
     int percentScoreLevel = 0;
     int currentTreshold   = s_scoreTresholds[m_currentTresholdIdx];
 
@@ -26,12 +36,12 @@ void ScoreModel::addScorePoints(int newValue)
         int totalScoreInCurrentLevel = newTreshold - currentTreshold;
         percentScoreLevel = ((m_totalScore - currentTreshold) * 100) /
                             (totalScoreInCurrentLevel);
-        emit maxScorePerLevelAchieved();
+        emit maxPerLevelAchieved();
     }
     else
     {
         percentScoreLevel = (m_totalScore * 100) /
                             (s_scoreTresholds[m_currentTresholdIdx]);
     }
-    emit updateScoreView(percentScoreLevel);
+    emit updateView(percentScoreLevel);
 }
