@@ -1,19 +1,21 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/randomgeneratorstub.hpp"
+#include "../app/definitions.hpp"
 #include "../app/scorecontroller.hpp"
 #include "../app/scoremodel.hpp"
 #include "../app/scoreview.hpp"
 #include <QSignalSpy>
 
-Q_DECLARE_METATYPE(coin_type)
-
 class ScoreControllerTest : public ScoreController
 {
 public:
-    ScoreControllerTest(ScoreModel* ScoreModel,
-                        ScoreView*  ScoreView) :
-                        ScoreController(ScoreModel,
-                                        ScoreView) {}
+    ScoreControllerTest(ScoreModel*       model,
+                        ScoreView*        view,
+                        IRandomGenerator* generator) :
+                        ScoreController(model,
+                                        view,
+                                        generator) {}
 };
 
 class ScoreControllerTestsClass : public testing::Test
@@ -22,9 +24,10 @@ class ScoreControllerTestsClass : public testing::Test
 
 TEST_F(ScoreControllerTestsClass, GetScore_CheckIfWillSendGetSignal_IsEqual)
 {
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     ScoreModel*         model = new ScoreModel;
     ScoreView*          view  = new ScoreView;
-    ScoreControllerTest scoreController(model, view);
+    ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalUpdate(&scoreController, &ScoreControllerTest::get);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
@@ -34,13 +37,15 @@ TEST_F(ScoreControllerTestsClass, GetScore_CheckIfWillSendGetSignal_IsEqual)
     EXPECT_EQ(resultSignalUpdateCount, 1);
     delete model;
     delete view;
+    delete randomGenerator;
 }
 
 TEST_F(ScoreControllerTestsClass, Update_CheckIfWillSendUpdateScoreSignal_IsEqual)
 {
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     ScoreModel*         model = new ScoreModel;
     ScoreView*          view  = new ScoreView;
-    ScoreControllerTest scoreController(model, view);
+    ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalUpdate(&scoreController, &ScoreControllerTest::updateScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
@@ -52,13 +57,36 @@ TEST_F(ScoreControllerTestsClass, Update_CheckIfWillSendUpdateScoreSignal_IsEqua
     EXPECT_EQ(resultScore,             200);
     delete model;
     delete view;
+    delete randomGenerator;
+}
+
+TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedBronzeCoinCheckIfWillSendSignalWithCorrectValue_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(def::minPointsForBronzeCoin);
+    ScoreModel*         model = new ScoreModel;
+    ScoreView*          view  = new ScoreView;
+    ScoreControllerTest scoreController(model, view, randomGenerator);
+    QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
+    signalAdd.wait(utdef::minSignalTimeDelay);
+
+    scoreController.addScorePoints(coin_type::bronze);
+    int resultSignalAddCount = signalAdd.count();
+    int resultPoints         = signalAdd.takeFirst().at(0).toInt();
+
+    EXPECT_EQ(resultSignalAddCount, 1);
+    EXPECT_EQ(resultPoints,         def::minPointsForBronzeCoin);
+    delete model;
+    delete view;
+    delete randomGenerator;
 }
 
 TEST_F(ScoreControllerTestsClass, MaxPerLevelAchieved_CheckIfWillSendMaxScorePerLevelAchievedSignal_IsEqual)
 {
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     ScoreModel*         model = new ScoreModel;
     ScoreView*          view  = new ScoreView;
-    ScoreControllerTest scoreController(model, view);
+    ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalMax(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
     signalMax.wait(utdef::minSignalTimeDelay);
 
@@ -68,4 +96,5 @@ TEST_F(ScoreControllerTestsClass, MaxPerLevelAchieved_CheckIfWillSendMaxScorePer
     EXPECT_EQ(resultSignalMaxCount, 1);
     delete model;
     delete view;
+    delete randomGenerator;
 }

@@ -24,6 +24,12 @@ namespace def
 
     //Reward default configuration
     const int defaultRewardDestroyTimeDelay  = 1000;
+    const int minPointsForBronzeCoin         = 10;
+    const int maxPointsForBronzeCoin         = 30;
+    const int minPointsForSilverCoin         = 50;
+    const int maxPointsForSilverCoin         = 100;
+    const int minPointsForGoldCoin           = 150;
+    const int maxPointsForGoldCoin           = 300;
 
     //Scene size
     const int sceneWight  = 600;

@@ -1,7 +1,9 @@
 #include "scorecontroller.hpp"
 
 ScoreController::ScoreController(ScoreModel *model,
-                                 ScoreView  *view)
+                                 ScoreView  *view,
+                                 IRandomGenerator* generator)
+                                  : m_generator(generator)
 {
     connect(this,  SIGNAL(get()),                 model, SLOT(get()));
     connect(this,  SIGNAL(addPoints(int)),        model, SLOT(addPoints(int)));
