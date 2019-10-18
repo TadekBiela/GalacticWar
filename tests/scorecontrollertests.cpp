@@ -53,3 +53,19 @@ TEST_F(ScoreControllerTestsClass, Update_CheckIfWillSendUpdateScoreSignal_IsEqua
     delete model;
     delete view;
 }
+
+TEST_F(ScoreControllerTestsClass, MaxPerLevelAchieved_CheckIfWillSendMaxScorePerLevelAchievedSignal_IsEqual)
+{
+    ScoreModel*         model = new ScoreModel;
+    ScoreView*          view  = new ScoreView;
+    ScoreControllerTest scoreController(model, view);
+    QSignalSpy signalMax(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
+    signalMax.wait(utdef::minSignalTimeDelay);
+
+    scoreController.maxPerLevelAchieved();
+    int resultSignalMaxCount = signalMax.count();
+
+    EXPECT_EQ(resultSignalMaxCount, 1);
+    delete model;
+    delete view;
+}
