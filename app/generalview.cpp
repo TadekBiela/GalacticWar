@@ -130,5 +130,11 @@ void GeneralView::savePlayerScore()
 
 void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
 {
-
+    m_highScoreList.clear();
+    m_highScoreList.addItem("Player\t\t\tScore");
+    for(int i = 0; i < size; i++)
+    {
+        iterator--;
+        m_highScoreList.addItem(iterator.value() + "\t\t\t" + QString::number(iterator.key()));
+    }
 }

@@ -262,22 +262,22 @@ TEST_F(GeneralViewTestsClass, SavePlayerScore_CheckIfSignalWillBeSendWithCorrect
 TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs0ListShouldHaveOnlyTitles_IsEqual)
 {
     PlayerScoreMap         input;
-    PlayerScoreMapIterator iterator = input.begin();
+    PlayerScoreMapIterator iterator = input.end();
     GeneralViewTests generalView;
 
     generalView.updateHighScoreList(iterator, input.size());
     const QListWidget&     resultHighScoreList = generalView.getHighScoreList();
     const QListWidgetItem* resultListItem0     = resultHighScoreList.item(0);
 
-    EXPECT_EQ(resultHighScoreList.count(), 1);
-    EXPECT_EQ(resultListItem0->text(),      "Player\t\t\tScore");
+    EXPECT_EQ(resultHighScoreList.count(),           1);
+    EXPECT_EQ(resultListItem0->text().toStdString(), "Player\t\t\tScore");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs1ListShouldHaveTitlesAndOneRecord_IsEqual)
 {
     PlayerScoreMap input;
     input.insert(100, "Andy");
-    PlayerScoreMapIterator iterator = input.begin();
+    PlayerScoreMapIterator iterator = input.end();
     GeneralViewTests generalView;
 
     generalView.updateHighScoreList(iterator, input.size());
@@ -285,9 +285,9 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs1ListShouldHaveTit
     const QListWidgetItem* resultListItem0     = resultHighScoreList.item(0);
     const QListWidgetItem* resultListItem1     = resultHighScoreList.item(1);
 
-    EXPECT_EQ(resultHighScoreList.count(), 2);
-    EXPECT_EQ(resultListItem0->text(),      "Player\t\t\tScore");
-    EXPECT_EQ(resultListItem1->text(),      "Andy\t\t\t100");
+    EXPECT_EQ(resultHighScoreList.count(),           2);
+    EXPECT_EQ(resultListItem0->text().toStdString(), "Player\t\t\tScore");
+    EXPECT_EQ(resultListItem1->text().toStdString(), "Andy\t\t\t100");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTitlesAnd5Records_IsEqual)
@@ -298,7 +298,7 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTit
     input.insert(100, "Andy");
     input.insert(50,  "Bob");
     input.insert(0,   "Mendy");
-    PlayerScoreMapIterator iterator = input.begin();
+    PlayerScoreMapIterator iterator = input.end();
     GeneralViewTests generalView;
 
     generalView.updateHighScoreList(iterator, input.size());
@@ -310,11 +310,11 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTit
     const QListWidgetItem* resultListItem4     = resultHighScoreList.item(4);
     const QListWidgetItem* resultListItem5     = resultHighScoreList.item(5);
 
-    EXPECT_EQ(resultHighScoreList.count(), 6);
-    EXPECT_EQ(resultListItem0->text(),      "Player\t\t\tScore");
-    EXPECT_EQ(resultListItem1->text(),      "Andy\t\t\t500");
-    EXPECT_EQ(resultListItem2->text(),      "Mendy\t\t\t400");
-    EXPECT_EQ(resultListItem3->text(),      "Andy\t\t\t100");
-    EXPECT_EQ(resultListItem4->text(),      "Bob\t\t\t50");
-    EXPECT_EQ(resultListItem5->text(),      "Mendy\t\t\t0");
+    EXPECT_EQ(resultHighScoreList.count(),           6);
+    EXPECT_EQ(resultListItem0->text().toStdString(), "Player\t\t\tScore");
+    EXPECT_EQ(resultListItem1->text().toStdString(), "Andy\t\t\t500");
+    EXPECT_EQ(resultListItem2->text().toStdString(), "Mendy\t\t\t400");
+    EXPECT_EQ(resultListItem3->text().toStdString(), "Andy\t\t\t100");
+    EXPECT_EQ(resultListItem4->text().toStdString(), "Bob\t\t\t50");
+    EXPECT_EQ(resultListItem5->text().toStdString(), "Mendy\t\t\t0");
 }
