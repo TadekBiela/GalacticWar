@@ -3,15 +3,18 @@
 LevelController::LevelController(LevelModel* levelModel,
                                  LevelView*  levelView)
 {
-    connect(levelModel, SIGNAL(updateLevelView(int)), levelView, SLOT(update(int)));
+    connect(levelModel, SIGNAL(update(int)), levelView,  SLOT(update(int)));
+    connect(this,       SIGNAL(next()),      levelModel, SLOT(next()));
+    connect(levelModel, SIGNAL(change(EnemyConfiguration newEnemyConfiguration)),
+            this,       SLOT(change(EnemyConfiguration newEnemyConfiguration)));
 }
 
 void LevelController::nextLevel()
 {
-    emit nextLevelInModel();
+    emit next();
 }
 
-void LevelController::changeEnemyConfig(EnemyConfiguration newEnemyConfiguration)
+void LevelController::change(EnemyConfiguration newEnemyConfiguration)
 {
     emit changeEnemyConfiguration(newEnemyConfiguration);
 }

@@ -18,16 +18,16 @@ class LevelModelTestsClass : public testing::Test
 {
 };
 
-TEST_F(LevelModelTestsClass, NextLevel_CurrentLevelShouldIncreaseAndSentTwoDifferentSignals_IsEqual)
+TEST_F(LevelModelTestsClass, Next_CurrentLevelShouldIncreaseAndSentTwoDifferentSignals_IsEqual)
 {
     EnemyConfiguration expectedEnemyLevelConfig = { 50, 40, 10,  0,  0,  0 };
     LevelModelTests    levelModel;
-    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::updateLevelView);
+    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::update);
     qRegisterMetaType<EnemyConfiguration>();
-    QSignalSpy         signalChange(&levelModel, &LevelModelTests::changeEnemyModelConfiguration);
+    QSignalSpy         signalChange(&levelModel, &LevelModelTests::change);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
-    levelModel.nextLevel();
+    levelModel.next();
     int                resultCurrentLevel      = levelModel.getCurrentLevel();
     int                resultSignalUpdateCount = signalUpdate.count();
     int                resultSignalChangeCount = signalChange.count();
@@ -47,16 +47,16 @@ TEST_F(LevelModelTestsClass, NextLevel_CurrentLevelShouldIncreaseAndSentTwoDiffe
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType6, expectedEnemyLevelConfig.proportionOfEnemyType6);
 }
 
-TEST_F(LevelModelTestsClass, NextLevel_CurrentLevelIsMaxShouldDontIncreaseAndSentAnySignals_IsEqual)
+TEST_F(LevelModelTestsClass, Next_CurrentLevelIsMaxShouldDontIncreaseAndSentAnySignals_IsEqual)
 {
     LevelModelTests levelModel;
     levelModel.setCurrentLevel(def::maxNumOfLevel);
-    QSignalSpy      signalUpdate(&levelModel, &LevelModelTests::updateLevelView);
+    QSignalSpy      signalUpdate(&levelModel, &LevelModelTests::update);
     qRegisterMetaType<EnemyConfiguration>();
-    QSignalSpy      signalChange(&levelModel, &LevelModelTests::changeEnemyModelConfiguration);
+    QSignalSpy      signalChange(&levelModel, &LevelModelTests::change);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
-    levelModel.nextLevel();
+    levelModel.next();
     int resultCurrentLevel      = levelModel.getCurrentLevel();
     int resultSignalUpdateCount = signalUpdate.count();
     int resultSignalChangeCount = signalChange.count();
@@ -70,9 +70,9 @@ TEST_F(LevelModelTestsClass, Reset_CurrentLevelShouldBe0AndSentTwoDifferentSigna
 {
     EnemyConfiguration expectedEnemyLevelConfig = { 75, 25,  0,  0,  0,  0 };
     LevelModelTests    levelModel;
-    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::updateLevelView);
+    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::update);
     qRegisterMetaType<EnemyConfiguration>();
-    QSignalSpy         signalChange(&levelModel, &LevelModelTests::changeEnemyModelConfiguration);
+    QSignalSpy         signalChange(&levelModel, &LevelModelTests::change);
     signalUpdate.wait(utdef::minSignalTimeDelay);
 
     levelModel.reset();

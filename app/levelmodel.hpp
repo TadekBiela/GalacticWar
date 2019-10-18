@@ -13,11 +13,11 @@ public:
     ~LevelModel();
 
 signals:
-    void updateLevelView(int value);
-    void changeEnemyModelConfiguration(EnemyConfiguration newEnemyConfiguration);
+    void update(int value);
+    void change(EnemyConfiguration newEnemyConfiguration);
 
 public slots:
-    void nextLevel();
+    void next();
     void reset();
 
 protected:

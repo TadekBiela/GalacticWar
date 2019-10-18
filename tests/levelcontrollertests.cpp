@@ -25,7 +25,7 @@ TEST_F(LevelControllerTestsClass, NextLevel_CheckIfWillSendNextLevelInModelSigna
     LevelModel* model = new LevelModel;
     LevelView*  view  = new LevelView;
     LevelControllerTest levelController(model, view);
-    QSignalSpy signalNext(&levelController, &LevelControllerTest::nextLevelInModel);
+    QSignalSpy signalNext(&levelController, &LevelControllerTest::next);
     signalNext.wait(utdef::minSignalTimeDelay);
 
     levelController.nextLevel();
@@ -36,7 +36,7 @@ TEST_F(LevelControllerTestsClass, NextLevel_CheckIfWillSendNextLevelInModelSigna
     delete view;
 }
 
-TEST_F(LevelControllerTestsClass, ChangeEnemyConfig_CheckIfWillSendChangeEnemyConfigurationSignalOneTime_IsEqual)
+TEST_F(LevelControllerTestsClass, Change_CheckIfWillSendChangeEnemyConfigurationSignalOneTime_IsEqual)
 {
     qRegisterMetaType<EnemyConfiguration>();
     EnemyConfiguration inputEnemyConfig = { 10, 50, 0, 25, 15, 0 };
@@ -46,7 +46,7 @@ TEST_F(LevelControllerTestsClass, ChangeEnemyConfig_CheckIfWillSendChangeEnemyCo
     QSignalSpy signalChange(&levelController, &LevelControllerTest::changeEnemyConfiguration);
     signalChange.wait(utdef::minSignalTimeDelay);
 
-    levelController.changeEnemyConfig(inputEnemyConfig);
+    levelController.change(inputEnemyConfig);
     int                resultSignalAddCount = signalChange.count();
     EnemyConfiguration resultEnemyConfig    = qvariant_cast<EnemyConfiguration>(signalChange.takeFirst().at(0));
 

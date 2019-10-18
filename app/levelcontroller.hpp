@@ -14,12 +14,12 @@ public:
                     LevelView*  levelView);
 
 signals:
-    void nextLevelInModel();
+    void next();
     void changeEnemyConfiguration(EnemyConfiguration newEnemyConfiguration);
 
 public slots:
     void nextLevel();
-    void changeEnemyConfig(EnemyConfiguration newEnemyConfiguration);
+    void change(EnemyConfiguration newEnemyConfiguration);
 };
 
 #endif // LEVELCONTROLLER_HPP
