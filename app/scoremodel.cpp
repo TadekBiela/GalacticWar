@@ -20,7 +20,7 @@ ScoreModel::~ScoreModel()
 
 void ScoreModel::get()
 {
-
+    emit update(m_totalScore);
 }
 
 void ScoreModel::addPoints(int points)
