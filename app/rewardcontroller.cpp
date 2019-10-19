@@ -19,7 +19,7 @@ void RewardController::spawnRewards(QPointF position, int tier)
 
 void RewardController::coinCollected(coin_type coin)
 {
-
+    emit rewardCoinCollected(coin);
 }
 
 void RewardController::specialCollected(special_type scpecial)
