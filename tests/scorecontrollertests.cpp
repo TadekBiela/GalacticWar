@@ -81,6 +81,48 @@ TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedBronzeCoinCheckIfWillSe
     delete randomGenerator;
 }
 
+TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedSilverCoinCheckIfWillSendSignalWithCorrectValue_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(def::minPointsForSilverCoin);
+    ScoreModel*         model = new ScoreModel;
+    ScoreView*          view  = new ScoreView;
+    ScoreControllerTest scoreController(model, view, randomGenerator);
+    QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
+    signalAdd.wait(utdef::minSignalTimeDelay);
+
+    scoreController.addScorePoints(coin_type::silver);
+    int resultSignalAddCount = signalAdd.count();
+    int resultPoints         = signalAdd.takeFirst().at(0).toInt();
+
+    EXPECT_EQ(resultSignalAddCount, 1);
+    EXPECT_EQ(resultPoints,         def::minPointsForSilverCoin);
+    delete model;
+    delete view;
+    delete randomGenerator;
+}
+
+TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedGoldCoinCheckIfWillSendSignalWithCorrectValue_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(def::minPointsForGoldCoin);
+    ScoreModel*         model = new ScoreModel;
+    ScoreView*          view  = new ScoreView;
+    ScoreControllerTest scoreController(model, view, randomGenerator);
+    QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
+    signalAdd.wait(utdef::minSignalTimeDelay);
+
+    scoreController.addScorePoints(coin_type::gold);
+    int resultSignalAddCount = signalAdd.count();
+    int resultPoints         = signalAdd.takeFirst().at(0).toInt();
+
+    EXPECT_EQ(resultSignalAddCount, 1);
+    EXPECT_EQ(resultPoints,         def::minPointsForGoldCoin);
+    delete model;
+    delete view;
+    delete randomGenerator;
+}
+
 TEST_F(ScoreControllerTestsClass, MaxPerLevelAchieved_CheckIfWillSendMaxScorePerLevelAchievedSignal_IsEqual)
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
