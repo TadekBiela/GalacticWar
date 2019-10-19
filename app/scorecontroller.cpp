@@ -29,7 +29,23 @@ void ScoreController::update(int score)
 
 void ScoreController::addScorePoints(coin_type coin)
 {
-
+    int points = 0;
+    switch (coin)
+    {
+        case bronze:
+            points = m_generator->bounded(def::minPointsForBronzeCoin,
+                                          def::maxPointsForBronzeCoin);
+            break;
+        case silver:
+            points = m_generator->bounded(def::minPointsForSilverCoin,
+                                          def::maxPointsForSilverCoin);
+            break;
+        case gold:
+            points = m_generator->bounded(def::minPointsForGoldCoin,
+                                          def::maxPointsForGoldCoin);
+            break;
+    }
+    emit addPoints(points);
 }
 
 void ScoreController::maxPerLevelAchieved()
