@@ -21,12 +21,12 @@ public:
 signals:
     void addRewardToScene(QGraphicsItem* reward);
     void rewardCoinCollected(coin_type coin);
-    void rewardSpecialCollected(special_type scpecial);
+    void rewardSpecialCollected(special_type special);
 
 public slots:
     void spawnRewards(QPointF position, int tier);
     void coinCollected(coin_type coin);
-    void specialCollected(special_type scpecial);
+    void specialCollected(special_type special);
 
 protected:
     IRandomGenerator* m_generator;

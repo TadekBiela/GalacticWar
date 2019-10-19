@@ -22,7 +22,7 @@ void RewardController::coinCollected(coin_type coin)
     emit rewardCoinCollected(coin);
 }
 
-void RewardController::specialCollected(special_type scpecial)
+void RewardController::specialCollected(special_type special)
 {
-
+    emit rewardSpecialCollected(special);
 }
