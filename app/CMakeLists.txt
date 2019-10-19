@@ -43,6 +43,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                playermodel.cpp
                                rewardmodel.hpp
                                rewardmodel.cpp
+                               rewardcontroller.hpp
+                               rewardcontroller.cpp
                                rewardcoinmodel.hpp
                                rewardcoinmodel.cpp
                                rewardspecialmodel.hpp
