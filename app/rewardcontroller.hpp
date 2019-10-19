@@ -21,7 +21,7 @@ public:
 signals:
     void addRewardToScene(QGraphicsItem* reward);
     void rewardCoinCollected(coin_type coin);
-    void rewardScpecialCollected(special_type scpecial);
+    void rewardSpecialCollected(special_type scpecial);
 
 public slots:
     void spawnRewards(QPointF position, int tier);
