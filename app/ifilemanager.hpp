@@ -2,7 +2,6 @@
 #define IFILEMANAGER_HPP
 
 #include <QString>
-#include <QMultiHash>
 
 class IFileManager
 {

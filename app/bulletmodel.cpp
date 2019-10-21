@@ -1,7 +1,6 @@
 #include "bulletmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
-#include <QtMath>
 
 BulletModel::BulletModel(bullet_type type,
                          QPointF     position,
