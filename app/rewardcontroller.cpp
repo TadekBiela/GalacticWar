@@ -18,7 +18,7 @@ RewardController::RewardController(GeneralView*      view,
                                     : m_generator(generator)
 {
     connect(this, SIGNAL(addRewardToScene(QGraphicsItem*)),
-            view, SLOT(addRewardToScene(QGraphicsItem*)));
+            view, SLOT(addGameObject(QGraphicsItem*)));
 }
 
 RewardController::~RewardController()

@@ -7,6 +7,12 @@ MenuController::MenuController(GeneralView* view,
             model, SLOT(addRecordToHighScore(PlayerScore)));
     connect(model, SIGNAL(updateHighScore(PlayerScoreMapIterator, int)),
             view,  SLOT(updateHighScoreList(PlayerScoreMapIterator, int)));
+    connect(this,  SIGNAL(playerDefeated(int)),
+            view,  SLOT(gameOver(int)));
+    connect(view,  SIGNAL(startGame()),
+            this,  SLOT(startGame()));
+    connect(view,  SIGNAL(pause()),
+            this,  SLOT(stopGame()));
 }
 
 MenuController::~MenuController()
