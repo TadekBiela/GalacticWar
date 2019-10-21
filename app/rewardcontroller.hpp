@@ -1,10 +1,9 @@
 #ifndef REWARDCONTROLLER_HPP
 #define REWARDCONTROLLER_HPP
 
+#include "definitions.hpp"
 #include "generalview.hpp"
 #include "irandomgenerator.hpp"
-#include "rewardcoinmodel.hpp"
-#include "rewardspecialmodel.hpp"
 #include "rewardtypes.hpp"
 #include <QObject>
 #include <QGraphicsItem>
@@ -30,6 +29,11 @@ public slots:
 
 protected:
     IRandomGenerator* m_generator;
+
+    static const int s_minCoinsInTier[def::maxTier];
+    static const int s_maxCoinsInTier[def::maxTier];
+    static const int s_coinTypeInTier[def::maxTier][10];
+    static const int s_specialChanceInTier[def::maxTier];
 };
 
 #endif // REWARDCONTROLLER_HPP

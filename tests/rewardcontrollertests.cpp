@@ -29,7 +29,7 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1OnlyOneBronzeCoinShouldBeSp
     int sequance[] = { 1,      //coins
                        0,      //type for #1 coin
                        5, -10, //offsets to position for #1 coin
-                       0 };    //specials probability (should be false)
+                       1 };    //specials probability (should be false)
     RandomSequanceGeneratorStub* randomGenerator = new RandomSequanceGeneratorStub(5, sequance);
     GeneralView* view = new GeneralView;
     RewardControllerTest rewardController(view, randomGenerator);
@@ -39,7 +39,6 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1OnlyOneBronzeCoinShouldBeSp
     rewardController.spawnRewards(QPointF(50, 50), 1);
     int  resultSignalCoinCount = signalReward.count();
     auto resultCoinReward      = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(0)));
-
 
     EXPECT_EQ(resultSignalCoinCount,             1);
     EXPECT_FLOAT_EQ(resultCoinReward->pos().x(), 55);
@@ -65,23 +64,23 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier2CoinsOneBronzeAndOneSilverS
 
     rewardController.spawnRewards(QPointF(50, 50), 2);
     int  resultSignalsCount = signalReward.count();
-    auto resultCoinReward1  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(0)));
-    auto resultCoinReward2  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(1)));
+    auto resultCoinReward1  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(0).at(0)));
+    auto resultCoinReward2  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(1).at(0)));
 
     EXPECT_EQ(resultSignalsCount,                 2);
     EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(), 45);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 60);
+    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 50);
     EXPECT_EQ(resultCoinReward1->getType(),       coin_type::bronze);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(), 55);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 58);
-    EXPECT_EQ(resultCoinReward1->getType(),       coin_type::silver);
+    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(), 55);
+    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(), 58);
+    EXPECT_EQ(resultCoinReward2->getType(),       coin_type::silver);
     delete view;
     delete randomGenerator;
 }
 
 TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3AllTypesCoinsAndSpecialRewardsShouldBeSpawned_IsEqual)
 {
-    int sequance[] = { 2,      //coins
+    int sequance[] = { 3,      //coins
                        1,      //#1
                        5, 5,
                        6,      //#2
@@ -98,10 +97,10 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3AllTypesCoinsAndSpecialRewa
 
     rewardController.spawnRewards(QPointF(50, 50), 3);
     int  resultSignalsCount  = signalReward.count();
-    auto resultCoinReward1   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(0)));
-    auto resultCoinReward2   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(1)));
-    auto resultCoinReward3   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(2)));
-    auto resultSpecialReward = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(3)));
+    auto resultCoinReward1   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(0).at(0)));
+    auto resultCoinReward2   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(1).at(0)));
+    auto resultCoinReward3   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(2).at(0)));
+    auto resultSpecialReward = dynamic_cast<RewardSpecialModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(3).at(0)));
 
     EXPECT_EQ(resultSignalsCount,                   4);
     EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(),   55);
@@ -110,11 +109,11 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3AllTypesCoinsAndSpecialRewa
     EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(),   40);
     EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(),   50);
     EXPECT_EQ(resultCoinReward2->getType(),         coin_type::silver);
-    EXPECT_FLOAT_EQ(resultCoinReward3->pos().x(),   55);
-    EXPECT_FLOAT_EQ(resultCoinReward3->pos().y(),   58);
+    EXPECT_FLOAT_EQ(resultCoinReward3->pos().x(),   48);
+    EXPECT_FLOAT_EQ(resultCoinReward3->pos().y(),   46);
     EXPECT_EQ(resultCoinReward3->getType(),         coin_type::gold);
-    EXPECT_FLOAT_EQ(resultSpecialReward->pos().x(), 48);
-    EXPECT_FLOAT_EQ(resultSpecialReward->pos().y(), 46);
+    EXPECT_FLOAT_EQ(resultSpecialReward->pos().x(), 50);
+    EXPECT_FLOAT_EQ(resultSpecialReward->pos().y(), 50);
     EXPECT_EQ(resultSpecialReward->getType(),       special_type::health);
     delete view;
     delete randomGenerator;

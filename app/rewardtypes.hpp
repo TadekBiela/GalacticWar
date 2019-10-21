@@ -1,6 +1,8 @@
 #ifndef REWARDTYPES_HPP
 #define REWARDTYPES_HPP
 
+#include "definitions.hpp"
+
 enum coin_type
 {
     bronze = 0,
@@ -10,10 +12,10 @@ enum coin_type
 
 enum special_type
 {
-    health = 0,
+    health = 1,
     weaponRed,
     weaponYellow,
-    weaponBlue
+    weaponBlue = def::maxNumOfSpecialRewards
 };
 
 #endif // REWARDTYPES_HPP

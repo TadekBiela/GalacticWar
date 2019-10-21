@@ -23,6 +23,10 @@ namespace def
     const int defaultPlayerMoveTimeDelay  = 15;
 
     //Reward default configuration
+    const int maxNumOfSpecialRewards         = 5;
+    const int maxTier                        = 6;
+    const int minRewardPosOffset             = -10;
+    const int maxRewardPosOffset             = 10;
     const int defaultRewardDestroyTimeDelay  = 1000;
     const int minPointsForBronzeCoin         = 10;
     const int maxPointsForBronzeCoin         = 30;
