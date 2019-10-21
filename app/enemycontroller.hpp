@@ -25,6 +25,8 @@ signals:
 public slots:
     void changeEnemyConfiguration(EnemyConfiguration newConfiguration);
     void destroyed(QPointF position, int enemyLevel);
+    void startSpawning();
+    void stopSpawning();
 
 protected slots:
     void spawnEnemy();

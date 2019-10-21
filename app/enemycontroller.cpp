@@ -60,6 +60,16 @@ void EnemyController::destroyed(QPointF position, int enemyLevel)
     emit enemyDestroyed(position, enemyLevel);
 }
 
+void EnemyController::startSpawning()
+{
+
+}
+
+void EnemyController::stopSpawning()
+{
+
+}
+
 void EnemyController::spawnEnemy()
 {
     EnemyModel* enemy;
