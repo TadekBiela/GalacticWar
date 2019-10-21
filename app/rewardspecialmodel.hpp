@@ -10,6 +10,7 @@ class RewardSpecialModel : public RewardModel
 public:
     RewardSpecialModel(special_type type);
     void collect();
+    special_type getType() { return m_type; }
 
 signals:
     void collected(special_type type);

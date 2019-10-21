@@ -10,6 +10,7 @@ class RewardCoinModel : public RewardModel
 public:
     RewardCoinModel(coin_type type);
     void collect();
+    coin_type getType() { return m_type; }
 
 signals:
     void collected(coin_type type);
