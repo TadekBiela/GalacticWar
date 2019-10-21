@@ -6,21 +6,22 @@
 class BulletModelTest : public BulletModel
 {
 public:
-    explicit BulletModelTest(bullet_type type,
-                             QPointF     position,
-                             int         damage,
-                             int         direction,
-                             int         moveTimeDelay) :
-                             BulletModel(type,
-                                         position,
-                                         damage,
-                                         direction,
-                                         moveTimeDelay){}
+    BulletModelTest(bullet_type type,
+                    QPointF     position,
+                    int         damage,
+                    int         direction,
+                    int         moveTimeDelay)
+                     : BulletModel(type,
+                                   position,
+                                   damage,
+                                   direction,
+                                   moveTimeDelay){}
+    virtual ~BulletModelTest() {}
 
-    bullet_type getType() const        { return m_type; }
-    QPointF getPosition() const        { return QGraphicsItem::pos(); }
-    int getDamage() const              { return m_damage; }
-    int getDirection() const           { return m_direction; }
+    bullet_type getType()        const { return m_type; }
+    QPointF getPosition()        const { return QGraphicsItem::pos(); }
+    int getDamage()              const { return m_damage; }
+    int getDirection()           const { return m_direction; }
     const QTimer& getMoveTimer() const { return m_moveTimer; }
 };
 

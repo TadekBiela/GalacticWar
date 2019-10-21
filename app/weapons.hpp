@@ -14,6 +14,6 @@ struct weapon
 };
 
 extern weapon defaultWeapon;
-extern weapon weapons[3 * def::maxWeaponLevel];
+extern weapon weapons[def::maxWeaponTypes * def::maxWeaponLevel];
 
 #endif // WEAPONS_HPP

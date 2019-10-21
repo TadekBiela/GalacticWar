@@ -7,8 +7,11 @@
 class ScoreModelTests : public ScoreModel
 {
 public:
-    int getCurrentTresholdIdx() const   { return m_currentTresholdIdx; }
-    int getTotalScore()           const { return m_totalScore; }
+    ScoreModelTests() {}
+    virtual ~ScoreModelTests() {}
+
+    int  getCurrentTresholdIdx() const  { return m_currentTresholdIdx; }
+    int  getTotalScore()         const  { return m_totalScore; }
     void setCurrentTresholdIdx(int idx) { m_currentTresholdIdx = idx; }
     void setTotalScore(int score)       { m_totalScore = score; }
 };

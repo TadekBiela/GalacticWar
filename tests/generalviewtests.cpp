@@ -14,6 +14,9 @@ Q_DECLARE_METATYPE(PlayerScore)
 class GeneralViewTests : public GeneralView
 {
 public:
+    GeneralViewTests() {}
+    virtual ~GeneralViewTests() {}
+
     const QLabel&      getTitle()                   { return m_title; }
     const QLabel&      getAuthor()                  { return m_author; }
     const QLabel&      getPause()                   { return m_pause; }

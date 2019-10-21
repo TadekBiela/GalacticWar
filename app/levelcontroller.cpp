@@ -1,11 +1,16 @@
 #include "levelcontroller.hpp"
 
-LevelController::LevelController(LevelModel* levelModel,
-                                 LevelView*  levelView)
+LevelController::LevelController(LevelModel* model,
+                                 LevelView*  view)
 {
-    connect(this,       SIGNAL(next()),                     levelModel, SLOT(next()));
-    connect(levelModel, SIGNAL(update(int)),                levelView,  SLOT(update(int)));
-    connect(levelModel, SIGNAL(change(EnemyConfiguration)), this,       SLOT(change(EnemyConfiguration)));
+    connect(this,  SIGNAL(next()),                     model, SLOT(next()));
+    connect(model, SIGNAL(update(int)),                view,  SLOT(update(int)));
+    connect(model, SIGNAL(change(EnemyConfiguration)), this,  SLOT(change(EnemyConfiguration)));
+}
+
+LevelController::~LevelController()
+{
+
 }
 
 void LevelController::nextLevel()

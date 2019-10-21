@@ -10,6 +10,7 @@ class ScoreView : public QObject
     Q_OBJECT
 public:
     ScoreView();
+    virtual ~ScoreView();
 
 public slots:
     void update(int value);

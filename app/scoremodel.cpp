@@ -6,9 +6,9 @@ const int ScoreModel::s_scoreTresholds[def::maxNumOfLevel] =
     55000, 95000, 150000, 210000, 300000
 };
 
-ScoreModel::ScoreModel() :
-    m_currentTresholdIdx(0),
-    m_totalScore(0)
+ScoreModel::ScoreModel()
+                       : m_currentTresholdIdx(0),
+                         m_totalScore(0)
 {
 
 }
@@ -26,14 +26,17 @@ void ScoreModel::get()
 void ScoreModel::addPoints(int points)
 {
     m_totalScore += points;
+
     int percentScoreLevel = 0;
     int currentTreshold   = s_scoreTresholds[m_currentTresholdIdx];
 
     if(m_totalScore >= currentTreshold && m_currentTresholdIdx < def::maxNumOfLevel - 1)
     {
         m_currentTresholdIdx++;
-        int newTreshold = s_scoreTresholds[m_currentTresholdIdx];
+
+        int newTreshold              = s_scoreTresholds[m_currentTresholdIdx];
         int totalScoreInCurrentLevel = newTreshold - currentTreshold;
+
         percentScoreLevel = ((m_totalScore - currentTreshold) * 100) /
                             (totalScoreInCurrentLevel);
         emit maxPerLevelAchieved();

@@ -14,7 +14,7 @@ class PlayerController : public QObject
 public:
     PlayerController(GeneralView* view,
                      HealthView*  healthView);
-    ~PlayerController();
+    virtual ~PlayerController();
 
 signals:
     void addPlayerToScene(QGraphicsItem* player);

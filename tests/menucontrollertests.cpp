@@ -9,10 +9,11 @@
 class MenuControllerTest : public MenuController
 {
 public:
-    MenuControllerTest(GeneralView* generalView,
-                       MenuModel*   menuModel) :
-                       MenuController(generalView,
-                                      menuModel) {}
+    MenuControllerTest(GeneralView* view,
+                       MenuModel*   model)
+                        : MenuController(view,
+                                         model) {}
+    virtual ~MenuControllerTest() {}
 };
 
 class MenuControllerTestsClass : public testing::Test

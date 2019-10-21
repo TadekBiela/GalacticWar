@@ -9,7 +9,8 @@ class RewardSpecialModel : public RewardModel
     Q_OBJECT
 public:
     RewardSpecialModel(special_type type);
-    void collect();
+    virtual ~RewardSpecialModel();
+    void         collect();
     special_type getType() { return m_type; }
 
 signals:

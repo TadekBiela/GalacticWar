@@ -16,7 +16,7 @@ public:
                 int         damage,
                 int         direction,
                 int         moveTimeDelay);
-    ~BulletModel();
+    virtual ~BulletModel();
     bullet_type getType() const;
     int         getDamage() const;
 

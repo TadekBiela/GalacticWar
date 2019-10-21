@@ -2,7 +2,7 @@
 
 weapon defaultWeapon = { weapon_type::defWeapon, 1, &defaultFireFunc, 20 };
 
-weapon weapons[3 * def::maxWeaponLevel] = {
+weapon weapons[def::maxWeaponTypes * def::maxWeaponLevel] = {
     { weapon_type::redWeapon, 2, &redLevel1FireFunc, 20 },
     { weapon_type::redWeapon, 2, &redLevel2FireFunc, 18 },
     { weapon_type::redWeapon, 4, &redLevel3FireFunc, 16 },

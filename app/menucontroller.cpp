@@ -9,6 +9,11 @@ MenuController::MenuController(GeneralView* view,
             view,  SLOT(updateHighScoreList(PlayerScoreMapIterator, int)));
 }
 
+MenuController::~MenuController()
+{
+
+}
+
 void MenuController::startGame()
 {
     emit activateEnemySpawning();

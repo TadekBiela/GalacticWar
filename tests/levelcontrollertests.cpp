@@ -10,10 +10,11 @@ Q_DECLARE_METATYPE(EnemyConfiguration)
 class LevelControllerTest : public LevelController
 {
 public:
-    LevelControllerTest(LevelModel* levelModel,
-                        LevelView*  levelView) :
-                        LevelController(levelModel,
-                                        levelView) {}
+    LevelControllerTest(LevelModel* model,
+                        LevelView*  view)
+                         : LevelController(model,
+                                           view) {}
+    virtual ~LevelControllerTest() {}
 };
 
 class LevelControllerTestsClass : public testing::Test

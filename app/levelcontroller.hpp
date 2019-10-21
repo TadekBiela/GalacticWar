@@ -10,8 +10,9 @@ class LevelController : public QObject
 {
     Q_OBJECT
 public:
-    LevelController(LevelModel* levelModel,
-                    LevelView*  levelView);
+    LevelController(LevelModel* model,
+                    LevelView*  view);
+    virtual ~LevelController();
 
 signals:
     void next();

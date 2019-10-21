@@ -10,6 +10,7 @@ class LevelView : public QObject
     Q_OBJECT
 public:
     LevelView();
+    virtual ~LevelView();
 
 public slots:
     void update(int value);

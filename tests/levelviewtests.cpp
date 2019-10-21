@@ -7,6 +7,9 @@
 class LevelViewTests : public LevelView
 {
 public:
+    LevelViewTests() {}
+    virtual ~LevelViewTests() {}
+
     const QLabel& getLevelLabel() { return m_levelLabel; }
 };
 

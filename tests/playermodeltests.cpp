@@ -8,7 +8,8 @@
 class PlayerModelTest : public PlayerModel
 {
 public:
-    explicit PlayerModelTest() {}
+    PlayerModelTest() {}
+    virtual ~PlayerModelTest() {}
 
     QPointF       getPosition()      const { return QGraphicsItem::pos(); }
     bool          getIsMovingFlag()  const { return m_isMoving; }

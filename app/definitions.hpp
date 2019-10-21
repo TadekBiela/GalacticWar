@@ -13,6 +13,7 @@ namespace def
     const int    animationFrameWight    = 50;
     const int    animationFrameHeight   = 50;
     const int    maxNumOfLevel          = 10;
+    const int    maxWeaponTypes         = 3;
     const int    maxWeaponLevel         = 5;
     const int    minEnemySpawnTimeDelay = 100;
     const int    maxEnemySpawnTimeDelay = 500;
@@ -23,7 +24,7 @@ namespace def
     const int defaultPlayerMoveTimeDelay  = 15;
 
     //Reward default configuration
-    const int maxNumOfSpecialRewards         = 5;
+    const int maxNumOfSpecialRewards         = 4;
     const int maxTier                        = 6;
     const int minRewardPosOffset             = -10;
     const int maxRewardPosOffset             = 10;
@@ -36,8 +37,8 @@ namespace def
     const int maxPointsForGoldCoin           = 300;
 
     //Scene size
-    const int sceneWight  = 600;
-    const int sceneHeight = 800;
+    const int sceneWight      = 600;
+    const int sceneHeight     = 800;
     const int halfSceneWight  = sceneWight  / 2;
     const int halfSceneHeight = sceneHeight / 2;
 

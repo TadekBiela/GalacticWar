@@ -11,7 +11,10 @@ Q_DECLARE_METATYPE(PlayerScoreMapIterator)
 class MenuModelTests : public MenuModel
 {
 public:
-    MenuModelTests(IFileManager* fileManager) : MenuModel(fileManager) {}
+    MenuModelTests(IFileManager* fileManager)
+                    : MenuModel(fileManager) {}
+    virtual ~MenuModelTests() {}
+
     const PlayerScoreMap& getHighScore() const { return m_highScore; }
     void setHighScore(const PlayerScoreMap& newHighScore) { m_highScore = newHighScore; }
 };

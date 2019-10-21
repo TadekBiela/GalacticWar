@@ -6,6 +6,7 @@
 class RandomGeneratorStub : public IRandomGenerator
 {
 public:
+    RandomGeneratorStub() {}
     virtual ~RandomGeneratorStub() {}
     void setRandomGeneratorFakeResult(int number)
     {

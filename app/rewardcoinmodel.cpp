@@ -1,8 +1,13 @@
 #include "rewardcoinmodel.hpp"
 #include "definitions.hpp"
 
-RewardCoinModel::RewardCoinModel(coin_type type) :
-                                 m_type(type)
+RewardCoinModel::RewardCoinModel(coin_type type)
+                                  : m_type(type)
+{
+
+}
+
+RewardCoinModel::~RewardCoinModel()
 {
 
 }

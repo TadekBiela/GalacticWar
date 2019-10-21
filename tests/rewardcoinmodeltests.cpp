@@ -12,8 +12,9 @@ Q_DECLARE_METATYPE(coin_type)
 class RewardCoinModelTest : public RewardCoinModel
 {
 public:
-    RewardCoinModelTest(coin_type type) :
-                        RewardCoinModel(type) {}
+    RewardCoinModelTest(coin_type type)
+                         : RewardCoinModel(type) {}
+    virtual ~RewardCoinModelTest() {}
 
     coin_type     getType()              const { return m_type; }
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }

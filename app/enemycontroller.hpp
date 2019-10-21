@@ -16,7 +16,7 @@ class EnemyController : public QObject
 public:
     EnemyController(GeneralView*      view,
                     IRandomGenerator* generator);
-    ~EnemyController();
+    virtual ~EnemyController();
 
 signals:
     void addEnemyToScene(QGraphicsItem* enemy);

@@ -6,18 +6,19 @@
 class EnemyModelTest : public EnemyModel
 {
 public:
-    explicit EnemyModelTest(int     level,
-                            QPointF position,
-                            int     health,
-                            int     damage,
-                            int     moveTimeDelay,
-                            int     fireTimeDelay) :
-                            EnemyModel(level,
-                                       position,
-                                       health,
-                                       damage,
-                                       moveTimeDelay,
-                                       fireTimeDelay){}
+    EnemyModelTest(int     level,
+                   QPointF position,
+                   int     health,
+                   int     damage,
+                   int     moveTimeDelay,
+                   int     fireTimeDelay)
+                    : EnemyModel(level,
+                                 position,
+                                 health,
+                                 damage,
+                                 moveTimeDelay,
+                                 fireTimeDelay){}
+    virtual ~EnemyModelTest() {}
 
     int           getLevel()             const { return m_level; }
     QPointF       getPosition()          const { return pos(); }

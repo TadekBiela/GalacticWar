@@ -15,9 +15,10 @@ class RewardControllerTest : public RewardController
 {
 public:
     RewardControllerTest(GeneralView*      view,
-                         IRandomGenerator* generator) :
-                         RewardController(view,
-                                          generator) {}
+                         IRandomGenerator* generator)
+                          : RewardController(view,
+                                             generator) {}
+    virtual ~RewardControllerTest() {}
 };
 
 class RewardControllerTestsClass : public testing::Test

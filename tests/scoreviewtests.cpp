@@ -5,6 +5,9 @@
 class ScoreViewTests : public ScoreView
 {
 public:
+    ScoreViewTests() {}
+    virtual ~ScoreViewTests() {}
+
     const QProgressBar& getScoreBar() { return m_scoreBar; }
 };
 

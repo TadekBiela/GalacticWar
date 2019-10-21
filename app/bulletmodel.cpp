@@ -6,9 +6,9 @@ BulletModel::BulletModel(bullet_type type,
                          QPointF     position,
                          int         damage,
                          int         direction,
-                         int         moveTimeDelay) :
-                         m_type(type),
-                         m_damage(damage)
+                         int         moveTimeDelay)
+                          : m_type(type),
+                            m_damage(damage)
 {
     int finiteDirection = direction % 360;
     m_direction = finiteDirection < 0 ? 360 + finiteDirection : finiteDirection;

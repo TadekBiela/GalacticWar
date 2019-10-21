@@ -15,7 +15,7 @@ class MenuModel : public QObject
     Q_OBJECT
 public:
     MenuModel(IFileManager* fileManager);
-    ~MenuModel();
+    virtual ~MenuModel();
 
 signals:
      void updateHighScore(PlayerScoreMapIterator highScoreIterator,

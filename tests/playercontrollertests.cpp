@@ -14,9 +14,11 @@ class PlayerControllerTest : public PlayerController
 {
 public:
     PlayerControllerTest(GeneralView* view,
-                         HealthView*  healthVodel) :
-                         PlayerController(view,
-                                          healthVodel) {}
+                         HealthView*  healthView)
+                          : PlayerController(view,
+                                             healthView) {}
+    virtual ~PlayerControllerTest() {}
+
     PlayerModel* getPlayerModel() { return m_player; }
     void createPlayer()
     {

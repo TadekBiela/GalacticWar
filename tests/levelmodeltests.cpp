@@ -10,6 +10,9 @@ Q_DECLARE_METATYPE(EnemyConfiguration)
 class LevelModelTests : public LevelModel
 {
 public:
+    LevelModelTests() {}
+    virtual ~LevelModelTests() {}
+
     int getCurrentLevel() const { return m_currentLevel; }
     void setCurrentLevel(int value) { m_currentLevel = value; }
 };

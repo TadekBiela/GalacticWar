@@ -13,10 +13,11 @@
 class EnemyControllerTest : public EnemyController
 {
 public:
-    explicit EnemyControllerTest(GeneralView* view,
-                                 IRandomGenerator* generator) :
-                                 EnemyController(view,
-                                                 generator){}
+    EnemyControllerTest(GeneralView*      view,
+                        IRandomGenerator* generator)
+                         : EnemyController(view,
+                                           generator){}
+    virtual ~EnemyControllerTest() {}
 
     int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
     const QTimer& getEnemySpawnTimer()     { return m_enemySpawnTimer; }
@@ -28,7 +29,10 @@ public slots:
 class GeneralViewMock : public GeneralView
 {
 public:
-    const QGraphicsScene& getScene()  { return m_scene; }
+    GeneralViewMock() {}
+    ~GeneralViewMock() {}
+
+    const QGraphicsScene& getScene() { return m_scene; }
 };
 
 class EnemyControllerTestsClass : public testing::Test

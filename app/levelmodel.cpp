@@ -27,7 +27,7 @@ void LevelModel::next()
     if(++m_currentLevel <= def::maxNumOfLevel)
     {
         emit update(m_currentLevel);
-        emit change(s_enemyLevelConfigurations[m_currentLevel-1]);
+        emit change(s_enemyLevelConfigurations[m_currentLevel - 1]);
     }
     else
     {
@@ -39,5 +39,5 @@ void LevelModel::reset()
 {
     m_currentLevel = 1;
     emit update(m_currentLevel);
-    emit change(s_enemyLevelConfigurations[m_currentLevel-1]);
+    emit change(s_enemyLevelConfigurations[m_currentLevel - 1]);
 }

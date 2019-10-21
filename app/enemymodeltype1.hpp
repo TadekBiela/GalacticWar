@@ -11,7 +11,7 @@ class EnemyModelType1 : public EnemyModel
 public:
     EnemyModelType1(QPointF           position,
                     IRandomGenerator* generator);
-    ~EnemyModelType1();
+    virtual ~EnemyModelType1();
 
 public slots:
     void fire();

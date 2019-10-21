@@ -12,8 +12,9 @@ Q_DECLARE_METATYPE(special_type)
 class RewardSpecialModelTest : public RewardSpecialModel
 {
 public:
-    RewardSpecialModelTest(special_type type) :
-                           RewardSpecialModel(type) {}
+    RewardSpecialModelTest(special_type type)
+                            : RewardSpecialModel(type) {}
+    virtual ~RewardSpecialModelTest() {}
 
     special_type  getType()              const { return m_type; }
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }

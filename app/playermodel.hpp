@@ -13,7 +13,7 @@ class PlayerModel : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 public:
     PlayerModel();
-    ~PlayerModel();
+    virtual ~PlayerModel();
     void setHealth(int health) { m_health = health; }
     int getHealth() const { return m_health; }
 

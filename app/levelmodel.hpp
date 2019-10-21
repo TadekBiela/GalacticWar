@@ -10,7 +10,7 @@ class LevelModel : public QObject
     Q_OBJECT
 public:
     LevelModel();
-    ~LevelModel();
+    virtual ~LevelModel();
 
 signals:
     void update(int value);
@@ -21,7 +21,8 @@ public slots:
     void reset();
 
 protected:
-    int                             m_currentLevel = 1;
+    int m_currentLevel = 1;
+
     static const EnemyConfiguration s_enemyLevelConfigurations[def::maxNumOfLevel];
 };
 

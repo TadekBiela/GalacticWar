@@ -1,8 +1,13 @@
 #include "rewardspecialmodel.hpp"
 #include "definitions.hpp"
 
-RewardSpecialModel::RewardSpecialModel(special_type type) :
-                                       m_type(type)
+RewardSpecialModel::RewardSpecialModel(special_type type)
+                                        : m_type(type)
+{
+
+}
+
+RewardSpecialModel::~RewardSpecialModel()
 {
 
 }

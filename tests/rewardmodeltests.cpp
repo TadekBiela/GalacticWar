@@ -8,6 +8,7 @@ class RewardModelTest : public RewardModel
 {
 public:
     RewardModelTest() {}
+    virtual ~RewardModelTest() {}
 
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
     const QTimer& getAnimationTimer()    const { return m_animationTimer; }

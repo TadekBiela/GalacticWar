@@ -4,6 +4,9 @@
 class HealthViewTests : public HealthView
 {
 public:
+    HealthViewTests() {}
+    virtual ~HealthViewTests() {}
+
     const QProgressBar& getHealthBar() { return m_healthBar; }
 };
 

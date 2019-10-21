@@ -11,6 +11,7 @@ class MenuController : public QObject
 public:
     MenuController(GeneralView* view,
                    MenuModel*   model);
+    virtual ~MenuController();
 
 signals:
     void saveHighScore();

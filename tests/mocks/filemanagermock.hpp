@@ -6,6 +6,8 @@
 class FileManagerMock : public IFileManager
 {
 public:
+    FileManagerMock() {}
+    virtual ~FileManagerMock() {}
     void    saveFile(const QString data) { m_fileContent = data; }
     QString loadFile(const QString fileName) { return m_fileContent; }
     QString getFileContent() const { return m_fileContent; }

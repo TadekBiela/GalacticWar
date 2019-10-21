@@ -10,10 +10,11 @@
 class EnemyModelType1Test : public EnemyModelType1
 {
 public:
-    explicit EnemyModelType1Test(QPointF           position,
-                                 IRandomGenerator* generator) :
-                                 EnemyModelType1(position,
-                                                 generator){}
+    EnemyModelType1Test(QPointF           position,
+                        IRandomGenerator* generator)
+                         : EnemyModelType1(position,
+                                           generator){}
+    virtual ~EnemyModelType1Test() {}
 
     int           getLevel()             const { return m_level; }
     QPointF       getPosition()          const { return pos(); }

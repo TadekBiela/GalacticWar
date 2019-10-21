@@ -3,13 +3,13 @@
 #include "functions.hpp"
 #include <QLineF>
 
-PlayerModel::PlayerModel() :
-                         m_isMoving(false),
-                         m_direction(0),
-                         m_health(def::maxPlayerHealth),
-                         m_weapon(defaultWeapon),
-                         m_weaponTier(0),
-                         m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
+PlayerModel::PlayerModel()
+                         : m_isMoving(false),
+                           m_direction(0),
+                           m_health(def::maxPlayerHealth),
+                           m_weapon(defaultWeapon),
+                           m_weaponTier(0),
+                           m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
 {
     setPos(def::halfSceneWight, def::halfSceneHeight);
 
@@ -50,9 +50,9 @@ void PlayerModel::stopFire()
 void PlayerModel::changeDirection(QPointF newDirection)
 {
     QLineF vector(QGraphicsItem::pos(), newDirection);
-    int    length = static_cast<int>(vector.length());
-    m_isMoving    = length >= def::moveVectorLength;
-    m_direction   = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
+    int length  = static_cast<int>(vector.length());
+    m_isMoving  = length >= def::moveVectorLength;
+    m_direction = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
 }
 
 void PlayerModel::changeAtribute(special_type specialReward)
@@ -79,7 +79,7 @@ void PlayerModel::changeWeapon(weapon_type weapon)
 {
     if(weapon != m_weapon.type)
     {
-        m_weapon = weapons[weapon * def::maxWeaponLevel];
+        m_weapon     = weapons[weapon * def::maxWeaponLevel];
         m_weaponTier = 0;
     }
     else

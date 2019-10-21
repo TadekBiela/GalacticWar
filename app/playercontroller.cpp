@@ -1,9 +1,9 @@
 #include "playercontroller.hpp"
 
 PlayerController::PlayerController(GeneralView* view,
-                                   HealthView*  healthView) :
-                                   m_view(view),
-                                   m_healthView(healthView)
+                                   HealthView*  healthView)
+                                    : m_view(view),
+                                      m_healthView(healthView)
 {
     m_player = nullptr;
 }
@@ -23,6 +23,7 @@ void PlayerController::createNew()
         delete m_player;
     }
     m_player = new PlayerModel;
+
     connect(this,     SIGNAL(changeAtribute(special_type)), m_player,     SLOT(changeAtribute(special_type)));
     connect(m_view,   SIGNAL(mousePressed()),               m_player,     SLOT(startFire()));
     connect(m_view,   SIGNAL(mouseReleased()),              m_player,     SLOT(stopFire()));

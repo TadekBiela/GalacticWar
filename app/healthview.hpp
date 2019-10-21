@@ -10,7 +10,7 @@ class HealthView : public QObject
     Q_OBJECT
 public:
     HealthView();
-    ~HealthView();
+    virtual ~HealthView();
 
 public slots:
     void update(int value);

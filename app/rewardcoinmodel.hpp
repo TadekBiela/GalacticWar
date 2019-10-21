@@ -9,7 +9,8 @@ class RewardCoinModel : public RewardModel
     Q_OBJECT
 public:
     RewardCoinModel(coin_type type);
-    void collect();
+    virtual ~RewardCoinModel();
+    void      collect();
     coin_type getType() { return m_type; }
 
 signals:

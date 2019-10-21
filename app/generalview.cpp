@@ -1,18 +1,18 @@
 #include "generalview.hpp"
 #include "definitions.hpp"
 
-GeneralView::GeneralView() :
-                         m_scene(0, 0, def::sceneWight, def::sceneHeight),
-                         m_title("GALACTIC WAR"),
-                         m_author("Created by TED"),
-                         m_pause("PAUSE"),
-                         m_player(""),
-                         m_score("0"),
-                         m_startButton("MENU"),
-                         m_highScoreButton("HIGH SCORE"),
-                         m_quitButton("QUIT"),
-                         m_backToMenuButton("BACK"),
-                         m_saveAfterGameOver("SAVE")
+GeneralView::GeneralView()
+                         : m_scene(0, 0, def::sceneWight, def::sceneHeight),
+                           m_title("GALACTIC WAR"),
+                           m_author("Created by TED"),
+                           m_pause("PAUSE"),
+                           m_player(""),
+                           m_score("0"),
+                           m_startButton("MENU"),
+                           m_highScoreButton("HIGH SCORE"),
+                           m_quitButton("QUIT"),
+                           m_backToMenuButton("BACK"),
+                           m_saveAfterGameOver("SAVE")
 {
     menu();
 }

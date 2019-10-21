@@ -12,10 +12,11 @@ class ScoreControllerTest : public ScoreController
 public:
     ScoreControllerTest(ScoreModel*       model,
                         ScoreView*        view,
-                        IRandomGenerator* generator) :
-                        ScoreController(model,
-                                        view,
-                                        generator) {}
+                        IRandomGenerator* generator)
+                         : ScoreController(model,
+                                           view,
+                                           generator) {}
+    virtual ~ScoreControllerTest() {}
 };
 
 class ScoreControllerTestsClass : public testing::Test
