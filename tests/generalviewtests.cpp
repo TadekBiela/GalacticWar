@@ -1,7 +1,12 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/randomgeneratorstub.hpp"
 #include "../app/generalview.hpp"
 #include "../app/definitions.hpp"
+#include "../app/playermodel.hpp"
+#include "../app/enemymodeltype1.hpp"
+#include "../app/rewardcoinmodel.hpp"
+#include "../app/rewardspecialmodel.hpp"
 #include <QEvent>
 #include <QLabel>
 #include <QPushButton>
@@ -17,19 +22,20 @@ public:
     GeneralViewTests() {}
     virtual ~GeneralViewTests() {}
 
-    const QLabel&      getTitle()                   { return m_title; }
-    const QLabel&      getAuthor()                  { return m_author; }
-    const QLabel&      getPause()                   { return m_pause; }
-    const QLabel&      getPlayer()                  { return m_player; }
-    const QLabel&      getScore()                   { return m_score; }
-    const QPushButton& getStartButton()             { return m_startButton; }
-    const QPushButton& getHighScoreButton()         { return m_highScoreButton; }
-    const QPushButton& getQuitButton()              { return m_quitButton; }
-    const QPushButton& getBackToMenuButton()        { return m_backToMenuButton; }
-    const QPushButton& getSaveAfterGameOverButton() { return m_saveAfterGameOver; }
-    const QListWidget& getHighScoreList()           { return m_highScoreList; }
-    void setPlayer(QString player)                  { m_player.setText(player); }
-    void setScore(int score)                        { m_score.setText(QString::number(score)); }
+    const QGraphicsScene& getScene()                   { return m_scene; }
+    const QLabel&         getTitle()                   { return m_title; }
+    const QLabel&         getAuthor()                  { return m_author; }
+    const QLabel&         getPause()                   { return m_pause; }
+    const QLabel&         getPlayer()                  { return m_player; }
+    const QLabel&         getScore()                   { return m_score; }
+    const QPushButton&    getStartButton()             { return m_startButton; }
+    const QPushButton&    getHighScoreButton()         { return m_highScoreButton; }
+    const QPushButton&    getQuitButton()              { return m_quitButton; }
+    const QPushButton&    getBackToMenuButton()        { return m_backToMenuButton; }
+    const QPushButton&    getSaveAfterGameOverButton() { return m_saveAfterGameOver; }
+    const QListWidget&    getHighScoreList()           { return m_highScoreList; }
+    void setPlayer(QString player)  { m_player.setText(player); }
+    void setScore(int score)        { m_score.setText(QString::number(score)); }
 };
 
 class GeneralViewTestsClass : public testing::Test
@@ -185,6 +191,64 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        true);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           true);
+}
+
+TEST_F(GeneralViewTestsClass, AddGameObject_AddPlayerModelCheckIfWillAddedCorrect_IsEqual)
+{
+    PlayerModel*     player = new PlayerModel;
+    GeneralViewTests generalView;
+
+    generalView.addGameObject(player);
+    const QGraphicsScene& resultScene      = generalView.getScene();
+    auto                  resultSceneItems = resultScene.items();
+    PlayerModel*          resultPlayer     = dynamic_cast<PlayerModel*>(resultSceneItems.at(0));
+
+    EXPECT_EQ(resultSceneItems.size(),   1);
+    EXPECT_EQ(resultPlayer->getHealth(), def::maxPlayerHealth);
+}
+
+TEST_F(GeneralViewTestsClass, AddGameObject_AddEnemyModelType1CheckIfWillAddedCorrect_IsEqual)
+{
+    RandomGeneratorStub* generator = new RandomGeneratorStub;
+    EnemyModelType1*     enemy     = new EnemyModelType1(QPointF(0,0), generator);
+    GeneralViewTests     generalView;
+
+    generalView.addGameObject(enemy);
+    const QGraphicsScene& resultScene      = generalView.getScene();
+    auto                  resultSceneItems = resultScene.items();
+    EnemyModelType1*      resultEnemy      = dynamic_cast<EnemyModelType1*>(resultSceneItems.at(0));
+
+    EXPECT_EQ(resultSceneItems.size(), 1);
+    EXPECT_EQ(resultEnemy->getLevel(), 1);
+    delete generator;
+}
+
+TEST_F(GeneralViewTestsClass, AddGameObject_AddRewardCoinModelCheckIfWillAddedCorrect_IsEqual)
+{
+    RewardCoinModel* coin = new RewardCoinModel(coin_type::gold);
+    GeneralViewTests generalView;
+
+    generalView.addGameObject(coin);
+    const QGraphicsScene& resultScene      = generalView.getScene();
+    auto                  resultSceneItems = resultScene.items();
+    RewardCoinModel*      resultCoin       = dynamic_cast<RewardCoinModel*>(resultSceneItems.at(0));
+
+    EXPECT_EQ(resultSceneItems.size(), 1);
+    EXPECT_EQ(resultCoin->getType(),   coin_type::gold);
+}
+
+TEST_F(GeneralViewTestsClass, AddGameObject_AddRewardSpecialModelCheckIfWillAddedCorrect_IsEqual)
+{
+    RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponBlue);
+    GeneralViewTests    generalView;
+
+    generalView.addGameObject(special);
+    const QGraphicsScene& resultScene      = generalView.getScene();
+    auto                  resultSceneItems = resultScene.items();
+    RewardSpecialModel*   resultspecial    = dynamic_cast<RewardSpecialModel*>(resultSceneItems.at(0));
+
+    EXPECT_EQ(resultSceneItems.size(),  1);
+    EXPECT_EQ(resultspecial->getType(), special_type::weaponBlue);
 }
 
 TEST_F(GeneralViewTestsClass, MousePressEvent_CheckIfSignalWillBeSend_IsEqual)
