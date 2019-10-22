@@ -5,7 +5,7 @@ PlayerController::PlayerController(GeneralView* view,
                                     : m_view(view),
                                       m_healthView(healthView)
 {
-    connect(this, SIGNAL(addPlayerToScene(QGraphicsItem*)), view, SLOT(addGameObject()QGraphicsItem*));
+    connect(this, SIGNAL(addPlayerToScene(QGraphicsItem*)), view, SLOT(addGameObject(QGraphicsItem*)));
     m_player = nullptr;
 }
 
