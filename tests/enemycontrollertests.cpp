@@ -21,6 +21,7 @@ public:
 
     int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
     const QTimer& getEnemySpawnTimer()     { return m_enemySpawnTimer; }
+    void          startEnemySpawnTimer()   { m_enemySpawnTimer.start(); }
 
 public slots:
     void spawnEnemyTest() { EnemyController::spawnEnemy(); }
@@ -110,6 +111,39 @@ TEST_F(EnemyControllerTestsClass, Destroyed_ShouldEmitEnemyDestroyedSignalWithSa
     EXPECT_EQ(resultSignalDestroyedCount,             1);
     EXPECT_EQ(resultSignalDestroyed.at(0).toPointF(), QPointF(40,130));
     EXPECT_EQ(resultSignalDestroyed.at(1).toInt(),    4);
+    delete view;
+    delete generator;
+}
+
+TEST_F(EnemyControllerTestsClass, StartSpawning_ShouldStartEnemySpawnTimer_IsEqual)
+{
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    GeneralView*         view      = new GeneralView;
+    EnemyControllerTest  enemyController(view, generator);
+    bool                 oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    enemyController.startSpawning();
+    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    EXPECT_EQ(oldEnemySpawnTimerStatus,    false);
+    EXPECT_EQ(resultEnemySpawnTimerStatus, true);
+    delete view;
+    delete generator;
+}
+
+TEST_F(EnemyControllerTestsClass, StopSpawning_ShouldStopEnemySpawnTimer_IsEqual)
+{
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    GeneralView*         view      = new GeneralView;
+    EnemyControllerTest  enemyController(view, generator);
+    enemyController.startEnemySpawnTimer(); //manual activation timer
+    bool                 oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    enemyController.stopSpawning();
+    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    EXPECT_EQ(oldEnemySpawnTimerStatus,    true);
+    EXPECT_EQ(resultEnemySpawnTimerStatus, false);
     delete view;
     delete generator;
 }

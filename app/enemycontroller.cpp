@@ -13,7 +13,6 @@ EnemyController::EnemyController(GeneralView*      view,
     connect(&m_enemySpawnTimer, SIGNAL(timeout()),
             this,               SLOT(spawnEnemy()));
     m_enemySpawnTimer.setInterval(def::minEnemySpawnTimeDelay);
-    m_enemySpawnTimer.start();
 }
 
 EnemyController::~EnemyController()
@@ -62,12 +61,12 @@ void EnemyController::destroyed(QPointF position, int enemyLevel)
 
 void EnemyController::startSpawning()
 {
-
+    m_enemySpawnTimer.start();
 }
 
 void EnemyController::stopSpawning()
 {
-
+    m_enemySpawnTimer.stop();
 }
 
 void EnemyController::spawnEnemy()
