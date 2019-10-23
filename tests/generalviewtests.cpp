@@ -72,11 +72,13 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
 }
 
-TEST_F(GeneralViewTestsClass, StartGame_CheckCorrectVisibleUI_IsEqual)
+TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
 {
     GeneralViewTests generalView;
+    QSignalSpy       signalStart(&generalView, &GeneralViewTests::startGame);
+    signalStart.wait(utdef::minSignalTimeDelay);
 
-    generalView.startGame();
+    generalView.start();
     const QLabel&      resultTitle                   = generalView.getTitle();
     const QLabel&      resultAuthor                  = generalView.getAuthor();
     const QLabel&      resultPause                   = generalView.getPause();
@@ -88,6 +90,7 @@ TEST_F(GeneralViewTestsClass, StartGame_CheckCorrectVisibleUI_IsEqual)
     const QPushButton& resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton& resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget& resultHighScoreList           = generalView.getHighScoreList();
+    int                resultSignalStartCount        = signalStart.count();
 
     EXPECT_EQ(resultTitle.isVisible(),                   false);
     EXPECT_EQ(resultAuthor.isVisible(),                  false);
@@ -100,11 +103,14 @@ TEST_F(GeneralViewTestsClass, StartGame_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultSignalStartCount,                    1);
 }
 
 TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
 {
     GeneralViewTests generalView;
+    QSignalSpy       signalPause(&generalView, &GeneralViewTests::pauseGame);
+    signalPause.wait(utdef::minSignalTimeDelay);
 
     generalView.pause();
     const QLabel&      resultTitle                   = generalView.getTitle();
@@ -118,6 +124,7 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     const QPushButton& resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton& resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget& resultHighScoreList           = generalView.getHighScoreList();
+    int                resultSignalPauseCount        = signalPause.count();
 
     EXPECT_EQ(resultTitle.isVisible(),                   false);
     EXPECT_EQ(resultAuthor.isVisible(),                  false);
@@ -130,6 +137,7 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultSignalPauseCount,                    1);
 }
 
 TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)

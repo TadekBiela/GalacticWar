@@ -11,7 +11,7 @@ MenuController::MenuController(GeneralView* view,
             view,  SLOT(gameOver(int)));
     connect(view,  SIGNAL(startGame()),
             this,  SLOT(startGame()));
-    connect(view,  SIGNAL(pause()),
+    connect(view,  SIGNAL(pauseGame()),
             this,  SLOT(stopGame()));
 }
 

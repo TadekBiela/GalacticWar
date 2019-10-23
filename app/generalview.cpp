@@ -37,7 +37,7 @@ void GeneralView::menu()
     m_highScoreList.setVisible(false);
 }
 
-void GeneralView::startGame()
+void GeneralView::start()
 {
     m_title.setVisible(false);
     m_author.setVisible(false);
@@ -50,6 +50,8 @@ void GeneralView::startGame()
     m_backToMenuButton.setVisible(false);
     m_saveAfterGameOver.setVisible(false);
     m_highScoreList.setVisible(false);
+
+    emit startGame();
 }
 
 void GeneralView::pause()
@@ -65,6 +67,8 @@ void GeneralView::pause()
     m_backToMenuButton.setVisible(false);
     m_saveAfterGameOver.setVisible(false);
     m_highScoreList.setVisible(false);
+
+    emit pauseGame();
 }
 
 void GeneralView::gameOver(int score)

@@ -19,6 +19,8 @@ public:
     virtual ~GeneralView();
 
 signals:
+    void startGame();
+    void pauseGame();
     void mousePressed();
     void mouseReleased();
     void mouseMoved(QPointF newPosition);
@@ -26,7 +28,7 @@ signals:
 
 public slots:
     void menu();
-    void startGame();
+    void start();
     void pause();
     void gameOver(int score);
     void highScore();
