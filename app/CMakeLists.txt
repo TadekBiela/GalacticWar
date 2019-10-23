@@ -41,6 +41,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                playercontroller.cpp
                                playermodel.hpp
                                playermodel.cpp
+                               randomgenerator.hpp
+                               randomgenerator.cpp
                                rewardcontroller.hpp
                                rewardcontroller.cpp
                                rewardmodel.hpp
