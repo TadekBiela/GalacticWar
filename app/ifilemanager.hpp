@@ -8,7 +8,7 @@ class IFileManager
 public:
     IFileManager() {}
     virtual ~IFileManager() {}
-    virtual void saveFile(const QString data) = 0;
+    virtual void    saveFile(const QString fileName, const QString data) = 0;
     virtual QString loadFile(const QString fileName) = 0;
 };
 

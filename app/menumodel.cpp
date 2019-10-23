@@ -27,7 +27,7 @@ void MenuModel::saveHighScore()
     {
         dataToSave += QString::number(it.key()) + " " + it.value() + " ";
     }
-    m_fileManager->saveFile(dataToSave);
+    m_fileManager->saveFile("hs.txt", dataToSave);
 }
 
 void MenuModel::loadHighScore()
