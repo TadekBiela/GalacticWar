@@ -83,9 +83,11 @@ TEST_F(PlayerControllerTestsClass, Defeated_CheckIfWillEmitPlayerDefeatedSingal_
     signalDefeated.wait(utdef::minSignalTimeDelay);
 
     playerController.defeated();
-    int resultSignalCount = signalDefeated.count();
+    int          resultSignalCount = signalDefeated.count();
+    PlayerModel* resultPlayer      = playerController.getPlayerModel();
 
     EXPECT_EQ(resultSignalCount, 1);
+    EXPECT_EQ(resultPlayer,      nullptr);
     delete healthView;
     delete view;
 }

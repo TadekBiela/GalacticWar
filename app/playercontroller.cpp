@@ -27,12 +27,15 @@ void PlayerController::createNew()
     connect(m_view,   SIGNAL(mouseReleased()),              m_player,     SLOT(stopFire()));
     connect(m_view,   SIGNAL(mouseMoved(QPointF)),          m_player,     SLOT(changeDirection(QPointF)));
     connect(m_player, SIGNAL(changeHealth(int)),            m_healthView, SLOT(update(int)));
+    connect(m_player, SIGNAL(defeated()),                   this,         SLOT(defeated()));
 
     emit addPlayerToScene(m_player);
 }
 
 void PlayerController::defeated()
 {
+    delete m_player;
+    m_player = nullptr;
     emit playerDefeated();
 }
 
