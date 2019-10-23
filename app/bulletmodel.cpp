@@ -14,6 +14,11 @@ BulletModel::BulletModel(bullet_type type,
     m_direction = finiteDirection < 0 ? 360 + finiteDirection : finiteDirection;
 
     //Setup QPixmap
+    //temporary simple graphic
+    QPixmap map(QSize(10, 50));
+    map.fill(Qt::yellow);
+    setPixmap(map);
+
     setPos(position);
     setRotation(m_direction);
 

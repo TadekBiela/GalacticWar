@@ -19,6 +19,7 @@ public:
 
 signals:
     void changeHealth(int healthPoints);
+    void defeated();
 
 public slots:
     void move();

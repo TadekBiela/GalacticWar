@@ -13,6 +13,11 @@ EnemyModel::EnemyModel(int     level,
                           m_direction(0),
                           m_animationFrameIdx(0)
 {
+    //temporary simple graphic
+    QPixmap map(QSize(100, 100));
+    map.fill(Qt::red);
+    setPixmap(map);
+
     setPos(position);
 
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));

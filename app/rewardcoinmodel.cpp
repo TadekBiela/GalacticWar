@@ -4,7 +4,10 @@
 RewardCoinModel::RewardCoinModel(coin_type type)
                                   : m_type(type)
 {
-
+    //temporary simple graphic
+    QPixmap map(QSize(50, 50));
+    map.fill(Qt::gray);
+    setPixmap(map);
 }
 
 RewardCoinModel::~RewardCoinModel()
