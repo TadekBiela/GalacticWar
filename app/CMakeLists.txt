@@ -17,6 +17,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodel.cpp
                                enemymodeltype1.hpp
                                enemymodeltype1.cpp
+                               filemanager.hpp
+                               filemanager.cpp
                                firefunctions.hpp
                                firefunctions.cpp
                                functions.hpp
