@@ -46,23 +46,6 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_
     EXPECT_NEAR(resultMoveTimer.remainingTime(), 50, 1);
 }
 
-TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectIfMoveTimeDelayIsWrong_IsEqual)
-{
-    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 5, -10);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
-
-    EXPECT_EQ(resultBulletType,                      bullet_type::playerDefaultBullet);
-    EXPECT_EQ(resultPosition,                        QPointF(3, 5));
-    EXPECT_EQ(resultDamage,                          10);
-    EXPECT_EQ(resultDirection,                       5);
-    EXPECT_EQ(resultMoveTimer.isActive(),            true);
-    EXPECT_FLOAT_EQ(resultMoveTimer.remainingTime(), -1);
-}
-
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectDirectionIsMoreThan360Deg_IsEqual)
 {
     BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 450, 10);
