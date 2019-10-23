@@ -1,5 +1,8 @@
 #include "enemymodel.hpp"
 #include "definitions.hpp"
+#include "bulletmodel.hpp"
+#include <QGraphicsScene>
+#include <typeinfo>
 
 EnemyModel::EnemyModel(int     level,
                        QPointF position,
@@ -33,8 +36,30 @@ EnemyModel::~EnemyModel()
 
 }
 
+void EnemyModel::checkCollisions()
+{
+    auto scene          = QGraphicsItem::scene();
+    auto collidingItems = scene->collidingItems(this);
+
+    for(auto i = 0; i != collidingItems.size(); i++)
+    {
+        if(typeid(*collidingItems[i]) == typeid(BulletModel))
+        {
+            BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
+            if(bullet->getType() != bullet_type::enemyBullet)
+            {
+                hit(bullet->getDamage());
+                scene->removeItem(collidingItems[i]);
+                delete collidingItems[i];
+            }
+        }
+    }
+}
+
 void EnemyModel::destroy()
 {
+    auto scene = QGraphicsItem::scene();
+    scene->removeItem(this);
     emit this->destroyed(pos(), m_level);
 }
 

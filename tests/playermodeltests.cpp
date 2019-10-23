@@ -75,7 +75,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_FLOAT_EQ(resultPosition.y(),              expectedPosition.y());
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoColisionsPlayerShouldntMove_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoCollisionsPlayerShouldntMove_IsEqual)
 {
     QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
@@ -98,7 +98,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoColisionsPlaye
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoColisionsPlayerShouldMoveUpBy10Pixels_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoCollisionsPlayerShouldMoveUpBy10Pixels_IsEqual)
 {
     QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
@@ -121,7 +121,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoColisionsPlayer
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithBulletPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulletPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
     QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
@@ -154,7 +154,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithBullet
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithSelfBulletPlayerShouldOnlyMove_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfBulletPlayerShouldOnlyMove_IsEqual)
 {
     QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
@@ -185,7 +185,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithSelfBu
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithCoinRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<coin_type>();
     QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
@@ -221,7 +221,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithCoinRe
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithSpecialRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpecialRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<special_type>();
     QPointF             expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
@@ -257,7 +257,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithSpecia
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithEnemyTier1PlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
     QPointF              expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
     QGraphicsScene*      scene     = new QGraphicsScene();
@@ -293,7 +293,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithEnemyT
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
 {
     QPointF              expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
     QGraphicsScene*      scene     = new QGraphicsScene();
@@ -325,7 +325,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithEnemyT
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerColidingWithAllColidingTypesPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCollidingTypesPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
     qRegisterMetaType<coin_type>();
     qRegisterMetaType<special_type>();

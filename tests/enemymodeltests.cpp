@@ -1,6 +1,11 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
 #include "../app/enemymodel.hpp"
+#include "../app/bulletmodel.hpp"
+#include "../app/playermodel.hpp"
+#include "../app/rewardcoinmodel.hpp"
+#include "../app/rewardspecialmodel.hpp"
+#include <QGraphicsScene>
 #include <QSignalSpy>
 
 class EnemyModelTest : public EnemyModel
@@ -70,64 +75,210 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     EXPECT_NEAR(resultAnimationTime,    5, 1);
 }
 
-TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsLessThanHealth_IsEqual)
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)
 {
-    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene  = new QGraphicsScene;
+    BulletModel*    bullet = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 50, 5, 50);
+    EnemyModelTest* enemy  = new EnemyModelTest(1, QPointF(100, 100), 300, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(bullet);
+    scene->addItem(enemy);
+    int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
-    enemyModel.hit(13);
-    int resultHealth      = enemyModel.getHealth();
-    int resultSignalCount = signalDestroy.count();
+    enemy->checkCollisions();
+    int resultHealth          = enemy->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,      17);
-    EXPECT_EQ(resultSignalCount, 0);
+    EXPECT_EQ(resultHealth,          250);
+    EXPECT_EQ(resultSignalCount,     0);
+    EXPECT_EQ(startNumOfSceneItems,  2);
+    EXPECT_EQ(resultNumOfSceneItems, 1);
+    delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitAndDestroy_IsEqual)
+{
+    QGraphicsScene* scene  = new QGraphicsScene;
+    BulletModel*    bullet = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 50, 5, 50);
+    EnemyModelTest* enemy  = new EnemyModelTest(1, QPointF(100, 100), 30, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(bullet);
+    scene->addItem(enemy);
+    int startNumOfSceneItems = scene->items().size();
+    signalDestroy.wait(utdef::minSignalTimeDelay);
+
+    enemy->checkCollisions();
+    int resultHealth          = enemy->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    auto resultSignal          = signalDestroy.takeFirst();
+    int resultNumOfSceneItems = scene->items().size();
+
+    EXPECT_EQ(resultHealth,                  0);
+    EXPECT_EQ(resultSignalCount,             1);
+    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
+    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
+    EXPECT_EQ(startNumOfSceneItems,          2);
+    EXPECT_EQ(resultNumOfSceneItems,         0);
+    delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithEnemyBulletEnemyDoNothing_IsEqual)
+{
+    QGraphicsScene* scene  = new QGraphicsScene;
+    BulletModel*    bullet = new BulletModel(bullet_type::enemyBullet, QPointF(100, 100), 50, 5, 50);
+    EnemyModelTest* enemy  = new EnemyModelTest(1, QPointF(100, 100), 300, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(bullet);
+    scene->addItem(enemy);
+    int startNumOfSceneItems = scene->items().size();
+    signalDestroy.wait(utdef::minSignalTimeDelay);
+
+    enemy->checkCollisions();
+    int resultHealth          = enemy->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    int resultNumOfSceneItems = scene->items().size();
+
+    EXPECT_EQ(resultHealth,          300);
+    EXPECT_EQ(resultSignalCount,     0);
+    EXPECT_EQ(startNumOfSceneItems,  2);
+    EXPECT_EQ(resultNumOfSceneItems, 2);
+    delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithCoinRewardEnemyDoNothing_IsEqual)
+{
+    QGraphicsScene*  scene = new QGraphicsScene;
+    RewardCoinModel* coin  = new RewardCoinModel(coin_type::bronze);
+    EnemyModelTest*  enemy = new EnemyModelTest(1, QPointF(100, 100), 300, 15, 20, 10);
+    QSignalSpy       signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(coin);
+    scene->addItem(enemy);
+    int startNumOfSceneItems = scene->items().size();
+    signalDestroy.wait(utdef::minSignalTimeDelay);
+
+    enemy->checkCollisions();
+    int resultHealth          = enemy->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    int resultNumOfSceneItems = scene->items().size();
+
+    EXPECT_EQ(resultHealth,          300);
+    EXPECT_EQ(resultSignalCount,     0);
+    EXPECT_EQ(startNumOfSceneItems,  2);
+    EXPECT_EQ(resultNumOfSceneItems, 2);
+    delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithSpecialRewardEnemyDoNothing_IsEqual)
+{
+    QGraphicsScene*     scene   = new QGraphicsScene;
+    RewardSpecialModel* special = new RewardSpecialModel(special_type::health);
+    EnemyModelTest*     enemy   = new EnemyModelTest(1, QPointF(100, 100), 300, 15, 20, 10);
+    QSignalSpy          signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(special);
+    scene->addItem(enemy);
+    int startNumOfSceneItems = scene->items().size();
+    signalDestroy.wait(utdef::minSignalTimeDelay);
+
+    enemy->checkCollisions();
+    int resultHealth          = enemy->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    int resultNumOfSceneItems = scene->items().size();
+
+    EXPECT_EQ(resultHealth,          300);
+    EXPECT_EQ(resultSignalCount,     0);
+    EXPECT_EQ(startNumOfSceneItems,  2);
+    EXPECT_EQ(resultNumOfSceneItems, 2);
+    delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsLessThanHealth_IsEqual)
+{
+    QGraphicsScene* scene      = new QGraphicsScene;
+    EnemyModelTest* enemyModel = new EnemyModelTest(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
+    scene->addItem(enemyModel);
+    int startNumOfSceneItems = scene->items().size();
+    signalDestroy.wait(utdef::minSignalTimeDelay);
+
+    enemyModel->hit(13);
+    int resultHealth          = enemyModel->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    int resultNumOfSceneItems = scene->items().size();
+
+    EXPECT_EQ(resultHealth,          17);
+    EXPECT_EQ(resultSignalCount,     0);
+    EXPECT_EQ(startNumOfSceneItems,  1);
+    EXPECT_EQ(resultNumOfSceneItems, 1);
+    delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsEqual)
 {
-    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene      = new QGraphicsScene;
+    EnemyModelTest* enemyModel = new EnemyModelTest(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
+    scene->addItem(enemyModel);
+    int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
-    enemyModel.hit(30);
-    int             resultHealth      = enemyModel.getHealth();
-    int             resultSignalCount = signalDestroy.count();
-    QList<QVariant> resultSignal      = signalDestroy.takeFirst();
+    enemyModel->hit(30);
+    int  resultHealth          = enemyModel->getHealth();
+    int  resultSignalCount     = signalDestroy.count();
+    auto resultSignal          = signalDestroy.takeFirst();
+    int  resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,                  0);
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
+    EXPECT_EQ(startNumOfSceneItems,          1);
+    EXPECT_EQ(resultNumOfSceneItems,         0);
+    delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsEqual)
 {
-    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene      = new QGraphicsScene;
+    EnemyModelTest* enemyModel = new EnemyModelTest(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
+    scene->addItem(enemyModel);
+    int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
-    enemyModel.hit(43);
-    int             resultHealth      = enemyModel.getHealth();
-    int             resultSignalCount = signalDestroy.count();
-    QList<QVariant> resultSignal      = signalDestroy.takeFirst();
+    enemyModel->hit(43);
+    int  resultHealth          = enemyModel->getHealth();
+    int  resultSignalCount     = signalDestroy.count();
+    auto resultSignal          = signalDestroy.takeFirst();
+    int  resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,                  0);
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
+    EXPECT_EQ(startNumOfSceneItems,          1);
+    EXPECT_EQ(resultNumOfSceneItems,         0);
+    delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
 {
-    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    QSignalSpy     signalDestroy(&enemyModel, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene      = new QGraphicsScene;
+    EnemyModelTest* enemyModel = new EnemyModelTest(1, QPointF(2, 7), 30, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
+    scene->addItem(enemyModel);
+    int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
-    enemyModel.hit(0);
-    int resultHealth      = enemyModel.getHealth();
-    int resultSignalCount = signalDestroy.count();
+    enemyModel->hit(0);
+    int resultHealth          = enemyModel->getHealth();
+    int resultSignalCount     = signalDestroy.count();
+    int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,      30);
-    EXPECT_EQ(resultSignalCount, 0);
+    EXPECT_EQ(resultHealth,          30);
+    EXPECT_EQ(resultSignalCount,     0);
+    EXPECT_EQ(startNumOfSceneItems,  1);
+    EXPECT_EQ(resultNumOfSceneItems, 1);
+    delete scene;
 }

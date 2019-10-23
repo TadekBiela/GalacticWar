@@ -36,6 +36,7 @@ void EnemyModelType1::fire()
 void EnemyModelType1::move()
 {
     setPos(moveForward(pos(), m_direction));
+    checkCollisions();
 }
 
 void EnemyModelType1::animation()

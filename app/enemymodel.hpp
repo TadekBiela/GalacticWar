@@ -17,6 +17,7 @@ public:
                int     moveTimeDelay,
                int     fireTimeDelay);
     virtual ~EnemyModel();
+    void checkCollisions();
     void hit(int damage);
     void destroy();
     int getLevel() const { return m_level; }

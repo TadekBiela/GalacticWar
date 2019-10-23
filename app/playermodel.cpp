@@ -42,39 +42,38 @@ void PlayerModel::move()
         setPos(moveForward(pos(), m_direction));
     }
 
-    //Check colisions
-    auto scene          = QGraphicsItem::scene();
-    auto colidingItems  = scene->collidingItems(this);
-    int  numOfColisions = colidingItems.size();
-    for(auto i = 0; i != colidingItems.size(); i++)
+    //Check collisions
+    auto scene           = QGraphicsItem::scene();
+    auto collidingItems  = scene->collidingItems(this);
+    int  numOfCollisions = collidingItems.size();
+    for(auto i = 0; i != collidingItems.size(); i++)
     {
-        if(typeid(*colidingItems[i]) == typeid(BulletModel))
+        if(typeid(*collidingItems[i]) == typeid(BulletModel))
         {
-            BulletModel* bullet = static_cast<BulletModel*>(colidingItems[i]);
+            BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
             if(bullet->getType() == bullet_type::enemyBullet)
             {
                 m_health -= bullet->getDamage();
-                scene->removeItem(colidingItems[i]);
-                delete colidingItems[i];
+                scene->removeItem(collidingItems[i]);
+                delete collidingItems[i];
             }
             else
             {
-                numOfColisions--;
+                numOfCollisions--;
             }
         }
-        else if(typeid(*colidingItems[i]) == typeid(RewardCoinModel) ||
-                typeid(*colidingItems[i]) == typeid(RewardSpecialModel))
+        else if(typeid(*collidingItems[i]) == typeid(RewardCoinModel) ||
+                typeid(*collidingItems[i]) == typeid(RewardSpecialModel))
         {
-            RewardModel* coin = static_cast<RewardModel*>(colidingItems[i]);
-            scene->removeItem(colidingItems[i]);
+            RewardModel* coin = static_cast<RewardModel*>(collidingItems[i]);
+            scene->removeItem(collidingItems[i]);
             coin->collect();
-            numOfColisions--;
+            numOfCollisions--;
         }
         else //It should be Enemy
         {
-            EnemyModel* enemy = static_cast<EnemyModel*>(colidingItems[i]);
+            EnemyModel* enemy = static_cast<EnemyModel*>(collidingItems[i]);
             m_health -= enemy->getLevel() * 100;
-            scene->removeItem(colidingItems[i]);
             enemy->destroy();
         }
     }
@@ -86,7 +85,7 @@ void PlayerModel::move()
         scene->removeItem(this);
         emit defeated();
     }
-    else if(numOfColisions > 0)
+    else if(numOfCollisions > 0)
     {
         emit changeHealth(m_health);
     }
