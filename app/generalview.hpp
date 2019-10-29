@@ -4,8 +4,10 @@
 #include "menumodel.hpp"
 #include <QMainWindow>
 #include <QGraphicsItem>
+#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QListWidget>
 #include <QMouseEvent>
@@ -41,16 +43,18 @@ public slots:
 
 protected:
     QGraphicsScene m_scene;
+    QGraphicsView  m_view;
 
     QLabel      m_title;             // Menu
     QLabel      m_author;            // Menu
     QLabel      m_pause;             // Menu
-    QLabel      m_player;            // GameOver
+    QLineEdit   m_player;            // GameOver
     QLabel      m_score;             // GameOver
     QPushButton m_startButton;       // Menu
     QPushButton m_highScoreButton;   // Menu
     QPushButton m_quitButton;        // Menu
     QPushButton m_backToMenuButton;  // HighScore
+    QPushButton m_backToMenuButton2; // GameOver
     QPushButton m_saveAfterGameOver; // GameOver
     QListWidget m_highScoreList;     // HighScore
 };
