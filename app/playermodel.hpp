@@ -22,6 +22,8 @@ signals:
     void defeated();
 
 public slots:
+    void start();
+    void stop();
     void move();
     void fire();
     void startFire();

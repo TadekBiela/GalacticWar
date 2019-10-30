@@ -35,6 +35,17 @@ PlayerModel::~PlayerModel()
 
 }
 
+void PlayerModel::start()
+{
+    m_moveTimer.start();
+}
+
+void PlayerModel::stop()
+{
+    m_moveTimer.stop();
+    m_fireTimer.stop();
+}
+
 void PlayerModel::move()
 {
     if(m_isMoving)

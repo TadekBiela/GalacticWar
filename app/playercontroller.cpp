@@ -6,6 +6,7 @@ PlayerController::PlayerController(GeneralView* view,
                                       m_healthView(healthView)
 {
     connect(this, SIGNAL(addPlayerToScene(QGraphicsItem*)), view, SLOT(addGameObject(QGraphicsItem*)));
+    connect(view, SIGNAL(startGame()),                      this, SLOT(createNew()));
     m_player = nullptr;
 }
 
@@ -29,6 +30,8 @@ void PlayerController::createNew()
     connect(m_player, SIGNAL(changeHealth(int)),            m_healthView, SLOT(update(int)));
     connect(m_player, SIGNAL(defeated()),                   this,         SLOT(defeated()));
 
+    m_player->start();
+    m_player->setFocus();
     emit addPlayerToScene(m_player);
 }
 
