@@ -25,6 +25,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                functions.cpp
                                generalview.hpp
                                generalview.cpp
+                               graphicsview.hpp
+                               graphicsview.cpp
                                healthview.hpp
                                healthview.cpp
                                ifilemanager.hpp

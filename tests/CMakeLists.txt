@@ -24,6 +24,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/functions.cpp
                                ../app/generalview.hpp
                                ../app/generalview.cpp
+                               ../app/graphicsview.hpp
+                               ../app/graphicsview.cpp
                                ../app/healthview.hpp
                                ../app/healthview.cpp
                                ../app/ifilemanager.hpp

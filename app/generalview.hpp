@@ -2,6 +2,7 @@
 #define GENERALVIEW_HPP
 
 #include "menumodel.hpp"
+#include "graphicsview.hpp"
 #include <QMainWindow>
 #include <QGraphicsItem>
 #include <QGraphicsView>
@@ -43,7 +44,7 @@ public slots:
 
 protected:
     QGraphicsScene m_scene;
-    QGraphicsView  m_view;
+    GraphicsView   m_view;
 
     QLabel      m_title;             // Menu
     QLabel      m_author;            // Menu

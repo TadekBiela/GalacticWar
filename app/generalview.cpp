@@ -92,7 +92,9 @@ GeneralView::GeneralView()
     connect(&m_backToMenuButton,  SIGNAL(clicked()), this, SLOT(menu()));
     connect(&m_backToMenuButton2, SIGNAL(clicked()), this, SLOT(menu()));
     connect(&m_saveAfterGameOver, SIGNAL(clicked()), this, SLOT(savePlayerScore()));
-
+    connect(&m_view, SIGNAL(mousePressed(QMouseEvent*)),  this, SLOT(mousePressEvent(QMouseEvent*)));
+    connect(&m_view, SIGNAL(mouseReleased(QMouseEvent*)), this, SLOT(mouseMoveEvent(QMouseEvent*)));
+    connect(&m_view, SIGNAL(mouseMoved(QMouseEvent*)),    this, SLOT(mouseReleaseEvent(QMouseEvent*)));
     menu();
 }
 

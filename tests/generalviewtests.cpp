@@ -2,6 +2,7 @@
 #include "utdefinitions.hpp"
 #include "stubs/randomgeneratorstub.hpp"
 #include "../app/generalview.hpp"
+#include "../app/graphicsview.hpp"
 #include "../app/definitions.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/enemymodeltype1.hpp"
@@ -24,7 +25,7 @@ public:
     virtual ~GeneralViewTests() {}
 
     const QGraphicsScene& getScene()                   { return m_scene; }
-    const QGraphicsView&  getView()                    { return m_view; }
+    const GraphicsView&   getView()                    { return m_view; }
     const QLabel&         getTitle()                   { return m_title; }
     const QLabel&         getAuthor()                  { return m_author; }
     const QLabel&         getPause()                   { return m_pause; }
@@ -51,19 +52,19 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     generalView.show();
 
     generalView.menu();
-    const QGraphicsView& resultView                    = generalView.getView();
-    const QLabel&        resultTitle                   = generalView.getTitle();
-    const QLabel&        resultAuthor                  = generalView.getAuthor();
-    const QLabel&        resultPause                   = generalView.getPause();
-    const QLineEdit&     resultPlayer                  = generalView.getPlayer();
-    const QLabel&        resultScore                   = generalView.getScore();
-    const QPushButton&   resultStartButton             = generalView.getStartButton();
-    const QPushButton&   resultHighScoreButton         = generalView.getHighScoreButton();
-    const QPushButton&   resultQuitButton              = generalView.getQuitButton();
-    const QPushButton&   resultBackToMenuButton        = generalView.getBackToMenuButton();
-    const QPushButton&   resultBackToMenuButton2       = generalView.getBackToMenuButton2();
-    const QPushButton&   resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
-    const QListWidget&   resultHighScoreList           = generalView.getHighScoreList();
+    const GraphicsView& resultView                    = generalView.getView();
+    const QLabel&       resultTitle                   = generalView.getTitle();
+    const QLabel&       resultAuthor                  = generalView.getAuthor();
+    const QLabel&       resultPause                   = generalView.getPause();
+    const QLineEdit&    resultPlayer                  = generalView.getPlayer();
+    const QLabel&       resultScore                   = generalView.getScore();
+    const QPushButton&  resultStartButton             = generalView.getStartButton();
+    const QPushButton&  resultHighScoreButton         = generalView.getHighScoreButton();
+    const QPushButton&  resultQuitButton              = generalView.getQuitButton();
+    const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
+    const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
+    const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
 
     EXPECT_EQ(resultView.isVisible(),                    false);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
@@ -88,19 +89,19 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     signalStart.wait(utdef::minSignalTimeDelay);
 
     generalView.start();
-    const QGraphicsView& resultView                    = generalView.getView();
-    const QLabel&        resultTitle                   = generalView.getTitle();
-    const QLabel&        resultAuthor                  = generalView.getAuthor();
-    const QLabel&        resultPause                   = generalView.getPause();
-    const QLineEdit&     resultPlayer                  = generalView.getPlayer();
-    const QLabel&        resultScore                   = generalView.getScore();
-    const QPushButton&   resultStartButton             = generalView.getStartButton();
-    const QPushButton&   resultHighScoreButton         = generalView.getHighScoreButton();
-    const QPushButton&   resultQuitButton              = generalView.getQuitButton();
-    const QPushButton&   resultBackToMenuButton        = generalView.getBackToMenuButton();
-    const QPushButton&   resultBackToMenuButton2       = generalView.getBackToMenuButton2();
-    const QPushButton&   resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
-    const QListWidget&   resultHighScoreList           = generalView.getHighScoreList();
+    const GraphicsView& resultView                    = generalView.getView();
+    const QLabel&       resultTitle                   = generalView.getTitle();
+    const QLabel&       resultAuthor                  = generalView.getAuthor();
+    const QLabel&       resultPause                   = generalView.getPause();
+    const QLineEdit&    resultPlayer                  = generalView.getPlayer();
+    const QLabel&       resultScore                   = generalView.getScore();
+    const QPushButton&  resultStartButton             = generalView.getStartButton();
+    const QPushButton&  resultHighScoreButton         = generalView.getHighScoreButton();
+    const QPushButton&  resultQuitButton              = generalView.getQuitButton();
+    const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
+    const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
+    const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     int  resultSignalStartCount        = signalStart.count();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
@@ -127,19 +128,19 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     signalPause.wait(utdef::minSignalTimeDelay);
 
     generalView.pause();
-    const QGraphicsView& resultView                    = generalView.getView();
-    const QLabel&        resultTitle                   = generalView.getTitle();
-    const QLabel&        resultAuthor                  = generalView.getAuthor();
-    const QLabel&        resultPause                   = generalView.getPause();
-    const QLineEdit&     resultPlayer                  = generalView.getPlayer();
-    const QLabel&        resultScore                   = generalView.getScore();
-    const QPushButton&   resultStartButton             = generalView.getStartButton();
-    const QPushButton&   resultHighScoreButton         = generalView.getHighScoreButton();
-    const QPushButton&   resultQuitButton              = generalView.getQuitButton();
-    const QPushButton&   resultBackToMenuButton        = generalView.getBackToMenuButton();
-    const QPushButton&   resultBackToMenuButton2       = generalView.getBackToMenuButton2();
-    const QPushButton&   resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
-    const QListWidget&   resultHighScoreList           = generalView.getHighScoreList();
+    const GraphicsView& resultView                    = generalView.getView();
+    const QLabel&       resultTitle                   = generalView.getTitle();
+    const QLabel&       resultAuthor                  = generalView.getAuthor();
+    const QLabel&       resultPause                   = generalView.getPause();
+    const QLineEdit&    resultPlayer                  = generalView.getPlayer();
+    const QLabel&       resultScore                   = generalView.getScore();
+    const QPushButton&  resultStartButton             = generalView.getStartButton();
+    const QPushButton&  resultHighScoreButton         = generalView.getHighScoreButton();
+    const QPushButton&  resultQuitButton              = generalView.getQuitButton();
+    const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
+    const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
+    const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     int  resultSignalPauseCount        = signalPause.count();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
@@ -164,19 +165,19 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     generalView.show();
 
     generalView.gameOver(100);
-    const QGraphicsView& resultView                    = generalView.getView();
-    const QLabel&        resultTitle                   = generalView.getTitle();
-    const QLabel&        resultAuthor                  = generalView.getAuthor();
-    const QLabel&        resultPause                   = generalView.getPause();
-    const QLineEdit&     resultPlayer                  = generalView.getPlayer();
-    const QLabel&        resultScore                   = generalView.getScore();
-    const QPushButton&   resultStartButton             = generalView.getStartButton();
-    const QPushButton&   resultHighScoreButton         = generalView.getHighScoreButton();
-    const QPushButton&   resultQuitButton              = generalView.getQuitButton();
-    const QPushButton&   resultBackToMenuButton        = generalView.getBackToMenuButton();
-    const QPushButton&   resultBackToMenuButton2       = generalView.getBackToMenuButton2();
-    const QPushButton&   resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
-    const QListWidget&   resultHighScoreList           = generalView.getHighScoreList();
+    const GraphicsView& resultView                    = generalView.getView();
+    const QLabel&       resultTitle                   = generalView.getTitle();
+    const QLabel&       resultAuthor                  = generalView.getAuthor();
+    const QLabel&       resultPause                   = generalView.getPause();
+    const QLineEdit&    resultPlayer                  = generalView.getPlayer();
+    const QLabel&       resultScore                   = generalView.getScore();
+    const QPushButton&  resultStartButton             = generalView.getStartButton();
+    const QPushButton&  resultHighScoreButton         = generalView.getHighScoreButton();
+    const QPushButton&  resultQuitButton              = generalView.getQuitButton();
+    const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
+    const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
+    const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
 
     EXPECT_EQ(resultScore.text(),                        QString("100"));
     EXPECT_EQ(resultView.isVisible(),                    false);
@@ -200,19 +201,19 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     generalView.show();
 
     generalView.highScore();
-    const QGraphicsView& resultView                    = generalView.getView();
-    const QLabel&        resultTitle                   = generalView.getTitle();
-    const QLabel&        resultAuthor                  = generalView.getAuthor();
-    const QLabel&        resultPause                   = generalView.getPause();
-    const QLineEdit&     resultPlayer                  = generalView.getPlayer();
-    const QLabel&        resultScore                   = generalView.getScore();
-    const QPushButton&   resultStartButton             = generalView.getStartButton();
-    const QPushButton&   resultHighScoreButton         = generalView.getHighScoreButton();
-    const QPushButton&   resultQuitButton              = generalView.getQuitButton();
-    const QPushButton&   resultBackToMenuButton        = generalView.getBackToMenuButton();
-    const QPushButton&   resultBackToMenuButton2       = generalView.getBackToMenuButton2();
-    const QPushButton&   resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
-    const QListWidget&   resultHighScoreList           = generalView.getHighScoreList();
+    const GraphicsView& resultView                    = generalView.getView();
+    const QLabel&       resultTitle                   = generalView.getTitle();
+    const QLabel&       resultAuthor                  = generalView.getAuthor();
+    const QLabel&       resultPause                   = generalView.getPause();
+    const QLineEdit&    resultPlayer                  = generalView.getPlayer();
+    const QLabel&       resultScore                   = generalView.getScore();
+    const QPushButton&  resultStartButton             = generalView.getStartButton();
+    const QPushButton&  resultHighScoreButton         = generalView.getHighScoreButton();
+    const QPushButton&  resultQuitButton              = generalView.getQuitButton();
+    const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
+    const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
+    const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
 
     EXPECT_EQ(resultView.isVisible(),                    false);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
