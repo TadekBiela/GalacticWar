@@ -15,8 +15,8 @@ BulletModel::BulletModel(bullet_type type,
 
     //Setup QPixmap
     //temporary simple graphic
-    QPixmap map(QSize(10, 50));
-    map.fill(Qt::yellow);
+    QPixmap map(QSize(4, 10));
+    map.fill(Qt::black);
     setPixmap(map);
 
     setPos(position);

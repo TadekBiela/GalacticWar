@@ -18,7 +18,7 @@ PlayerModel::PlayerModel()
                            m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
 {
     //temporary simple graphic
-    QPixmap map(QSize(100, 100));
+    QPixmap map(QSize(60, 60));
     map.fill(Qt::green);
     setPixmap(map);
 

@@ -17,7 +17,7 @@ EnemyModel::EnemyModel(int     level,
                           m_animationFrameIdx(0)
 {
     //temporary simple graphic
-    QPixmap map(QSize(100, 100));
+    QPixmap map(QSize(60, 60));
     map.fill(Qt::red);
     setPixmap(map);
 
