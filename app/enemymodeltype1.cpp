@@ -10,8 +10,8 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
                                                position,
                                                2,
                                                10,
-                                               30,
-                                               15)
+                                               80,
+                                               1000)
 {
     int destinationLeftRightFactor = (((def::sceneWight - static_cast<int>(position.x())) / (def::sceneWight / 2)) * 2) - 1; // Can only be -1 or 1
     //If position is on left side of scene enemy fly to down or right, if right side, fly down or left

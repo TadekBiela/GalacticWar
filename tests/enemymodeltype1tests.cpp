@@ -59,9 +59,9 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     EXPECT_EQ(resultMoveTimerIsActive, false);
     EXPECT_EQ(resultFireTimerIsActive, false);
     EXPECT_EQ(resultAnimTimerIsActive, false);
-    EXPECT_NEAR(resultMoveTime,        30, 1);
-    EXPECT_NEAR(resultFireTime,        15, 1);
-    EXPECT_NEAR(resultAnimationTime,    5, 1);
+    EXPECT_NEAR(resultMoveTime,          80, 1);
+    EXPECT_NEAR(resultFireTime,        1000, 1);
+    EXPECT_NEAR(resultAnimationTime,      5, 1);
     delete randomGenerator;
 }
 

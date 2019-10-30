@@ -80,6 +80,7 @@ void EnemyController::spawnEnemy()
     {
         case 1:
             enemy = new EnemyModelType1(enemyPosition, m_generator);
+            enemy->start();
             break;
     }
     emit addEnemyToScene(enemy);

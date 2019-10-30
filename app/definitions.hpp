@@ -15,8 +15,8 @@ namespace def
     const int    maxNumOfLevel          = 10;
     const int    maxWeaponTypes         = 3;
     const int    maxWeaponLevel         = 5;
-    const int    minEnemySpawnTimeDelay = 100;
-    const int    maxEnemySpawnTimeDelay = 500;
+    const int    minEnemySpawnTimeDelay = 1000;
+    const int    maxEnemySpawnTimeDelay = 5000;
     const int    percentDistTabSize     = 100;
 
     //Player default configuration
