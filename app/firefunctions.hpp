@@ -2,27 +2,28 @@
 #define FIREFUNCTIONS_HPP
 
 #include <QPointF>
+#include <QGraphicsScene>
 
-typedef void (*fire)(QPointF, int);
+typedef void (*fire)(QGraphicsScene*, QPointF, int);
 
-void defaultFireFunc(QPointF startPosition, int baseDamage);
+void defaultFireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 
-void redLevel1FireFunc(QPointF startPosition, int baseDamage);
-void redLevel2FireFunc(QPointF startPosition, int baseDamage);
-void redLevel3FireFunc(QPointF startPosition, int baseDamage);
-void redLevel4FireFunc(QPointF startPosition, int baseDamage);
-void redLevel5FireFunc(QPointF startPosition, int baseDamage);
+void redLevel1FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void redLevel2FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void redLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void redLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 
-void yellowLevel1FireFunc(QPointF startPosition, int baseDamage);
-void yellowLevel2FireFunc(QPointF startPosition, int baseDamage);
-void yellowLevel3FireFunc(QPointF startPosition, int baseDamage);
-void yellowLevel4FireFunc(QPointF startPosition, int baseDamage);
-void yellowLevel5FireFunc(QPointF startPosition, int baseDamage);
+void yellowLevel1FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void yellowLevel2FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void yellowLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void yellowLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void yellowLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 
-void blueLevel1FireFunc(QPointF startPosition, int baseDamage);
-void blueLevel2FireFunc(QPointF startPosition, int baseDamage);
-void blueLevel3FireFunc(QPointF startPosition, int baseDamage);
-void blueLevel4FireFunc(QPointF startPosition, int baseDamage);
-void blueLevel5FireFunc(QPointF startPosition, int baseDamage);
+void blueLevel1FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void blueLevel2FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void blueLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void blueLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 
 #endif // FIREFUNCTIONS_HPP

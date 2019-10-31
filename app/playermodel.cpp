@@ -104,7 +104,9 @@ void PlayerModel::move()
 
 void PlayerModel::fire()
 {
-    m_weapon.fireFuncPtr(QGraphicsItem::pos(), m_weapon.damage);
+    QPointF position = QGraphicsItem::pos();
+    position.setX(position.x() + def::pixmapPlayerWidth / 2);
+    m_weapon.fireFuncPtr(QGraphicsItem::scene(), position, m_weapon.damage);
 }
 
 void PlayerModel::startFire()
