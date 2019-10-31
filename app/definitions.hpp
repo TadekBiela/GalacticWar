@@ -20,6 +20,8 @@ namespace def
     const int    percentDistTabSize     = 100;
 
     //Player default configuration
+    const int pixmapPlayerWidth           = 60;
+    const int pixmapPlayerHealth          = 60;
     const int maxPlayerHealth             = 1000;
     const int defaultPlayerMoveTimeDelay  = 15;
 

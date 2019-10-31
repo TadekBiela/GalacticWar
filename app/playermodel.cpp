@@ -18,7 +18,7 @@ PlayerModel::PlayerModel()
                            m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
 {
     //temporary simple graphic
-    QPixmap map(QSize(60, 60));
+    QPixmap map(QSize(def::pixmapPlayerWidth, def::pixmapPlayerHealth));
     map.fill(Qt::green);
     setPixmap(map);
 
@@ -50,7 +50,18 @@ void PlayerModel::move()
 {
     if(m_isMoving)
     {
-        setPos(moveForward(pos(), m_direction));
+        QPointF newPosition(moveForward(pos(), m_direction));
+        int x = newPosition.x();
+        int y = newPosition.y();
+        int minX = 0;
+        int maxX = def::sceneWight - pixmap().size().width();
+        int minY = 0;
+        int maxY = def::sceneHeight - pixmap().size().height();
+
+        if(x >= minX && x <= maxX && y >= minY && y <= maxY)
+        {
+            setPos(newPosition);
+        }
     }
 
     //Check collisions
