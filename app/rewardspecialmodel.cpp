@@ -5,7 +5,7 @@ RewardSpecialModel::RewardSpecialModel(special_type type)
                                         : m_type(type)
 {
     //temporary simple graphic
-    QPixmap map(QSize(50, 50));
+    QPixmap map(QSize(30, 30));
     map.fill(Qt::cyan);
     setPixmap(map);
 }

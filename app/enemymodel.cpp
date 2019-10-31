@@ -21,6 +21,8 @@ EnemyModel::EnemyModel(int     level,
     map.fill(Qt::red);
     setPixmap(map);
 
+    position.setX(position.x() - pixmap().size().width() / 2);
+    position.setY(position.y() - pixmap().size().height() / 2);
     setPos(position);
 
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
@@ -60,7 +62,10 @@ void EnemyModel::destroy()
 {
     auto scene = QGraphicsItem::scene();
     scene->removeItem(this);
-    emit this->destroyed(pos(), m_level);
+    QPointF position = pos();
+    position.setX(position.x() + pixmap().size().width() / 2);
+    position.setY(position.y() + pixmap().size().height() / 2);
+    emit this->destroyed(position, m_level);
 }
 
 void EnemyModel::hit(int damage)

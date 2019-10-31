@@ -119,7 +119,11 @@ void PlayerModel::stopFire()
 
 void PlayerModel::changeDirection(QPointF newDirection)
 {
-    QLineF vector(QGraphicsItem::pos(), newDirection);
+    QPointF position = QGraphicsItem::pos();
+    position.setX(position.x() + pixmap().size().width() / 2);
+    position.setY(position.y() + pixmap().size().height() / 2);
+
+    QLineF vector(position, newDirection);
     int length  = static_cast<int>(vector.length());
     m_isMoving  = length >= def::moveVectorLength;
     m_direction = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;

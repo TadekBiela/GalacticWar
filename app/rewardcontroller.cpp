@@ -39,7 +39,8 @@ void RewardController::spawnRewards(QPointF position, int tier)
 
         int xOffset = m_generator->bounded(def::minRewardPosOffset, def::maxRewardPosOffset);
         int yOffset = m_generator->bounded(def::minRewardPosOffset, def::maxRewardPosOffset);
-        coin->setPos(position.x() + xOffset, position.y() + yOffset);
+        coin->setPos(position.x() + xOffset - coin->pixmap().size().width(),
+                     position.y() + yOffset - coin->pixmap().size().height());
 
         connect(coin, SIGNAL(collected(coin_type)),
                 this, SLOT(coinCollected(coin_type)));
@@ -53,7 +54,8 @@ void RewardController::spawnRewards(QPointF position, int tier)
         special_type type = static_cast<special_type>(m_generator->bounded(1, def::maxNumOfSpecialRewards));
 
         RewardSpecialModel* special = new RewardSpecialModel(type);
-        special->setPos(position);
+        special->setPos(position.x() - special->pixmap().size().width(),
+                        position.y() - special->pixmap().size().height());
 
         connect(special, SIGNAL(collected(special_type)),
                 this,    SLOT(specialCollected(special_type)));

@@ -19,6 +19,8 @@ BulletModel::BulletModel(bullet_type type,
     map.fill(Qt::black);
     setPixmap(map);
 
+    position.setX(position.x() - pixmap().size().width() / 2);
+    position.setY(position.y() - pixmap().size().height() / 2);
     setPos(position);
     setRotation(m_direction);
 
