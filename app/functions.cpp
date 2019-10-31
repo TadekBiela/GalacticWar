@@ -30,3 +30,18 @@ QPointF moveForward(const QPointF startPosition, int direction)
 
     return endPosition;
 }
+
+bool isOutOfScene(QPointF pos, QPixmap pixmap)
+{
+    int x = pos.x();
+    int y = pos.y();
+    int minX = 0 - pixmap.size().width();
+    int maxX = def::sceneWight + pixmap.size().width();
+    int minY = 0 - pixmap.size().height();
+    int maxY = def::sceneHeight + pixmap.size().height();
+    if(x < minX || x > maxX || y < minY || y > maxY)
+    {
+        return true;
+    }
+    return false;
+}

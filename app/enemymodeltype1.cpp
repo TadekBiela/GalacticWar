@@ -39,6 +39,10 @@ void EnemyModelType1::fire()
 void EnemyModelType1::move()
 {
     setPos(moveForward(pos(), m_direction));
+    if(isOutOfScene(pos(), pixmap()))
+    {
+        delete this;
+    }
     checkCollisions();
 }
 

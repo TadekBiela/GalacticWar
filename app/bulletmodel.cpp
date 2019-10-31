@@ -48,4 +48,9 @@ int BulletModel::getDamage() const
 void BulletModel::move()
 {
     setPos(moveForward(pos(), m_direction));
+
+    if(isOutOfScene(pos(), pixmap()))
+    {
+        delete this;
+    }
 }
