@@ -44,7 +44,7 @@ class PlayerModelTestsClass : public testing::Test
 
 TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
-    QPointF expectedPosition(QPointF(def::halfSceneWight, def::halfSceneHeight));
+    QPointF expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 30);
 
     PlayerModelTest playerModel;
     int           resultIsMovingFlag      = playerModel.getIsMovingFlag();
@@ -77,7 +77,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoCollisionsPlayerShouldntMove_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 30);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
@@ -100,7 +100,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoCollisionsPlay
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoCollisionsPlayerShouldMoveUpBy10Pixels_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
@@ -123,7 +123,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoCollisionsPlaye
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulletPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*  scene  = new QGraphicsScene();
     BulletModel*     bullet = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest; //default health is 1000
@@ -156,7 +156,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulle
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfBulletPlayerShouldOnlyMove_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*  scene  = new QGraphicsScene();
     BulletModel*     bullet = new BulletModel(bullet_type::playerDefaultBullet, expectedPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest;
@@ -188,7 +188,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfB
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<coin_type>();
-    QPointF          expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*  scene  = new QGraphicsScene();
     RewardCoinModel* coin   = new RewardCoinModel(coin_type::bronze);
     PlayerModelTest* player = new PlayerModelTest;
@@ -224,7 +224,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinR
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpecialRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<special_type>();
-    QPointF             expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF             expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*     scene   = new QGraphicsScene();
     RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponRed);
     PlayerModelTest*    player  = new PlayerModelTest;
@@ -259,7 +259,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpeci
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
-    QPointF              expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF              expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
@@ -295,7 +295,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemy
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
 {
-    QPointF              expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF              expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
@@ -329,7 +329,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCo
 {
     qRegisterMetaType<coin_type>();
     qRegisterMetaType<special_type>();
-    QPointF              expectedPosition(def::halfSceneWight, def::halfSceneHeight - 10);
+    QPointF              expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
     QGraphicsScene*      scene       = new QGraphicsScene();
     BulletModel*         bullet      = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
     RewardCoinModel*     coin        = new RewardCoinModel(coin_type::bronze);

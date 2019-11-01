@@ -10,8 +10,8 @@ namespace def
     const double radianConversionFactor = pi / 180;
     const int    maxAnimationFrames     = 5;
     const int    maxAnimationFrameIdx   = 4;
-    const int    animationFrameWight    = 50;
-    const int    animationFrameHeight   = 50;
+    const int    animationFrameWight    = 60;
+    const int    animationFrameHeight   = 60;
     const int    maxNumOfLevel          = 10;
     const int    maxWeaponTypes         = 3;
     const int    maxWeaponLevel         = 5;

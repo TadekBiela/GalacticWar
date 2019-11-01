@@ -61,18 +61,19 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     int     resultFireTime          = enemyModel.getFireTimer().interval();
     int     resultAnimationTime     = enemyModel.getAnimationTimer().interval();
 
-    EXPECT_EQ(resultLevel,             1);
-    EXPECT_EQ(resultPosition,          QPointF(2, 7));
-    EXPECT_EQ(resultHealth,            30);
-    EXPECT_EQ(resultDamage,            15);
-    EXPECT_EQ(resultDirection,         0);
-    EXPECT_EQ(resultAnimationFrameIdx, 0);
-    EXPECT_EQ(resultMoveTimerIsActive, false);
-    EXPECT_EQ(resultFireTimerIsActive, false);
-    EXPECT_EQ(resultAnimTimerIsActive, false);
-    EXPECT_NEAR(resultMoveTime,        20, 1);
-    EXPECT_NEAR(resultFireTime,        10, 1);
-    EXPECT_NEAR(resultAnimationTime,    5, 1);
+    EXPECT_EQ(resultLevel,               1);
+    EXPECT_EQ(resultHealth,              30);
+    EXPECT_EQ(resultDamage,              15);
+    EXPECT_EQ(resultDirection,           0);
+    EXPECT_EQ(resultAnimationFrameIdx,   0);
+    EXPECT_EQ(resultMoveTimerIsActive,   false);
+    EXPECT_EQ(resultFireTimerIsActive,   false);
+    EXPECT_EQ(resultAnimTimerIsActive,   false);
+    EXPECT_NEAR(resultMoveTime,          20, 1);
+    EXPECT_NEAR(resultFireTime,          10, 1);
+    EXPECT_NEAR(resultAnimationTime,      5, 1);
+    EXPECT_FLOAT_EQ(resultPosition.x(), -28);
+    EXPECT_FLOAT_EQ(resultPosition.y(), -23);
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)

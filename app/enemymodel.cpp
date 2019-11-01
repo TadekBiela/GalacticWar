@@ -17,12 +17,12 @@ EnemyModel::EnemyModel(int     level,
                           m_animationFrameIdx(0)
 {
     //temporary simple graphic
-    QPixmap map(QSize(60, 60));
+    QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
     map.fill(Qt::red);
     setPixmap(map);
 
-    position.setX(position.x() - pixmap().size().width() / 2);
-    position.setY(position.y() - pixmap().size().height() / 2);
+    position.setX(position.x() - def::animationFrameWight  / 2);
+    position.setY(position.y() - def::animationFrameHeight / 2);
     setPos(position);
 
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
@@ -63,8 +63,8 @@ void EnemyModel::destroy()
     auto scene = QGraphicsItem::scene();
     scene->removeItem(this);
     QPointF position = pos();
-    position.setX(position.x() + pixmap().size().width() / 2);
-    position.setY(position.y() + pixmap().size().height() / 2);
+    position.setX(position.x() + def::animationFrameWight  / 2);
+    position.setY(position.y() + def::animationFrameHeight / 2);
     emit this->destroyed(position, m_level);
 }
 

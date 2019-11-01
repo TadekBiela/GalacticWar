@@ -42,8 +42,8 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1OnlyOneBronzeCoinShouldBeSp
     auto resultCoinReward      = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(0)));
 
     EXPECT_EQ(resultSignalCoinCount,             1);
-    EXPECT_FLOAT_EQ(resultCoinReward->pos().x(), 55);
-    EXPECT_FLOAT_EQ(resultCoinReward->pos().y(), 40);
+    EXPECT_FLOAT_EQ(resultCoinReward->pos().x(), 40);
+    EXPECT_FLOAT_EQ(resultCoinReward->pos().y(), 25);
     EXPECT_EQ(resultCoinReward->getType(),       coin_type::bronze);
     delete view;
     delete randomGenerator;
@@ -69,11 +69,11 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier2CoinsOneBronzeAndOneSilverS
     auto resultCoinReward2  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(1).at(0)));
 
     EXPECT_EQ(resultSignalsCount,                 2);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(), 45);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 50);
+    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(), 30);
+    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 35);
     EXPECT_EQ(resultCoinReward1->getType(),       coin_type::bronze);
-    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(), 55);
-    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(), 58);
+    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(), 40);
+    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(), 43);
     EXPECT_EQ(resultCoinReward2->getType(),       coin_type::silver);
     delete view;
     delete randomGenerator;
@@ -104,17 +104,17 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3AllTypesCoinsAndSpecialRewa
     auto resultSpecialReward = dynamic_cast<RewardSpecialModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(3).at(0)));
 
     EXPECT_EQ(resultSignalsCount,                   4);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(),   55);
-    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(),   55);
+    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(),   40);
+    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(),   40);
     EXPECT_EQ(resultCoinReward1->getType(),         coin_type::bronze);
-    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(),   40);
-    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(),   50);
+    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(),   25);
+    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(),   35);
     EXPECT_EQ(resultCoinReward2->getType(),         coin_type::silver);
-    EXPECT_FLOAT_EQ(resultCoinReward3->pos().x(),   48);
-    EXPECT_FLOAT_EQ(resultCoinReward3->pos().y(),   46);
+    EXPECT_FLOAT_EQ(resultCoinReward3->pos().x(),   33);
+    EXPECT_FLOAT_EQ(resultCoinReward3->pos().y(),   31);
     EXPECT_EQ(resultCoinReward3->getType(),         coin_type::gold);
-    EXPECT_FLOAT_EQ(resultSpecialReward->pos().x(), 50);
-    EXPECT_FLOAT_EQ(resultSpecialReward->pos().y(), 50);
+    EXPECT_FLOAT_EQ(resultSpecialReward->pos().x(), 35);
+    EXPECT_FLOAT_EQ(resultSpecialReward->pos().y(), 35);
     EXPECT_EQ(resultSpecialReward->getType(),       special_type::health);
     delete view;
     delete randomGenerator;

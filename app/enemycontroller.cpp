@@ -75,7 +75,7 @@ void EnemyController::spawnEnemy()
     int enemyTypeIdx = m_generator->bounded(0, def::percentDistTabSize - 1);
     int enemyType    = m_enemyPercentDistributionTab[enemyTypeIdx];
     QPointF enemyPosition(m_generator->bounded(0, def::sceneWight - def::animationFrameWight),
-                          -def::animationFrameHeight);
+                          -def::animationFrameHeight / 2 + 1);
     switch (enemyType)
     {
         case 1:

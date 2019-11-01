@@ -166,8 +166,8 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndE
 
     EXPECT_EQ(resultSignalAddCount,    1);
     EXPECT_EQ(resultEnemyLevel,        1);
-    EXPECT_EQ(resultEnemyPosition.x(), 40);
-    EXPECT_EQ(resultEnemyPosition.y(), -def::animationFrameHeight);
+    EXPECT_EQ(resultEnemyPosition.x(), 10);
+    EXPECT_EQ(resultEnemyPosition.y(), -59);
     EXPECT_NEAR(resultEnemySpawnDelay, 230, 2);
     delete resultEnemy;
     delete generator;
@@ -188,8 +188,8 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfEnemyWillBeAddedToView_IsEqu
 
     EXPECT_EQ(resultItemsList.size(),  1);
     EXPECT_EQ(resultEnemy->getLevel(), 1);
-    EXPECT_EQ(resultEnemy->pos().x(),  40);
-    EXPECT_EQ(resultEnemy->pos().y(),  -def::animationFrameHeight);
+    EXPECT_EQ(resultEnemy->pos().x(),  10);
+    EXPECT_EQ(resultEnemy->pos().y(),  -59);
     delete resultEnemy;
     delete generator;
     delete view;

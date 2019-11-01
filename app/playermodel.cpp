@@ -22,7 +22,8 @@ PlayerModel::PlayerModel()
     map.fill(Qt::green);
     setPixmap(map);
 
-    setPos(def::halfSceneWight, def::halfSceneHeight);
+    setPos(def::halfSceneWight  - pixmap().size().width()  / 2,
+           def::halfSceneHeight - pixmap().size().height() / 2);
 
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
@@ -133,7 +134,7 @@ void PlayerModel::stopFire()
 void PlayerModel::changeDirection(QPointF newDirection)
 {
     QPointF position = QGraphicsItem::pos();
-    position.setX(position.x() + pixmap().size().width() / 2);
+    position.setX(position.x() + pixmap().size().width()  / 2);
     position.setY(position.y() + pixmap().size().height() / 2);
 
     QLineF vector(position, newDirection);
