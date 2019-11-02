@@ -18,12 +18,12 @@ PlayerModel::PlayerModel()
                            m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
 {
     //temporary simple graphic
-    QPixmap map(QSize(def::pixmapPlayerWidth, def::pixmapPlayerHealth));
+    QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
     map.fill(Qt::green);
     setPixmap(map);
 
-    setPos(def::halfSceneWight  - pixmap().size().width()  / 2,
-           def::halfSceneHeight - pixmap().size().height() / 2);
+    setPos(def::halfSceneWight  - def::animationFrameWight  / 2,
+           def::halfSceneHeight - def::animationFrameHeight / 2);
 
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
@@ -117,7 +117,7 @@ void PlayerModel::move()
 void PlayerModel::fire()
 {
     QPointF position = QGraphicsItem::pos();
-    position.setX(position.x() + def::pixmapPlayerWidth / 2);
+    position.setX(position.x() + def::animationFrameWight / 2);
     m_weapon.fireFuncPtr(QGraphicsItem::scene(), position, m_weapon.damage);
 }
 
@@ -134,8 +134,8 @@ void PlayerModel::stopFire()
 void PlayerModel::changeDirection(QPointF newDirection)
 {
     QPointF position = QGraphicsItem::pos();
-    position.setX(position.x() + pixmap().size().width()  / 2);
-    position.setY(position.y() + pixmap().size().height() / 2);
+    position.setX(position.x() + def::animationFrameWight  / 2);
+    position.setY(position.y() + def::animationFrameHeight / 2);
 
     QLineF vector(position, newDirection);
     int length  = static_cast<int>(vector.length());

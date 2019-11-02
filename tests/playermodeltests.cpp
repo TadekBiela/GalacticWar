@@ -44,19 +44,20 @@ class PlayerModelTestsClass : public testing::Test
 
 TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
-    QPointF expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 30);
+    QPointF expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                             def::halfSceneHeight - def::animationFrameHeight / 2);
 
     PlayerModelTest playerModel;
-    int           resultIsMovingFlag      = playerModel.getIsMovingFlag();
-    int           resultDirection         = playerModel.getDirection();
-    QPointF       resultPosition          = playerModel.getPosition();
-    int           resultHealth            = playerModel.getHealth();
-    weapon        resultWeapon            = playerModel.getWeapon();
-    int           resultWeaponTier        = playerModel.getWeaponTier();
-    int           resultFireMoveDelay     = playerModel.getMoveTimeDelay();
-    int           resultFireTimeDelay     = playerModel.getFireTimeDelay();
-    const QTimer& resultMoveTimer         = playerModel.getMoveTimer();
-    const QTimer& resultFireTimer         = playerModel.getFireTimer();
+    int           resultIsMovingFlag  = playerModel.getIsMovingFlag();
+    int           resultDirection     = playerModel.getDirection();
+    QPointF       resultPosition      = playerModel.getPosition();
+    int           resultHealth        = playerModel.getHealth();
+    weapon        resultWeapon        = playerModel.getWeapon();
+    int           resultWeaponTier    = playerModel.getWeaponTier();
+    int           resultFireMoveDelay = playerModel.getMoveTimeDelay();
+    int           resultFireTimeDelay = playerModel.getFireTimeDelay();
+    const QTimer& resultMoveTimer     = playerModel.getMoveTimer();
+    const QTimer& resultFireTimer     = playerModel.getFireTimer();
 
     EXPECT_EQ(      resultIsMovingFlag,              false);
     EXPECT_EQ(      resultDirection,                 0);
@@ -77,7 +78,8 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoCollisionsPlayerShouldntMove_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 30);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
@@ -93,14 +95,15 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoCollisionsPlay
 
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-    EXPECT_EQ(signalHealthCount, 0);
-    EXPECT_EQ(signalDefeatCount, 0);
+    EXPECT_EQ(signalHealthCount,        0);
+    EXPECT_EQ(signalDefeatCount,        0);
     delete scene;
 }
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoCollisionsPlayerShouldMoveUpBy10Pixels_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
@@ -110,20 +113,21 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoCollisionsPlaye
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
     player->move();
-    QPointF resultPosition = player->getPosition();
+    QPointF resultPosition    = player->getPosition();
     int     signalHealthCount = signalHealth.count();
     int     signalDefeatCount = signalDefeat.count();
 
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-    EXPECT_EQ(signalHealthCount, 0);
-    EXPECT_EQ(signalDefeatCount, 0);
+    EXPECT_EQ(signalHealthCount,        0);
+    EXPECT_EQ(signalDefeatCount,        0);
     delete scene;
 }
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulletPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
     BulletModel*     bullet = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest; //default health is 1000
@@ -143,12 +147,12 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulle
     int     resultHealth       = player->getHealth();
     QPointF resultPosition     = player->getPosition();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  1);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalHealthValue,  950);
-    EXPECT_EQ(resultItemsOnScene, 1);
-    EXPECT_EQ(resultHealth,       950);
+    EXPECT_EQ(startItemsOnScene,        2);
+    EXPECT_EQ(signalHealthCount,        1);
+    EXPECT_EQ(signalDefeatCount,        0);
+    EXPECT_EQ(signalHealthValue,        950);
+    EXPECT_EQ(resultItemsOnScene,       1);
+    EXPECT_EQ(resultHealth,             950);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete scene;
@@ -156,7 +160,8 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulle
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfBulletPlayerShouldOnlyMove_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
     BulletModel*     bullet = new BulletModel(bullet_type::playerDefaultBullet, expectedPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest;
@@ -175,11 +180,11 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfB
     int     resultHealth       = player->getHealth();
     QPointF resultPosition     = player->getPosition();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  0);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(resultItemsOnScene, 2);
-    EXPECT_EQ(resultHealth,       1000);
+    EXPECT_EQ(startItemsOnScene,        2);
+    EXPECT_EQ(signalHealthCount,        0);
+    EXPECT_EQ(signalDefeatCount,        0);
+    EXPECT_EQ(resultItemsOnScene,       2);
+    EXPECT_EQ(resultHealth,             1000);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete scene;
@@ -188,7 +193,8 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfB
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<coin_type>();
-    QPointF          expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
     RewardCoinModel* coin   = new RewardCoinModel(coin_type::bronze);
     PlayerModelTest* player = new PlayerModelTest;
@@ -210,12 +216,12 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinR
     int     resultHealth       = player->getHealth();
     QPointF resultPosition     = player->getPosition();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  0);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalCoinCount,    1);
-    EXPECT_EQ(resultItemsOnScene, 1);
-    EXPECT_EQ(resultHealth,       1000);
+    EXPECT_EQ(startItemsOnScene,        2);
+    EXPECT_EQ(signalHealthCount,        0);
+    EXPECT_EQ(signalDefeatCount,        0);
+    EXPECT_EQ(signalCoinCount,          1);
+    EXPECT_EQ(resultItemsOnScene,       1);
+    EXPECT_EQ(resultHealth,             1000);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete scene;
@@ -224,7 +230,8 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinR
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpecialRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<special_type>();
-    QPointF             expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF             expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                         def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*     scene   = new QGraphicsScene();
     RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponRed);
     PlayerModelTest*    player  = new PlayerModelTest;
@@ -246,12 +253,12 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpeci
     int     resultHealth       = player->getHealth();
     QPointF resultPosition     = player->getPosition();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  0);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalSpecialCount, 1);
-    EXPECT_EQ(resultItemsOnScene, 1);
-    EXPECT_EQ(resultHealth,       1000);
+    EXPECT_EQ(startItemsOnScene,        2);
+    EXPECT_EQ(signalHealthCount,        0);
+    EXPECT_EQ(signalDefeatCount,        0);
+    EXPECT_EQ(signalSpecialCount,       1);
+    EXPECT_EQ(resultItemsOnScene,       1);
+    EXPECT_EQ(resultHealth,             1000);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete scene;
@@ -259,7 +266,8 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpeci
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
 {
-    QPointF              expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF              expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                          def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
@@ -281,12 +289,12 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemy
     int     resultHealth       = player->getHealth();
     QPointF resultPosition     = player->getPosition();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  1);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalHealthValue,  900);
-    EXPECT_EQ(resultItemsOnScene, 1);
-    EXPECT_EQ(resultHealth,       900);
+    EXPECT_EQ(startItemsOnScene,        2);
+    EXPECT_EQ(signalHealthCount,        1);
+    EXPECT_EQ(signalDefeatCount,        0);
+    EXPECT_EQ(signalHealthValue,        900);
+    EXPECT_EQ(resultItemsOnScene,       1);
+    EXPECT_EQ(resultHealth,             900);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete generator;
@@ -295,7 +303,8 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemy
 
 TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
 {
-    QPointF              expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
+    QPointF              expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                          def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
@@ -311,10 +320,10 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemy
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
     player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-    int     resultItemsOnScene = scene->items().size();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
+    int resultItemsOnScene = scene->items().size();
 
     EXPECT_EQ(startItemsOnScene,  2);
     EXPECT_EQ(signalHealthCount,  1);
@@ -329,14 +338,15 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCo
 {
     qRegisterMetaType<coin_type>();
     qRegisterMetaType<special_type>();
-    QPointF              expectedPosition(def::halfSceneWight - 30, def::halfSceneHeight - 40);
-    QGraphicsScene*      scene       = new QGraphicsScene();
-    BulletModel*         bullet      = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
-    RewardCoinModel*     coin        = new RewardCoinModel(coin_type::bronze);
-    RewardSpecialModel*  special     = new RewardSpecialModel(special_type::weaponRed);
-    RandomGeneratorStub* generator   = new RandomGeneratorStub;
-    EnemyModel*          enemy       = new EnemyModelType1(QPointF(0,0), generator);
-    PlayerModelTest*     player      = new PlayerModelTest; //default health is 1000
+    QPointF              expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                          def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QGraphicsScene*      scene     = new QGraphicsScene();
+    BulletModel*         bullet    = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
+    RewardCoinModel*     coin      = new RewardCoinModel(coin_type::bronze);
+    RewardSpecialModel*  special   = new RewardSpecialModel(special_type::weaponRed);
+    RandomGeneratorStub* generator = new RandomGeneratorStub;
+    EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
+    PlayerModelTest*     player    = new PlayerModelTest; //default health is 1000
     QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
     QSignalSpy           signalCoin(coin, &RewardCoinModel::collected);
@@ -363,12 +373,12 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCo
     int     resultHealth       = player->getHealth();
     QPointF resultPosition     = player->getPosition();
 
-    EXPECT_EQ(startItemsOnScene,  5);
-    EXPECT_EQ(signalHealthCount,  1);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalHealthValue,  850);
-    EXPECT_EQ(resultItemsOnScene, 1);
-    EXPECT_EQ(resultHealth,       850);
+    EXPECT_EQ(startItemsOnScene,        5);
+    EXPECT_EQ(signalHealthCount,        1);
+    EXPECT_EQ(signalDefeatCount,        0);
+    EXPECT_EQ(signalHealthValue,        850);
+    EXPECT_EQ(resultItemsOnScene,       1);
+    EXPECT_EQ(resultHealth,             850);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete generator;
@@ -506,11 +516,11 @@ class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
 
 TEST_P(PlayerModelTestsParamClass, ChangeAtribute_CollectedWeapon_IsEqual)
 {
-    weapon       currentWeapon         = std::tr1::get<0>(GetParam());
-    int          currentWeaponTier     = std::tr1::get<1>(GetParam());
-    special_type newWeaponRewardType   = std::tr1::get<2>(GetParam());
-    weapon_type  expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
-    int          expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
+    weapon          currentWeapon         = std::tr1::get<0>(GetParam());
+    int             currentWeaponTier     = std::tr1::get<1>(GetParam());
+    special_type    newWeaponRewardType   = std::tr1::get<2>(GetParam());
+    weapon_type     expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
+    int             expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
     PlayerModelTest playerModel;
     playerModel.setWeapon(currentWeapon);
     playerModel.setWeaponTier(currentWeaponTier);
