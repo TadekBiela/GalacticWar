@@ -80,6 +80,8 @@ void EnemyController::spawnEnemy()
     {
         case 1:
             enemy = new EnemyModelType1(enemyPosition, m_generator);
+            connect(enemy, SIGNAL(destroyed(QPointF, int)),
+                    this,  SLOT(destroyed(QPointF, int)));
             enemy->start();
             break;
     }
