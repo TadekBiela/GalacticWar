@@ -66,6 +66,7 @@ void EnemyModel::destroy()
     position.setX(position.x() + def::animationFrameWight  / 2);
     position.setY(position.y() + def::animationFrameHeight / 2);
     emit this->destroyed(position, m_level);
+    delete this;
 }
 
 void EnemyModel::hit(int damage)

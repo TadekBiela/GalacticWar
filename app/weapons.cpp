@@ -1,6 +1,6 @@
 #include "weapons.hpp"
 
-weapon defaultWeapon = { weapon_type::defWeapon, 1, &defaultFireFunc, 20 };
+weapon defaultWeapon = { weapon_type::defWeapon, 1, &defaultFireFunc, 300 };
 
 weapon weapons[def::maxWeaponTypes * def::maxWeaponLevel] = {
     { weapon_type::redWeapon, 2, &redLevel1FireFunc, 20 },

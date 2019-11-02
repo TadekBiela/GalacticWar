@@ -3,7 +3,7 @@
 
 namespace def
 {
-    const int    defaultBulletSpeed     = 10;
+    const int    defaultBulletSpeed     = 20;
     const int    animationFrameDuration = 5;
     const int    moveVectorLength       = 10;
     const double pi                     = 3.14159265;

@@ -42,6 +42,7 @@ void EnemyModelType1::move()
     if(isOutOfScene(pos(), pixmap()))
     {
         delete this;
+        return;
     }
     checkCollisions();
 }
