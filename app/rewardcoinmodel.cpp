@@ -6,7 +6,20 @@ RewardCoinModel::RewardCoinModel(coin_type type)
 {
     //temporary simple graphic
     QPixmap map(QSize(30, 30));
-    map.fill(Qt::gray);
+
+    switch (m_type)
+    {
+        case bronze:
+            map.fill(Qt::darkRed);
+            break;
+        case silver:
+            map.fill(Qt::gray);
+            break;
+        case gold:
+            map.fill(Qt::yellow);
+            break;
+    }
+
     setPixmap(map);
 }
 
