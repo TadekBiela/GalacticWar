@@ -23,7 +23,7 @@ namespace def
     const int pixmapPlayerWidth           = 60;
     const int pixmapPlayerHealth          = 60;
     const int maxPlayerHealth             = 1000;
-    const int defaultPlayerMoveTimeDelay  = 15;
+    const int defaultPlayerMoveTimeDelay  = 20;
 
     //Reward default configuration
     const int maxNumOfSpecialRewards         = 4;
