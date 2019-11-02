@@ -28,9 +28,9 @@ namespace def
     //Reward default configuration
     const int maxNumOfSpecialRewards         = 4;
     const int maxTier                        = 6;
-    const int minRewardPosOffset             = -10;
-    const int maxRewardPosOffset             = 10;
-    const int defaultRewardDestroyTimeDelay  = 1000;
+    const int minRewardPosOffset             = -30;
+    const int maxRewardPosOffset             = 30;
+    const int defaultRewardDestroyTimeDelay  = 5000;
     const int minPointsForBronzeCoin         = 10;
     const int maxPointsForBronzeCoin         = 30;
     const int minPointsForSilverCoin         = 50;
