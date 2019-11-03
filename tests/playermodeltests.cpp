@@ -150,7 +150,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulle
     EXPECT_EQ(startItemsOnScene,        2);
     EXPECT_EQ(signalHealthCount,        1);
     EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalHealthValue,        950);
+    EXPECT_EQ(signalHealthValue,        95);
     EXPECT_EQ(resultItemsOnScene,       1);
     EXPECT_EQ(resultHealth,             950);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
@@ -292,7 +292,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemy
     EXPECT_EQ(startItemsOnScene,        2);
     EXPECT_EQ(signalHealthCount,        1);
     EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalHealthValue,        900);
+    EXPECT_EQ(signalHealthValue,        90);
     EXPECT_EQ(resultItemsOnScene,       1);
     EXPECT_EQ(resultHealth,             900);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
@@ -376,7 +376,7 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCo
     EXPECT_EQ(startItemsOnScene,        5);
     EXPECT_EQ(signalHealthCount,        1);
     EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalHealthValue,        850);
+    EXPECT_EQ(signalHealthValue,        85);
     EXPECT_EQ(resultItemsOnScene,       1);
     EXPECT_EQ(resultHealth,             850);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());

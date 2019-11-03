@@ -2,7 +2,6 @@
 #define PLAYERCONTROLLER_HPP
 
 #include "generalview.hpp"
-#include "healthview.hpp"
 #include "playermodel.hpp"
 #include "rewardtypes.hpp"
 #include <QObject>
@@ -12,8 +11,7 @@ class PlayerController : public QObject
 {
     Q_OBJECT
 public:
-    PlayerController(GeneralView* view,
-                     HealthView*  healthView);
+    PlayerController(GeneralView* view);
     virtual ~PlayerController();
 
 signals:
@@ -28,7 +26,6 @@ public slots:
 
 protected:
     GeneralView* m_view;
-    HealthView*  m_healthView;
     PlayerModel* m_player;
 };
 

@@ -4,7 +4,6 @@
 #include "../app/playercontroller.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/generalview.hpp"
-#include "../app/healthview.hpp"
 #include "../app/rewardtypes.hpp"
 #include <QSignalSpy>
 
@@ -13,10 +12,8 @@ Q_DECLARE_METATYPE(special_type)
 class PlayerControllerTest : public PlayerController
 {
 public:
-    PlayerControllerTest(GeneralView* view,
-                         HealthView*  healthView)
-                          : PlayerController(view,
-                                             healthView) {}
+    PlayerControllerTest(GeneralView* view)
+                          : PlayerController(view) {}
     virtual ~PlayerControllerTest() {}
 
     PlayerModel* getPlayerModel() { return m_player; }
@@ -32,9 +29,8 @@ class PlayerControllerTestsClass : public testing::Test
 
 TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPlayerWasDefeated_IsEqual)
 {
-    GeneralView*         view       = new GeneralView;
-    HealthView*          healthView = new HealthView;
-    PlayerControllerTest playerController(view, healthView); // default Player is not created
+    GeneralView*         view = new GeneralView;
+    PlayerControllerTest playerController(view); // default Player is not created
     QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
 
@@ -46,15 +42,13 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     EXPECT_TRUE(resultPlayer != nullptr);
     EXPECT_EQ(resultSignalCount,      1);
     EXPECT_EQ(resultPlayerFromSignal, resultPlayer);
-    delete healthView;
     delete view;
 }
 
 TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPlayerIsStillAlive_IsEqual)
 {
-    GeneralView*         view       = new GeneralView;
-    HealthView*          healthView = new HealthView;
-    PlayerControllerTest playerController(view, healthView);
+    GeneralView*         view = new GeneralView;
+    PlayerControllerTest playerController(view);
     QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
     playerController.createPlayer();
@@ -70,15 +64,13 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     EXPECT_EQ(resultPlayerHealth,     def::maxPlayerHealth);
     EXPECT_EQ(resultSignalCount,      1);
     EXPECT_EQ(resultPlayerFromSignal, resultPlayer);
-    delete healthView;
     delete view;
 }
 
 TEST_F(PlayerControllerTestsClass, Defeated_CheckIfWillEmitPlayerDefeatedSingal_IsEqual)
 {
-    GeneralView*         view       = new GeneralView;
-    HealthView*          healthView = new HealthView;
-    PlayerControllerTest playerController(view, healthView);
+    GeneralView*         view = new GeneralView;
+    PlayerControllerTest playerController(view);
     QSignalSpy           signalDefeated(&playerController, &PlayerControllerTest::playerDefeated);
     signalDefeated.wait(utdef::minSignalTimeDelay);
 
@@ -88,16 +80,14 @@ TEST_F(PlayerControllerTestsClass, Defeated_CheckIfWillEmitPlayerDefeatedSingal_
 
     EXPECT_EQ(resultSignalCount, 1);
     EXPECT_EQ(resultPlayer,      nullptr);
-    delete healthView;
     delete view;
 }
 
 TEST_F(PlayerControllerTestsClass, ChangePlayerAtribute_CheckIfWillEmitChangeAtributeSingal_IsEqual)
 {
     qRegisterMetaType<special_type>();
-    GeneralView*         view       = new GeneralView;
-    HealthView*          healthView = new HealthView;
-    PlayerControllerTest playerController(view, healthView);
+    GeneralView*         view = new GeneralView;
+    PlayerControllerTest playerController(view);
     QSignalSpy           signalDefeated(&playerController, &PlayerControllerTest::changeAtribute);
     signalDefeated.wait(utdef::minSignalTimeDelay);
 
@@ -107,6 +97,5 @@ TEST_F(PlayerControllerTestsClass, ChangePlayerAtribute_CheckIfWillEmitChangeAtr
 
     EXPECT_EQ(resultSignalCount, 1);
     EXPECT_EQ(resultRevardType,  special_type::health);
-    delete healthView;
     delete view;
 }

@@ -110,7 +110,7 @@ void PlayerModel::move()
     }
     else if(numOfCollisions > 0)
     {
-        emit changeHealth(m_health);
+        emit changeHealth(m_health / 10);
     }
 }
 

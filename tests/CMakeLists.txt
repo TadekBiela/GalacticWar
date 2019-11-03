@@ -26,8 +26,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/generalview.cpp
                                ../app/graphicsview.hpp
                                ../app/graphicsview.cpp
-                               ../app/healthview.hpp
-                               ../app/healthview.cpp
                                ../app/ifilemanager.hpp
                                ../app/irandomgenerator.hpp
                                ../app/levelcontroller.hpp
@@ -69,7 +67,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
                                generalviewtests.cpp
-                               healthviewtests.cpp
                                levelcontrollertests.cpp
                                levelmodeltests.cpp
                                levelviewtests.cpp

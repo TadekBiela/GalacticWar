@@ -43,6 +43,9 @@ public slots:
     void savePlayerScore();
     void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
 
+    //HealthView section
+    void updateHealth(int value);
+
     //ScoreView section
     void updateScore(int value);
 
@@ -62,6 +65,10 @@ protected:
     QPushButton m_backToMenuButton2; // GameOver
     QPushButton m_saveAfterGameOver; // GameOver
     QListWidget m_highScoreList;     // HighScore
+
+    //HealthView section
+    QLabel       m_healthGraphics;
+    QProgressBar m_healthBar;
 
     //ScoreView section
     QLabel       m_scoreGraphics;

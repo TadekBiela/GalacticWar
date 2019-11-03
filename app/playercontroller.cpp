@@ -1,9 +1,7 @@
 #include "playercontroller.hpp"
 
-PlayerController::PlayerController(GeneralView* view,
-                                   HealthView*  healthView)
-                                    : m_view(view),
-                                      m_healthView(healthView)
+PlayerController::PlayerController(GeneralView* view)
+                                    : m_view(view)
 {
     connect(this, SIGNAL(addPlayerToScene(QGraphicsItem*)), view, SLOT(addGameObject(QGraphicsItem*)));
     connect(view, SIGNAL(startGame()),                      this, SLOT(createNew()));
@@ -27,7 +25,7 @@ void PlayerController::createNew()
     connect(m_view,   SIGNAL(mousePressed()),               m_player,     SLOT(startFire()));
     connect(m_view,   SIGNAL(mouseReleased()),              m_player,     SLOT(stopFire()));
     connect(m_view,   SIGNAL(mouseMoved(QPointF)),          m_player,     SLOT(changeDirection(QPointF)));
-    connect(m_player, SIGNAL(changeHealth(int)),            m_healthView, SLOT(update(int)));
+    connect(m_player, SIGNAL(changeHealth(int)),            m_view,       SLOT(updateHealth(int)));
     connect(m_player, SIGNAL(defeated()),                   this,         SLOT(defeated()));
 
     m_player->start();
