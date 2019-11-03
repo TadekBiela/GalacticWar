@@ -15,6 +15,7 @@
 #include <QListWidget>
 #include <QSignalSpy>
 #include <QString>
+#include <QProgressBar>
 
 Q_DECLARE_METATYPE(PlayerScore)
 
@@ -38,6 +39,8 @@ public:
     const QPushButton&    getBackToMenuButton2()       { return m_backToMenuButton2; }
     const QPushButton&    getSaveAfterGameOverButton() { return m_saveAfterGameOver; }
     const QListWidget&    getHighScoreList()           { return m_highScoreList; }
+    const QLabel&         getScoreGraphics()           { return m_scoreGraphics; }
+    const QProgressBar&   getScoreBar()                { return m_scoreBar; }
     void setPlayer(QString player)  { m_player.setText(player); }
     void setScore(int score)        { m_score.setText(QString::number(score)); }
 };
@@ -65,6 +68,8 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
+    const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
     EXPECT_EQ(resultView.isVisible(),                    false);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
@@ -79,6 +84,8 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
+    EXPECT_EQ(resultScoreBar.isVisible(),                false);
 }
 
 TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
@@ -102,7 +109,9 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
-    int  resultSignalStartCount        = signalStart.count();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
+    const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+    int                 resultSignalStartCount        = signalStart.count();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
@@ -117,6 +126,8 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultScoreGraphics.isVisible(),           true);
+    EXPECT_EQ(resultScoreBar.isVisible(),                true);
     EXPECT_EQ(resultSignalStartCount,                    1);
 }
 
@@ -141,7 +152,9 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
-    int  resultSignalPauseCount        = signalPause.count();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
+    const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+    int                 resultSignalPauseCount        = signalPause.count();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
@@ -156,6 +169,8 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
+    EXPECT_EQ(resultScoreBar.isVisible(),                false);
     EXPECT_EQ(resultSignalPauseCount,                    1);
 }
 
@@ -178,6 +193,8 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
+    const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
     EXPECT_EQ(resultScore.text(),                        QString("100"));
     EXPECT_EQ(resultView.isVisible(),                    false);
@@ -193,6 +210,8 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       true);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), true);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
+    EXPECT_EQ(resultScoreBar.isVisible(),                false);
 }
 
 TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
@@ -214,6 +233,8 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
+    const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
     EXPECT_EQ(resultView.isVisible(),                    false);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
@@ -228,6 +249,8 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           true);
+    EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
+    EXPECT_EQ(resultScoreBar.isVisible(),                false);
 }
 
 TEST_F(GeneralViewTestsClass, AddGameObject_AddPlayerModelCheckIfWillAddedCorrect_IsEqual)
@@ -421,4 +444,44 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTit
     EXPECT_EQ(resultListItem3->text().toStdString(), "Andy\t\t\t100");
     EXPECT_EQ(resultListItem4->text().toStdString(), "Bob\t\t\t50");
     EXPECT_EQ(resultListItem5->text().toStdString(), "Mendy\t\t\t0");
+}
+
+TEST_F(GeneralViewTestsClass, UpdateScore_UpdateWithValue0_IsZero)
+{
+    GeneralViewTests generalView;
+
+    generalView.updateScore(0);
+    const QProgressBar& resultScoreBar = generalView.getScoreBar();
+
+    EXPECT_EQ(resultScoreBar.value(), 0);
+}
+
+TEST_F(GeneralViewTestsClass, UpdateScore_UpdateWithValue30_IsEqual)
+{
+    GeneralViewTests generalView;
+
+    generalView.updateScore(30);
+    const QProgressBar& resultScoreBar = generalView.getScoreBar();
+
+    EXPECT_EQ(resultScoreBar.value(), 30);
+}
+
+TEST_F(GeneralViewTestsClass, UpdateScore_UpdateWithMaxValue_IsEqual)
+{
+    GeneralViewTests generalView;
+
+    generalView.updateScore(100);
+    const QProgressBar& resultScoreBar = generalView.getScoreBar();
+
+    EXPECT_EQ(resultScoreBar.value(), 100);
+}
+
+TEST_F(GeneralViewTestsClass, UpdateScore_UpdateWithMoreThanMaxValueShouldntIncreaseMoreThanMax_IsEqual)
+{
+    GeneralViewTests generalView;
+
+    generalView.updateScore(120);
+    const QProgressBar& resultScoreBar = generalView.getScoreBar();
+
+    EXPECT_EQ(resultScoreBar.value(), 100);
 }

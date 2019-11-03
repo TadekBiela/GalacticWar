@@ -12,7 +12,6 @@
 #include "rewardcontroller.hpp"
 #include "scorecontroller.hpp"
 #include "scoremodel.hpp"
-#include "scoreview.hpp"
 #include <QApplication>
 #include <QMainWindow>
 #include <QWidget>
@@ -34,7 +33,6 @@ int main(int argc, char *argv[])
     GeneralView generalView;
     HealthView  healthView;
     LevelView   levelView;
-    ScoreView   scoreView;
 
     //Controller
     EnemyController  enemyController(&generalView, &randomGenerator);
@@ -42,7 +40,7 @@ int main(int argc, char *argv[])
     MenuController   menuController(&generalView, &menuModel);
     PlayerController playerController(&generalView, &healthView);
     RewardController rewardController(&generalView, &randomGenerator);
-    ScoreController  scoreController(&scoreModel, &scoreView, &randomGenerator);
+    ScoreController  scoreController(&scoreModel, &generalView, &randomGenerator);
 
     //Connections MVC
     QObject::connect(&enemyController,  SIGNAL(enemyDestroyed(QPointF, int)),

@@ -16,7 +16,9 @@ GeneralView::GeneralView()
                            m_backToMenuButton("BACK", this),
                            m_backToMenuButton2("BACK", this),
                            m_saveAfterGameOver("SAVE", this),
-                           m_highScoreList(this)
+                           m_highScoreList(this),
+                           m_scoreGraphics(this),
+                           m_scoreBar(this)
 {
     setFixedSize(QSize(def::windowWight, def::windowHeight));
     m_view.setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
@@ -86,6 +88,20 @@ GeneralView::GeneralView()
                                     defaultButtonWight,
                                     defaultButtonHeight);
 
+    //ScoreView setup
+    m_scoreGraphics.setStyleSheet(style);
+    m_scoreGraphics.setGeometry(def::sceneWight - 230,
+                                def::sceneHeight - 50,
+                                220,
+                                40);
+    m_scoreBar.setGeometry(m_scoreGraphics.pos().x() + 8,
+                           m_scoreGraphics.pos().y() + 8 ,
+                           m_scoreGraphics.size().width()  - 16,
+                           m_scoreGraphics.size().height() - 16);
+    m_scoreBar.setValue(0);
+    m_scoreBar.setTextVisible(false);
+    m_scoreBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #FCCD10; }"));
+
     connect(&m_startButton,       SIGNAL(clicked()), this, SLOT(start()));
     connect(&m_highScoreButton,   SIGNAL(clicked()), this, SLOT(highScore()));
     connect(&m_quitButton,        SIGNAL(clicked()), this, SLOT(close()));
@@ -118,6 +134,8 @@ void GeneralView::menu()
     m_saveAfterGameOver.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(false);
+    m_scoreGraphics.setVisible(false);
+    m_scoreBar.setVisible(false);
 }
 
 void GeneralView::start()
@@ -135,6 +153,8 @@ void GeneralView::start()
     m_saveAfterGameOver.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(true);
+    m_scoreGraphics.setVisible(true);
+    m_scoreBar.setVisible(true);
 
     emit startGame();
 }
@@ -154,6 +174,8 @@ void GeneralView::pause()
     m_saveAfterGameOver.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(true);
+    m_scoreGraphics.setVisible(false);
+    m_scoreBar.setVisible(false);
 
     emit pauseGame();
 }
@@ -175,6 +197,8 @@ void GeneralView::gameOver(int score)
     m_saveAfterGameOver.setVisible(true);
     m_highScoreList.setVisible(false);
     m_view.setVisible(false);
+    m_scoreGraphics.setVisible(false);
+    m_scoreBar.setVisible(false);
 }
 
 void GeneralView::highScore()
@@ -192,6 +216,8 @@ void GeneralView::highScore()
     m_saveAfterGameOver.setVisible(false);
     m_highScoreList.setVisible(true);
     m_view.setVisible(false);
+    m_scoreGraphics.setVisible(false);
+    m_scoreBar.setVisible(false);
 }
 
 void GeneralView::addGameObject(QGraphicsItem* newObject)
@@ -232,4 +258,10 @@ void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
         iterator--;
         m_highScoreList.addItem(iterator.value() + "\t\t\t" + QString::number(iterator.key()));
     }
+}
+
+//ScoreView section
+void GeneralView::updateScore(int value)
+{
+    m_scoreBar.setValue(value < 100 ? value : 100);
 }

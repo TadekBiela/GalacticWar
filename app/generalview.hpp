@@ -13,6 +13,7 @@
 #include <QListWidget>
 #include <QMouseEvent>
 #include <QPointF>
+#include <QProgressBar>
 
 class GeneralView : public QMainWindow
 {
@@ -42,6 +43,9 @@ public slots:
     void savePlayerScore();
     void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
 
+    //ScoreView section
+    void updateScore(int value);
+
 protected:
     QGraphicsScene m_scene;
     GraphicsView   m_view;
@@ -58,6 +62,10 @@ protected:
     QPushButton m_backToMenuButton2; // GameOver
     QPushButton m_saveAfterGameOver; // GameOver
     QListWidget m_highScoreList;     // HighScore
+
+    //ScoreView section
+    QLabel       m_scoreGraphics;
+    QProgressBar m_scoreBar;
 };
 
 #endif // GENERALVIEW_HPP

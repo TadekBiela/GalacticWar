@@ -1,8 +1,8 @@
 #ifndef SCORECONTROLLER_HPP
 #define SCORECONTROLLER_HPP
 
+#include "generalview.hpp"
 #include "scoremodel.hpp"
-#include "scoreview.hpp"
 #include "rewardtypes.hpp"
 #include "irandomgenerator.hpp"
 #include <QObject>
@@ -12,7 +12,7 @@ class ScoreController : public QObject
     Q_OBJECT
 public:
     ScoreController(ScoreModel*       model,
-                    ScoreView*        view,
+                    GeneralView*      view,
                     IRandomGenerator* generator);
     virtual ~ScoreController();
 

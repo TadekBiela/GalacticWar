@@ -2,16 +2,16 @@
 #include "utdefinitions.hpp"
 #include "stubs/randomgeneratorstub.hpp"
 #include "../app/definitions.hpp"
+#include "../app/generalview.hpp"
 #include "../app/scorecontroller.hpp"
 #include "../app/scoremodel.hpp"
-#include "../app/scoreview.hpp"
 #include <QSignalSpy>
 
 class ScoreControllerTest : public ScoreController
 {
 public:
     ScoreControllerTest(ScoreModel*       model,
-                        ScoreView*        view,
+                        GeneralView*      view,
                         IRandomGenerator* generator)
                          : ScoreController(model,
                                            view,
@@ -27,7 +27,7 @@ TEST_F(ScoreControllerTestsClass, GetScore_CheckIfWillSendGetSignal_IsEqual)
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     ScoreModel*         model = new ScoreModel;
-    ScoreView*          view  = new ScoreView;
+    GeneralView*        view  = new GeneralView;
     ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalUpdate(&scoreController, &ScoreControllerTest::get);
     signalUpdate.wait(utdef::minSignalTimeDelay);
@@ -45,7 +45,7 @@ TEST_F(ScoreControllerTestsClass, Update_CheckIfWillSendUpdateScoreSignal_IsEqua
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     ScoreModel*         model = new ScoreModel;
-    ScoreView*          view  = new ScoreView;
+    GeneralView*        view  = new GeneralView;
     ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalUpdate(&scoreController, &ScoreControllerTest::updateScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
@@ -66,7 +66,7 @@ TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedBronzeCoinCheckIfWillSe
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(def::minPointsForBronzeCoin);
     ScoreModel*         model = new ScoreModel;
-    ScoreView*          view  = new ScoreView;
+    GeneralView*        view  = new GeneralView;
     ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
     signalAdd.wait(utdef::minSignalTimeDelay);
@@ -87,7 +87,7 @@ TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedSilverCoinCheckIfWillSe
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(def::minPointsForSilverCoin);
     ScoreModel*         model = new ScoreModel;
-    ScoreView*          view  = new ScoreView;
+    GeneralView*        view  = new GeneralView;
     ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
     signalAdd.wait(utdef::minSignalTimeDelay);
@@ -108,7 +108,7 @@ TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedGoldCoinCheckIfWillSend
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(def::minPointsForGoldCoin);
     ScoreModel*         model = new ScoreModel;
-    ScoreView*          view  = new ScoreView;
+    GeneralView*        view  = new GeneralView;
     ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
     signalAdd.wait(utdef::minSignalTimeDelay);
@@ -128,7 +128,7 @@ TEST_F(ScoreControllerTestsClass, MaxPerLevelAchieved_CheckIfWillSendMaxScorePer
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     ScoreModel*         model = new ScoreModel;
-    ScoreView*          view  = new ScoreView;
+    GeneralView*        view  = new GeneralView;
     ScoreControllerTest scoreController(model, view, randomGenerator);
     QSignalSpy signalMax(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
     signalMax.wait(utdef::minSignalTimeDelay);
