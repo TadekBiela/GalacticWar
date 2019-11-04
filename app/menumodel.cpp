@@ -17,7 +17,7 @@ void MenuModel::addRecordToHighScore(PlayerScore newPlayerScore)
                        newPlayerScore.first,
                        newPlayerScore.second);
 
-    emit updateHighScore(m_highScore.begin(), m_highScore.size());
+    emit updateHighScore(m_highScore.end(), m_highScore.size());
 }
 
 void MenuModel::saveHighScore()

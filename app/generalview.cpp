@@ -115,7 +115,7 @@ GeneralView::GeneralView()
     m_levelText.setFont(normalFont);
     m_levelText.setAlignment(Qt::AlignCenter);
     m_levelText.setStyleSheet(style);
-    m_levelText.setNum(10);
+    m_levelText.setNum(1);
     m_levelText.setGeometry(m_levelGraphics.pos().x() + 8,
                             m_levelGraphics.pos().y() + 8 ,
                             m_levelGraphics.size().width()  - 16,
@@ -300,6 +300,7 @@ void GeneralView::savePlayerScore()
     newPlayerScore.second = m_player.text();
 
     emit save(newPlayerScore);
+    menu();
 }
 
 void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
