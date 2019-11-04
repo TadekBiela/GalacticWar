@@ -32,8 +32,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/levelcontroller.cpp
                                ../app/levelmodel.hpp
                                ../app/levelmodel.cpp
-                               ../app/levelview.hpp
-                               ../app/levelview.cpp
                                ../app/menucontroller.hpp
                                ../app/menucontroller.cpp
                                ../app/menumodel.hpp
@@ -69,7 +67,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                generalviewtests.cpp
                                levelcontrollertests.cpp
                                levelmodeltests.cpp
-                               levelviewtests.cpp
                                menucontrollertests.cpp
                                menumodeltests.cpp
                                playercontrollertests.cpp

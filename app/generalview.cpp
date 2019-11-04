@@ -19,6 +19,8 @@ GeneralView::GeneralView()
                            m_highScoreList(this),
                            m_healthGraphics(this),
                            m_healthBar(this),
+                           m_levelGraphics(this),
+                           m_levelText(this),
                            m_scoreGraphics(this),
                            m_scoreBar(this)
 {
@@ -104,6 +106,21 @@ GeneralView::GeneralView()
     m_healthBar.setTextVisible(false);
     m_healthBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #DE0101; }"));
 
+    //LevelView setup
+    m_levelGraphics.setStyleSheet(style);
+    m_levelGraphics.setGeometry(def::sceneWight / 2 - 40,
+                                def::sceneHeight - 90,
+                                80,
+                                80);
+    m_levelText.setFont(normalFont);
+    m_levelText.setAlignment(Qt::AlignCenter);
+    m_levelText.setStyleSheet(style);
+    m_levelText.setNum(10);
+    m_levelText.setGeometry(m_levelGraphics.pos().x() + 8,
+                            m_levelGraphics.pos().y() + 8 ,
+                            m_levelGraphics.size().width()  - 16,
+                            m_levelGraphics.size().height() - 16);
+
     //ScoreView setup
     m_scoreGraphics.setStyleSheet(style);
     m_scoreGraphics.setGeometry(def::sceneWight - 230,
@@ -152,6 +169,8 @@ void GeneralView::menu()
     m_view.setVisible(false);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
+    m_levelGraphics.setVisible(false);
+    m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 }
@@ -173,6 +192,8 @@ void GeneralView::start()
     m_view.setVisible(true);
     m_healthGraphics.setVisible(true);
     m_healthBar.setVisible(true);
+    m_levelGraphics.setVisible(true);
+    m_levelText.setVisible(true);
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
@@ -196,6 +217,8 @@ void GeneralView::pause()
     m_view.setVisible(true);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
+    m_levelGraphics.setVisible(false);
+    m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 
@@ -221,6 +244,8 @@ void GeneralView::gameOver(int score)
     m_view.setVisible(false);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
+    m_levelGraphics.setVisible(false);
+    m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 }
@@ -242,6 +267,8 @@ void GeneralView::highScore()
     m_view.setVisible(false);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
+    m_levelGraphics.setVisible(false);
+    m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 }
@@ -290,6 +317,12 @@ void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
 void GeneralView::updateHealth(int value)
 {
     m_healthBar.setValue(value < 100 ? value : 100);
+}
+
+//LevelView section
+void GeneralView::updateLevel(int value)
+{
+    m_levelText.setNum(value);
 }
 
 //ScoreView section

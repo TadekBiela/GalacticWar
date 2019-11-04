@@ -33,8 +33,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                levelcontroller.cpp
                                levelmodel.hpp
                                levelmodel.cpp
-                               levelview.hpp
-                               levelview.cpp
                                menucontroller.hpp
                                menucontroller.cpp
                                menumodel.hpp

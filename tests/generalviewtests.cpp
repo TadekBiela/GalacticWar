@@ -41,6 +41,8 @@ public:
     const QListWidget&    getHighScoreList()           { return m_highScoreList; }
     const QLabel&         getHealthGraphics()          { return m_healthGraphics; }
     const QProgressBar&   getHealthBar()               { return m_healthBar; }
+    const QLabel&         getLevelGraphics()           { return m_levelGraphics; }
+    const QLabel&         getLevelText()               { return m_levelText; }
     const QLabel&         getScoreGraphics()           { return m_scoreGraphics; }
     const QProgressBar&   getScoreBar()                { return m_scoreBar; }
     void setPlayer(QString player)  { m_player.setText(player); }
@@ -72,6 +74,8 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
+    const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
+    const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
@@ -90,6 +94,8 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
+    EXPECT_EQ(resultLevelGraphics.isVisible(),           false);
+    EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
 }
@@ -115,9 +121,11 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
-    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
+    const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
+    const QLabel&       resultLevelText               = generalView.getLevelText();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
     int                 resultSignalStartCount        = signalStart.count();
 
@@ -136,6 +144,8 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          true);
     EXPECT_EQ(resultHealthBar.isVisible(),               true);
+    EXPECT_EQ(resultLevelGraphics.isVisible(),           true);
+    EXPECT_EQ(resultLevelText.isVisible(),               true);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           true);
     EXPECT_EQ(resultScoreBar.isVisible(),                true);
     EXPECT_EQ(resultSignalStartCount,                    1);
@@ -164,6 +174,8 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
+    const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
+    const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
     int                 resultSignalPauseCount        = signalPause.count();
@@ -183,6 +195,8 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
+    EXPECT_EQ(resultLevelGraphics.isVisible(),           false);
+    EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
     EXPECT_EQ(resultSignalPauseCount,                    1);
@@ -209,6 +223,8 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
+    const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
+    const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
@@ -228,6 +244,8 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
+    EXPECT_EQ(resultLevelGraphics.isVisible(),           false);
+    EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
 }
@@ -253,6 +271,8 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
+    const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
+    const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
@@ -271,6 +291,8 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreList.isVisible(),           true);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
+    EXPECT_EQ(resultLevelGraphics.isVisible(),           false);
+    EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
 }
@@ -508,6 +530,25 @@ TEST_F(GeneralViewTestsClass, UpdateHealth_UpdateWithMoreThanMaxValueShouldntInc
     EXPECT_EQ(resultHealthBar.value(), 100);
 }
 
+TEST_F(GeneralViewTestsClass, UpdateLevel_UpdateWithValue1_IsOne)
+{
+    GeneralViewTests generalView;
+
+    generalView.updateLevel(1);
+    const QLabel& resultLevelText = generalView.getLevelText();
+
+    EXPECT_EQ(resultLevelText.text().toStdString(), "1");
+}
+
+TEST_F(GeneralViewTestsClass, UpdateLevel_UpdateWithValueMax_IsEqual)
+{
+    GeneralViewTests generalView;
+
+    generalView.updateLevel(def::maxNumOfLevel);
+    const QLabel& resultLevelText = generalView.getLevelText();
+
+    EXPECT_EQ(resultLevelText.text().toStdString(), "10");
+}
 
 TEST_F(GeneralViewTestsClass, UpdateScore_UpdateWithValue0_IsZero)
 {

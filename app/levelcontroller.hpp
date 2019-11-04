@@ -3,15 +3,15 @@
 
 #include "enemyconfiguration.hpp"
 #include "levelmodel.hpp"
-#include "levelview.hpp"
+#include "generalview.hpp"
 #include <QObject>
 
 class LevelController : public QObject
 {
     Q_OBJECT
 public:
-    LevelController(LevelModel* model,
-                    LevelView*  view);
+    LevelController(LevelModel*  model,
+                    GeneralView* view);
     virtual ~LevelController();
 
 signals:

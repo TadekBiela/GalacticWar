@@ -46,6 +46,9 @@ public slots:
     //HealthView section
     void updateHealth(int value);
 
+    //LevelView section
+    void updateLevel(int value);
+
     //ScoreView section
     void updateScore(int value);
 
@@ -69,6 +72,10 @@ protected:
     //HealthView section
     QLabel       m_healthGraphics;
     QProgressBar m_healthBar;
+
+    //LevelView section
+    QLabel m_levelGraphics;
+    QLabel m_levelText;
 
     //ScoreView section
     QLabel       m_scoreGraphics;

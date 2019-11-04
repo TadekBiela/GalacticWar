@@ -2,7 +2,7 @@
 #include "utdefinitions.hpp"
 #include "../app/levelcontroller.hpp"
 #include "../app/levelmodel.hpp"
-#include "../app/levelview.hpp"
+#include "../app/generalview.hpp"
 #include <QSignalSpy>
 
 Q_DECLARE_METATYPE(EnemyConfiguration)
@@ -10,8 +10,8 @@ Q_DECLARE_METATYPE(EnemyConfiguration)
 class LevelControllerTest : public LevelController
 {
 public:
-    LevelControllerTest(LevelModel* model,
-                        LevelView*  view)
+    LevelControllerTest(LevelModel*  model,
+                        GeneralView* view)
                          : LevelController(model,
                                            view) {}
     virtual ~LevelControllerTest() {}
@@ -23,8 +23,8 @@ class LevelControllerTestsClass : public testing::Test
 
 TEST_F(LevelControllerTestsClass, NextLevel_CheckIfWillSendNextLevelInModelSignalOneTime_IsEqual)
 {
-    LevelModel* model = new LevelModel;
-    LevelView*  view  = new LevelView;
+    LevelModel*  model = new LevelModel;
+    GeneralView* view  = new GeneralView;
     LevelControllerTest levelController(model, view);
     QSignalSpy signalNext(&levelController, &LevelControllerTest::next);
     signalNext.wait(utdef::minSignalTimeDelay);
@@ -41,8 +41,8 @@ TEST_F(LevelControllerTestsClass, Change_CheckIfWillSendChangeEnemyConfiguration
 {
     qRegisterMetaType<EnemyConfiguration>();
     EnemyConfiguration inputEnemyConfig = { 10, 50, 0, 25, 15, 0 };
-    LevelModel* model = new LevelModel;
-    LevelView*  view  = new LevelView;
+    LevelModel*  model = new LevelModel;
+    GeneralView* view  = new GeneralView;
     LevelControllerTest levelController(model, view);
     QSignalSpy signalChange(&levelController, &LevelControllerTest::changeEnemyConfiguration);
     signalChange.wait(utdef::minSignalTimeDelay);

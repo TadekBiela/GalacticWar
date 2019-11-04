@@ -3,7 +3,6 @@
 #include "generalview.hpp"
 #include "levelcontroller.hpp"
 #include "levelmodel.hpp"
-#include "levelview.hpp"
 #include "menucontroller.hpp"
 #include "menumodel.hpp"
 #include "playercontroller.hpp"
@@ -30,11 +29,10 @@ int main(int argc, char *argv[])
 
     //View
     GeneralView generalView;
-    LevelView   levelView;
 
     //Controller
     EnemyController  enemyController(&generalView, &randomGenerator);
-    LevelController  levelController(&levelModel, &levelView);
+    LevelController  levelController(&levelModel, &generalView);
     MenuController   menuController(&generalView, &menuModel);
     PlayerController playerController(&generalView);
     RewardController rewardController(&generalView, &randomGenerator);
