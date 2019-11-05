@@ -42,6 +42,7 @@ void EnemyModel::checkCollisions()
 {
     auto scene          = QGraphicsItem::scene();
     auto collidingItems = scene->collidingItems(this);
+    int  sumDamage      = 0;
 
     for(auto i = 0; i != collidingItems.size(); i++)
     {
@@ -50,12 +51,13 @@ void EnemyModel::checkCollisions()
             BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
             if(bullet->getType() != bullet_type::enemyBullet)
             {
-                hit(bullet->getDamage());
+                sumDamage += bullet->getDamage();
                 scene->removeItem(collidingItems[i]);
                 delete collidingItems[i];
             }
         }
     }
+    hit(sumDamage);
 }
 
 void EnemyModel::destroy()
