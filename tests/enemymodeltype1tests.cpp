@@ -117,6 +117,7 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_PositionIsLeftSideOf
 TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(0);
     QGraphicsScene       mockScene;
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(2, 7), randomGenerator);
     mockScene.addItem(enemyModel);

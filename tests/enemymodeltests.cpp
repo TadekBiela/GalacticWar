@@ -111,16 +111,44 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemy->checkCollisions();
-    int resultHealth          = enemy->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    int  resultHealth          = enemy->getHealth();
+    int  resultSignalCount     = signalDestroy.count();
     auto resultSignal          = signalDestroy.takeFirst();
-    int resultNumOfSceneItems = scene->items().size();
+    int  resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,                  0);
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
     EXPECT_EQ(startNumOfSceneItems,          2);
+    EXPECT_EQ(resultNumOfSceneItems,         0);
+    delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShouldHitDestroyAndHaveOneMoreCollision_IsEqual)
+{
+    QGraphicsScene* scene   = new QGraphicsScene;
+    BulletModel*    bullet1 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
+    BulletModel*    bullet2 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
+    BulletModel*    bullet3 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
+    EnemyModelTest* enemy   = new EnemyModelTest(1, QPointF(100, 100), 200, 15, 20, 10);
+    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(bullet1);
+    scene->addItem(bullet2);
+    scene->addItem(bullet3);
+    scene->addItem(enemy);
+    int startNumOfSceneItems = scene->items().size();
+    signalDestroy.wait(utdef::minSignalTimeDelay);
+
+    enemy->checkCollisions();
+    int  resultSignalCount     = signalDestroy.count();
+    auto resultSignal          = signalDestroy.takeFirst();
+    int  resultNumOfSceneItems = scene->items().size();
+
+    EXPECT_EQ(resultSignalCount,             1);
+    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
+    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
+    EXPECT_EQ(startNumOfSceneItems,          4);
     EXPECT_EQ(resultNumOfSceneItems,         0);
     delete scene;
 }

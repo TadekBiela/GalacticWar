@@ -20,6 +20,8 @@ EnemyModel::EnemyModel(int     level,
     QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
     map.fill(Qt::red);
     setPixmap(map);
+    setTransformOriginPoint(def::animationFrameWight  / 2,
+                            def::animationFrameHeight / 2);
 
     position.setX(position.x() - def::animationFrameWight  / 2);
     position.setY(position.y() - def::animationFrameHeight / 2);
