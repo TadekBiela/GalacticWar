@@ -5,9 +5,6 @@ EnemyController::EnemyController(GeneralView*      view,
                                  IRandomGenerator* generator)
                                   : m_generator(generator)
 {
-    EnemyConfiguration setupConfig = { 100, 0, 0, 0, 0, 0 };
-    changeEnemyConfiguration(setupConfig);
-
     connect(this,               SIGNAL(addEnemyToScene(QGraphicsItem*)),
             view,               SLOT(addGameObject(QGraphicsItem*)));
     connect(&m_enemySpawnTimer, SIGNAL(timeout()),

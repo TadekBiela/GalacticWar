@@ -30,6 +30,21 @@ TEST_F(ScoreModelTestsClass, ScoreModelConstructor_CheckBuildModelCorrect_IsEqua
     EXPECT_EQ(resultTotalScore,         0);
 }
 
+TEST_F(ScoreModelTestsClass, Reset_CheckIfSendUpdateSignalWithTotalScoreValue_IsEqual)
+{
+    ScoreModelTests scoreModel;
+    scoreModel.setTotalScore(100);
+    QSignalSpy signalUpdate(&scoreModel, ScoreModelTests::updateView);
+    signalUpdate.wait(utdef::minSignalTimeDelay);
+
+    scoreModel.reset();
+    int resultSignalUpdateCount = signalUpdate.count();
+    int resultScore = signalUpdate.takeFirst().at(0).toInt();
+
+    EXPECT_EQ(resultSignalUpdateCount, 1);
+    EXPECT_EQ(resultScore,             0);
+}
+
 TEST_F(ScoreModelTestsClass, Get_CheckIfSendUpdateSignalWithTotalScoreValue_IsEqual)
 {
     ScoreModelTests scoreModel;

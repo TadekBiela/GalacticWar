@@ -15,6 +15,9 @@ public:
 
 signals:
     void saveHighScore();
+    void resetLevel();
+    void resetScore();
+    void createNewPlayer();
     void activateEnemySpawning();
     void deactivateEnemySpawning();
     void getScore();

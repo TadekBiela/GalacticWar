@@ -45,6 +45,7 @@ public:
     const QLabel&         getLevelText()               { return m_levelText; }
     const QLabel&         getScoreGraphics()           { return m_scoreGraphics; }
     const QProgressBar&   getScoreBar()                { return m_scoreBar; }
+    void addItemToScene(QGraphicsItem* item) { m_scene.addItem(item); }
     void setPlayer(QString player)  { m_player.setText(player); }
     void setScore(int score)        { m_score.setText(QString::number(score)); }
 };
@@ -248,6 +249,26 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
+}
+
+TEST_F(GeneralViewTestsClass, GameOver_AllGameObjectsShouldBeRemovedFromScene_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    randomGenerator->setRandomGeneratorFakeResult(0);
+    EnemyModelType1* enemyModel = new EnemyModelType1(QPointF(2, 7), randomGenerator);
+    RewardCoinModel* rewardCoinModel = new RewardCoinModel(coin_type::bronze);
+    GeneralViewTests generalView;
+    generalView.show();
+    generalView.addItemToScene(enemyModel);
+    generalView.addItemToScene(rewardCoinModel);
+    const QGraphicsScene& scene = generalView.getScene();
+    int numOfSceneItemsShouldBeTwo = scene.items().size();
+
+    generalView.gameOver(100);
+    int resultNumOfSceneItems = scene.items().size();
+
+    EXPECT_EQ(numOfSceneItemsShouldBeTwo, 2);
+    EXPECT_EQ(resultNumOfSceneItems,      0);
 }
 
 TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)

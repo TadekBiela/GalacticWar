@@ -17,12 +17,14 @@ public:
     virtual ~ScoreController();
 
 signals:
+    void reset();
     void get();
     void updateScore(int score);
     void addPoints(int points);
     void maxScorePerLevelAchieved();
 
 public slots:
+    void resetScore();
     void getScore();
     void update(int score);
     void addScorePoints(coin_type coin);

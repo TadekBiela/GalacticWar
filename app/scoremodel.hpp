@@ -17,6 +17,7 @@ signals:
     void maxPerLevelAchieved();
 
 public slots:
+    void reset();
     void get();
     void addPoints(int points);
 

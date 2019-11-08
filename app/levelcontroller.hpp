@@ -15,10 +15,12 @@ public:
     virtual ~LevelController();
 
 signals:
+    void reset();
     void next();
     void changeEnemyConfiguration(EnemyConfiguration newEnemyConfiguration);
 
 public slots:
+    void resetLevel();
     void nextLevel();
     void change(EnemyConfiguration newEnemyConfiguration);
 };

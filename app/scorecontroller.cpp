@@ -5,6 +5,7 @@ ScoreController::ScoreController(ScoreModel*       model,
                                  IRandomGenerator* generator)
                                   : m_generator(generator)
 {
+    connect(this,  SIGNAL(reset()),               model, SLOT(reset()));
     connect(this,  SIGNAL(get()),                 model, SLOT(get()));
     connect(this,  SIGNAL(addPoints(int)),        model, SLOT(addPoints(int)));
     connect(model, SIGNAL(update(int)),           this,  SLOT(update(int)));
@@ -15,6 +16,11 @@ ScoreController::ScoreController(ScoreModel*       model,
 ScoreController::~ScoreController()
 {
 
+}
+
+void ScoreController::resetScore()
+{
+    emit reset();
 }
 
 void ScoreController::getScore()

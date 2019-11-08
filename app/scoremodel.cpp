@@ -18,6 +18,14 @@ ScoreModel::~ScoreModel()
 
 }
 
+void ScoreModel::reset()
+{
+    m_currentTresholdIdx = 0;
+    m_totalScore = 0;
+
+    addPoints(0);
+}
+
 void ScoreModel::get()
 {
     emit update(m_totalScore);

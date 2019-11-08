@@ -22,6 +22,9 @@ MenuController::~MenuController()
 
 void MenuController::startGame()
 {
+    emit resetLevel();
+    emit resetScore();
+    emit createNewPlayer();
     emit activateEnemySpawning();
 }
 

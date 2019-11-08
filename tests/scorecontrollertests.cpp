@@ -23,6 +23,24 @@ class ScoreControllerTestsClass : public testing::Test
 {
 };
 
+TEST_F(ScoreControllerTestsClass, ResetScore_CheckIfWillSendGetSignal_IsEqual)
+{
+    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
+    ScoreModel*         model = new ScoreModel;
+    GeneralView*        view  = new GeneralView;
+    ScoreControllerTest scoreController(model, view, randomGenerator);
+    QSignalSpy signalReset(&scoreController, &ScoreControllerTest::reset);
+    signalReset.wait(utdef::minSignalTimeDelay);
+
+    scoreController.resetScore();
+    int resultSignalUpdateCount = signalReset.count();
+
+    EXPECT_EQ(resultSignalUpdateCount, 1);
+    delete model;
+    delete view;
+    delete randomGenerator;
+}
+
 TEST_F(ScoreControllerTestsClass, GetScore_CheckIfWillSendGetSignal_IsEqual)
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();

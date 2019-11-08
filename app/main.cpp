@@ -43,6 +43,12 @@ int main(int argc, char *argv[])
                      &rewardController, SLOT(spawnRewards(QPointF, int)));
     QObject::connect(&levelController,  SIGNAL(changeEnemyConfiguration(EnemyConfiguration)),
                      &enemyController,  SLOT(changeEnemyConfiguration(EnemyConfiguration)));
+    QObject::connect(&menuController,   SIGNAL(resetLevel()),
+                     &levelController,  SLOT(resetLevel()));
+    QObject::connect(&menuController,   SIGNAL(resetScore()),
+                     &scoreController,  SLOT(resetScore()));
+    QObject::connect(&menuController,   SIGNAL(createNewPlayer()),
+                     &playerController, SLOT(createNewPlayer()));
     QObject::connect(&menuController,   SIGNAL(activateEnemySpawning()),
                      &enemyController,  SLOT(startSpawning()));
     QObject::connect(&menuController,   SIGNAL(deactivateEnemySpawning()),

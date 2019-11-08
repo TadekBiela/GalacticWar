@@ -27,14 +27,14 @@ class PlayerControllerTestsClass : public testing::Test
 {
 };
 
-TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPlayerWasDefeated_IsEqual)
+TEST_F(PlayerControllerTestsClass, CreateNewPlayer_CheckIfWillCreateNewPlayerWhenOldPlayerWasDefeated_IsEqual)
 {
     GeneralView*         view = new GeneralView;
     PlayerControllerTest playerController(view); // default Player is not created
     QSignalSpy           signalAdd(&playerController, &PlayerControllerTest::addPlayerToScene);
     signalAdd.wait(utdef::minSignalTimeDelay);
 
-    playerController.createNew();
+    playerController.createNewPlayer();
     PlayerModel*   resultPlayer           = playerController.getPlayerModel();
     int            resultSignalCount      = signalAdd.count();
     QGraphicsItem* resultPlayerFromSignal = qvariant_cast<QGraphicsItem*>(signalAdd.takeFirst().at(0));
@@ -45,7 +45,7 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     delete view;
 }
 
-TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPlayerIsStillAlive_IsEqual)
+TEST_F(PlayerControllerTestsClass, CreateNewPlayer_CheckIfWillCreateNewPlayerWhenOldPlayerIsStillAlive_IsEqual)
 {
     GeneralView*         view = new GeneralView;
     PlayerControllerTest playerController(view);
@@ -55,7 +55,7 @@ TEST_F(PlayerControllerTestsClass, CreateNew_CheckIfWillCreateNewPlayerWhenOldPl
     PlayerModel*         oldPlayer  = playerController.getPlayerModel();
     oldPlayer->setHealth(500);
 
-    playerController.createNew();
+    playerController.createNewPlayer();
     PlayerModel*   resultPlayer           = playerController.getPlayerModel();
     int            resultPlayerHealth     = resultPlayer->getHealth();
     int            resultSignalCount      = signalAdd.count();

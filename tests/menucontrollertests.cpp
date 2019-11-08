@@ -26,12 +26,21 @@ TEST_F(MenuControllerTestsClass, StartGame_CheckIfWillBeSendSignalToActivateEnem
     MenuModel*         model   = new MenuModel(fileMgr);
     GeneralView*       view    = new GeneralView;
     MenuControllerTest menuController(view, model);
+    QSignalSpy signalResetLevel(&menuController,    &MenuControllerTest::resetLevel);
+    QSignalSpy signalResetScore(&menuController,    &MenuControllerTest::resetScore);
+    QSignalSpy signalCreate(&menuController,        &MenuControllerTest::createNewPlayer);
     QSignalSpy signalActEnemySpawn(&menuController, &MenuControllerTest::activateEnemySpawning);
     signalActEnemySpawn.wait(utdef::minSignalTimeDelay);
 
     menuController.startGame();
+    int resultSignalResetLevelCount    = signalResetLevel.count();
+    int resultSignalResetScoreCount    = signalResetScore.count();
+    int resultSignalCreateCount        = signalCreate.count();
     int resultSignalActEnemySpawnCount = signalActEnemySpawn.count();
 
+    EXPECT_EQ(resultSignalResetLevelCount,    1);
+    EXPECT_EQ(resultSignalResetScoreCount,    1);
+    EXPECT_EQ(resultSignalCreateCount,        1);
     EXPECT_EQ(resultSignalActEnemySpawnCount, 1);
     delete model;
     delete fileMgr;

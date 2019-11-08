@@ -102,7 +102,6 @@ GeneralView::GeneralView()
                             m_healthGraphics.pos().y() + 8 ,
                             m_healthGraphics.size().width()  - 16,
                             m_healthGraphics.size().height() - 16);
-    m_healthBar.setValue(100);
     m_healthBar.setTextVisible(false);
     m_healthBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #DE0101; }"));
 
@@ -131,7 +130,6 @@ GeneralView::GeneralView()
                            m_scoreGraphics.pos().y() + 8 ,
                            m_scoreGraphics.size().width()  - 16,
                            m_scoreGraphics.size().height() - 16);
-    m_scoreBar.setValue(0);
     m_scoreBar.setTextVisible(false);
     m_scoreBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #FCCD10; }"));
 
@@ -227,6 +225,7 @@ void GeneralView::pause()
 
 void GeneralView::gameOver(int score)
 {
+    m_scene.clear();
     m_score.setText(QString::number(score));
 
     m_title.setVisible(false);

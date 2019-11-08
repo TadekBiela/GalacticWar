@@ -20,7 +20,7 @@ signals:
     void playerDefeated();
 
 public slots:
-    void createNew();
+    void createNewPlayer();
     void defeated();
     void changePlayerAtribute(special_type reward);
 

@@ -21,6 +21,22 @@ class LevelControllerTestsClass : public testing::Test
 {
 };
 
+TEST_F(LevelControllerTestsClass, ResetLevel_CheckIfWillSendResetLevelInModelSignalOneTime_IsEqual)
+{
+    LevelModel*  model = new LevelModel;
+    GeneralView* view  = new GeneralView;
+    LevelControllerTest levelController(model, view);
+    QSignalSpy signalReset(&levelController, &LevelControllerTest::reset);
+    signalReset.wait(utdef::minSignalTimeDelay);
+
+    levelController.resetLevel();
+    int resultSignalResetLevelCount = signalReset.count();
+
+    EXPECT_EQ(resultSignalResetLevelCount, 1);
+    delete model;
+    delete view;
+}
+
 TEST_F(LevelControllerTestsClass, NextLevel_CheckIfWillSendNextLevelInModelSignalOneTime_IsEqual)
 {
     LevelModel*  model = new LevelModel;
