@@ -23,7 +23,7 @@ void PlayerController::createNewPlayer()
     connect(this,     SIGNAL(changeAtribute(special_type)), m_player, SLOT(changeAtribute(special_type)));
     connect(m_view,   SIGNAL(mousePressed()),               m_player, SLOT(startFire()));
     connect(m_view,   SIGNAL(mouseReleased()),              m_player, SLOT(stopFire()));
-    connect(m_view,   SIGNAL(mouseMoved(QPointF)),          m_player, SLOT(changeDirection(QPointF)));
+    connect(m_view,   SIGNAL(mouseMoved(QPointF)),          m_player, SLOT(changeMovePosition(QPointF)));
     connect(m_player, SIGNAL(changeHealth(int)),            m_view,   SLOT(updateHealth(int)));
     connect(m_player, SIGNAL(defeated()),                   this,     SLOT(defeated()));
 

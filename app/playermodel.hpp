@@ -16,6 +16,7 @@ public:
     virtual ~PlayerModel();
     void setHealth(int health) { m_health = health; }
     int getHealth() const { return m_health; }
+    bool isOnMovePosition();
     void checkCollisions();
 
 signals:
@@ -29,20 +30,20 @@ public slots:
     void fire();
     void startFire();
     void stopFire();
-    void changeDirection(QPointF newDirection);
+    void changeMovePosition(QPointF newMovePosition);
     void changeAtribute(special_type specialReward);
 
 protected:
     void changeWeapon(weapon_type weapon);
 
-    bool   m_isMoving;
-    int    m_direction;
-    int    m_health;
-    weapon m_weapon;
-    int    m_weaponTier;
-    int    m_moveTimeDelay;
-    QTimer m_moveTimer;
-    QTimer m_fireTimer;
+    QPointF m_movePosition;
+    int     m_direction;
+    int     m_health;
+    weapon  m_weapon;
+    int     m_weaponTier;
+    int     m_moveTimeDelay;
+    QTimer  m_moveTimer;
+    QTimer  m_fireTimer;
 };
 
 #endif // PLAYERMODEL_HPP

@@ -20,8 +20,8 @@ public:
     PlayerModelTest() {}
     virtual ~PlayerModelTest() {}
 
+    QPointF       getMovePosition()  const { return m_movePosition; }
     QPointF       getPosition()      const { return QGraphicsItem::pos(); }
-    bool          getIsMovingFlag()  const { return m_isMoving; }
     int           getDirection()     const { return m_direction; }
     int           getHealth()        const { return m_health; }
     weapon        getWeapon()        const { return m_weapon; }
@@ -30,12 +30,12 @@ public:
     int           getFireTimeDelay() const { return m_weapon.fireTimeDelay; }
     const QTimer& getMoveTimer()     const { return m_moveTimer; }
     const QTimer& getFireTimer()     const { return m_fireTimer; }
-    void          setIsMovingFlag(bool isMoving)   { m_isMoving   = isMoving; }
-    void          setDirection(int newDirection)   { m_direction  = newDirection; }
-    void          setHealth(int healthValue)       { m_health     = healthValue; }
-    void          setWeapon(weapon newWeapon)      { m_weapon     = newWeapon; }
-    void          setWeaponTier(int newWeaponTier) { m_weaponTier = newWeaponTier; }
-    void          startFireTimer()                 { m_fireTimer.start(); }
+    void          setMovePosition(QPointF newPosition) { m_movePosition = newPosition; }
+    void          setDirection(int newDirection)       { m_direction  = newDirection; }
+    void          setHealth(int healthValue)           { m_health     = healthValue; }
+    void          setWeapon(weapon newWeapon)          { m_weapon     = newWeapon; }
+    void          setWeaponTier(int newWeaponTier)     { m_weaponTier = newWeaponTier; }
+    void          startFireTimer()                     { m_fireTimer.start(); }
 };
 
 class PlayerModelTestsClass : public testing::Test
@@ -48,7 +48,7 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
                              def::halfSceneHeight - def::animationFrameHeight / 2);
 
     PlayerModelTest playerModel;
-    int           resultIsMovingFlag  = playerModel.getIsMovingFlag();
+    QPointF       resultMovePosition  = playerModel.getMovePosition();
     int           resultDirection     = playerModel.getDirection();
     QPointF       resultPosition      = playerModel.getPosition();
     int           resultHealth        = playerModel.getHealth();
@@ -59,7 +59,6 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     const QTimer& resultMoveTimer     = playerModel.getMoveTimer();
     const QTimer& resultFireTimer     = playerModel.getFireTimer();
 
-    EXPECT_EQ(      resultIsMovingFlag,              false);
     EXPECT_EQ(      resultDirection,                 0);
     EXPECT_EQ(      resultHealth,                    def::maxPlayerHealth);
     EXPECT_EQ(      resultWeapon.type,               defaultWeapon.type);
@@ -74,6 +73,8 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
     EXPECT_FLOAT_EQ(resultPosition.x(),              expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(),              expectedPosition.y());
+    EXPECT_FLOAT_EQ(resultMovePosition.x(),          def::halfSceneWight);
+    EXPECT_FLOAT_EQ(resultMovePosition.y(),          def::halfSceneHeight);
 }
 
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerShouldHitButDontBeDefeated_IsEqual)
@@ -305,14 +306,63 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalsePlayerShouldntMove_IsEqual)
+TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInCurrentPositionRangeAndDirectionShouldBe90_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2);
+    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);
-    player->setIsMovingFlag(false);
+    player->setMovePosition(movePosition);
+
+    bool result = player->isOnMovePosition();
+    int resultDirection = player->getDirection();
+
+    EXPECT_TRUE(result);
+    EXPECT_EQ(resultDirection, 90);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentButInRangeAndDirectionShouldBe315_IsEqual)
+{
+    QPointF          movePosition(def::halfSceneWight - 3, def::halfSceneHeight - 3);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    bool result = player->isOnMovePosition();
+    int resultDirection = player->getDirection();
+
+    EXPECT_TRUE(result);
+    EXPECT_EQ(resultDirection, 315);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentAndOutOfRangeAndDirectionShouldBe78_IsEqual)
+{
+    QPointF          movePosition(def::halfSceneWight + 100, def::halfSceneHeight - 20);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    bool result = player->isOnMovePosition();
+    int resultDirection = player->getDirection();
+
+    EXPECT_FALSE(result);
+    EXPECT_EQ(resultDirection, 78);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTruePlayerShouldntMove_IsEqual)
+{
+    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameWight  / 2);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
 
     player->move();
     QPointF resultPosition = player->getPosition();
@@ -322,14 +372,15 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalsePlayerShouldntMove_IsEqual
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTruePlayerShouldMoveUpBy10Pixels_IsEqual)
+TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalsePlayerShouldMoveUpBy10Pixels_IsEqual)
 {
+    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight - 100);
     QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
                                       def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);
-    player->setIsMovingFlag(true);
+    player->setMovePosition(movePosition);
 
     player->move();
     QPointF resultPosition = player->getPosition();
@@ -339,52 +390,16 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTruePlayerShouldMoveUpBy10Pixel
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, ChangeDirection_NewDirectionIsEqualAsCurrentPlayerPositionShouldntMove_IsEqual)
+TEST_F(PlayerModelTestsClass, ChangeMovePosition_NewDirectionIsDiffrentThanCurrent_IsEqual)
 {
+    QPointF         expectedMovePosition(def::halfSceneWight + 50, def::halfSceneHeight + 50);
     PlayerModelTest playerModel;
 
-    playerModel.changeDirection(QPointF(def::halfSceneWight, def::halfSceneHeight));
-    bool resultIsMovingFlag = playerModel.getIsMovingFlag();
-    int  resultDirection    = playerModel.getDirection();
+    playerModel.changeMovePosition(QPointF(def::halfSceneWight + 50, def::halfSceneHeight + 50));
+    QPointF resultMovePosition = playerModel.getMovePosition();
 
-    EXPECT_EQ(resultIsMovingFlag, false);
-    EXPECT_EQ(resultDirection,    90);
-}
-
-TEST_F(PlayerModelTestsClass, ChangeDirection_NewDirectionIsOnly5PixLeftSideOfCurrentPlayerPositionShouldMoveOnly5pix_IsEqual)
-{
-    PlayerModelTest playerModel;
-
-    playerModel.changeDirection(QPointF(def::halfSceneWight - 5, def::halfSceneHeight));
-    bool resultIsMovingFlag = playerModel.getIsMovingFlag();
-    int  resultDirection    = playerModel.getDirection();
-
-    EXPECT_EQ(resultIsMovingFlag, false);
-    EXPECT_EQ(resultDirection,    270);
-}
-
-TEST_F(PlayerModelTestsClass, ChangeDirection_NewDirectionIsEqualAsDefMoveVectorLenghtUpOfCurrentPlayerPositionShouldMoveUp_IsEqual)
-{
-    PlayerModelTest playerModel;
-
-    playerModel.changeDirection(QPointF(def::halfSceneWight, def::halfSceneHeight - def::moveVectorLength));
-    bool resultIsMovingFlag = playerModel.getIsMovingFlag();
-    int  resultDirection    = playerModel.getDirection();
-
-    EXPECT_EQ(resultIsMovingFlag, true);
-    EXPECT_EQ(resultDirection,    0);
-}
-
-TEST_F(PlayerModelTestsClass, ChangeDirection_NewDirectionIsRightDownOfCurrentPlayerPositionShouldMoveBy10Pixels135Deg_IsEqual)
-{
-    PlayerModelTest playerModel;
-
-    playerModel.changeDirection(QPointF(def::halfSceneWight + 50, def::halfSceneHeight + 50));
-    bool resultIsMovingFlag = playerModel.getIsMovingFlag();
-    int  resultDirection    = playerModel.getDirection();
-
-    EXPECT_EQ(resultIsMovingFlag, true);
-    EXPECT_EQ(resultDirection,    135);
+    EXPECT_FLOAT_EQ(resultMovePosition.x(), expectedMovePosition.x());
+    EXPECT_FLOAT_EQ(resultMovePosition.y(), expectedMovePosition.y());
 }
 
 TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfiguration_IsEqual)

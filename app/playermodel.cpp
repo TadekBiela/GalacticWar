@@ -10,7 +10,7 @@
 #include <typeinfo>
 
 PlayerModel::PlayerModel()
-                         : m_isMoving(false),
+                         : m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
                            m_direction(0),
                            m_health(def::maxPlayerHealth),
                            m_weapon(defaultWeapon),
@@ -45,6 +45,20 @@ void PlayerModel::stop()
 {
     m_moveTimer.stop();
     m_fireTimer.stop();
+}
+
+bool PlayerModel::isOnMovePosition()
+{
+    QPointF currentPosition = QGraphicsItem::pos();
+    currentPosition.setX(currentPosition.x() + def::animationFrameWight  / 2);
+    currentPosition.setY(currentPosition.y() + def::animationFrameHeight / 2);
+
+    QLineF vector(currentPosition, m_movePosition);
+    m_direction = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
+
+    int  length      = static_cast<int>(vector.length());
+    bool isOnMovePos = length <= def::moveVectorLength;
+    return isOnMovePos;
 }
 
 void PlayerModel::checkCollisions()
@@ -99,7 +113,7 @@ void PlayerModel::checkCollisions()
 
 void PlayerModel::move()
 {
-    if(m_isMoving)
+    if(isOnMovePosition() == false)
     {
         QPointF newPosition(moveForward(pos(), m_direction));
         int x = newPosition.x();
@@ -135,16 +149,9 @@ void PlayerModel::stopFire()
     m_fireTimer.stop();
 }
 
-void PlayerModel::changeDirection(QPointF newDirection)
+void PlayerModel::changeMovePosition(QPointF newMovePosition)
 {
-    QPointF position = QGraphicsItem::pos();
-    position.setX(position.x() + def::animationFrameWight  / 2);
-    position.setY(position.y() + def::animationFrameHeight / 2);
-
-    QLineF vector(position, newDirection);
-    int length  = static_cast<int>(vector.length());
-    m_isMoving  = length >= def::moveVectorLength;
-    m_direction = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
+    m_movePosition = newMovePosition;
 }
 
 void PlayerModel::changeAtribute(special_type specialReward)
