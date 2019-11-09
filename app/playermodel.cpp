@@ -47,25 +47,8 @@ void PlayerModel::stop()
     m_fireTimer.stop();
 }
 
-void PlayerModel::move()
+void PlayerModel::checkCollisions()
 {
-    if(m_isMoving)
-    {
-        QPointF newPosition(moveForward(pos(), m_direction));
-        int x = newPosition.x();
-        int y = newPosition.y();
-        int minX = 0;
-        int maxX = def::sceneWight - pixmap().size().width();
-        int minY = 0;
-        int maxY = def::sceneHeight - pixmap().size().height();
-
-        if(x >= minX && x <= maxX && y >= minY && y <= maxY)
-        {
-            setPos(newPosition);
-        }
-    }
-
-    //Check collisions
     auto scene           = QGraphicsItem::scene();
     auto collidingItems  = scene->collidingItems(this);
     int  numOfCollisions = collidingItems.size();
@@ -112,6 +95,27 @@ void PlayerModel::move()
     {
         emit changeHealth(m_health / 10);
     }
+}
+
+void PlayerModel::move()
+{
+    if(m_isMoving)
+    {
+        QPointF newPosition(moveForward(pos(), m_direction));
+        int x = newPosition.x();
+        int y = newPosition.y();
+        int minX = 0;
+        int maxX = def::sceneWight - pixmap().size().width();
+        int minY = 0;
+        int maxY = def::sceneHeight - pixmap().size().height();
+
+        if(x >= minX && x <= maxX && y >= minY && y <= maxY)
+        {
+            setPos(newPosition);
+        }
+    }
+
+    checkCollisions();
 }
 
 void PlayerModel::fire()

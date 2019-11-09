@@ -76,250 +76,175 @@ TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_FLOAT_EQ(resultPosition.y(),              expectedPosition.y());
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalseAndThereIsNoCollisionsPlayerShouldntMove_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerShouldHitButDontBeDefeated_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2);
+    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
-    PlayerModelTest* player = new PlayerModelTest;
-    QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
-    QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
-    scene->addItem(player);
-    player->setIsMovingFlag(false);
-    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-    player->move();
-    QPointF resultPosition    = player->getPosition();
-    int     signalHealthCount = signalHealth.count();
-    int     signalDefeatCount = signalDefeat.count();
-
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-    EXPECT_EQ(signalHealthCount,        0);
-    EXPECT_EQ(signalDefeatCount,        0);
-    delete scene;
-}
-
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndThereIsNoCollisionsPlayerShouldMoveUpBy10Pixels_IsEqual)
-{
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
-    QGraphicsScene*  scene  = new QGraphicsScene();
-    PlayerModelTest* player = new PlayerModelTest;
-    QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
-    QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
-    scene->addItem(player);
-    player->setIsMovingFlag(true);
-    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-    player->move();
-    QPointF resultPosition    = player->getPosition();
-    int     signalHealthCount = signalHealth.count();
-    int     signalDefeatCount = signalDefeat.count();
-
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-    EXPECT_EQ(signalHealthCount,        0);
-    EXPECT_EQ(signalDefeatCount,        0);
-    delete scene;
-}
-
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithBulletPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
-{
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
-    QGraphicsScene*  scene  = new QGraphicsScene();
-    BulletModel*     bullet = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
+    BulletModel*     bullet = new BulletModel(bullet_type::enemyBullet, playerPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest; //default health is 1000
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
     scene->addItem(bullet);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
-    player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-    int     resultItemsOnScene = scene->items().size();
-    int     resultHealth       = player->getHealth();
-    QPointF resultPosition     = player->getPosition();
+    player->checkCollisions();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,        2);
-    EXPECT_EQ(signalHealthCount,        1);
-    EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalHealthValue,        95);
-    EXPECT_EQ(resultItemsOnScene,       1);
-    EXPECT_EQ(resultHealth,             950);
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  1);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalHealthValue,  95);
+    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(resultHealth,       950);
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSelfBulletPlayerShouldOnlyMove_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlayerShouldDoNothing_IsEqual)
 {
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
-    BulletModel*     bullet = new BulletModel(bullet_type::playerDefaultBullet, expectedPosition, 50, 5, 50);
+    BulletModel*     bullet = new BulletModel(bullet_type::playerDefaultBullet, playerPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
     scene->addItem(bullet);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
-    player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     resultItemsOnScene = scene->items().size();
-    int     resultHealth       = player->getHealth();
-    QPointF resultPosition     = player->getPosition();
+    player->checkCollisions();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,        2);
-    EXPECT_EQ(signalHealthCount,        0);
-    EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(resultItemsOnScene,       2);
-    EXPECT_EQ(resultHealth,             1000);
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  0);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(resultItemsOnScene, 2);
+    EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithCoinRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinRewardAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<coin_type>();
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
     RewardCoinModel* coin   = new RewardCoinModel(coin_type::bronze);
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
     QSignalSpy       signalCoin(coin, &RewardCoinModel::collected);
-    coin->setPos(expectedPosition);
+    coin->setPos(playerPosition);
     scene->addItem(coin);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
-    player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     signalCoinCount    = signalCoin.count();
-    int     resultItemsOnScene = scene->items().size();
-    int     resultHealth       = player->getHealth();
-    QPointF resultPosition     = player->getPosition();
+    player->checkCollisions();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalCoinCount    = signalCoin.count();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,        2);
-    EXPECT_EQ(signalHealthCount,        0);
-    EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalCoinCount,          1);
-    EXPECT_EQ(resultItemsOnScene,       1);
-    EXPECT_EQ(resultHealth,             1000);
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  0);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalCoinCount,    1);
+    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithSpecialRewardPlayerShouldMoveAndRewardShouldBeCollected_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialRewardAndRewardShouldBeCollected_IsEqual)
 {
     qRegisterMetaType<special_type>();
-    QPointF             expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                         def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QPointF             playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*     scene   = new QGraphicsScene();
     RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponRed);
     PlayerModelTest*    player  = new PlayerModelTest;
     QSignalSpy          signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy          signalDefeat(player, &PlayerModelTest::defeated);
     QSignalSpy          signalSpecial(special, &RewardSpecialModel::collected);
-    special->setPos(expectedPosition);
+    special->setPos(playerPosition);
     scene->addItem(special);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
-    player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     signalSpecialCount = signalSpecial.count();
-    int     resultItemsOnScene = scene->items().size();
-    int     resultHealth       = player->getHealth();
-    QPointF resultPosition     = player->getPosition();
+    player->checkCollisions();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalSpecialCount = signalSpecial.count();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,        2);
-    EXPECT_EQ(signalHealthCount,        0);
-    EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalSpecialCount,       1);
-    EXPECT_EQ(resultItemsOnScene,       1);
-    EXPECT_EQ(resultHealth,             1000);
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  0);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalSpecialCount, 1);
+    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1PlayerShouldHitButDontBeDefeated_IsEqual)
 {
-    QPointF              expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                          def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
     PlayerModelTest*     player    = new PlayerModelTest; //default health is 1000
     QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
-    enemy->setPos(expectedPosition);
+    enemy->setPos(playerPosition);
     scene->addItem(enemy);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
-    player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-    int     resultItemsOnScene = scene->items().size();
-    int     resultHealth       = player->getHealth();
-    QPointF resultPosition     = player->getPosition();
+    player->checkCollisions();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,        2);
-    EXPECT_EQ(signalHealthCount,        1);
-    EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalHealthValue,        90);
-    EXPECT_EQ(resultItemsOnScene,       1);
-    EXPECT_EQ(resultHealth,             900);
-    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  1);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalHealthValue,  90);
+    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(resultHealth,       900);
     delete generator;
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
 {
-    QPointF              expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                          def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
     PlayerModelTest*     player    = new PlayerModelTest;
     QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
-    enemy->setPos(expectedPosition);
+    enemy->setPos(playerPosition);
     scene->addItem(enemy);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     player->setHealth(90);
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
-    player->move();
+    player->checkCollisions();
     int signalHealthCount  = signalHealth.count();
     int signalDefeatCount  = signalDefeat.count();
     int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
@@ -334,14 +259,13 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithEnemy
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCollidingTypesPlayerShouldMoveAndHitButDontBeDefeated_IsEqual)
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTypesPlayerShouldHitButDontBeDefeated_IsEqual)
 {
     qRegisterMetaType<coin_type>();
     qRegisterMetaType<special_type>();
-    QPointF              expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                          def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
-    BulletModel*         bullet    = new BulletModel(bullet_type::enemyBullet, expectedPosition, 50, 5, 50);
+    BulletModel*         bullet    = new BulletModel(bullet_type::enemyBullet, playerPosition, 50, 5, 50);
     RewardCoinModel*     coin      = new RewardCoinModel(coin_type::bronze);
     RewardSpecialModel*  special   = new RewardSpecialModel(special_type::weaponRed);
     RandomGeneratorStub* generator = new RandomGeneratorStub;
@@ -351,37 +275,67 @@ TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTrueAndPlayerCollidingWithAllCo
     QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
     QSignalSpy           signalCoin(coin, &RewardCoinModel::collected);
     QSignalSpy           signalSpecial(special, &RewardSpecialModel::collected);
-    coin->setPos(expectedPosition);
-    special->setPos(expectedPosition);
-    enemy->setPos(expectedPosition);
+    coin->setPos(playerPosition);
+    special->setPos(playerPosition);
+    enemy->setPos(playerPosition);
     scene->addItem(bullet);
     scene->addItem(coin);
     scene->addItem(special);
     scene->addItem(enemy);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
-    player->setIsMovingFlag(true);
     signalSpecial.wait(utdef::minSignalTimeDelay);
 
-    player->move();
-    int     signalHealthCount  = signalHealth.count();
-    int     signalDefeatCount  = signalDefeat.count();
-    int     signalCoinCount    = signalCoin.count();
-    int     signalSpecialCount = signalSpecial.count();
-    int     signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-    int     resultItemsOnScene = scene->items().size();
-    int     resultHealth       = player->getHealth();
-    QPointF resultPosition     = player->getPosition();
+    player->checkCollisions();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalCoinCount    = signalCoin.count();
+    int signalSpecialCount = signalSpecial.count();
+    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,        5);
-    EXPECT_EQ(signalHealthCount,        1);
-    EXPECT_EQ(signalDefeatCount,        0);
-    EXPECT_EQ(signalHealthValue,        85);
-    EXPECT_EQ(resultItemsOnScene,       1);
-    EXPECT_EQ(resultHealth,             850);
+    EXPECT_EQ(startItemsOnScene,  5);
+    EXPECT_EQ(signalHealthCount,  1);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalHealthValue,  85);
+    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(resultHealth,       850);
+    delete generator;
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsFalsePlayerShouldntMove_IsEqual)
+{
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setIsMovingFlag(false);
+
+    player->move();
+    QPointF resultPosition = player->getPosition();
+
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-    delete generator;
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, Move_IsMovingFlagIsTruePlayerShouldMoveUpBy10Pixels_IsEqual)
+{
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setIsMovingFlag(true);
+
+    player->move();
+    QPointF resultPosition = player->getPosition();
+
+    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
+    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
     delete scene;
 }
 

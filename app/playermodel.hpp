@@ -16,6 +16,7 @@ public:
     virtual ~PlayerModel();
     void setHealth(int health) { m_health = health; }
     int getHealth() const { return m_health; }
+    void checkCollisions();
 
 signals:
     void changeHealth(int healthPoints);
