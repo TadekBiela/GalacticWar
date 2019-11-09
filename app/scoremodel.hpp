@@ -23,6 +23,7 @@ public slots:
 
 protected:
     int m_currentTresholdIdx;
+    int m_currentScore;
     int m_totalScore;
 
     static const int s_scoreTresholds[def::maxNumOfLevel];

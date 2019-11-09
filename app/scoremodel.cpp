@@ -8,6 +8,7 @@ const int ScoreModel::s_scoreTresholds[def::maxNumOfLevel] =
 
 ScoreModel::ScoreModel()
                        : m_currentTresholdIdx(0),
+                         m_currentScore(0),
                          m_totalScore(0)
 {
 
@@ -21,7 +22,8 @@ ScoreModel::~ScoreModel()
 void ScoreModel::reset()
 {
     m_currentTresholdIdx = 0;
-    m_totalScore = 0;
+    m_currentScore       = 0;
+    m_totalScore         = 0;
 
     addPoints(0);
 }
@@ -33,26 +35,18 @@ void ScoreModel::get()
 
 void ScoreModel::addPoints(int points)
 {
-    m_totalScore += points;
+    m_currentScore += points;
+    m_totalScore   += points;
+    int currentTreshold = s_scoreTresholds[m_currentTresholdIdx];
 
-    int percentScoreLevel = 0;
-    int currentTreshold   = s_scoreTresholds[m_currentTresholdIdx];
-
-    if(m_totalScore >= currentTreshold && m_currentTresholdIdx < def::maxNumOfLevel - 1)
+    if(m_currentScore >= currentTreshold && m_currentTresholdIdx < def::maxNumOfLevel - 1)
     {
+        m_currentScore -= currentTreshold;
         m_currentTresholdIdx++;
-
-        int newTreshold              = s_scoreTresholds[m_currentTresholdIdx];
-        int totalScoreInCurrentLevel = newTreshold - currentTreshold;
-
-        percentScoreLevel = ((m_totalScore - currentTreshold) * 100) /
-                            (totalScoreInCurrentLevel);
+        currentTreshold = s_scoreTresholds[m_currentTresholdIdx];
         emit maxPerLevelAchieved();
     }
-    else
-    {
-        percentScoreLevel = (m_totalScore * 100) /
-                            (s_scoreTresholds[m_currentTresholdIdx]);
-    }
-    emit updateView(percentScoreLevel);
+    int percentCurrScore = m_currentScore * 100 / currentTreshold;
+
+    emit updateView(percentCurrScore);
 }
