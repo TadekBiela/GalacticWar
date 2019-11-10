@@ -3,6 +3,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(STD_LIB C:/Qt/Tools/mingw730_32/bin/libstdc++-6.dll)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/images/
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/images)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 find_package(Qt5Test REQUIRED)

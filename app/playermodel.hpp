@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPointF>
 #include <QTimer>
+#include <QImage>
 
 class PlayerModel : public QObject, public QGraphicsPixmapItem
 {
@@ -15,7 +16,7 @@ public:
     PlayerModel();
     virtual ~PlayerModel();
     void setHealth(int health) { m_health = health; }
-    int getHealth() const { return m_health; }
+    int  getHealth() const { return m_health; }
     bool isOnMovePosition();
     void checkCollisions();
 
@@ -32,10 +33,13 @@ public slots:
     void stopFire();
     void changeMovePosition(QPointF newMovePosition);
     void changeAtribute(special_type specialReward);
+    void animation();
 
 protected:
-    void changeWeapon(weapon_type weapon);
+    void    changeWeapon(weapon_type weapon);
+    QPixmap getAnimationFrame();
 
+    QImage  m_image;
     QPointF m_movePosition;
     int     m_direction;
     int     m_health;
@@ -44,6 +48,8 @@ protected:
     int     m_moveTimeDelay;
     QTimer  m_moveTimer;
     QTimer  m_fireTimer;
+    int     m_animationFrameIdx;
+    QTimer  m_animationTimer;
 };
 
 #endif // PLAYERMODEL_HPP

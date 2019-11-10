@@ -50,19 +50,19 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     int     resultFireTime          = enemyModel.getFireTimer().interval();
     int     resultAnimationTime     = enemyModel.getAnimationTimer().interval();
 
-    EXPECT_EQ(resultLevel,             1);
-    EXPECT_EQ(resultHealth,            2);
-    EXPECT_EQ(resultDamage,            10);
-    EXPECT_EQ(resultDirection,         180);
-    EXPECT_EQ(resultAnimationFrameIdx, 0);
-    EXPECT_EQ(resultMoveTimerIsActive, false);
-    EXPECT_EQ(resultFireTimerIsActive, false);
-    EXPECT_EQ(resultAnimTimerIsActive, false);
-    EXPECT_NEAR(resultMoveTime,          80, 1);
-    EXPECT_NEAR(resultFireTime,        1000, 1);
-    EXPECT_NEAR(resultAnimationTime,      5, 1);
-    EXPECT_FLOAT_EQ(resultPosition.x(),   -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(),   -23);
+    EXPECT_EQ(resultLevel,              1);
+    EXPECT_EQ(resultHealth,             2);
+    EXPECT_EQ(resultDamage,             10);
+    EXPECT_EQ(resultDirection,          180);
+    EXPECT_EQ(resultAnimationFrameIdx,  0);
+    EXPECT_EQ(resultMoveTimerIsActive,  false);
+    EXPECT_EQ(resultFireTimerIsActive,  false);
+    EXPECT_EQ(resultAnimTimerIsActive,  false);
+    EXPECT_NEAR(resultMoveTime,           80, 1);
+    EXPECT_NEAR(resultFireTime,         1000, 1);
+    EXPECT_NEAR(resultAnimationTime,     100, 1);
+    EXPECT_FLOAT_EQ(resultPosition.x(),  -28);
+    EXPECT_FLOAT_EQ(resultPosition.y(),  -23);
     delete randomGenerator;
 }
 

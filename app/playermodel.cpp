@@ -8,27 +8,30 @@
 #include <QLineF>
 #include <QGraphicsScene>
 #include <typeinfo>
+#include <QCoreApplication>
 
 PlayerModel::PlayerModel()
-                         : m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
+                         : m_image(QCoreApplication::applicationDirPath() + "/images/player.jpg"),
+                           m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
                            m_direction(0),
                            m_health(def::maxPlayerHealth),
                            m_weapon(defaultWeapon),
                            m_weaponTier(0),
-                           m_moveTimeDelay(def::defaultPlayerMoveTimeDelay)
+                           m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
+                           m_animationFrameIdx(0)
 {
-    //temporary simple graphic
-    QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
-    map.fill(Qt::green);
-    setPixmap(map);
+    setPixmap(getAnimationFrame());
 
     setPos(def::halfSceneWight  - def::animationFrameWight  / 2,
            def::halfSceneHeight - def::animationFrameHeight / 2);
 
-    connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
-    connect(&m_fireTimer, SIGNAL(timeout()), this, SLOT(fire()));
+    connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
+    connect(&m_fireTimer,      SIGNAL(timeout()), this, SLOT(fire()));
+    connect(&m_animationTimer, SIGNAL(timeout()), this, SLOT(animation()));
+
     m_moveTimer.setInterval(m_moveTimeDelay);
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
+    m_animationTimer.setInterval(def::animationFrameDuration);
 }
 
 PlayerModel::~PlayerModel()
@@ -39,12 +42,14 @@ PlayerModel::~PlayerModel()
 void PlayerModel::start()
 {
     m_moveTimer.start();
+    m_animationTimer.start();
 }
 
 void PlayerModel::stop()
 {
     m_moveTimer.stop();
     m_fireTimer.stop();
+    m_animationTimer.stop();
 }
 
 bool PlayerModel::isOnMovePosition()
@@ -109,6 +114,16 @@ void PlayerModel::checkCollisions()
     {
         emit changeHealth(m_health / 10);
     }
+}
+
+QPixmap PlayerModel::getAnimationFrame()
+{
+    QPixmap map;
+    map.convertFromImage(m_image.copy(m_animationFrameIdx * def::animationFrameWight,
+                                      0,
+                                      def::animationFrameWight,
+                                      def::animationFrameHeight));
+    return map;
 }
 
 void PlayerModel::move()
@@ -192,3 +207,12 @@ void PlayerModel::changeWeapon(weapon_type weapon)
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 }
 
+void PlayerModel::animation()
+{
+    if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
+    {
+        m_animationFrameIdx = 0;
+    }
+
+    setPixmap(getAnimationFrame());
+}

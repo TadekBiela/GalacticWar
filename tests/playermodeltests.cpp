@@ -20,62 +20,28 @@ public:
     PlayerModelTest() {}
     virtual ~PlayerModelTest() {}
 
-    QPointF       getMovePosition()  const { return m_movePosition; }
-    QPointF       getPosition()      const { return QGraphicsItem::pos(); }
-    int           getDirection()     const { return m_direction; }
-    int           getHealth()        const { return m_health; }
-    weapon        getWeapon()        const { return m_weapon; }
-    int           getWeaponTier()    const { return m_weaponTier; }
-    int           getMoveTimeDelay() const { return m_moveTimeDelay; }
-    int           getFireTimeDelay() const { return m_weapon.fireTimeDelay; }
-    const QTimer& getMoveTimer()     const { return m_moveTimer; }
-    const QTimer& getFireTimer()     const { return m_fireTimer; }
+    QPointF       getMovePosition()      const { return m_movePosition; }
+    QPointF       getPosition()          const { return QGraphicsItem::pos(); }
+    int           getDirection()         const { return m_direction; }
+    int           getHealth()            const { return m_health; }
+    weapon        getWeapon()            const { return m_weapon; }
+    int           getWeaponTier()        const { return m_weaponTier; }
+    int           getMoveTimeDelay()     const { return m_moveTimeDelay; }
+    int           getFireTimeDelay()     const { return m_weapon.fireTimeDelay; }
+    const QTimer& getMoveTimer()         const { return m_moveTimer; }
+    const QTimer& getFireTimer()         const { return m_fireTimer; }
+    int           getAnimationFrameIdx() const { return  m_animationFrameIdx; }
     void          setMovePosition(QPointF newPosition) { m_movePosition = newPosition; }
-    void          setDirection(int newDirection)       { m_direction  = newDirection; }
-    void          setHealth(int healthValue)           { m_health     = healthValue; }
-    void          setWeapon(weapon newWeapon)          { m_weapon     = newWeapon; }
-    void          setWeaponTier(int newWeaponTier)     { m_weaponTier = newWeaponTier; }
+    void          setDirection(int newDirection)       { m_direction    = newDirection; }
+    void          setHealth(int healthValue)           { m_health       = healthValue; }
+    void          setWeapon(weapon newWeapon)          { m_weapon       = newWeapon; }
+    void          setWeaponTier(int newWeaponTier)     { m_weaponTier   = newWeaponTier; }
     void          startFireTimer()                     { m_fireTimer.start(); }
 };
 
 class PlayerModelTestsClass : public testing::Test
 {
 };
-
-TEST_F(PlayerModelTestsClass, PlayerModelConstructor_CheckBuildModelCorrect_IsEqual)
-{
-    QPointF expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                             def::halfSceneHeight - def::animationFrameHeight / 2);
-
-    PlayerModelTest playerModel;
-    QPointF       resultMovePosition  = playerModel.getMovePosition();
-    int           resultDirection     = playerModel.getDirection();
-    QPointF       resultPosition      = playerModel.getPosition();
-    int           resultHealth        = playerModel.getHealth();
-    weapon        resultWeapon        = playerModel.getWeapon();
-    int           resultWeaponTier    = playerModel.getWeaponTier();
-    int           resultFireMoveDelay = playerModel.getMoveTimeDelay();
-    int           resultFireTimeDelay = playerModel.getFireTimeDelay();
-    const QTimer& resultMoveTimer     = playerModel.getMoveTimer();
-    const QTimer& resultFireTimer     = playerModel.getFireTimer();
-
-    EXPECT_EQ(      resultDirection,                 0);
-    EXPECT_EQ(      resultHealth,                    def::maxPlayerHealth);
-    EXPECT_EQ(      resultWeapon.type,               defaultWeapon.type);
-    EXPECT_EQ(      resultWeaponTier,                0);
-    EXPECT_EQ(      resultFireMoveDelay,             def::defaultPlayerMoveTimeDelay);
-    EXPECT_EQ(      resultFireTimeDelay,             defaultWeapon.fireTimeDelay);
-    EXPECT_EQ(      resultMoveTimer.isActive(),      false);
-    EXPECT_EQ(      resultFireTimer.isActive(),      false);
-    EXPECT_FLOAT_EQ(resultMoveTimer.interval(),      def::defaultPlayerMoveTimeDelay);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      defaultWeapon.fireTimeDelay);
-    EXPECT_FLOAT_EQ(resultMoveTimer.remainingTime(), -1);
-    EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
-    EXPECT_FLOAT_EQ(resultPosition.x(),              expectedPosition.x());
-    EXPECT_FLOAT_EQ(resultPosition.y(),              expectedPosition.y());
-    EXPECT_FLOAT_EQ(resultMovePosition.x(),          def::halfSceneWight);
-    EXPECT_FLOAT_EQ(resultMovePosition.y(),          def::halfSceneHeight);
-}
 
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerShouldHitButDontBeDefeated_IsEqual)
 {
@@ -475,6 +441,32 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     EXPECT_EQ(resultHealth,                     1000);
     EXPECT_EQ(resultSignalChangeCount,          1);
     EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
+}
+
+TEST_F(PlayerModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
+{
+    PlayerModelTest playerModel;
+
+    playerModel.animation();
+    int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimationFrameIdx, 1);
+}
+
+TEST_F(PlayerModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
+{
+    PlayerModelTest playerModel;
+
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
+    playerModel.animation();
+    playerModel.animation();
+    int resultAnimationFrameIdxReset = playerModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimationFrameIdx,      3);
+    EXPECT_EQ(resultAnimationFrameIdxReset, 0);
 }
 
 typedef std::tr1::tuple<weapon, int, special_type, weapon> input_params;

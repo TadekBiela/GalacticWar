@@ -4,7 +4,7 @@
 namespace def
 {
     const int    defaultBulletSpeed     = 20;
-    const int    animationFrameDuration = 5;
+    const int    animationFrameDuration = 100;
     const int    moveVectorLength       = 10;
     const double pi                     = 3.14159265;
     const double radianConversionFactor = pi / 180;

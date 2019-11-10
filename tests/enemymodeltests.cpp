@@ -69,11 +69,11 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     EXPECT_EQ(resultMoveTimerIsActive,   false);
     EXPECT_EQ(resultFireTimerIsActive,   false);
     EXPECT_EQ(resultAnimTimerIsActive,   false);
-    EXPECT_NEAR(resultMoveTime,          20, 1);
-    EXPECT_NEAR(resultFireTime,          10, 1);
-    EXPECT_NEAR(resultAnimationTime,      5, 1);
-    EXPECT_FLOAT_EQ(resultPosition.x(), -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(), -23);
+    EXPECT_NEAR(resultMoveTime,           20, 1);
+    EXPECT_NEAR(resultFireTime,           10, 1);
+    EXPECT_NEAR(resultAnimationTime,     100, 1);
+    EXPECT_FLOAT_EQ(resultPosition.x(),  -28);
+    EXPECT_FLOAT_EQ(resultPosition.y(),  -23);
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)
