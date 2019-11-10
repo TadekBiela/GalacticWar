@@ -114,6 +114,7 @@ void PlayerModel::checkCollisions()
     {
         emit changeHealth(m_health / 10);
     }
+    scene->update();
 }
 
 QPixmap PlayerModel::getAnimationFrame()
