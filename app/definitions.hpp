@@ -3,21 +3,23 @@
 
 namespace def
 {
-    const int    defaultBulletSpeed     = 20;
-    const int    animationFrameDuration = 100;
-    const int    moveVectorLength       = 10;
-    const double pi                     = 3.14159265;
-    const double radianConversionFactor = pi / 180;
-    const int    maxAnimationFrames     = 5;
-    const int    maxAnimationFrameIdx   = 4;
-    const int    animationFrameWight    = 60;
-    const int    animationFrameHeight   = 60;
-    const int    maxNumOfLevel          = 10;
-    const int    maxWeaponTypes         = 3;
-    const int    maxWeaponLevel         = 5;
-    const int    minEnemySpawnTimeDelay = 1000;
-    const int    maxEnemySpawnTimeDelay = 5000;
-    const int    percentDistTabSize     = 100;
+    const int    defaultBulletSpeed        = 20;
+    const int    animationFrameDuration    = 100;
+    const int    moveVectorLength          = 10;
+    const double pi                        = 3.14159265;
+    const double radianConversionFactor    = pi / 180;
+    const int    maxAnimationFrames        = 5;
+    const int    maxAnimationFrameIdx      = 4;
+    const int    animationFrameWight       = 60;
+    const int    animationFrameHeight      = 60;
+    const int    animationSmallFrameWight  = 30;
+    const int    animationSmallFrameHeight = 30;
+    const int    maxNumOfLevel             = 10;
+    const int    maxWeaponTypes            = 3;
+    const int    maxWeaponLevel            = 5;
+    const int    minEnemySpawnTimeDelay    = 1000;
+    const int    maxEnemySpawnTimeDelay    = 5000;
+    const int    percentDistTabSize        = 100;
 
     //Player default configuration
     const int maxPlayerHealth             = 1000;

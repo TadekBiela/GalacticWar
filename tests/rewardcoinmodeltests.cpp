@@ -47,38 +47,6 @@ TEST_F(RewardCoinModelTestsClass, RewardCoinModelConstructor_CheckBuildModelCorr
     EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
 }
 
-TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)
-{
-    RewardCoinModelTest rewardCoinModel(coin_type::bronze);
-
-    rewardCoinModel.animation();
-    int resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimFrameIdx, 1);
-}
-
-TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeResetTo0_IsZero)
-{
-    RewardCoinModelTest rewardCoinModel(coin_type::bronze);
-    rewardCoinModel.setAnimationFrameIdx(def::maxAnimationFrameIdx);
-
-    rewardCoinModel.animation();
-    int resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimFrameIdx, 0);
-}
-
-TEST_F(RewardCoinModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckIfWillBeSetToMax_IsEqual)
-{
-    RewardCoinModelTest rewardCoinModel(coin_type::bronze);
-    rewardCoinModel.setAnimationFrameIdx(def::maxAnimationFrameIdx - 1);
-
-    rewardCoinModel.animation();
-    int resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
-}
-
 TEST_F(RewardCoinModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType_IsEqual)
 {
     qRegisterMetaType<coin_type>();

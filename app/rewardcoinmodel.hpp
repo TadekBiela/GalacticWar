@@ -16,9 +16,6 @@ public:
 signals:
     void collected(coin_type type);
 
-public slots:
-    void animation();
-
 protected:
     coin_type m_type;
 };

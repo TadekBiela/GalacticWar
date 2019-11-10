@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QImage>
+#include <QPixmap>
 
 class RewardModel : public QObject, public QGraphicsPixmapItem
 {
@@ -14,10 +16,13 @@ public:
     virtual void collect() = 0;
 
 public slots:
-    virtual void animation() = 0;
+    virtual void animation();
     void destroy();
 
 protected:
+    QPixmap getAnimationFrame();
+
+    QImage m_image;
     int    m_animationFrameIdx;
     QTimer m_animationTimer;
     QTimer m_destroyTimer;

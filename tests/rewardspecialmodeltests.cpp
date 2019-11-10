@@ -33,9 +33,7 @@ TEST_F(RewardSpecialModelTestsClass, RewardSpecialModelConstructor_CheckBuildMod
     special_type  resultType         = rewardSpecialModel.getType();
     int           resultAnimFrameIdx = rewardSpecialModel.getAnimationFrameIdx();
     const QTimer& resultAnimTimer    = rewardSpecialModel.getAnimationTimer();
-    int           resultAnimTime     = resultAnimTimer.remainingTime();
     const QTimer& resultDestroyTimer = rewardSpecialModel.getDestroyTimer();
-    int           resultDestroyTime  = resultDestroyTimer.remainingTime();
 
     EXPECT_EQ(resultType,                          special_type::health);
     EXPECT_EQ(resultAnimFrameIdx,                  0);
@@ -43,40 +41,6 @@ TEST_F(RewardSpecialModelTestsClass, RewardSpecialModelConstructor_CheckBuildMod
     EXPECT_EQ(resultDestroyTimer.isActive(),       true);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), def::defaultRewardDestroyTimeDelay);
-    EXPECT_NEAR(resultAnimTime,                    def::animationFrameDuration,        1);
-    EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
-}
-
-TEST_F(RewardSpecialModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)
-{
-    RewardSpecialModelTest rewardSpecialModel(special_type::health);
-
-    rewardSpecialModel.animation();
-    int resultAnimFrameIdx = rewardSpecialModel.getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimFrameIdx, 1);
-}
-
-TEST_F(RewardSpecialModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeResetTo0_IsZero)
-{
-    RewardSpecialModelTest rewardSpecialModel(special_type::health);
-    rewardSpecialModel.setAnimationFrameIdx(def::maxAnimationFrameIdx);
-
-    rewardSpecialModel.animation();
-    int resultAnimFrameIdx = rewardSpecialModel.getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimFrameIdx, 0);
-}
-
-TEST_F(RewardSpecialModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckIfWillBeSetToMax_IsEqual)
-{
-    RewardSpecialModelTest rewardSpecialModel(special_type::health);
-    rewardSpecialModel.setAnimationFrameIdx(def::maxAnimationFrameIdx - 1);
-
-    rewardSpecialModel.animation();
-    int resultAnimFrameIdx = rewardSpecialModel.getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
 }
 
 TEST_F(RewardSpecialModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType_IsEqual)

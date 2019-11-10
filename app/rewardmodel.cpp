@@ -17,6 +17,26 @@ RewardModel::~RewardModel()
 
 }
 
+QPixmap RewardModel::getAnimationFrame()
+{
+    QPixmap map;
+    map.convertFromImage(m_image.copy(m_animationFrameIdx * def::animationSmallFrameWight,
+                                      0,
+                                      def::animationSmallFrameWight,
+                                      def::animationSmallFrameHeight));
+    return map;
+}
+
+void RewardModel::animation()
+{
+    if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
+    {
+        m_animationFrameIdx = 0;
+    }
+
+    setPixmap(getAnimationFrame());
+}
+
 void RewardModel::destroy()
 {
     delete this;

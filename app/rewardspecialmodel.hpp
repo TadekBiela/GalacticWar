@@ -16,9 +16,6 @@ public:
 signals:
     void collected(special_type type);
 
-public slots:
-    void animation();
-
 protected:
     special_type m_type;
 };

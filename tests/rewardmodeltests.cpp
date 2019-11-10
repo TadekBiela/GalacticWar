@@ -7,17 +7,22 @@
 class RewardModelTest : public RewardModel
 {
 public:
-    RewardModelTest() {}
+    RewardModelTest()
+    {
+        //Simple graphic needed to tests
+        QPixmap map(QSize(def::animationSmallFrameWight, def::animationSmallFrameHeight));
+        map.fill(Qt::red);
+        setPixmap(map);
+    }
     virtual ~RewardModelTest() {}
 
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
     const QTimer& getAnimationTimer()    const { return m_animationTimer; }
     const QTimer& getDestroyTimer()      const { return m_destroyTimer; }
+    void          setAnimationFrameIdx(int idx) { m_animationFrameIdx = idx; }
 
 // dummy implementation
     void collect() {}
-public slots:
-    void animation() {}
 };
 
 class RewardModelTestsClass : public testing::Test
@@ -41,6 +46,38 @@ TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), def::defaultRewardDestroyTimeDelay);
     EXPECT_NEAR(resultAnimTime,                    def::animationFrameDuration, 1);
     EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
+}
+
+TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)
+{
+    RewardModelTest rewardModel;
+
+    rewardModel.animation();
+    int resultAnimFrameIdx = rewardModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, 1);
+}
+
+TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeResetTo0_IsZero)
+{
+    RewardModelTest rewardModel;
+    rewardModel.setAnimationFrameIdx(def::maxAnimationFrameIdx);
+
+    rewardModel.animation();
+    int resultAnimFrameIdx = rewardModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, 0);
+}
+
+TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckIfWillBeSetToMax_IsEqual)
+{
+    RewardModelTest rewardModel;
+    rewardModel.setAnimationFrameIdx(def::maxAnimationFrameIdx - 1);
+
+    rewardModel.animation();
+    int resultAnimFrameIdx = rewardModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
 }
 
 TEST_F(RewardModelTestsClass, Destroy_CheckCorrectWorking_IsZero)

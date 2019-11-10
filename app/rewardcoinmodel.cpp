@@ -1,26 +1,26 @@
 #include "rewardcoinmodel.hpp"
 #include "definitions.hpp"
+#include <QCoreApplication>
 
 RewardCoinModel::RewardCoinModel(coin_type type)
                                   : m_type(type)
 {
-    //temporary simple graphic
-    QPixmap map(QSize(30, 30));
-
+    QString fileName;
     switch (m_type)
     {
         case bronze:
-            map.fill(Qt::darkRed);
+            fileName = "coin1.jpg";
             break;
         case silver:
-            map.fill(Qt::gray);
+            fileName = "coin2.jpg";
             break;
         case gold:
-            map.fill(Qt::yellow);
+            fileName = "coin3.jpg";
             break;
     }
 
-    setPixmap(map);
+    m_image = QImage(QCoreApplication::applicationDirPath() + "/images/" + fileName);
+    setPixmap(getAnimationFrame());
 }
 
 RewardCoinModel::~RewardCoinModel()
@@ -32,12 +32,4 @@ void RewardCoinModel::collect()
 {
     emit collected(m_type);
     destroy();
-}
-
-void RewardCoinModel::animation()
-{
-    if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
-    {
-        m_animationFrameIdx = 0;
-    }
 }
