@@ -50,6 +50,7 @@ GeneralView::GeneralView()
     m_author.setGeometry(def::sceneWight - 100, def::sceneHeight - 30, 100, 30);
 
     //Highscore setup
+    m_highScoreList.addItem("Player\t\t\tScore");
     m_highScoreList.setGeometry(def::sceneWight / 2 - 150,
                                 m_title.pos().y() + m_title.size().height() + 30,
                                 300,
