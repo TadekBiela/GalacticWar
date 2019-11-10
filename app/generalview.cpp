@@ -26,6 +26,7 @@ GeneralView::GeneralView()
 {
     setFixedSize(QSize(def::windowWight, def::windowHeight));
     m_view.setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
+    m_view.setCursor(QCursor(Qt::BlankCursor));
 
     int defaultButtonWight  = 200;
     int defaultButtonHeight = 50;
