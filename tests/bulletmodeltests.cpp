@@ -38,11 +38,11 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_
     int           resultDirection     = bulletModel.getDirection();
     const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
 
-    EXPECT_EQ(resultBulletType,           bullet_type::playerDefaultBullet);
-    EXPECT_EQ(resultDamage,               10);
-    EXPECT_EQ(resultDirection,            5);
-    EXPECT_EQ(resultMoveTimer.isActive(), true);
-    EXPECT_NEAR(resultMoveTimer.remainingTime(), 50, 1);
+    EXPECT_EQ(resultBulletType,                 bullet_type::playerDefaultBullet);
+    EXPECT_EQ(resultDamage,                     10);
+    EXPECT_EQ(resultDirection,                   5);
+    EXPECT_EQ(resultMoveTimer.isActive(),       true);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(), 50);
     EXPECT_FLOAT_EQ(resultPosition.x(),          1);
     EXPECT_FLOAT_EQ(resultPosition.y(),          0);
 }
@@ -56,11 +56,11 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectD
     int           resultDirection     = bulletModel.getDirection();
     const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
 
-    EXPECT_EQ(resultBulletType,           bullet_type::playerDefaultBullet);
-    EXPECT_EQ(resultDamage,               10);
-    EXPECT_EQ(resultDirection,            90);
-    EXPECT_EQ(resultMoveTimer.isActive(), true);
-    EXPECT_NEAR(resultMoveTimer.remainingTime(), 10, 1);
+    EXPECT_EQ(resultBulletType,                 bullet_type::playerDefaultBullet);
+    EXPECT_EQ(resultDamage,                     10);
+    EXPECT_EQ(resultDirection,                  90);
+    EXPECT_EQ(resultMoveTimer.isActive(),       true);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(), 10);
     EXPECT_FLOAT_EQ(resultPosition.x(),          1);
     EXPECT_FLOAT_EQ(resultPosition.y(),          0);
 }
@@ -74,13 +74,13 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectD
     int           resultDirection     = bulletModel.getDirection();
     const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
 
-    EXPECT_EQ(resultBulletType,           bullet_type::playerDefaultBullet);
-    EXPECT_EQ(resultDamage,               10);
-    EXPECT_EQ(resultDirection,            330);
-    EXPECT_EQ(resultMoveTimer.isActive(), true);
-    EXPECT_NEAR(resultMoveTimer.remainingTime(), 10, 1);
-    EXPECT_FLOAT_EQ(resultPosition.x(),          1);
-    EXPECT_FLOAT_EQ(resultPosition.y(),          0);
+    EXPECT_EQ(resultBulletType,                 bullet_type::playerDefaultBullet);
+    EXPECT_EQ(resultDamage,                      10);
+    EXPECT_EQ(resultDirection,                  330);
+    EXPECT_EQ(resultMoveTimer.isActive(),       true);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(),  10);
+    EXPECT_FLOAT_EQ(resultPosition.x(),           1);
+    EXPECT_FLOAT_EQ(resultPosition.y(),           0);
 }
 
 class BulletModelTestsParamClass : public testing::TestWithParam<std::pair<int, QPointF>>

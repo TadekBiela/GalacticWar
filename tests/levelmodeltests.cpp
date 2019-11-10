@@ -38,10 +38,10 @@ TEST_F(LevelModelTestsClass, Next_CurrentLevelShouldIncreaseAndSentTwoDifferentS
     QList<QVariant>    resultSignal2Change     = signalChange.takeFirst();
     EnemyConfiguration resultEnemyLevelConfig  = qvariant_cast<EnemyConfiguration>(resultSignal2Change.at(0));
 
-    EXPECT_EQ(resultCurrentLevel,               2);
-    EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalChangeCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 2);
+    EXPECT_EQ(resultCurrentLevel,                            2);
+    EXPECT_EQ(resultSignalUpdateCount,                       1);
+    EXPECT_EQ(resultSignalChangeCount,                       1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),              2);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType1, expectedEnemyLevelConfig.proportionOfEnemyType1);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType2, expectedEnemyLevelConfig.proportionOfEnemyType2);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType3, expectedEnemyLevelConfig.proportionOfEnemyType3);
@@ -65,8 +65,8 @@ TEST_F(LevelModelTestsClass, Next_CurrentLevelIsMaxShouldDontIncreaseAndSentAnyS
     int resultSignalChangeCount = signalChange.count();
 
     EXPECT_EQ(resultCurrentLevel,      10);
-    EXPECT_EQ(resultSignalUpdateCount, 0);
-    EXPECT_EQ(resultSignalChangeCount, 0);
+    EXPECT_EQ(resultSignalUpdateCount,  0);
+    EXPECT_EQ(resultSignalChangeCount,  0);
 }
 
 TEST_F(LevelModelTestsClass, Reset_CurrentLevelShouldBe0AndSentTwoDifferentSignals_IsEqual)
@@ -86,10 +86,10 @@ TEST_F(LevelModelTestsClass, Reset_CurrentLevelShouldBe0AndSentTwoDifferentSigna
     QList<QVariant>    resultSignal2Change     = signalChange.takeFirst();
     EnemyConfiguration resultEnemyLevelConfig  = qvariant_cast<EnemyConfiguration>(resultSignal2Change.at(0));
 
-    EXPECT_EQ(resultCurrentLevel,               1);
-    EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalChangeCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 1);
+    EXPECT_EQ(resultCurrentLevel,                            1);
+    EXPECT_EQ(resultSignalUpdateCount,                       1);
+    EXPECT_EQ(resultSignalChangeCount,                       1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),              1);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType1, expectedEnemyLevelConfig.proportionOfEnemyType1);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType2, expectedEnemyLevelConfig.proportionOfEnemyType2);
     EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType3, expectedEnemyLevelConfig.proportionOfEnemyType3);

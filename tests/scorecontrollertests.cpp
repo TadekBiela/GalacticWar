@@ -72,7 +72,7 @@ TEST_F(ScoreControllerTestsClass, Update_CheckIfWillSendUpdateScoreSignal_IsEqua
     int resultSignalUpdateCount = signalUpdate.count();
     int resultScore             = signalUpdate.takeFirst().at(0).toInt();
 
-    EXPECT_EQ(resultSignalUpdateCount, 1);
+    EXPECT_EQ(resultSignalUpdateCount,   1);
     EXPECT_EQ(resultScore,             200);
     delete model;
     delete view;

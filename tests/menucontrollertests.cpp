@@ -78,7 +78,7 @@ TEST_F(MenuControllerTestsClass, UpdateScore_CheckIfBeSendignalToStopAllGameAndS
     int resultSignalPlayerDefCount     = signalPlayerDef.count();
     int resutlScoreFromPlayerDefSignal = signalPlayerDef.takeFirst().at(0).toInt();
 
-    EXPECT_EQ(resultSignalPlayerDefCount,     1);
+    EXPECT_EQ(resultSignalPlayerDefCount,       1);
     EXPECT_EQ(resutlScoreFromPlayerDefSignal, 240);
     delete model;
     delete fileMgr;

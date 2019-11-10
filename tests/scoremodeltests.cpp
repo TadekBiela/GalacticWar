@@ -58,7 +58,7 @@ TEST_F(ScoreModelTestsClass, Get_CheckIfSendUpdateSignalWithTotalScoreValue_IsEq
     int resultSignalUpdateCount = signalUpdate.count();
     int resultScore = signalUpdate.takeFirst().at(0).toInt();
 
-    EXPECT_EQ(resultSignalUpdateCount, 1);
+    EXPECT_EQ(resultSignalUpdateCount,   1);
     EXPECT_EQ(resultScore,             100);
 }
 
@@ -75,11 +75,11 @@ TEST_F(ScoreModelTestsClass, AddPoints_AddPointsLessThanFirstTresholdShouldOnlyE
     int  resultSignalUpdateCount  = signalUpdate.count();
     auto resultSignalUpdate       = signalUpdate.takeFirst();
 
-    EXPECT_EQ(resultCurrentTresholdIdx,         0);
+    EXPECT_EQ(resultCurrentTresholdIdx,           0);
     EXPECT_EQ(resultCurrentScore,               300);
     EXPECT_EQ(resultTotalScore,                 300);
-    EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 30);
+    EXPECT_EQ(resultSignalUpdateCount,            1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),  30);
 }
 
 TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanFirstTresholdShouldEmitTwoSignals_IsEqual)
@@ -97,12 +97,12 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanFirstTresholdShould
     auto resultSignalUpdate       = signalUpdate.takeFirst();
     int  resultSignalAchivedCount = signalAchieved.count();
 
-    EXPECT_EQ(resultCurrentTresholdIdx,         1);
-    EXPECT_EQ(resultCurrentScore,               300);
+    EXPECT_EQ(resultCurrentTresholdIdx,            1);
+    EXPECT_EQ(resultCurrentScore,                300);
     EXPECT_EQ(resultTotalScore,                 1300);
-    EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 10);
-    EXPECT_EQ(resultSignalAchivedCount,         1);
+    EXPECT_EQ(resultSignalUpdateCount,             1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),   10);
+    EXPECT_EQ(resultSignalAchivedCount,            1);
 }
 
 TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsEqualThanThirdTresholdShouldEmitTwoSignals_IsEqual)
@@ -123,12 +123,12 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsEqualThanThirdTresholdShoul
     auto resultSignalUpdate       = signalUpdate.takeFirst();
     int  resultSignalAchivedCount = signalAchieved.count();
 
-    EXPECT_EQ(resultCurrentTresholdIdx,         3);
-    EXPECT_EQ(resultCurrentScore,               0);
+    EXPECT_EQ(resultCurrentTresholdIdx,             3);
+    EXPECT_EQ(resultCurrentScore,                   0);
     EXPECT_EQ(resultTotalScore,                 11000);
-    EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 0);
-    EXPECT_EQ(resultSignalAchivedCount,         1);
+    EXPECT_EQ(resultSignalUpdateCount,              1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),     0);
+    EXPECT_EQ(resultSignalAchivedCount,             1);
 }
 
 TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanMaxTresholdShouldEmitOneSignal_IsEqual)
@@ -149,10 +149,10 @@ TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanMaxTresholdShouldEm
     auto resultSignalUpdate       = signalUpdate.takeFirst();
     int  resultSignalAchivedCount = signalAchieved.count();
 
-    EXPECT_EQ(resultCurrentTresholdIdx,         9);
+    EXPECT_EQ(resultCurrentTresholdIdx,              9);
     EXPECT_EQ(resultCurrentScore,               300400);
     EXPECT_EQ(resultTotalScore,                 500500);
-    EXPECT_EQ(resultSignalUpdateCount,          1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(), 100);
-    EXPECT_EQ(resultSignalAchivedCount,         0);
+    EXPECT_EQ(resultSignalUpdateCount,               1);
+    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),    100);
+    EXPECT_EQ(resultSignalAchivedCount,              0);
 }

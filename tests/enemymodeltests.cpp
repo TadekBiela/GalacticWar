@@ -53,32 +53,29 @@ class EnemyModelTestsClass : public testing::Test
 TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    int     resultLevel             = enemyModel.getLevel();
-    QPointF resultPosition          = enemyModel.getPosition();
-    int     resultHealth            = enemyModel.getHealth();
-    int     resultDamage            = enemyModel.getDamage();
-    int     resultDirection         = enemyModel.getDirection();
-    int     resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
-    bool    resultFireTimerIsActive = enemyModel.getMoveTimer().isActive();
-    bool    resultMoveTimerIsActive = enemyModel.getFireTimer().isActive();
-    bool    resultAnimTimerIsActive = enemyModel.getAnimationTimer().isActive();
-    int     resultMoveTime          = enemyModel.getMoveTimer().interval();
-    int     resultFireTime          = enemyModel.getFireTimer().interval();
-    int     resultAnimationTime     = enemyModel.getAnimationTimer().interval();
+    int           resultLevel             = enemyModel.getLevel();
+    QPointF       resultPosition          = enemyModel.getPosition();
+    int           resultHealth            = enemyModel.getHealth();
+    int           resultDamage            = enemyModel.getDamage();
+    int           resultDirection         = enemyModel.getDirection();
+    int           resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+    const QTimer& resultMoveTimer         = enemyModel.getMoveTimer();
+    const QTimer& resultFireTimer         = enemyModel.getFireTimer();
+    const QTimer& resultAnimTimer         = enemyModel.getAnimationTimer();
 
-    EXPECT_EQ(resultLevel,               1);
-    EXPECT_EQ(resultHealth,              30);
-    EXPECT_EQ(resultDamage,              15);
-    EXPECT_EQ(resultDirection,           0);
-    EXPECT_EQ(resultAnimationFrameIdx,   0);
-    EXPECT_EQ(resultMoveTimerIsActive,   false);
-    EXPECT_EQ(resultFireTimerIsActive,   false);
-    EXPECT_EQ(resultAnimTimerIsActive,   false);
-    EXPECT_NEAR(resultMoveTime,           20, 1);
-    EXPECT_NEAR(resultFireTime,           10, 1);
-    EXPECT_NEAR(resultAnimationTime,     100, 1);
-    EXPECT_FLOAT_EQ(resultPosition.x(),  -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(),  -23);
+    EXPECT_EQ(resultLevel,                        1);
+    EXPECT_EQ(resultHealth,                      30);
+    EXPECT_EQ(resultDamage,                      15);
+    EXPECT_EQ(resultDirection,                    0);
+    EXPECT_EQ(resultAnimationFrameIdx,            0);
+    EXPECT_EQ(resultMoveTimer.isActive(),       false);
+    EXPECT_EQ(resultFireTimer.isActive(),       false);
+    EXPECT_EQ(resultAnimTimer.isActive(),       false);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(),  20);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  10);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(), 100);
+    EXPECT_FLOAT_EQ(resultPosition.x(),         -28);
+    EXPECT_FLOAT_EQ(resultPosition.y(),         -23);
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)
@@ -98,9 +95,9 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
     int resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,          250);
-    EXPECT_EQ(resultSignalCount,     0);
-    EXPECT_EQ(startNumOfSceneItems,  2);
-    EXPECT_EQ(resultNumOfSceneItems, 1);
+    EXPECT_EQ(resultSignalCount,       0);
+    EXPECT_EQ(startNumOfSceneItems,    2);
+    EXPECT_EQ(resultNumOfSceneItems,   1);
     delete scene;
 }
 
@@ -175,9 +172,9 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithEnemyBulletEnemyDoNoth
     int resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,          300);
-    EXPECT_EQ(resultSignalCount,     0);
-    EXPECT_EQ(startNumOfSceneItems,  2);
-    EXPECT_EQ(resultNumOfSceneItems, 2);
+    EXPECT_EQ(resultSignalCount,       0);
+    EXPECT_EQ(startNumOfSceneItems,    2);
+    EXPECT_EQ(resultNumOfSceneItems,   2);
     delete scene;
 }
 
@@ -198,9 +195,9 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithCoinRewardEnemyDoNothi
     int resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,          300);
-    EXPECT_EQ(resultSignalCount,     0);
-    EXPECT_EQ(startNumOfSceneItems,  2);
-    EXPECT_EQ(resultNumOfSceneItems, 2);
+    EXPECT_EQ(resultSignalCount,       0);
+    EXPECT_EQ(startNumOfSceneItems,    2);
+    EXPECT_EQ(resultNumOfSceneItems,   2);
     delete scene;
 }
 
@@ -221,9 +218,9 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithSpecialRewardEnemyDoNo
     int resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,          300);
-    EXPECT_EQ(resultSignalCount,     0);
-    EXPECT_EQ(startNumOfSceneItems,  2);
-    EXPECT_EQ(resultNumOfSceneItems, 2);
+    EXPECT_EQ(resultSignalCount,       0);
+    EXPECT_EQ(startNumOfSceneItems,    2);
+    EXPECT_EQ(resultNumOfSceneItems,   2);
     delete scene;
 }
 
@@ -242,9 +239,9 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsLessThanHealth_IsEqual)
     int resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,          17);
-    EXPECT_EQ(resultSignalCount,     0);
-    EXPECT_EQ(startNumOfSceneItems,  1);
-    EXPECT_EQ(resultNumOfSceneItems, 1);
+    EXPECT_EQ(resultSignalCount,      0);
+    EXPECT_EQ(startNumOfSceneItems,   1);
+    EXPECT_EQ(resultNumOfSceneItems,  1);
     delete scene;
 }
 
@@ -311,9 +308,9 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
     int resultNumOfSceneItems = scene->items().size();
 
     EXPECT_EQ(resultHealth,          30);
-    EXPECT_EQ(resultSignalCount,     0);
-    EXPECT_EQ(startNumOfSceneItems,  1);
-    EXPECT_EQ(resultNumOfSceneItems, 1);
+    EXPECT_EQ(resultSignalCount,      0);
+    EXPECT_EQ(startNumOfSceneItems,   1);
+    EXPECT_EQ(resultNumOfSceneItems,  1);
     delete scene;
 }
 

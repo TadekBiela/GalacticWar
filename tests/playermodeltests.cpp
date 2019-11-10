@@ -63,11 +63,11 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerSho
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  1);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalHealthValue,  95);
-    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(startItemsOnScene,    2);
+    EXPECT_EQ(signalHealthCount,    1);
+    EXPECT_EQ(signalDefeatCount,    0);
+    EXPECT_EQ(signalHealthValue,   95);
+    EXPECT_EQ(resultItemsOnScene,   1);
     EXPECT_EQ(resultHealth,       950);
     delete scene;
 }
@@ -91,10 +91,10 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlaye
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  0);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(resultItemsOnScene, 2);
+    EXPECT_EQ(startItemsOnScene,     2);
+    EXPECT_EQ(signalHealthCount,     0);
+    EXPECT_EQ(signalDefeatCount,     0);
+    EXPECT_EQ(resultItemsOnScene,    2);
     EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
@@ -122,11 +122,11 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinRewardAndRe
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  0);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalCoinCount,    1);
-    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(startItemsOnScene,     2);
+    EXPECT_EQ(signalHealthCount,     0);
+    EXPECT_EQ(signalDefeatCount,     0);
+    EXPECT_EQ(signalCoinCount,       1);
+    EXPECT_EQ(resultItemsOnScene,    1);
     EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
@@ -154,11 +154,11 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialRewardAn
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  0);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalSpecialCount, 1);
-    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(startItemsOnScene,     2);
+    EXPECT_EQ(signalHealthCount,     0);
+    EXPECT_EQ(signalDefeatCount,     0);
+    EXPECT_EQ(signalSpecialCount,    1);
+    EXPECT_EQ(resultItemsOnScene,    1);
     EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
@@ -185,11 +185,11 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1Playe
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,  2);
-    EXPECT_EQ(signalHealthCount,  1);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalHealthValue,  90);
-    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(startItemsOnScene,    2);
+    EXPECT_EQ(signalHealthCount,    1);
+    EXPECT_EQ(signalDefeatCount,    0);
+    EXPECT_EQ(signalHealthValue,   90);
+    EXPECT_EQ(resultItemsOnScene,   1);
     EXPECT_EQ(resultHealth,       900);
     delete generator;
     delete scene;
@@ -262,11 +262,11 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,  5);
-    EXPECT_EQ(signalHealthCount,  1);
-    EXPECT_EQ(signalDefeatCount,  0);
-    EXPECT_EQ(signalHealthValue,  85);
-    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(startItemsOnScene,    5);
+    EXPECT_EQ(signalHealthCount,    1);
+    EXPECT_EQ(signalDefeatCount,    0);
+    EXPECT_EQ(signalHealthValue,   85);
+    EXPECT_EQ(resultItemsOnScene,   1);
     EXPECT_EQ(resultHealth,       850);
     delete generator;
     delete scene;
@@ -375,9 +375,8 @@ TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfigurat
     playerModel.startFire();
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
-    EXPECT_EQ(resultFireTimer.isActive(),        true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  defaultWeapon.fireTimeDelay);
-    EXPECT_NEAR(resultFireTimer.remainingTime(), defaultWeapon.fireTimeDelay, 1);
+    EXPECT_EQ(resultFireTimer.isActive(),       true);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), defaultWeapon.fireTimeDelay);
 }
 
 TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
@@ -388,9 +387,8 @@ TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
     playerModel.stopFire();
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
-    EXPECT_EQ(resultFireTimer.isActive(),            false);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),      defaultWeapon.fireTimeDelay);
-    EXPECT_FLOAT_EQ(resultFireTimer.remainingTime(), -1);
+    EXPECT_EQ(resultFireTimer.isActive(),       false);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), defaultWeapon.fireTimeDelay);
 }
 
 TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthShouldIncrease_IsEqual)
@@ -406,8 +404,8 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     auto resultSignalChange      = signalChange.takeFirst();
 
     EXPECT_EQ(resultHealth,                     600);
-    EXPECT_EQ(resultSignalChangeCount,          1);
-    EXPECT_EQ(resultSignalChange.at(0).toInt(), 60);
+    EXPECT_EQ(resultSignalChangeCount,            1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(),  60);
 }
 
 TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsMax_IsEqual)
@@ -422,8 +420,8 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     auto resultSignalChange      = signalChange.takeFirst();
 
     EXPECT_EQ(resultHealth,                     1000);
-    EXPECT_EQ(resultSignalChangeCount,          1);
-    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
+    EXPECT_EQ(resultSignalChangeCount,             1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(),  100);
 }
 
 TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsNearMaxAndShouldBeMax_IsEqual)
@@ -439,8 +437,8 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     auto resultSignalChange      = signalChange.takeFirst();
 
     EXPECT_EQ(resultHealth,                     1000);
-    EXPECT_EQ(resultSignalChangeCount,          1);
-    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
+    EXPECT_EQ(resultSignalChangeCount,             1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(),  100);
 }
 
 TEST_F(PlayerModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)

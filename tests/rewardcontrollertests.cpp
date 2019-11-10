@@ -41,7 +41,7 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1OnlyOneBronzeCoinShouldBeSp
     int  resultSignalCoinCount = signalReward.count();
     auto resultCoinReward      = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(0)));
 
-    EXPECT_EQ(resultSignalCoinCount,             1);
+    EXPECT_EQ(resultSignalCoinCount,              1);
     EXPECT_FLOAT_EQ(resultCoinReward->pos().x(), 40);
     EXPECT_FLOAT_EQ(resultCoinReward->pos().y(), 25);
     EXPECT_EQ(resultCoinReward->getType(),       coin_type::bronze);
@@ -68,7 +68,7 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier2CoinsOneBronzeAndOneSilverS
     auto resultCoinReward1  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(0).at(0)));
     auto resultCoinReward2  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(1).at(0)));
 
-    EXPECT_EQ(resultSignalsCount,                 2);
+    EXPECT_EQ(resultSignalsCount,                  2);
     EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(), 30);
     EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 35);
     EXPECT_EQ(resultCoinReward1->getType(),       coin_type::bronze);
@@ -103,7 +103,7 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3AllTypesCoinsAndSpecialRewa
     auto resultCoinReward3   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(2).at(0)));
     auto resultSpecialReward = dynamic_cast<RewardSpecialModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(3).at(0)));
 
-    EXPECT_EQ(resultSignalsCount,                   4);
+    EXPECT_EQ(resultSignalsCount,                    4);
     EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(),   40);
     EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(),   40);
     EXPECT_EQ(resultCoinReward1->getType(),         coin_type::bronze);

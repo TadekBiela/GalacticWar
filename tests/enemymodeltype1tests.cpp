@@ -37,32 +37,29 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     randomGenerator->setRandomGeneratorFakeResult(0);
 
     EnemyModelType1Test enemyModel(QPointF(2, 7), randomGenerator);
-    int     resultLevel             = enemyModel.getLevel();
-    QPointF resultPosition          = enemyModel.getPosition();
-    int     resultHealth            = enemyModel.getHealth();
-    int     resultDamage            = enemyModel.getDamage();
-    int     resultDirection         = enemyModel.getDirection();
-    int     resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
-    bool    resultFireTimerIsActive = enemyModel.getMoveTimer().isActive();
-    bool    resultMoveTimerIsActive = enemyModel.getFireTimer().isActive();
-    bool    resultAnimTimerIsActive = enemyModel.getAnimationTimer().isActive();
-    int     resultMoveTime          = enemyModel.getMoveTimer().interval();
-    int     resultFireTime          = enemyModel.getFireTimer().interval();
-    int     resultAnimationTime     = enemyModel.getAnimationTimer().interval();
+    int           resultLevel             = enemyModel.getLevel();
+    QPointF       resultPosition          = enemyModel.getPosition();
+    int           resultHealth            = enemyModel.getHealth();
+    int           resultDamage            = enemyModel.getDamage();
+    int           resultDirection         = enemyModel.getDirection();
+    int           resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+    const QTimer& resultMoveTimer         = enemyModel.getMoveTimer();
+    const QTimer& resultFireTimer         = enemyModel.getFireTimer();
+    const QTimer& resultAnimTimer         = enemyModel.getAnimationTimer();
 
-    EXPECT_EQ(resultLevel,              1);
-    EXPECT_EQ(resultHealth,             2);
-    EXPECT_EQ(resultDamage,             10);
-    EXPECT_EQ(resultDirection,          180);
-    EXPECT_EQ(resultAnimationFrameIdx,  0);
-    EXPECT_EQ(resultMoveTimerIsActive,  false);
-    EXPECT_EQ(resultFireTimerIsActive,  false);
-    EXPECT_EQ(resultAnimTimerIsActive,  false);
-    EXPECT_NEAR(resultMoveTime,           80, 1);
-    EXPECT_NEAR(resultFireTime,         1000, 1);
-    EXPECT_NEAR(resultAnimationTime,     100, 1);
-    EXPECT_FLOAT_EQ(resultPosition.x(),  -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(),  -23);
+    EXPECT_EQ(resultLevel,                         1);
+    EXPECT_EQ(resultHealth,                        2);
+    EXPECT_EQ(resultDamage,                       10);
+    EXPECT_EQ(resultDirection,                   180);
+    EXPECT_EQ(resultAnimationFrameIdx,             0);
+    EXPECT_EQ(resultMoveTimer.isActive(),       false);
+    EXPECT_EQ(resultFireTimer.isActive(),       false);
+    EXPECT_EQ(resultAnimTimer.isActive(),       false);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(),   80);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), 1000);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),  100);
+    EXPECT_FLOAT_EQ(resultPosition.x(),          -28);
+    EXPECT_FLOAT_EQ(resultPosition.y(),          -23);
     delete randomGenerator;
 }
 
@@ -127,13 +124,13 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     EnemyModelType1Test*  resultEnemyModel  = dynamic_cast<EnemyModelType1Test*>(sceneItems[1]);
     BulletModel*          resultBulletModel = dynamic_cast<BulletModel*>(sceneItems[0]);
 
-    EXPECT_EQ(resultEnemyModel->getLevel(),       1);
+    EXPECT_EQ(resultEnemyModel->getLevel(),         1);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -28);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -23);
     EXPECT_EQ(resultBulletModel->getType(),       bullet_type::enemyBullet);
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), 0);
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 27);
-    EXPECT_EQ(resultBulletModel->getDamage(),     10);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(),   0);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(),  27);
+    EXPECT_EQ(resultBulletModel->getDamage(),      10);
     delete enemyModel;
     delete randomGenerator;
 }

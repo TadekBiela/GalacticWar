@@ -35,17 +35,13 @@ TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEq
     RewardModelTest rewardModel;
     int           resultAnimFrameIdx = rewardModel.getAnimationFrameIdx();
     const QTimer& resultAnimTimer    = rewardModel.getAnimationTimer();
-    int           resultAnimTime     = resultAnimTimer.remainingTime();
     const QTimer& resultDestroyTimer = rewardModel.getDestroyTimer();
-    int           resultDestroyTime  = resultDestroyTimer.remainingTime();
 
     EXPECT_EQ(resultAnimFrameIdx,                  0);
     EXPECT_EQ(resultAnimTimer.isActive(),          true);
     EXPECT_EQ(resultDestroyTimer.isActive(),       true);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), def::defaultRewardDestroyTimeDelay);
-    EXPECT_NEAR(resultAnimTime,                    def::animationFrameDuration, 1);
-    EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
 }
 
 TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)

@@ -33,9 +33,7 @@ TEST_F(RewardCoinModelTestsClass, RewardCoinModelConstructor_CheckBuildModelCorr
     coin_type     resultType         = rewardCoinModel.getType();
     int           resultAnimFrameIdx = rewardCoinModel.getAnimationFrameIdx();
     const QTimer& resultAnimTimer    = rewardCoinModel.getAnimationTimer();
-    int           resultAnimTime     = resultAnimTimer.remainingTime();
     const QTimer& resultDestroyTimer = rewardCoinModel.getDestroyTimer();
-    int           resultDestroyTime  = resultDestroyTimer.remainingTime();
 
     EXPECT_EQ(resultType,                          coin_type::bronze);
     EXPECT_EQ(resultAnimFrameIdx,                  0);
@@ -43,8 +41,6 @@ TEST_F(RewardCoinModelTestsClass, RewardCoinModelConstructor_CheckBuildModelCorr
     EXPECT_EQ(resultDestroyTimer.isActive(),       true);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), def::defaultRewardDestroyTimeDelay);
-    EXPECT_NEAR(resultAnimTime,                    def::animationFrameDuration, 1);
-    EXPECT_NEAR(resultDestroyTime,                 def::defaultRewardDestroyTimeDelay, 1);
 }
 
 TEST_F(RewardCoinModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType_IsEqual)
