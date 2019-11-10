@@ -5,6 +5,8 @@
 #include <QGraphicsPixmapItem>
 #include <QPointF>
 #include <QTimer>
+#include <QImage>
+#include <QPixmap>
 
 class EnemyModel : public QObject, public QGraphicsPixmapItem
 {
@@ -30,9 +32,12 @@ public slots:
     virtual void stop();
     virtual void fire() = 0;
     virtual void move() = 0;
-    virtual void animation() = 0;
+    virtual void animation();
 
 protected:
+    QPixmap getAnimationFrame();
+
+    QImage m_image;
     int    m_level;
     int    m_health;
     int    m_damage;

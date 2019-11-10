@@ -22,7 +22,13 @@ public:
                                  health,
                                  damage,
                                  moveTimeDelay,
-                                 fireTimeDelay){}
+                                 fireTimeDelay)
+    {
+        //Simple graphic needed to tests
+        QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
+        map.fill(Qt::red);
+        setPixmap(map);
+    }
     virtual ~EnemyModelTest() {}
 
     int           getLevel()             const { return m_level; }
@@ -38,7 +44,6 @@ public:
 public slots: //dummy implementation - slots not tested in this class
     void fire(){}
     void move(){}
-    void animation(){}
 };
 
 class EnemyModelTestsClass : public testing::Test
@@ -310,4 +315,30 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
     EXPECT_EQ(startNumOfSceneItems,  1);
     EXPECT_EQ(resultNumOfSceneItems, 1);
     delete scene;
+}
+
+TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+
+    enemyModel.animation();
+    int resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimationFrameIdx, 1);
+}
+
+TEST_F(EnemyModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+
+    enemyModel.animation();
+    enemyModel.animation();
+    enemyModel.animation();
+    int resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+    enemyModel.animation();
+    enemyModel.animation();
+    int resultAnimationFrameIdxReset = enemyModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(resultAnimationFrameIdx,      3);
+    EXPECT_EQ(resultAnimationFrameIdxReset, 0);
 }

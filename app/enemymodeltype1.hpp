@@ -16,7 +16,6 @@ public:
 public slots:
     void fire();
     void move();
-    void animation();
 };
 
 #endif // ENEMYMODELTYPE1_HPP

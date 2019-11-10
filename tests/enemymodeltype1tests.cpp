@@ -209,35 +209,3 @@ TEST_F(EnemyModelType1TestClass, Move_PositionIsOnRightSideOfSceneCheckIfEnemyMo
     delete enemyModel;
     delete randomGenerator;
 }
-
-TEST_F(EnemyModelType1TestClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
-{
-    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
-
-    enemyModel->animation();
-    int resultAnimationFrameIdx = enemyModel->getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimationFrameIdx, 1);
-    delete enemyModel;
-    delete randomGenerator;
-}
-
-TEST_F(EnemyModelType1TestClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
-{
-    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-    EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
-
-    enemyModel->animation();
-    enemyModel->animation();
-    enemyModel->animation();
-    int resultAnimationFrameIdx = enemyModel->getAnimationFrameIdx();
-    enemyModel->animation();
-    enemyModel->animation();
-    int resultAnimationFrameIdxReset = enemyModel->getAnimationFrameIdx();
-
-    EXPECT_EQ(resultAnimationFrameIdx,      3);
-    EXPECT_EQ(resultAnimationFrameIdxReset, 0);
-    delete enemyModel;
-    delete randomGenerator;
-}

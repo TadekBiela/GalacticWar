@@ -16,10 +16,6 @@ EnemyModel::EnemyModel(int     level,
                           m_direction(0),
                           m_animationFrameIdx(0)
 {
-    //temporary simple graphic
-    QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
-    map.fill(Qt::red);
-    setPixmap(map);
     setTransformOriginPoint(def::animationFrameWight  / 2,
                             def::animationFrameHeight / 2);
 
@@ -38,6 +34,16 @@ EnemyModel::EnemyModel(int     level,
 EnemyModel::~EnemyModel()
 {
 
+}
+
+QPixmap EnemyModel::getAnimationFrame()
+{
+    QPixmap map;
+    map.convertFromImage(m_image.copy(m_animationFrameIdx * def::animationFrameWight,
+                                      0,
+                                      def::animationFrameWight,
+                                      def::animationFrameHeight));
+    return map;
 }
 
 void EnemyModel::checkCollisions()
@@ -95,4 +101,14 @@ void EnemyModel::stop()
     m_moveTimer.stop();
     m_fireTimer.stop();
     m_animationTimer.stop();
+}
+
+void EnemyModel::animation()
+{
+    if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
+    {
+        m_animationFrameIdx = 0;
+    }
+
+    setPixmap(getAnimationFrame());
 }
