@@ -153,10 +153,12 @@ void PlayerModel::fire()
     QPointF position = QGraphicsItem::pos();
     position.setX(position.x() + def::animationFrameWight / 2);
     m_weapon.fireFuncPtr(QGraphicsItem::scene(), position, m_weapon.damage);
+    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 }
 
 void PlayerModel::startFire()
 {
+    m_fireTimer.setInterval(100);
     m_fireTimer.start();
 }
 

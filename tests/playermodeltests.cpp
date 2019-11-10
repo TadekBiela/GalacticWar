@@ -376,7 +376,7 @@ TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfigurat
     const QTimer& resultFireTimer = playerModel.getFireTimer();
 
     EXPECT_EQ(resultFireTimer.isActive(),       true);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(), defaultWeapon.fireTimeDelay);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), 100);
 }
 
 TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
