@@ -15,8 +15,8 @@ public:
                                          model) {}
     virtual ~MenuControllerTest() {}
 
-    bool getIsGamePaused() const { return m_isGamePause; }
-    void setIsGamePaused(bool value) { m_isGamePause = value; }
+    bool getIsGamePaused() const { return m_isGamePaused; }
+    void setIsGamePaused(bool value) { m_isGamePaused = value; }
 };
 
 class MenuControllerTestsClass : public testing::Test

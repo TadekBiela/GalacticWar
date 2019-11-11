@@ -39,6 +39,7 @@ public:
     const QPushButton&    getBackToMenuButton()        { return m_backToMenuButton; }
     const QPushButton&    getBackToMenuButton2()       { return m_backToMenuButton2; }
     const QPushButton&    getSaveAfterGameOverButton() { return m_saveAfterGameOver; }
+    const QPushButton&    getContinueButton()          { return m_continueButton; }
     const QListWidget&    getHighScoreList()           { return m_highScoreList; }
     const QLabel&         getHealthGraphics()          { return m_healthGraphics; }
     const QProgressBar&   getHealthBar()               { return m_healthBar; }
@@ -73,6 +74,7 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QPushButton&  resultContinueButton          = generalView.getContinueButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
@@ -93,6 +95,7 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
+    EXPECT_EQ(resultContinueButton.isVisible(),          false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
@@ -122,6 +125,7 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QPushButton&  resultContinueButton          = generalView.getContinueButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
@@ -143,6 +147,7 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
+    EXPECT_EQ(resultContinueButton.isVisible(),          false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          true);
     EXPECT_EQ(resultHealthBar.isVisible(),               true);
@@ -171,6 +176,7 @@ TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QPushButton&  resultContinueButton          = generalView.getContinueButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
@@ -189,8 +195,9 @@ TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreButton.isVisible(),         false);
     EXPECT_EQ(resultQuitButton.isVisible(),              false);
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
-    EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
+    EXPECT_EQ(resultBackToMenuButton2.isVisible(),       true);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
+    EXPECT_EQ(resultContinueButton.isVisible(),          true);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
@@ -198,6 +205,55 @@ TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
+}
+
+TEST_F(GeneralViewTestsClass, ContinueGame_CheckCorrectVisibleUI_IsEqual)
+{
+    GeneralViewTests generalView;
+    generalView.show();
+
+    generalView.continueGame();
+    const GraphicsView& resultView                    = generalView.getView();
+    const QLabel&       resultTitle                   = generalView.getTitle();
+    const QLabel&       resultAuthor                  = generalView.getAuthor();
+    const QLabel&       resultPause                   = generalView.getPause();
+    const QLineEdit&    resultPlayer                  = generalView.getPlayer();
+    const QLabel&       resultScore                   = generalView.getScore();
+    const QPushButton&  resultStartButton             = generalView.getStartButton();
+    const QPushButton&  resultHighScoreButton         = generalView.getHighScoreButton();
+    const QPushButton&  resultQuitButton              = generalView.getQuitButton();
+    const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
+    const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
+    const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QPushButton&  resultContinueButton          = generalView.getContinueButton();
+    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
+    const QProgressBar& resultHealthBar               = generalView.getHealthBar();
+    const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
+    const QLabel&       resultLevelText               = generalView.getLevelText();
+    const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
+    const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+
+    EXPECT_EQ(resultView.isVisible(),                    true);
+    EXPECT_EQ(resultTitle.isVisible(),                   false);
+    EXPECT_EQ(resultAuthor.isVisible(),                  false);
+    EXPECT_EQ(resultPause.isVisible(),                   false);
+    EXPECT_EQ(resultPlayer.isVisible(),                  false);
+    EXPECT_EQ(resultScore.isVisible(),                   false);
+    EXPECT_EQ(resultStartButton.isVisible(),             false);
+    EXPECT_EQ(resultHighScoreButton.isVisible(),         false);
+    EXPECT_EQ(resultQuitButton.isVisible(),              false);
+    EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
+    EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
+    EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
+    EXPECT_EQ(resultContinueButton.isVisible(),          false);
+    EXPECT_EQ(resultHighScoreList.isVisible(),           false);
+    EXPECT_EQ(resultHealthGraphics.isVisible(),          true);
+    EXPECT_EQ(resultHealthBar.isVisible(),               true);
+    EXPECT_EQ(resultLevelGraphics.isVisible(),           true);
+    EXPECT_EQ(resultLevelText.isVisible(),               true);
+    EXPECT_EQ(resultScoreGraphics.isVisible(),           true);
+    EXPECT_EQ(resultScoreBar.isVisible(),                true);
 }
 
 TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
@@ -218,6 +274,7 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
+    const QPushButton&  resultContinueButton          = generalView.getContinueButton();
     const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
@@ -239,6 +296,7 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
     EXPECT_EQ(resultBackToMenuButton2.isVisible(),       true);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), true);
+    EXPECT_EQ(resultContinueButton.isVisible(),          false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
     EXPECT_EQ(resultHealthGraphics.isVisible(),          false);
     EXPECT_EQ(resultHealthBar.isVisible(),               false);
@@ -452,6 +510,18 @@ TEST_F(GeneralViewTestsClass, KeyPressEvent_OtherKeyPressedShouldDoNothing_IsEqu
     int resultSignalEscCount = signalEsc.count();
 
     EXPECT_EQ(resultSignalEscCount, 0);
+}
+
+TEST_F(GeneralViewTestsClass, ContinueButtonClicked_CheckIfSignalEscPressedWillBeSend_IsEqual)
+{
+    GeneralViewTests generalView;
+    QSignalSpy       signalEsc(&generalView, &GeneralViewTests::escPressed);
+    signalEsc.wait(utdef::minSignalTimeDelay);
+
+    generalView.continueButtonClicked();
+    int resultSignalEscCount = signalEsc.count();
+
+    EXPECT_EQ(resultSignalEscCount, 1);
 }
 
 TEST_F(GeneralViewTestsClass, SavePlayerScore_CheckIfSignalWillBeSendWithCorrectPlayerScore_IsEqual)

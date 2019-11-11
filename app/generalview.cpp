@@ -16,6 +16,7 @@ GeneralView::GeneralView()
                            m_backToMenuButton("BACK", this),
                            m_backToMenuButton2("BACK", this),
                            m_saveAfterGameOver("SAVE", this),
+                           m_continueButton("CONTINUE", this),
                            m_highScoreList(this),
                            m_healthGraphics(this),
                            m_healthBar(this),
@@ -69,6 +70,10 @@ GeneralView::GeneralView()
                         def::sceneHeight / 3,
                         400,
                         100);
+    m_continueButton.setGeometry(buttonOffsetX - 125,
+                                 m_highScoreList.pos().y() + m_highScoreList.size().height() + 30,
+                                 defaultButtonWight,
+                                 defaultButtonHeight);
 
     //Gameover setup
     m_score.setFont(bigFont);
@@ -141,6 +146,7 @@ GeneralView::GeneralView()
     connect(&m_backToMenuButton,  SIGNAL(clicked()), this, SLOT(menu()));
     connect(&m_backToMenuButton2, SIGNAL(clicked()), this, SLOT(menu()));
     connect(&m_saveAfterGameOver, SIGNAL(clicked()), this, SLOT(savePlayerScore()));
+    connect(&m_continueButton,    SIGNAL(clicked()), this, SLOT(continueButtonClicked()));
     connect(&m_view, SIGNAL(mousePressed(QMouseEvent*)),  this, SLOT(mousePressEvent(QMouseEvent*)));
     connect(&m_view, SIGNAL(mouseReleased(QMouseEvent*)), this, SLOT(mouseReleaseEvent(QMouseEvent*)));
     connect(&m_view, SIGNAL(mouseMoved(QMouseEvent*)),    this, SLOT(mouseMoveEvent(QMouseEvent*)));
@@ -165,6 +171,7 @@ void GeneralView::menu()
     m_backToMenuButton.setVisible(false);
     m_backToMenuButton2.setVisible(false);
     m_saveAfterGameOver.setVisible(false);
+    m_continueButton.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(false);
     m_healthGraphics.setVisible(false);
@@ -188,6 +195,7 @@ void GeneralView::start()
     m_backToMenuButton.setVisible(false);
     m_backToMenuButton2.setVisible(false);
     m_saveAfterGameOver.setVisible(false);
+    m_continueButton.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(true);
     m_healthGraphics.setVisible(true);
@@ -211,8 +219,9 @@ void GeneralView::pauseGame()
     m_highScoreButton.setVisible(false);
     m_quitButton.setVisible(false);
     m_backToMenuButton.setVisible(false);
-    m_backToMenuButton2.setVisible(false);
+    m_backToMenuButton2.setVisible(true);
     m_saveAfterGameOver.setVisible(false);
+    m_continueButton.setVisible(true);
     m_highScoreList.setVisible(false);
     m_view.setVisible(true);
     m_healthGraphics.setVisible(false);
@@ -227,7 +236,7 @@ void GeneralView::continueGame()
 {
     m_title.setVisible(false);
     m_author.setVisible(false);
-    m_pause.setVisible(true);
+    m_pause.setVisible(false);
     m_player.setVisible(false);
     m_score.setVisible(false);
     m_startButton.setVisible(false);
@@ -236,14 +245,15 @@ void GeneralView::continueGame()
     m_backToMenuButton.setVisible(false);
     m_backToMenuButton2.setVisible(false);
     m_saveAfterGameOver.setVisible(false);
+    m_continueButton.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(true);
-    m_healthGraphics.setVisible(false);
-    m_healthBar.setVisible(false);
-    m_levelGraphics.setVisible(false);
-    m_levelText.setVisible(false);
-    m_scoreGraphics.setVisible(false);
-    m_scoreBar.setVisible(false);
+    m_healthGraphics.setVisible(true);
+    m_healthBar.setVisible(true);
+    m_levelGraphics.setVisible(true);
+    m_levelText.setVisible(true);
+    m_scoreGraphics.setVisible(true);
+    m_scoreBar.setVisible(true);
 }
 
 void GeneralView::gameOver(int score)
@@ -262,6 +272,7 @@ void GeneralView::gameOver(int score)
     m_backToMenuButton.setVisible(false);
     m_backToMenuButton2.setVisible(true);
     m_saveAfterGameOver.setVisible(true);
+    m_continueButton.setVisible(false);
     m_highScoreList.setVisible(false);
     m_view.setVisible(false);
     m_healthGraphics.setVisible(false);
@@ -285,6 +296,7 @@ void GeneralView::highScore()
     m_backToMenuButton.setVisible(true);
     m_backToMenuButton2.setVisible(false);
     m_saveAfterGameOver.setVisible(false);
+    m_continueButton.setVisible(false);
     m_highScoreList.setVisible(true);
     m_view.setVisible(false);
     m_healthGraphics.setVisible(false);
@@ -321,6 +333,11 @@ void GeneralView::keyPressEvent(QKeyEvent* event)
     {
         emit escPressed();
     }
+}
+
+void GeneralView::continueButtonClicked()
+{
+    emit escPressed();
 }
 
 void GeneralView::savePlayerScore()

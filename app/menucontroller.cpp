@@ -2,7 +2,7 @@
 
 MenuController::MenuController(GeneralView* view,
                                MenuModel*   model)
-                                : m_isGamePause(false)
+                                : m_isGamePaused(false)
 {
     connect(view,  SIGNAL(save(PlayerScore)),
             model, SLOT(addRecordToHighScore(PlayerScore)));

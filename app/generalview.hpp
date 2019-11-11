@@ -43,6 +43,7 @@ public slots:
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void keyPressEvent(QKeyEvent* event);
+    void continueButtonClicked();
     void savePlayerScore();
     void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
 
@@ -68,8 +69,9 @@ protected:
     QPushButton m_highScoreButton;   // Menu
     QPushButton m_quitButton;        // Menu
     QPushButton m_backToMenuButton;  // HighScore
-    QPushButton m_backToMenuButton2; // GameOver
+    QPushButton m_backToMenuButton2; // GameOver & Pause
     QPushButton m_saveAfterGameOver; // GameOver
+    QPushButton m_continueButton;    // Pause
     QListWidget m_highScoreList;     // HighScore
 
     //HealthView section
