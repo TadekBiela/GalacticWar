@@ -14,6 +14,7 @@
 #include <QMouseEvent>
 #include <QPointF>
 #include <QProgressBar>
+#include <QKeyEvent>
 
 class GeneralView : public QMainWindow
 {
@@ -24,10 +25,10 @@ public:
 
 signals:
     void startGame();
-    void pauseGame();
     void mousePressed();
     void mouseReleased();
     void mouseMoved(QPointF newPosition);
+    void escPressed();
     void save(PlayerScore newPlayerScore);
 
 public slots:
@@ -40,6 +41,7 @@ public slots:
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
+    void keyPressEvent(QKeyEvent* event);
     void savePlayerScore();
     void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
 

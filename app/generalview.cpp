@@ -221,8 +221,6 @@ void GeneralView::pause()
     m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
-
-    emit pauseGame();
 }
 
 void GeneralView::gameOver(int score)
@@ -292,6 +290,14 @@ void GeneralView::mouseReleaseEvent(QMouseEvent* event)
 void GeneralView::mouseMoveEvent(QMouseEvent* event)
 {
     emit mouseMoved(event->localPos());
+}
+
+void GeneralView::keyPressEvent(QKeyEvent* event)
+{
+    if(event->key() == Qt::Key_Escape)
+    {
+        emit escPressed();
+    }
 }
 
 void GeneralView::savePlayerScore()

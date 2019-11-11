@@ -16,6 +16,7 @@
 #include <QSignalSpy>
 #include <QString>
 #include <QProgressBar>
+#include <QKeyEvent>
 
 Q_DECLARE_METATYPE(PlayerScore)
 
@@ -156,8 +157,6 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
 {
     GeneralViewTests generalView;
     generalView.show();
-    QSignalSpy       signalPause(&generalView, &GeneralViewTests::pauseGame);
-    signalPause.wait(utdef::minSignalTimeDelay);
 
     generalView.pause();
     const GraphicsView& resultView                    = generalView.getView();
@@ -179,7 +178,6 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
-    int                 resultSignalPauseCount        = signalPause.count();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
@@ -200,7 +198,6 @@ TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
-    EXPECT_EQ(resultSignalPauseCount,                    1);
 }
 
 TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
@@ -429,6 +426,32 @@ TEST_F(GeneralViewTestsClass, MouseMoveEvent_CheckIfSignalWillBeSend_IsEqual)
     EXPECT_EQ(resultSignalMovedCount,   1);
     EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
     EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
+}
+
+TEST_F(GeneralViewTestsClass, KeyPressEvent_EscKeyPressedCheckIfPauseWillBeOn_IsEqual)
+{
+    QKeyEvent        event(QEvent::KeyPress, Qt::Key_Escape, Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalEsc(&generalView, &GeneralViewTests::escPressed);
+    signalEsc.wait(utdef::minSignalTimeDelay);
+
+    generalView.keyPressEvent(&event);
+    int resultSignalEscCount = signalEsc.count();
+
+    EXPECT_EQ(resultSignalEscCount, 1);
+}
+
+TEST_F(GeneralViewTestsClass, KeyPressEvent_OtherKeyPressedShouldDoNothing_IsEqual)
+{
+    QKeyEvent        event(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalEsc(&generalView, &GeneralViewTests::escPressed);
+    signalEsc.wait(utdef::minSignalTimeDelay);
+
+    generalView.keyPressEvent(&event);
+    int resultSignalEscCount = signalEsc.count();
+
+    EXPECT_EQ(resultSignalEscCount, 0);
 }
 
 TEST_F(GeneralViewTestsClass, SavePlayerScore_CheckIfSignalWillBeSendWithCorrectPlayerScore_IsEqual)
