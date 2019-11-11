@@ -200,7 +200,30 @@ void GeneralView::start()
     emit startGame();
 }
 
-void GeneralView::pause()
+void GeneralView::pauseGame()
+{
+    m_title.setVisible(false);
+    m_author.setVisible(false);
+    m_pause.setVisible(true);
+    m_player.setVisible(false);
+    m_score.setVisible(false);
+    m_startButton.setVisible(false);
+    m_highScoreButton.setVisible(false);
+    m_quitButton.setVisible(false);
+    m_backToMenuButton.setVisible(false);
+    m_backToMenuButton2.setVisible(false);
+    m_saveAfterGameOver.setVisible(false);
+    m_highScoreList.setVisible(false);
+    m_view.setVisible(true);
+    m_healthGraphics.setVisible(false);
+    m_healthBar.setVisible(false);
+    m_levelGraphics.setVisible(false);
+    m_levelText.setVisible(false);
+    m_scoreGraphics.setVisible(false);
+    m_scoreBar.setVisible(false);
+}
+
+void GeneralView::continueGame()
 {
     m_title.setVisible(false);
     m_author.setVisible(false);

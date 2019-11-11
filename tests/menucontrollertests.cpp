@@ -14,6 +14,9 @@ public:
                         : MenuController(view,
                                          model) {}
     virtual ~MenuControllerTest() {}
+
+    bool getIsGamePaused() const { return m_isGamePause; }
+    void setIsGamePaused(bool value) { m_isGamePause = value; }
 };
 
 class MenuControllerTestsClass : public testing::Test
@@ -47,19 +50,50 @@ TEST_F(MenuControllerTestsClass, StartGame_CheckIfWillBeSendSignalToActivateEnem
     delete view;
 }
 
-TEST_F(MenuControllerTestsClass, StopGame_CheckIfWillBeSendSignalToDeactivateEnemies_IsEqual)
+TEST_F(MenuControllerTestsClass, EscPressed_EscapePressedOneOnGameShouldPauseAllGameElementsBySendSignals_IsEqual)
 {
     FileManagerStub*   fileMgr = new FileManagerStub;
     MenuModel*         model   = new MenuModel(fileMgr);
     GeneralView*       view    = new GeneralView;
     MenuControllerTest menuController(view, model);
-    QSignalSpy signalDeactEnemySpawn(&menuController, &MenuControllerTest::deactivateEnemySpawning);
-    signalDeactEnemySpawn.wait(utdef::minSignalTimeDelay);
+    QSignalSpy signalPause(&menuController, &MenuControllerTest::pauseGame);
+    QSignalSpy signalDeactivate(&menuController, &MenuControllerTest::deactivateEnemySpawning);
+    signalPause.wait(utdef::minSignalTimeDelay);
+    bool defaultIsGamePaused = menuController.getIsGamePaused();
 
-    menuController.stopGame();
-    int resultSignalDeactEnemySpawnCount = signalDeactEnemySpawn.count();
+    menuController.escPressed();
+    bool reslutIsGamePaused          = menuController.getIsGamePaused();
+    int  resultSignalPauseCount      = signalPause.count();
+    int  resultSignalDeactivateCount = signalDeactivate.count();
 
-    EXPECT_EQ(resultSignalDeactEnemySpawnCount, 1);
+    EXPECT_FALSE(defaultIsGamePaused);
+    EXPECT_TRUE(reslutIsGamePaused);
+    EXPECT_EQ(resultSignalPauseCount,      1);
+    EXPECT_EQ(resultSignalDeactivateCount, 1);
+    delete model;
+    delete fileMgr;
+    delete view;
+}
+
+TEST_F(MenuControllerTestsClass, EscPressed_EscapePressedOneOnPauseShouldContinueAllGameElementsBySendSignals_IsEqual)
+{
+    FileManagerStub*   fileMgr = new FileManagerStub;
+    MenuModel*         model   = new MenuModel(fileMgr);
+    GeneralView*       view    = new GeneralView;
+    MenuControllerTest menuController(view, model);
+    QSignalSpy signalContinue(&menuController, &MenuControllerTest::continueGame);
+    QSignalSpy signalActivate(&menuController, &MenuControllerTest::activateEnemySpawning);
+    signalContinue.wait(utdef::minSignalTimeDelay);
+    menuController.setIsGamePaused(true); //Pause enabled
+
+    menuController.escPressed();
+    bool reslutIsGamePaused        = menuController.getIsGamePaused();
+    int  resultSignalPauseCount    = signalContinue.count();
+    int  resultSignalActivateCount = signalActivate.count();
+
+    EXPECT_FALSE(reslutIsGamePaused);
+    EXPECT_EQ(resultSignalPauseCount,    1);
+    EXPECT_EQ(resultSignalActivateCount, 1);
     delete model;
     delete fileMgr;
     delete view;

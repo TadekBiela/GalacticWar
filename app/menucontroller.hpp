@@ -14,6 +14,8 @@ public:
     virtual ~MenuController();
 
 signals:
+    void pauseGame();
+    void continueGame();
     void saveHighScore();
     void resetLevel();
     void resetScore();
@@ -25,9 +27,12 @@ signals:
 
 public slots:
     void startGame();
-    void stopGame();
+    void escPressed();
     void updateScore(int score);
     void gameOver();
+
+protected:
+    bool m_isGamePaused;
 };
 
 #endif // MENUCONTROLLER_HPP

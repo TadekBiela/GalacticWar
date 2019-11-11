@@ -34,7 +34,8 @@ signals:
 public slots:
     void menu();
     void start();
-    void pause();
+    void pauseGame();
+    void continueGame();
     void gameOver(int score);
     void highScore();
     void addGameObject(QGraphicsItem* newObject);

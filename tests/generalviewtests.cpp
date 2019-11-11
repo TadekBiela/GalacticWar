@@ -153,12 +153,12 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultSignalStartCount,                    1);
 }
 
-TEST_F(GeneralViewTestsClass, Pause_CheckCorrectVisibleUI_IsEqual)
+TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
 {
     GeneralViewTests generalView;
     generalView.show();
 
-    generalView.pause();
+    generalView.pauseGame();
     const GraphicsView& resultView                    = generalView.getView();
     const QLabel&       resultTitle                   = generalView.getTitle();
     const QLabel&       resultAuthor                  = generalView.getAuthor();
