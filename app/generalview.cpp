@@ -1,6 +1,7 @@
 #include "generalview.hpp"
 #include "definitions.hpp"
 #include <QString>
+#include <QGraphicsEffect>
 
 GeneralView::GeneralView()
                          : m_scene(0, 0, def::sceneWight, def::sceneHeight, this),
@@ -205,6 +206,7 @@ void GeneralView::start()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
+    m_view.setGraphicsEffects(0, 0);
     emit startGame();
 }
 
@@ -230,6 +232,8 @@ void GeneralView::pauseGame()
     m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
+
+    m_view.setGraphicsEffects(0.5, 5);
 }
 
 void GeneralView::continueGame()
@@ -254,6 +258,8 @@ void GeneralView::continueGame()
     m_levelText.setVisible(true);
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
+
+    m_view.setGraphicsEffects(0, 0);
 }
 
 void GeneralView::gameOver(int score)

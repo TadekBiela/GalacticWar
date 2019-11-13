@@ -10,6 +10,7 @@ public:
     GraphicsView();
     GraphicsView(QGraphicsScene *scene, QWidget *parent = nullptr);
     virtual ~GraphicsView();
+    void setGraphicsEffects(qreal opacity, qreal blurRadius);
 
 signals:
     void mousePressed(QMouseEvent* event);

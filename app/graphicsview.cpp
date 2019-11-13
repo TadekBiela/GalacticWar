@@ -1,4 +1,5 @@
 #include "graphicsview.hpp"
+#include <QGraphicsEffect>
 
 GraphicsView::GraphicsView()
 {
@@ -14,6 +15,16 @@ GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent)
 GraphicsView::~GraphicsView()
 {
 
+}
+
+void GraphicsView::setGraphicsEffects(qreal opacity, qreal blurRadius)
+{
+    QGraphicsOpacityEffect* op = new QGraphicsOpacityEffect();
+    op->setOpacity(opacity);
+    setGraphicsEffect(op);
+    QGraphicsBlurEffect* bl = new QGraphicsBlurEffect();
+    bl->setBlurRadius(blurRadius);
+    setGraphicsEffect(bl);
 }
 
 void GraphicsView::mousePressEvent(QMouseEvent* event)
