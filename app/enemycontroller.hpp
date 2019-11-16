@@ -34,6 +34,7 @@ protected slots:
 protected:
     int                m_enemyPercentDistributionTab[def::percentDistTabSize];
     QTimer             m_enemySpawnTimer;
+    int                m_remainigSpawnTime;
     IRandomGenerator*  m_generator;
 };
 

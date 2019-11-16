@@ -3,7 +3,8 @@
 
 EnemyController::EnemyController(GeneralView*      view,
                                  IRandomGenerator* generator)
-                                  : m_generator(generator)
+                                  : m_remainigSpawnTime(def::minEnemySpawnTimeDelay),
+                                    m_generator(generator)
 {
     connect(this,               SIGNAL(addEnemyToScene(QGraphicsItem*)),
             view,               SLOT(addGameObject(QGraphicsItem*)));
@@ -58,11 +59,13 @@ void EnemyController::destroyed(QPointF position, int enemyLevel)
 
 void EnemyController::startSpawning()
 {
+    m_enemySpawnTimer.setInterval(m_remainigSpawnTime);
     m_enemySpawnTimer.start();
 }
 
 void EnemyController::stopSpawning()
 {
+    m_remainigSpawnTime = m_enemySpawnTimer.remainingTime();
     m_enemySpawnTimer.stop();
 }
 
