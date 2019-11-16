@@ -8,9 +8,11 @@ class GraphicsView : public QGraphicsView
     Q_OBJECT
 public:
     GraphicsView();
-    GraphicsView(QGraphicsScene *scene, QWidget *parent = nullptr);
+    GraphicsView(QGraphicsScene* scene, QWidget* parent = nullptr);
     virtual ~GraphicsView();
     void setGraphicsEffects(qreal opacity, qreal blurRadius);
+    void startAllItems();
+    void stopAllItems();
 
 signals:
     void mousePressed(QMouseEvent* event);

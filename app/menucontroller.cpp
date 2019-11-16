@@ -27,6 +27,7 @@ MenuController::~MenuController()
 
 void MenuController::startGame()
 {
+    m_isGamePaused = false;
     emit resetLevel();
     emit resetScore();
     emit createNewPlayer();

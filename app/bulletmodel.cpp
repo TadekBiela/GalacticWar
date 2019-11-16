@@ -48,6 +48,16 @@ int BulletModel::getDamage() const
     return m_damage;
 }
 
+void BulletModel::start()
+{
+    m_moveTimer.start();
+}
+
+void BulletModel::stop()
+{
+    m_moveTimer.stop();
+}
+
 void BulletModel::move()
 {
     setPos(moveForward(pos(), m_direction));

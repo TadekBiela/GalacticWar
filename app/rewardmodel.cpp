@@ -27,6 +27,18 @@ QPixmap RewardModel::getAnimationFrame()
     return map;
 }
 
+void RewardModel::start()
+{
+    m_animationTimer.start();
+    m_destroyTimer.start();
+}
+
+void RewardModel::stop()
+{
+    m_animationTimer.stop();
+    m_destroyTimer.stop();
+}
+
 void RewardModel::animation()
 {
     if(++m_animationFrameIdx > def::maxAnimationFrameIdx)

@@ -22,6 +22,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/firefunctions.cpp
                                ../app/functions.hpp
                                ../app/functions.cpp
+                               ../app/gameobject.hpp
+                               ../app/gameobject.cpp
                                ../app/generalview.hpp
                                ../app/generalview.cpp
                                ../app/graphicsview.hpp

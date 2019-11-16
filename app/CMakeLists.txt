@@ -23,6 +23,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                firefunctions.cpp
                                functions.hpp
                                functions.cpp
+                               gameobject.hpp
+                               gameobject.cpp
                                generalview.hpp
                                generalview.cpp
                                graphicsview.hpp

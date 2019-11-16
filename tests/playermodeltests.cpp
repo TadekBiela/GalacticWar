@@ -30,6 +30,7 @@ public:
     int           getFireTimeDelay()     const { return m_weapon.fireTimeDelay; }
     const QTimer& getMoveTimer()         const { return m_moveTimer; }
     const QTimer& getFireTimer()         const { return m_fireTimer; }
+    const QTimer& getAnimationTimer()    const { return m_animationTimer; }
     int           getAnimationFrameIdx() const { return  m_animationFrameIdx; }
     void          setMovePosition(QPointF newPosition) { m_movePosition = newPosition; }
     void          setDirection(int newDirection)       { m_direction    = newDirection; }
@@ -318,6 +319,32 @@ TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentAndOutOfRa
     EXPECT_FALSE(result);
     EXPECT_EQ(resultDirection, 78);
     delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, Start_CheckIfAllTimersWillBeActive_IsEqual)
+{
+    PlayerModelTest player;
+
+    player.start();
+    const QTimer& resultMoveTimer = player.getMoveTimer();
+    const QTimer& resultAnimTimer = player.getAnimationTimer();
+
+    EXPECT_EQ(resultMoveTimer.isActive(), true);
+    EXPECT_EQ(resultAnimTimer.isActive(), true);
+}
+
+TEST_F(PlayerModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
+{
+    PlayerModelTest player;
+
+    player.stop();
+    const QTimer& resultFireTimer = player.getFireTimer();
+    const QTimer& resultMoveTimer = player.getMoveTimer();
+    const QTimer& resultAnimTimer = player.getAnimationTimer();
+
+    EXPECT_EQ(resultFireTimer.isActive(), false);
+    EXPECT_EQ(resultMoveTimer.isActive(), false);
+    EXPECT_EQ(resultAnimTimer.isActive(), false);
 }
 
 TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTruePlayerShouldntMove_IsEqual)

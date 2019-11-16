@@ -44,6 +44,30 @@ TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEq
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), def::defaultRewardDestroyTimeDelay);
 }
 
+TEST_F(RewardModelTestsClass, Start_CheckIfAllTimersWillBeActive_IsEqual)
+{
+    RewardModelTest rewardModel;
+
+    rewardModel.start();
+    const QTimer& resultAnimTimer    = rewardModel.getAnimationTimer();
+    const QTimer& resultDestroyTimer = rewardModel.getDestroyTimer();
+
+    EXPECT_EQ(resultAnimTimer.isActive(),    true);
+    EXPECT_EQ(resultDestroyTimer.isActive(), true);
+}
+
+TEST_F(RewardModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
+{
+    RewardModelTest rewardModel;
+
+    rewardModel.stop();
+    const QTimer& resultAnimTimer    = rewardModel.getAnimationTimer();
+    const QTimer& resultDestroyTimer = rewardModel.getDestroyTimer();
+
+    EXPECT_EQ(resultAnimTimer.isActive(),    false);
+    EXPECT_EQ(resultDestroyTimer.isActive(), false);
+}
+
 TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)
 {
     RewardModelTest rewardModel;

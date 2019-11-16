@@ -3,13 +3,12 @@
 
 #include "rewardtypes.hpp"
 #include "weapons.hpp"
-#include <QObject>
-#include <QGraphicsPixmapItem>
+#include "gameobject.hpp"
 #include <QPointF>
 #include <QTimer>
 #include <QImage>
 
-class PlayerModel : public QObject, public QGraphicsPixmapItem
+class PlayerModel : public GameObject
 {
     Q_OBJECT
 public:

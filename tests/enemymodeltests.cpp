@@ -314,6 +314,34 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
     delete scene;
 }
 
+TEST_F(EnemyModelTestsClass, Start_CheckIfAllTimersWillBeActive_IsEqual)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+
+    enemyModel.start();
+    const QTimer& resultFireTimer = enemyModel.getFireTimer();
+    const QTimer& resultMoveTimer = enemyModel.getMoveTimer();
+    const QTimer& resultAnimTimer = enemyModel.getAnimationTimer();
+
+    EXPECT_EQ(resultFireTimer.isActive(), true);
+    EXPECT_EQ(resultMoveTimer.isActive(), true);
+    EXPECT_EQ(resultAnimTimer.isActive(), true);
+}
+
+TEST_F(EnemyModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
+{
+    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+
+    enemyModel.stop();
+    const QTimer& resultFireTimer = enemyModel.getFireTimer();
+    const QTimer& resultMoveTimer = enemyModel.getMoveTimer();
+    const QTimer& resultAnimTimer = enemyModel.getAnimationTimer();
+
+    EXPECT_EQ(resultFireTimer.isActive(), false);
+    EXPECT_EQ(resultMoveTimer.isActive(), false);
+    EXPECT_EQ(resultAnimTimer.isActive(), false);
+}
+
 TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);

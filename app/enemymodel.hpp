@@ -1,14 +1,13 @@
 #ifndef ENEMYMODEL_HPP
 #define ENEMYMODEL_HPP
 
-#include <QObject>
-#include <QGraphicsPixmapItem>
+#include "gameobject.hpp"
 #include <QPointF>
 #include <QTimer>
 #include <QImage>
 #include <QPixmap>
 
-class EnemyModel : public QObject, public QGraphicsPixmapItem
+class EnemyModel : public GameObject
 {
     Q_OBJECT
 public:

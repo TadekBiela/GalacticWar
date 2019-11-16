@@ -1,13 +1,12 @@
 #ifndef REWARDMODEL_HPP
 #define REWARDMODEL_HPP
 
-#include <QObject>
-#include <QGraphicsPixmapItem>
+#include "gameobject.hpp"
 #include <QTimer>
 #include <QImage>
 #include <QPixmap>
 
-class RewardModel : public QObject, public QGraphicsPixmapItem
+class RewardModel : public GameObject
 {
     Q_OBJECT
 public:
@@ -16,6 +15,8 @@ public:
     virtual void collect() = 0;
 
 public slots:
+    virtual void start();
+    virtual void stop();
     virtual void animation();
     void destroy();
 

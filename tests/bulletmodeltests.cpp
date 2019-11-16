@@ -83,6 +83,26 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectD
     EXPECT_FLOAT_EQ(resultPosition.y(),           0);
 }
 
+TEST_F(BulletModelTestsClass, Start_CheckIfMoveTimerWillBeActive_IsEqual)
+{
+    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, -30, 10);
+
+    bulletModel.start();
+    const QTimer& resultMoveTimer = bulletModel.getMoveTimer();
+
+    EXPECT_EQ(resultMoveTimer.isActive(), true);
+}
+
+TEST_F(BulletModelTestsClass, Stop_CheckIfMoveTimerWillBeNotActive_IsEqual)
+{
+    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, -30, 10);
+
+    bulletModel.stop();
+    const QTimer& resultMoveTimer = bulletModel.getMoveTimer();
+
+    EXPECT_EQ(resultMoveTimer.isActive(), false);
+}
+
 class BulletModelTestsParamClass : public testing::TestWithParam<std::pair<int, QPointF>>
 {
 };

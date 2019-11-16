@@ -28,7 +28,6 @@ GeneralView::GeneralView()
 {
     setFixedSize(QSize(def::windowWight, def::windowHeight));
     m_view.setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
-    m_view.setCursor(QCursor(Qt::BlankCursor));
 
     int defaultButtonWight  = 200;
     int defaultButtonHeight = 50;
@@ -145,7 +144,7 @@ GeneralView::GeneralView()
     connect(&m_highScoreButton,   SIGNAL(clicked()), this, SLOT(highScore()));
     connect(&m_quitButton,        SIGNAL(clicked()), this, SLOT(close()));
     connect(&m_backToMenuButton,  SIGNAL(clicked()), this, SLOT(menu()));
-    connect(&m_backToMenuButton2, SIGNAL(clicked()), this, SLOT(menu()));
+    connect(&m_backToMenuButton2, SIGNAL(clicked()), this, SLOT(abort()));
     connect(&m_saveAfterGameOver, SIGNAL(clicked()), this, SLOT(savePlayerScore()));
     connect(&m_continueButton,    SIGNAL(clicked()), this, SLOT(continueButtonClicked()));
     connect(&m_view, SIGNAL(mousePressed(QMouseEvent*)),  this, SLOT(mousePressEvent(QMouseEvent*)));
@@ -206,7 +205,9 @@ void GeneralView::start()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
+    m_view.setCursor(QCursor(Qt::BlankCursor));
     m_view.setGraphicsEffects(0, 0);
+    m_scene.clear();
     emit startGame();
 }
 
@@ -233,7 +234,9 @@ void GeneralView::pauseGame()
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 
+    m_view.setCursor(QCursor(Qt::ArrowCursor));
     m_view.setGraphicsEffects(0.5, 5);
+    m_view.stopAllItems();
 }
 
 void GeneralView::continueGame()
@@ -259,7 +262,17 @@ void GeneralView::continueGame()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
+    m_view.setCursor(QCursor(Qt::BlankCursor));
     m_view.setGraphicsEffects(0, 0);
+    m_view.startAllItems();
+}
+
+
+void GeneralView::abort()
+{
+    m_scene.clear();
+    emit abortGame();
+    menu();
 }
 
 void GeneralView::gameOver(int score)

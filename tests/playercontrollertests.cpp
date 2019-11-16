@@ -27,6 +27,20 @@ class PlayerControllerTestsClass : public testing::Test
 {
 };
 
+TEST_F(PlayerControllerTestsClass, AbortPlayer_CheckIfPlayerAfterDeleteWillBeSetToNullptr_Equal)
+{
+    GeneralView*         view = new GeneralView;
+    PlayerControllerTest playerController(view);
+    playerController.createPlayer();
+    delete playerController.getPlayerModel(); //Player pointer should have non zero and not valid value
+
+    playerController.abortPlayer();
+    PlayerModel* resultPlayer = playerController.getPlayerModel();
+
+    EXPECT_TRUE(resultPlayer == nullptr);
+    delete view;
+}
+
 TEST_F(PlayerControllerTestsClass, CreateNewPlayer_CheckIfWillCreateNewPlayerWhenOldPlayerWasDefeated_IsEqual)
 {
     GeneralView*         view = new GeneralView;

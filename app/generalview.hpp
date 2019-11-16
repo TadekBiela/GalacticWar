@@ -25,6 +25,7 @@ public:
 
 signals:
     void startGame();
+    void abortGame();
     void mousePressed();
     void mouseReleased();
     void mouseMoved(QPointF newPosition);
@@ -36,6 +37,7 @@ public slots:
     void start();
     void pauseGame();
     void continueGame();
+    void abort();
     void gameOver(int score);
     void highScore();
     void addGameObject(QGraphicsItem* newObject);
