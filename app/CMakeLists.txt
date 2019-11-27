@@ -6,6 +6,8 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 
 add_executable(${PROJECT_NAME} main.cpp
+                               animandsoundeffectmodel.hpp
+                               animandsoundeffectmodel.cpp
                                bulletmodel.hpp
                                bulletmodel.cpp
                                bullettype.hpp
