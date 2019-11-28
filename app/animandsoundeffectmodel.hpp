@@ -11,11 +11,7 @@ class AnimAndSoundEffectModel : public GameObject
 {
     Q_OBJECT
 public:
-    AnimAndSoundEffectModel(bool    isAnim    = false,
-                            QString animPath  = "",
-                            QPointF animPos   = QPointF(0,0),
-                            bool    isSound   = false,
-                            QString soundPath = "");
+    AnimAndSoundEffectModel();
     virtual ~AnimAndSoundEffectModel();
     QPixmap getAnimationFrame();
 

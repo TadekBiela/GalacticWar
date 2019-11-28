@@ -5,12 +5,8 @@
 #include <QTimer>
 #include <QMediaPlayer>
 
-AnimAndSoundEffectModel::AnimAndSoundEffectModel(bool    isAnim,
-                                                 QString animPath,
-                                                 QPointF animPos,
-                                                 bool    isSound,
-                                                 QString soundPath)
-                                                  : m_animationFrameIdx(0)
+AnimAndSoundEffectModel::AnimAndSoundEffectModel()
+                                                 : m_animationFrameIdx(0)
 {
     connect(&m_destroyTimer, SIGNAL(timeout()), this, SLOT(destroy()));
     m_destroyTimer.setInterval(def::animationFrameDuration * def::maxAnimationFrames);

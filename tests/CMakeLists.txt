@@ -7,6 +7,8 @@ set(STD_LIB C:/Qt/Tools/mingw730_32/bin/libstdc++-6.dll)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 find_package(Qt5Test REQUIRED)
 add_executable(${PROJECT_NAME} main.cpp
+                               ../app/animandsoundeffectmodel.hpp
+                               ../app/animandsoundeffectmodel.cpp
                                ../app/bulletmodel.hpp
                                ../app/bulletmodel.cpp
                                ../app/bullettype.hpp
@@ -61,6 +63,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                stubs/filemanagerstub.hpp
                                stubs/randomgeneratorstub.hpp
                                mocks/filemanagermock.hpp
+                               animandsoundeffectmodeltests.cpp
                                bulletmodeltests.cpp
                                utdefinitions.hpp
                                enemycontrollertests.cpp
