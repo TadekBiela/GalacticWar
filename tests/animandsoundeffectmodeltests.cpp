@@ -43,3 +43,17 @@ TEST_F(AnimAndSoundEffectModelTestsClass, AnimAndSoundEffectModel_NoAnimationAnd
     EXPECT_FLOAT_EQ(resultPosition.x(),            0);
     EXPECT_FLOAT_EQ(resultPosition.y(),            0);
 }
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Start_SoundIsSetupCheckIfAllTimersAndMediaPlayerWillBeActive_IsEqual)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+
+    animAndSoundEffectModel.start();
+    const QTimer&       resultAnimTimer    = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound        = animAndSoundEffectModel.getSound();
+
+    EXPECT_EQ(resultAnimTimer.isActive(),    true);
+    EXPECT_EQ(resultDestroyTimer.isActive(), true);
+    EXPECT_EQ(resultSound.state(),           QMediaPlayer::PlayingState);
+}
