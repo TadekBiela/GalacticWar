@@ -132,7 +132,7 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Stop_AnimationAndSoundAreSetupCheckIfA
 
     EXPECT_EQ(resultAnimTimer.isActive(),    false);
     EXPECT_EQ(resultDestroyTimer.isActive(), false);
-    EXPECT_EQ(resultSound.state(),           QMediaPlayer::StoppedState);
+    EXPECT_EQ(resultSound.state(),           QMediaPlayer::PausedState);
 }
 
 TEST_F(AnimAndSoundEffectModelTestsClass, Stop_OnlyAnimationIsSetupCheckIfAllTimersWillBePaused_IsEqual)
@@ -164,5 +164,5 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Stop_OnlySoundIsSetupCheckIfDestroyTim
 
     EXPECT_EQ(resultAnimTimer.isActive(),    false);
     EXPECT_EQ(resultDestroyTimer.isActive(), false);
-    EXPECT_EQ(resultSound.state(),           QMediaPlayer::StoppedState);
+    EXPECT_EQ(resultSound.state(),           QMediaPlayer::PausedState);
 }

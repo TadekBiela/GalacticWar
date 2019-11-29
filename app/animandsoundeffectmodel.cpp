@@ -41,7 +41,16 @@ void AnimAndSoundEffectModel::start()
 
 void AnimAndSoundEffectModel::stop()
 {
-
+    if(m_isAnimEnabled)
+    {
+        m_animationTimer.stop();
+    }
+    if(m_isSoundEnabled)
+    {
+        m_sound.pause();
+    }
+    m_remainigDestroyTime = m_destroyTimer.remainingTime();
+    m_destroyTimer.stop();
 }
 
 void AnimAndSoundEffectModel::animation()
