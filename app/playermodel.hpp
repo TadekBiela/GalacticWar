@@ -36,7 +36,6 @@ public slots:
 
 protected:
     void    changeWeapon(weapon_type weapon);
-    QPixmap getAnimationFrame();
 
     QImage  m_image;
     QPointF m_movePosition;

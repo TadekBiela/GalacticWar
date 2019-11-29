@@ -1,6 +1,7 @@
 #include "enemymodel.hpp"
 #include "definitions.hpp"
 #include "bulletmodel.hpp"
+#include "functions.hpp"
 #include <QGraphicsScene>
 #include <typeinfo>
 
@@ -34,16 +35,6 @@ EnemyModel::EnemyModel(int     level,
 EnemyModel::~EnemyModel()
 {
 
-}
-
-QPixmap EnemyModel::getAnimationFrame()
-{
-    QPixmap map;
-    map.convertFromImage(m_image.copy(m_animationFrameIdx * def::animationFrameWight,
-                                      0,
-                                      def::animationFrameWight,
-                                      def::animationFrameHeight));
-    return map;
 }
 
 void EnemyModel::checkCollisions()
@@ -110,5 +101,5 @@ void EnemyModel::animation()
         m_animationFrameIdx = 0;
     }
 
-    setPixmap(getAnimationFrame());
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }

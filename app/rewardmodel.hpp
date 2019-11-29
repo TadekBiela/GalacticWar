@@ -21,8 +21,6 @@ public slots:
     void destroy();
 
 protected:
-    QPixmap getAnimationFrame();
-
     QImage m_image;
     int    m_animationFrameIdx;
     QTimer m_animationTimer;

@@ -20,7 +20,7 @@ PlayerModel::PlayerModel()
                            m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
                            m_animationFrameIdx(0)
 {
-    setPixmap(getAnimationFrame());
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 
     setPos(def::halfSceneWight  - def::animationFrameWight  / 2,
            def::halfSceneHeight - def::animationFrameHeight / 2);
@@ -117,16 +117,6 @@ void PlayerModel::checkCollisions()
     scene->update();
 }
 
-QPixmap PlayerModel::getAnimationFrame()
-{
-    QPixmap map;
-    map.convertFromImage(m_image.copy(m_animationFrameIdx * def::animationFrameWight,
-                                      0,
-                                      def::animationFrameWight,
-                                      def::animationFrameHeight));
-    return map;
-}
-
 void PlayerModel::move()
 {
     if(isOnMovePosition() == false)
@@ -217,5 +207,5 @@ void PlayerModel::animation()
         m_animationFrameIdx = 0;
     }
 
-    setPixmap(getAnimationFrame());
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }

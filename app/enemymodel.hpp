@@ -34,8 +34,6 @@ public slots:
     virtual void animation();
 
 protected:
-    QPixmap getAnimationFrame();
-
     QImage m_image;
     int    m_level;
     int    m_health;

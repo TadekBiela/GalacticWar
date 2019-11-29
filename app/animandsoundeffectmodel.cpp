@@ -20,11 +20,6 @@ AnimAndSoundEffectModel::~AnimAndSoundEffectModel()
 
 }
 
-QPixmap AnimAndSoundEffectModel::getAnimationFrame()
-{
-
-}
-
 void AnimAndSoundEffectModel::start()
 {
     if(m_isAnimEnabled)

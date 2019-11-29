@@ -13,7 +13,6 @@ class AnimAndSoundEffectModel : public GameObject
 public:
     AnimAndSoundEffectModel();
     virtual ~AnimAndSoundEffectModel();
-    QPixmap getAnimationFrame();
 
 public slots:
     void start();

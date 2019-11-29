@@ -1,5 +1,6 @@
 #include "rewardmodel.hpp"
 #include "definitions.hpp"
+#include "functions.hpp"
 
 RewardModel::RewardModel()
                          : m_animationFrameIdx(0)
@@ -15,16 +16,6 @@ RewardModel::RewardModel()
 RewardModel::~RewardModel()
 {
 
-}
-
-QPixmap RewardModel::getAnimationFrame()
-{
-    QPixmap map;
-    map.convertFromImage(m_image.copy(m_animationFrameIdx * def::animationSmallFrameWight,
-                                      0,
-                                      def::animationSmallFrameWight,
-                                      def::animationSmallFrameHeight));
-    return map;
 }
 
 void RewardModel::start()
@@ -46,7 +37,7 @@ void RewardModel::animation()
         m_animationFrameIdx = 0;
     }
 
-    setPixmap(getAnimationFrame());
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }
 
 void RewardModel::destroy()

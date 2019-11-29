@@ -1,5 +1,6 @@
 #include "rewardcoinmodel.hpp"
 #include "definitions.hpp"
+#include "functions.hpp"
 #include <QCoreApplication>
 
 RewardCoinModel::RewardCoinModel(coin_type type)
@@ -20,7 +21,7 @@ RewardCoinModel::RewardCoinModel(coin_type type)
     }
 
     m_image = QImage(QCoreApplication::applicationDirPath() + "/images/" + fileName);
-    setPixmap(getAnimationFrame());
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }
 
 RewardCoinModel::~RewardCoinModel()

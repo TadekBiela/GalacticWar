@@ -1,5 +1,6 @@
 #include "rewardspecialmodel.hpp"
 #include "definitions.hpp"
+#include "functions.hpp"
 #include <QCoreApplication>
 
 RewardSpecialModel::RewardSpecialModel(special_type type)
@@ -23,7 +24,7 @@ RewardSpecialModel::RewardSpecialModel(special_type type)
     }
 
     m_image = QImage(QCoreApplication::applicationDirPath() + "/images/" + fileName);
-    setPixmap(getAnimationFrame());
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }
 
 RewardSpecialModel::~RewardSpecialModel()
