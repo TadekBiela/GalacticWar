@@ -9,6 +9,10 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/images/
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/images)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/images/
       DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/images)
+  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/sounds/
+       DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/sounds)
+  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/sounds/
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/sounds)
 
 project("Galacic War")
 enable_testing()
