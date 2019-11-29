@@ -26,10 +26,13 @@ protected:
     void soundSetup(QString soundPath);
 
     QImage       m_image;
+    bool         m_isAnimEnabled;
     int          m_animationFrameIdx;
     QTimer       m_animationTimer;
+    bool         m_isSoundEnabled;
     QMediaPlayer m_sound;
     QTimer       m_destroyTimer;
+    int          m_remainigDestroyTime;
 };
 
 #endif // ANIMANDSOUNDEFFECTMODEL_HPP
