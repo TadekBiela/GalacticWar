@@ -73,6 +73,105 @@ TEST_F(AnimAndSoundEffectModelTestsClass, AnimAndSoundEffectModel_NoAnimationAnd
     EXPECT_FLOAT_EQ(resultPosition.y(),            0);
 }
 
+TEST_F(AnimAndSoundEffectModelTestsClass, AnimationSetup_CheckCorrectWorking_IsEqual)
+{
+    const int expectedDestroyTimer = def::animationFrameDuration * def::maxAnimationFrames;
+
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+
+    animAndSoundEffectModel.animationSetup("explosion", QPointF(200, 300));
+    bool                resultIsAnimEnabled  = animAndSoundEffectModel.getIsAnimEnabled();
+    bool                resultIsSoundEnabled = animAndSoundEffectModel.getIsSoundEnabled();
+    const QTimer&       resultAnimTimer      = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer   = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound          = animAndSoundEffectModel.getSound();
+    QPointF             resultPosition       = animAndSoundEffectModel.getPosition();
+
+    EXPECT_EQ(resultIsAnimEnabled,                 true);
+    EXPECT_EQ(resultIsSoundEnabled,                false);
+    EXPECT_EQ(resultAnimTimer.isActive(),          false);
+    EXPECT_EQ(resultDestroyTimer.isActive(),       true);
+    EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
+    EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
+    EXPECT_FLOAT_EQ(resultPosition.x(),            150);
+    EXPECT_FLOAT_EQ(resultPosition.y(),            250);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, SoundSetup_CheckCorrectWorking_IsEqual)
+{
+    const int expectedDestroyTimer = 2000;
+
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+
+    animAndSoundEffectModel.soundSetup("explosion");
+    bool                resultIsAnimEnabled  = animAndSoundEffectModel.getIsAnimEnabled();
+    bool                resultIsSoundEnabled = animAndSoundEffectModel.getIsSoundEnabled();
+    const QTimer&       resultAnimTimer      = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer   = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound          = animAndSoundEffectModel.getSound();
+
+    EXPECT_EQ(resultIsAnimEnabled,                 false);
+    EXPECT_EQ(resultIsSoundEnabled,                true);
+    EXPECT_EQ(resultAnimTimer.isActive(),          false);
+    EXPECT_EQ(resultDestroyTimer.isActive(),       true);
+    EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    -1);
+    EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, AnimationAndSoundSetup_SoundIsLongerThanAnimationCheckCorrectWorking_IsEqual)
+{
+    const int expectedDestroyTimer = 2000;
+
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+
+    animAndSoundEffectModel.animationSetup("explosion", QPointF(200, 300));
+    animAndSoundEffectModel.soundSetup("explosion");
+    bool                resultIsAnimEnabled  = animAndSoundEffectModel.getIsAnimEnabled();
+    bool                resultIsSoundEnabled = animAndSoundEffectModel.getIsSoundEnabled();
+    const QTimer&       resultAnimTimer      = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer   = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound          = animAndSoundEffectModel.getSound();
+    QPointF             resultPosition       = animAndSoundEffectModel.getPosition();
+
+    EXPECT_EQ(resultIsAnimEnabled,                 true);
+    EXPECT_EQ(resultIsSoundEnabled,                true);
+    EXPECT_EQ(resultAnimTimer.isActive(),          false);
+    EXPECT_EQ(resultDestroyTimer.isActive(),       true);
+    EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
+    EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
+    EXPECT_FLOAT_EQ(resultPosition.x(),            150);
+    EXPECT_FLOAT_EQ(resultPosition.y(),            250);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, AnimationAndSoundSetup_SoundIsShortedThanAnimationCheckCorrectWorking_IsEqual)
+{
+    const int expectedDestroyTimer = def::animationFrameDuration * def::maxAnimationFrames;;
+
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+
+    animAndSoundEffectModel.animationSetup("explosion", QPointF(200, 300));
+    animAndSoundEffectModel.soundSetup("default_bullet");
+    bool                resultIsAnimEnabled  = animAndSoundEffectModel.getIsAnimEnabled();
+    bool                resultIsSoundEnabled = animAndSoundEffectModel.getIsSoundEnabled();
+    const QTimer&       resultAnimTimer      = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer   = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound          = animAndSoundEffectModel.getSound();
+    QPointF             resultPosition       = animAndSoundEffectModel.getPosition();
+
+    EXPECT_EQ(resultIsAnimEnabled,                 true);
+    EXPECT_EQ(resultIsSoundEnabled,                true);
+    EXPECT_EQ(resultAnimTimer.isActive(),          false);
+    EXPECT_EQ(resultDestroyTimer.isActive(),       true);
+    EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
+    EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
+    EXPECT_FLOAT_EQ(resultPosition.x(),            150);
+    EXPECT_FLOAT_EQ(resultPosition.y(),            250);
+}
+
 TEST_F(AnimAndSoundEffectModelTestsClass, Start_AnimationAndSoundAreSetupCheckIfAllTimersAndMediaPlayerWillBeActive_IsEqual)
 {
     AnimAndSoundEffectModelTest animAndSoundEffectModel;
