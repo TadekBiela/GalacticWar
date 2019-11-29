@@ -78,7 +78,7 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Start_AnimationAndSoundAreSetupCheckIf
     EXPECT_EQ(resultSound.state(),           QMediaPlayer::PlayingState);
 }
 
-TEST_F(AnimAndSoundEffectModelTestsClass, Start_OnlyAnimationIsSetupCheckIfAllTimersAndMediaPlayerWillBeActive_IsEqual)
+TEST_F(AnimAndSoundEffectModelTestsClass, Start_OnlyAnimationIsSetupCheckIfAllTimersWillBeActive_IsEqual)
 {
     AnimAndSoundEffectModelTest animAndSoundEffectModel;
     animAndSoundEffectModel.setAnimation();
@@ -93,7 +93,7 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Start_OnlyAnimationIsSetupCheckIfAllTi
     EXPECT_EQ(resultSound.state(),           QMediaPlayer::StoppedState);
 }
 
-TEST_F(AnimAndSoundEffectModelTestsClass, Start_OnlySoundIsSetupCheckIfAllTimersAndMediaPlayerWillBeActive_IsEqual)
+TEST_F(AnimAndSoundEffectModelTestsClass, Start_OnlySoundIsSetupCheckIfDestroyTimerAndMediaPlayerWillBeActive_IsEqual)
 {
     AnimAndSoundEffectModelTest animAndSoundEffectModel;
     animAndSoundEffectModel.setSound();
