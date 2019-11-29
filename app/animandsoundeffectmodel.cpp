@@ -1,5 +1,6 @@
 #include "animandsoundeffectmodel.hpp"
 #include "definitions.hpp"
+#include "functions.hpp"
 #include <QPixmap>
 #include <QImage>
 #include <QTimer>
@@ -50,7 +51,12 @@ void AnimAndSoundEffectModel::stop()
 
 void AnimAndSoundEffectModel::animation()
 {
+    if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
+    {
+        m_animationFrameIdx = 0;
+    }
 
+    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }
 
 void AnimAndSoundEffectModel::destroy()
