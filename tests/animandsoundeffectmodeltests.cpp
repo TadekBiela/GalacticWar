@@ -18,11 +18,20 @@ public:
     void setAnimation()
     {
         m_isAnimEnabled = true;
+        m_animationTimer.setInterval(def::animationFrameDuration * def::maxAnimationFrames);
     }
     void setSound()
     {
         m_isSoundEnabled = true;
         m_sound.setMedia(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/sounds/explosion.wav"));
+    }
+    void runAnimation()
+    {
+        m_animationTimer.start();
+    }
+    void runSound()
+    {
+        m_sound.play();
     }
 
     QPointF             getPosition()       const { return QGraphicsItem::pos(); }
@@ -106,4 +115,54 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Start_OnlySoundIsSetupCheckIfDestroyTi
     EXPECT_EQ(resultAnimTimer.isActive(),    false);
     EXPECT_EQ(resultDestroyTimer.isActive(), true);
     EXPECT_EQ(resultSound.state(),           QMediaPlayer::PlayingState);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Stop_AnimationAndSoundAreSetupCheckIfAllTimersAndMediaPlayerWillBePaused_IsEqual)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+    animAndSoundEffectModel.setAnimation();
+    animAndSoundEffectModel.runAnimation();
+    animAndSoundEffectModel.setSound();
+    animAndSoundEffectModel.runSound();
+
+    animAndSoundEffectModel.stop();
+    const QTimer&       resultAnimTimer    = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound        = animAndSoundEffectModel.getSound();
+
+    EXPECT_EQ(resultAnimTimer.isActive(),    false);
+    EXPECT_EQ(resultDestroyTimer.isActive(), false);
+    EXPECT_EQ(resultSound.state(),           QMediaPlayer::StoppedState);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Stop_OnlyAnimationIsSetupCheckIfAllTimersWillBePaused_IsEqual)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+    animAndSoundEffectModel.setAnimation();
+    animAndSoundEffectModel.runAnimation();
+
+    animAndSoundEffectModel.stop();
+    const QTimer&       resultAnimTimer    = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound        = animAndSoundEffectModel.getSound();
+
+    EXPECT_EQ(resultAnimTimer.isActive(),    false);
+    EXPECT_EQ(resultDestroyTimer.isActive(), false);
+    EXPECT_EQ(resultSound.state(),           QMediaPlayer::StoppedState);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Stop_OnlySoundIsSetupCheckIfDestroyTimerAndMediaPlayerWillBePaused_IsEqual)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+    animAndSoundEffectModel.setSound();
+    animAndSoundEffectModel.runSound();
+
+    animAndSoundEffectModel.stop();
+    const QTimer&       resultAnimTimer    = animAndSoundEffectModel.getAnimTimer();
+    const QTimer&       resultDestroyTimer = animAndSoundEffectModel.getDestroyTimer();
+    const QMediaPlayer& resultSound        = animAndSoundEffectModel.getSound();
+
+    EXPECT_EQ(resultAnimTimer.isActive(),    false);
+    EXPECT_EQ(resultDestroyTimer.isActive(), false);
+    EXPECT_EQ(resultSound.state(),           QMediaPlayer::StoppedState);
 }
