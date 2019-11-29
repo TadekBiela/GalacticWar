@@ -33,6 +33,7 @@ public:
     {
         m_sound.play();
     }
+    int setAnimFramIdx(int animFrameIdx) { m_animationFrameIdx = animFrameIdx; }
 
     QPointF             getPosition()       const { return QGraphicsItem::pos(); }
     bool                getIsAnimEnabled()  const { return m_isAnimEnabled; }
@@ -165,4 +166,36 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Stop_OnlySoundIsSetupCheckIfDestroyTim
     EXPECT_EQ(resultAnimTimer.isActive(),    false);
     EXPECT_EQ(resultDestroyTimer.isActive(), false);
     EXPECT_EQ(resultSound.state(),           QMediaPlayer::PausedState);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+
+    animAndSoundEffectModel.animation();
+    int resultAnimFrameIdx = animAndSoundEffectModel.getAnimFramIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, 1);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeResetTo0_IsZero)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+    animAndSoundEffectModel.setAnimFramIdx(def::maxAnimationFrameIdx);
+
+    animAndSoundEffectModel.animation();
+    int resultAnimFrameIdx = animAndSoundEffectModel.getAnimFramIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, 0);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckIfWillBeSetToMax_IsEqual)
+{
+    AnimAndSoundEffectModelTest animAndSoundEffectModel;
+    animAndSoundEffectModel.setAnimFramIdx(def::maxAnimationFrameIdx - 1);
+
+    animAndSoundEffectModel.animation();
+    int resultAnimFrameIdx = animAndSoundEffectModel.getAnimFramIdx();
+
+    EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
 }
