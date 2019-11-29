@@ -94,8 +94,8 @@ TEST_F(AnimAndSoundEffectModelTestsClass, AnimationSetup_CheckCorrectWorking_IsE
     EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
-    EXPECT_FLOAT_EQ(resultPosition.x(),            150);
-    EXPECT_FLOAT_EQ(resultPosition.y(),            250);
+    EXPECT_FLOAT_EQ(resultPosition.x(),            170);
+    EXPECT_FLOAT_EQ(resultPosition.y(),            270);
 }
 
 TEST_F(AnimAndSoundEffectModelTestsClass, SoundSetup_CheckCorrectWorking_IsEqual)
@@ -116,7 +116,7 @@ TEST_F(AnimAndSoundEffectModelTestsClass, SoundSetup_CheckCorrectWorking_IsEqual
     EXPECT_EQ(resultAnimTimer.isActive(),          false);
     EXPECT_EQ(resultDestroyTimer.isActive(),       true);
     EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
-    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    -1);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    0);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
 }
 
@@ -142,8 +142,8 @@ TEST_F(AnimAndSoundEffectModelTestsClass, AnimationAndSoundSetup_SoundIsLongerTh
     EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
-    EXPECT_FLOAT_EQ(resultPosition.x(),            150);
-    EXPECT_FLOAT_EQ(resultPosition.y(),            250);
+    EXPECT_FLOAT_EQ(resultPosition.x(),            170);
+    EXPECT_FLOAT_EQ(resultPosition.y(),            270);
 }
 
 TEST_F(AnimAndSoundEffectModelTestsClass, AnimationAndSoundSetup_SoundIsShortedThanAnimationCheckCorrectWorking_IsEqual)
@@ -168,8 +168,8 @@ TEST_F(AnimAndSoundEffectModelTestsClass, AnimationAndSoundSetup_SoundIsShortedT
     EXPECT_EQ(resultSound.state(),                 QMediaPlayer::StoppedState);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(),    def::animationFrameDuration);
     EXPECT_FLOAT_EQ(resultDestroyTimer.interval(), expectedDestroyTimer);
-    EXPECT_FLOAT_EQ(resultPosition.x(),            150);
-    EXPECT_FLOAT_EQ(resultPosition.y(),            250);
+    EXPECT_FLOAT_EQ(resultPosition.x(),            170);
+    EXPECT_FLOAT_EQ(resultPosition.y(),            270);
 }
 
 TEST_F(AnimAndSoundEffectModelTestsClass, Start_AnimationAndSoundAreSetupCheckIfAllTimersAndMediaPlayerWillBeActive_IsEqual)

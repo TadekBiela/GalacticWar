@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QMediaPlayer>
 #include <QGraphicsScene>
+#include <QCoreApplication>
 
 AnimAndSoundEffectModel::AnimAndSoundEffectModel()
                                                  : m_isAnimEnabled(false),
@@ -24,7 +25,12 @@ AnimAndSoundEffectModel::~AnimAndSoundEffectModel()
 
 void AnimAndSoundEffectModel::animationSetup(QString animationName, QPointF position)
 {
-
+    m_isAnimEnabled = true;
+    m_animationTimer.setInterval(def::animationFrameDuration);
+    m_image = QImage(QCoreApplication::applicationDirPath() + "/images/" + animationName + ".jpg");
+    position.setX(position.x() - def::animationFrameWight  / 2);
+    position.setY(position.y() - def::animationFrameHeight / 2);
+    setPos(position);
 }
 
 void AnimAndSoundEffectModel::soundSetup(QString soundName)
