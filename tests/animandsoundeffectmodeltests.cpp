@@ -219,7 +219,5 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Destory_EffectIsNotAddedToSceneChechIf
     AnimAndSoundEffectModelTest* animAndSoundEffectModel = new AnimAndSoundEffectModelTest;
     animAndSoundEffectModel->setAnimFramIdx(def::maxAnimationFrameIdx - 1);
 
-    animAndSoundEffectModel->destroy();
-
-    EXPECT_NO_THROW();
+    ASSERT_EXIT((animAndSoundEffectModel->destroy(),exit(0)),::testing::ExitedWithCode(0),".*");
 }

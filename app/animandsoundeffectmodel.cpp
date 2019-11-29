@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QTimer>
 #include <QMediaPlayer>
+#include <QGraphicsScene>
 
 AnimAndSoundEffectModel::AnimAndSoundEffectModel()
                                                  : m_isAnimEnabled(false),
@@ -61,5 +62,10 @@ void AnimAndSoundEffectModel::animation()
 
 void AnimAndSoundEffectModel::destroy()
 {
-
+    auto scene = QGraphicsItem::scene();
+    if(scene)
+    {
+        scene->removeItem(this);
+    }
+    delete this;
 }
