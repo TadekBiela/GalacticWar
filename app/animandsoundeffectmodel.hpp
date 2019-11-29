@@ -13,6 +13,8 @@ class AnimAndSoundEffectModel : public GameObject
 public:
     AnimAndSoundEffectModel();
     virtual ~AnimAndSoundEffectModel();
+    void animationSetup(QString animationName, QPointF position);
+    void soundSetup(QString soundName);
 
 public slots:
     void start();
@@ -21,9 +23,6 @@ public slots:
     void destroy();
 
 protected:
-    void animSetup(QString animPath, QPointF animPos);
-    void soundSetup(QString soundPath);
-
     QImage       m_image;
     bool         m_isAnimEnabled;
     int          m_animationFrameIdx;

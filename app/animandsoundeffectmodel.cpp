@@ -22,6 +22,16 @@ AnimAndSoundEffectModel::~AnimAndSoundEffectModel()
 
 }
 
+void AnimAndSoundEffectModel::animationSetup(QString animationName, QPointF position)
+{
+
+}
+
+void AnimAndSoundEffectModel::soundSetup(QString soundName)
+{
+
+}
+
 void AnimAndSoundEffectModel::start()
 {
     if(m_isAnimEnabled)
