@@ -7,6 +7,7 @@
 #include <QMediaPlaylist>
 #include <QCoreApplication>
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 
 class AnimAndSoundEffectModelTest : public AnimAndSoundEffectModel
 {
@@ -198,4 +199,27 @@ TEST_F(AnimAndSoundEffectModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusO
     int resultAnimFrameIdx = animAndSoundEffectModel.getAnimFramIdx();
 
     EXPECT_EQ(resultAnimFrameIdx, def::maxAnimationFrameIdx);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Destory_EffectIsAddedToSceneChechIfWillBeRemovedFromSceneAndDeleted_IsEqual)
+{
+    QGraphicsScene scene;
+    AnimAndSoundEffectModelTest* animAndSoundEffectModel = new AnimAndSoundEffectModelTest;
+    animAndSoundEffectModel->setAnimFramIdx(def::maxAnimationFrameIdx - 1);
+    scene.addItem(animAndSoundEffectModel);
+
+    animAndSoundEffectModel->destroy();
+    int resultNumOfSceneItems = scene.items().size();
+
+    EXPECT_EQ(resultNumOfSceneItems, 0);
+}
+
+TEST_F(AnimAndSoundEffectModelTestsClass, Destory_EffectIsNotAddedToSceneChechIfWillBeCorrectlyDeleted_IsEqual)
+{
+    AnimAndSoundEffectModelTest* animAndSoundEffectModel = new AnimAndSoundEffectModelTest;
+    animAndSoundEffectModel->setAnimFramIdx(def::maxAnimationFrameIdx - 1);
+
+    animAndSoundEffectModel->destroy();
+
+    EXPECT_NO_THROW();
 }
