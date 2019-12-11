@@ -60,6 +60,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/scorecontroller.cpp
                                ../app/scoremodel.hpp
                                ../app/scoremodel.cpp
+                               ../app/soundeffectmodel.hpp
+                               ../app/soundeffectmodel.cpp
                                ../app/weapons.hpp
                                ../app/weapons.cpp
                                ../app/weapontype.hpp
@@ -83,7 +85,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                rewardcoinmodeltests.cpp
                                rewardspecialmodeltests.cpp
                                scorecontrollertests.cpp
-                               scoremodeltests.cpp)
+                               scoremodeltests.cpp
+                               soundeffectmodeltests.cpp)
 
 target_link_libraries(${PROJECT_NAME} gtest gtest_main Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia Qt5::Test)
 add_test(NAME bulletmodeltests COMMAND ${PROJECT_NAME})
