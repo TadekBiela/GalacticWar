@@ -12,8 +12,6 @@ enable_testing()
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} main.cpp
-                               ../app/animandsoundeffectmodel.hpp
-                               ../app/animandsoundeffectmodel.cpp
                                ../app/bulletmodel.hpp
                                ../app/bulletmodel.cpp
                                ../app/bullettype.hpp
@@ -68,7 +66,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                stubs/filemanagerstub.hpp
                                stubs/randomgeneratorstub.hpp
                                mocks/filemanagermock.hpp
-                               animandsoundeffectmodeltests.cpp
                                bulletmodeltests.cpp
                                utdefinitions.hpp
                                enemycontrollertests.cpp
