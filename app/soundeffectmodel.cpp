@@ -18,12 +18,16 @@ SoundEffectModel::~SoundEffectModel()
 
 void SoundEffectModel::start()
 {
-
+    m_destroyTimer.setInterval(m_remainingDestroyTime);
+    m_destroyTimer.start();
+    m_player->play();
 }
 
 void SoundEffectModel::stop()
 {
-
+    m_remainingDestroyTime = m_destroyTimer.remainingTime();
+    m_destroyTimer.stop();
+    m_player->pause();
 }
 
 void SoundEffectModel::destroy()
