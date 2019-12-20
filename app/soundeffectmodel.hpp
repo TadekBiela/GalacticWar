@@ -1,26 +1,23 @@
 #ifndef SOUNDEFFECTMODEL_HPP
 #define SOUNDEFFECTMODEL_HPP
 
-#include "gameobject.hpp"
-#include <QMediaPlayer>
+#include "soundstorage.hpp"
+#include <QObject>
+#include <QSoundEffect>
 #include <QTimer>
 
-class SoundEffectModel : public GameObject
+class SoundEffectModel : public QObject
 {
     Q_OBJECT
 public:
-    SoundEffectModel(QMediaPlayer* player);
+    SoundEffectModel(QString soundName);
     virtual ~SoundEffectModel();
 
 public slots:
-    void start();
-    void stop();
     void destroy();
 
 protected:
-    QMediaPlayer* m_player;
-    QTimer        m_destroyTimer;
-    int           m_remainingDestroyTime;
+    QSoundEffect* m_sound;
 };
 
 #endif // SOUNDEFFECTMODEL_HPP

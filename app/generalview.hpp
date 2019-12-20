@@ -40,6 +40,7 @@ public slots:
     void abort();
     void gameOver(int score);
     void highScore();
+    void quitGame();
     void addGameObject(QGraphicsItem* newObject);
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);

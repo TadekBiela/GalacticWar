@@ -10,6 +10,7 @@
 #include "rewardcontroller.hpp"
 #include "scorecontroller.hpp"
 #include "scoremodel.hpp"
+#include "soundstorage.hpp"
 #include <QApplication>
 #include <QMainWindow>
 #include <QWidget>
@@ -17,7 +18,8 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+    QApplication a(argc, argv);
+    g_soundStorage = new SoundStorage;
 
     FileManager     fileManager;
     RandomGenerator randomGenerator;

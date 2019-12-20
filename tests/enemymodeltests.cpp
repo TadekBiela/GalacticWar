@@ -5,6 +5,7 @@
 #include "../app/playermodel.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardspecialmodel.hpp"
+#include "../app/soundstorage.hpp"
 #include <QGraphicsScene>
 #include <QSignalSpy>
 
@@ -48,6 +49,15 @@ public slots: //dummy implementation - slots not tested in this class
 
 class EnemyModelTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_soundStorage = new SoundStorage;
+    }
+    void TearDown()
+    {
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqual)

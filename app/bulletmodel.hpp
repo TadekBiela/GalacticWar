@@ -25,6 +25,8 @@ public slots:
     void move();
 
 protected:
+    void playSound();
+
     bullet_type m_type;
     int         m_damage;
     int         m_direction;

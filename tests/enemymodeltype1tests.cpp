@@ -4,6 +4,7 @@
 #include "../app/enemymodeltype1.hpp"
 #include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
+#include "../app/soundstorage.hpp"
 #include <QSignalSpy>
 #include <QGraphicsScene>
 
@@ -29,6 +30,15 @@ public:
 
 class EnemyModelType1TestClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_soundStorage = new SoundStorage;
+    }
+    void TearDown()
+    {
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorrectDirectionShouldBeDown_IsEqual)

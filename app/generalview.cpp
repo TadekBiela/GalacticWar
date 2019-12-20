@@ -1,5 +1,6 @@
 #include "generalview.hpp"
 #include "definitions.hpp"
+#include "soundstorage.hpp"
 #include <QString>
 #include <QGraphicsEffect>
 
@@ -142,7 +143,7 @@ GeneralView::GeneralView()
 
     connect(&m_startButton,       SIGNAL(clicked()), this, SLOT(start()));
     connect(&m_highScoreButton,   SIGNAL(clicked()), this, SLOT(highScore()));
-    connect(&m_quitButton,        SIGNAL(clicked()), this, SLOT(close()));
+    connect(&m_quitButton,        SIGNAL(clicked()), this, SLOT(quitGame()));
     connect(&m_backToMenuButton,  SIGNAL(clicked()), this, SLOT(menu()));
     connect(&m_backToMenuButton2, SIGNAL(clicked()), this, SLOT(abort()));
     connect(&m_saveAfterGameOver, SIGNAL(clicked()), this, SLOT(savePlayerScore()));
@@ -324,6 +325,12 @@ void GeneralView::highScore()
     m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
+}
+
+void GeneralView::quitGame()
+{
+    delete g_soundStorage;
+    close();
 }
 
 void GeneralView::addGameObject(QGraphicsItem* newObject)

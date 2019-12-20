@@ -60,6 +60,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                scoremodel.cpp
                                soundeffectmodel.hpp
                                soundeffectmodel.cpp
+                               soundstorage.hpp
+                               soundstorage.cpp
                                weapons.hpp
                                weapons.cpp
                                weapontype.hpp)

@@ -1,6 +1,7 @@
 #include "bulletmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "soundeffectmodel.hpp"
 
 BulletModel::BulletModel(bullet_type type,
                          QPointF     position,
@@ -31,11 +32,31 @@ BulletModel::BulletModel(bullet_type type,
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     m_moveTimer.setInterval(moveTimeDelay);
     m_moveTimer.start();
+    playSound();
 }
 
 BulletModel::~BulletModel()
 {
 
+}
+
+void BulletModel::playSound()
+{
+    QString soundName;
+    switch(m_type)
+    {
+        case bullet_type::playerDefaultBullet:
+            soundName = "default_bullet";
+        case bullet_type::playerRedBullet:
+            soundName = "red_bullet";
+        case bullet_type::playerBlueBullet:
+            soundName = "blue_bullet";
+        case bullet_type::playerYellowBullet:
+            soundName = "yellow_bullet";
+        case bullet_type::enemyBullet:
+            soundName = "enemy_bullet";
+    }
+    SoundEffectModel* bulletSound = new SoundEffectModel(soundName);
 }
 
 bullet_type BulletModel::getType() const

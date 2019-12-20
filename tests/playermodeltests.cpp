@@ -7,6 +7,7 @@
 #include "../app/bulletmodel.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardspecialmodel.hpp"
+#include "../app/soundstorage.hpp"
 #include <QSignalSpy>
 #include <tr1/tuple>
 #include <QGraphicsScene>
@@ -42,6 +43,15 @@ public:
 
 class PlayerModelTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_soundStorage = new SoundStorage;
+    }
+    void TearDown()
+    {
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerShouldHitButDontBeDefeated_IsEqual)

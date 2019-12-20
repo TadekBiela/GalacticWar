@@ -2,6 +2,7 @@
 #include <utility>
 #include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
+#include "../app/soundstorage.hpp"
 
 class BulletModelTest : public BulletModel
 {
@@ -27,6 +28,15 @@ public:
 
 class BulletModelTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_soundStorage = new SoundStorage;
+    }
+    void TearDown()
+    {
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_IsEqual)
@@ -105,6 +115,15 @@ TEST_F(BulletModelTestsClass, Stop_CheckIfMoveTimerWillBeNotActive_IsEqual)
 
 class BulletModelTestsParamClass : public testing::TestWithParam<std::pair<int, QPointF>>
 {
+public:
+    void SetUp()
+    {
+        g_soundStorage = new SoundStorage;
+    }
+    void TearDown()
+    {
+        delete g_soundStorage;
+    }
 };
 
 TEST_P(BulletModelTestsParamClass, Move_CheckChangingPositionDependenceOfDirection_IsEqual)
