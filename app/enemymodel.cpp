@@ -3,6 +3,7 @@
 #include "bulletmodel.hpp"
 #include "functions.hpp"
 #include "soundeffectmodel.hpp"
+#include "animationeffectmodel.hpp"
 #include <QGraphicsScene>
 #include <typeinfo>
 
@@ -68,7 +69,8 @@ void EnemyModel::destroy()
     position.setX(position.x() + def::animationFrameWight  / 2);
     position.setY(position.y() + def::animationFrameHeight / 2);
     emit this->destroyed(position, m_level);
-    SoundEffectModel* explosion = new SoundEffectModel("explosion");
+    SoundEffectModel*     explosion     = new SoundEffectModel("explosion");
+    AnimationEffectModel* explosionAnim = new AnimationEffectModel(scene, "explosion", pos());
     delete this;
 }
 

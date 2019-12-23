@@ -2,6 +2,7 @@
 #include "utdefinitions.hpp"
 #include "../app/enemymodel.hpp"
 #include "../app/bulletmodel.hpp"
+#include "../app/imagestorage.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardspecialmodel.hpp"
@@ -52,10 +53,12 @@ class EnemyModelTestsClass : public testing::Test
 public:
     void SetUp()
     {
+        g_imageStorage = new ImageStorage;
         g_soundStorage = new SoundStorage;
     }
     void TearDown()
     {
+        delete g_imageStorage;
         delete g_soundStorage;
     }
 };

@@ -1,6 +1,7 @@
 #include "enemycontroller.hpp"
 #include "filemanager.hpp"
 #include "generalview.hpp"
+#include "imagestorage.hpp"
 #include "levelcontroller.hpp"
 #include "levelmodel.hpp"
 #include "menucontroller.hpp"
@@ -19,6 +20,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    g_imageStorage = new ImageStorage;
     g_soundStorage = new SoundStorage;
 
     FileManager     fileManager;

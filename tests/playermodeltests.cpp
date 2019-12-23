@@ -5,6 +5,7 @@
 #include "../app/playermodel.hpp"
 #include "../app/enemymodeltype1.hpp"
 #include "../app/bulletmodel.hpp"
+#include "../app/imagestorage.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardspecialmodel.hpp"
 #include "../app/soundstorage.hpp"
@@ -46,10 +47,12 @@ class PlayerModelTestsClass : public testing::Test
 public:
     void SetUp()
     {
+        g_imageStorage = new ImageStorage;
         g_soundStorage = new SoundStorage;
     }
     void TearDown()
     {
+        delete g_imageStorage;
         delete g_soundStorage;
     }
 };

@@ -6,6 +6,8 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 
 add_executable(${PROJECT_NAME} main.cpp
+                               animationeffectmodel.hpp
+                               animationeffectmodel.cpp
                                bulletmodel.hpp
                                bulletmodel.cpp
                                bullettype.hpp
@@ -30,6 +32,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                graphicsview.hpp
                                graphicsview.cpp
                                ifilemanager.hpp
+                               imagestorage.hpp
+                               imagestorage.cpp
                                irandomgenerator.hpp
                                levelcontroller.hpp
                                levelcontroller.cpp

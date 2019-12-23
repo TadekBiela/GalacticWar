@@ -1,6 +1,7 @@
 #include "playermodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "animationeffectmodel.hpp"
 #include "bulletmodel.hpp"
 #include "enemymodel.hpp"
 #include "rewardcoinmodel.hpp"
@@ -93,6 +94,10 @@ void PlayerModel::checkCollisions()
             RewardModel* coin = static_cast<RewardModel*>(collidingItems[i]);
             scene->removeItem(collidingItems[i]);
             coin->collect();
+            numOfCollisions--;
+        }
+        else if(typeid(*collidingItems[i]) == typeid(AnimationEffectModel))
+        {
             numOfCollisions--;
         }
         else //It should be Enemy

@@ -4,6 +4,7 @@
 #include "../app/enemymodeltype1.hpp"
 #include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
+#include "../app/imagestorage.hpp"
 #include "../app/soundstorage.hpp"
 #include <QSignalSpy>
 #include <QGraphicsScene>
@@ -33,10 +34,12 @@ class EnemyModelType1TestClass : public testing::Test
 public:
     void SetUp()
     {
+        g_imageStorage = new ImageStorage;
         g_soundStorage = new SoundStorage;
     }
     void TearDown()
     {
+        delete g_imageStorage;
         delete g_soundStorage;
     }
 };

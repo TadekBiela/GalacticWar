@@ -12,6 +12,8 @@ enable_testing()
 include_directories(${GTEST_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} main.cpp
+                               ../app/animationeffectmodel.hpp
+                               ../app/animationeffectmodel.cpp
                                ../app/bulletmodel.hpp
                                ../app/bulletmodel.cpp
                                ../app/bullettype.hpp
@@ -34,6 +36,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/graphicsview.hpp
                                ../app/graphicsview.cpp
                                ../app/ifilemanager.hpp
+                               ../app/imagestorage.hpp
+                               ../app/imagestorage.cpp
                                ../app/irandomgenerator.hpp
                                ../app/levelcontroller.hpp
                                ../app/levelcontroller.cpp

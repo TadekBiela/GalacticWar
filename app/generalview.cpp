@@ -1,5 +1,6 @@
 #include "generalview.hpp"
 #include "definitions.hpp"
+#include "imagestorage.hpp"
 #include "soundstorage.hpp"
 #include <QString>
 #include <QGraphicsEffect>
@@ -330,6 +331,7 @@ void GeneralView::highScore()
 void GeneralView::quitGame()
 {
     delete g_soundStorage;
+    delete g_imageStorage;
     close();
 }
 

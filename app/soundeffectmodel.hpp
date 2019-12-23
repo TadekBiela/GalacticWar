@@ -4,7 +4,6 @@
 #include "soundstorage.hpp"
 #include <QObject>
 #include <QSoundEffect>
-#include <QTimer>
 
 class SoundEffectModel : public QObject
 {
