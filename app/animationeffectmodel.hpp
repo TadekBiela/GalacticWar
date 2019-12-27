@@ -24,7 +24,7 @@ public slots:
     void destroy();
 
 protected:
-    QImage m_image;
+    QImage* m_image;
     int     m_animationFrameIdx;
     QTimer  m_animationTimer;
 };

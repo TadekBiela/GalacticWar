@@ -74,6 +74,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                stubs/filemanagerstub.hpp
                                stubs/randomgeneratorstub.hpp
                                mocks/filemanagermock.hpp
+                               animationeffectmodeltests.cpp
                                bulletmodeltests.cpp
                                utdefinitions.hpp
                                enemycontrollertests.cpp

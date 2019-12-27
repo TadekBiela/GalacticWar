@@ -8,8 +8,8 @@ AnimationEffectModel::AnimationEffectModel(QGraphicsScene* scene,
                                            QPointF         position)
                                             : m_animationFrameIdx(0)
 {
-    m_image = *g_imageStorage->getImage(animationName);
-    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
+    m_image = g_imageStorage->getImage(animationName);
+    setPixmap(getAnimationFrame(*m_image, m_animationFrameIdx));
 
     position.setX(position.x() - def::animationFrameWight  / 2);
     position.setY(position.y() - def::animationFrameHeight / 2);
@@ -35,7 +35,7 @@ void AnimationEffectModel::animation()
         destroy();
         return;
     }
-    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
+    setPixmap(getAnimationFrame(*m_image, m_animationFrameIdx));
 }
 
 void AnimationEffectModel::destroy()
