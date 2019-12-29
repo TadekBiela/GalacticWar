@@ -30,5 +30,3 @@ QSoundEffect* SoundStorage::getSound(QString name)
 {
     return *m_soundStorage.find(name);
 }
-
-SoundStorage* g_soundStorage;

@@ -36,6 +36,10 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/graphicsview.hpp
                                ../app/graphicsview.cpp
                                ../app/ifilemanager.hpp
+                               ../app/iimagestorage.hpp
+                               ../app/iimagestorage.cpp
+                               ../app/isoundstorage.hpp
+                               ../app/isoundstorage.cpp
                                ../app/imagestorage.hpp
                                ../app/imagestorage.cpp
                                ../app/irandomgenerator.hpp
@@ -72,7 +76,9 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/weapons.cpp
                                ../app/weapontype.hpp
                                stubs/filemanagerstub.hpp
+                               stubs/imagestoragestub.hpp
                                stubs/randomgeneratorstub.hpp
+                               stubs/soundstoragestub.hpp
                                mocks/filemanagermock.hpp
                                animationeffectmodeltests.cpp
                                bulletmodeltests.cpp

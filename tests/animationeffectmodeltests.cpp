@@ -2,7 +2,6 @@
 #include "utdefinitions.hpp"
 #include "../app/animationeffectmodel.hpp"
 #include "../app/definitions.hpp"
-#include "../app/soundstorage.hpp"
 #include <QGraphicsScene>
 
 class AnimationEffectModelTest : public AnimationEffectModel
@@ -28,12 +27,10 @@ public:
     void SetUp()
     {
         g_imageStorage = new ImageStorage;
-        g_soundStorage = new SoundStorage;
     }
     void TearDown()
     {
         delete g_imageStorage;
-        delete g_soundStorage;
     }
 };
 

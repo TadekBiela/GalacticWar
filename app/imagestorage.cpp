@@ -29,5 +29,3 @@ QImage* ImageStorage::getImage(QString name)
 {
     return *m_imageStorage.find(name);
 }
-
-ImageStorage* g_imageStorage;

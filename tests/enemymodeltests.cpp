@@ -1,12 +1,13 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/enemymodel.hpp"
+#include "../app/animationeffectmodel.hpp"
 #include "../app/bulletmodel.hpp"
-#include "../app/imagestorage.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardspecialmodel.hpp"
-#include "../app/soundstorage.hpp"
 #include <QGraphicsScene>
 #include <QSignalSpy>
 
@@ -53,8 +54,8 @@ class EnemyModelTestsClass : public testing::Test
 public:
     void SetUp()
     {
-        g_imageStorage = new ImageStorage;
-        g_soundStorage = new SoundStorage;
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
     }
     void TearDown()
     {
@@ -114,7 +115,7 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
     delete scene;
 }
 
-TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitAndDestroy_IsEqual)
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitCreateAnimationAndDestroy_IsEqual)
 {
     QGraphicsScene* scene  = new QGraphicsScene;
     BulletModel*    bullet = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 50, 5, 50);
@@ -130,17 +131,19 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
     int  resultSignalCount     = signalDestroy.count();
     auto resultSignal          = signalDestroy.takeFirst();
     int  resultNumOfSceneItems = scene->items().size();
+    auto resultAnimEffect      = scene->items().at(0);
 
     EXPECT_EQ(resultHealth,                  0);
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
     EXPECT_EQ(startNumOfSceneItems,          2);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(resultNumOfSceneItems,         1);
+    EXPECT_EQ(typeid(*resultAnimEffect),     typeid(AnimationEffectModel));
     delete scene;
 }
 
-TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShouldHitDestroyAndHaveOneMoreCollision_IsEqual)
+TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShouldHitCreateAnimationDestroyAndHaveOneMoreCollision_IsEqual)
 {
     QGraphicsScene* scene   = new QGraphicsScene;
     BulletModel*    bullet1 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
@@ -159,12 +162,14 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShou
     int  resultSignalCount     = signalDestroy.count();
     auto resultSignal          = signalDestroy.takeFirst();
     int  resultNumOfSceneItems = scene->items().size();
+    auto resultAnimEffect      = scene->items().at(0);
 
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
     EXPECT_EQ(startNumOfSceneItems,          4);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(resultNumOfSceneItems,         1);
+    EXPECT_EQ(typeid(*resultAnimEffect),     typeid(AnimationEffectModel));
     delete scene;
 }
 
@@ -272,13 +277,15 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsEqual)
     int  resultSignalCount     = signalDestroy.count();
     auto resultSignal          = signalDestroy.takeFirst();
     int  resultNumOfSceneItems = scene->items().size();
+    auto resultAnimEffect      = scene->items().at(0);
 
     EXPECT_EQ(resultHealth,                  0);
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
     EXPECT_EQ(startNumOfSceneItems,          1);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(resultNumOfSceneItems,         1);
+    EXPECT_EQ(typeid(*resultAnimEffect),     typeid(AnimationEffectModel));
     delete scene;
 }
 
@@ -296,13 +303,15 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsEqual)
     int  resultSignalCount     = signalDestroy.count();
     auto resultSignal          = signalDestroy.takeFirst();
     int  resultNumOfSceneItems = scene->items().size();
+    auto resultAnimEffect      = scene->items().at(0);
 
     EXPECT_EQ(resultHealth,                  0);
     EXPECT_EQ(resultSignalCount,             1);
     EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
     EXPECT_EQ(resultSignal.at(1).toInt(),    1);
     EXPECT_EQ(startNumOfSceneItems,          1);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(resultNumOfSceneItems,         1);
+    EXPECT_EQ(typeid(*resultAnimEffect),     typeid(AnimationEffectModel));
     delete scene;
 }
 

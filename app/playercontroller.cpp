@@ -1,4 +1,6 @@
 #include "playercontroller.hpp"
+#include "animationeffectmodel.hpp"
+#include "soundeffectmodel.hpp"
 
 PlayerController::PlayerController(GeneralView* view)
                                     : m_view(view)
@@ -41,6 +43,10 @@ void PlayerController::createNewPlayer()
 
 void PlayerController::defeated()
 {
+    AnimationEffectModel* explosionAnim = new AnimationEffectModel(m_player->scene(),
+                                                                   "explosion",
+                                                                   m_player->pos());
+    SoundEffectModel* explosion = new SoundEffectModel("explosion");
     delete m_player;
     m_player = nullptr;
     emit playerDefeated();

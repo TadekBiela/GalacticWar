@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <utility>
+#include "stubs/soundstoragestub.hpp"
 #include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
-#include "../app/soundstorage.hpp"
 
 class BulletModelTest : public BulletModel
 {
@@ -31,7 +31,7 @@ class BulletModelTestsClass : public testing::Test
 public:
     void SetUp()
     {
-        g_soundStorage = new SoundStorage;
+        g_soundStorage = new SoundStorageStub;
     }
     void TearDown()
     {
@@ -118,7 +118,7 @@ class BulletModelTestsParamClass : public testing::TestWithParam<std::pair<int, 
 public:
     void SetUp()
     {
-        g_soundStorage = new SoundStorage;
+        g_soundStorage = new SoundStorageStub;
     }
     void TearDown()
     {

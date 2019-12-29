@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
 #include "stubs/randomgeneratorstub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/enemymodeltype1.hpp"
 #include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
-#include "../app/imagestorage.hpp"
-#include "../app/soundstorage.hpp"
 #include <QSignalSpy>
 #include <QGraphicsScene>
 
@@ -34,8 +34,8 @@ class EnemyModelType1TestClass : public testing::Test
 public:
     void SetUp()
     {
-        g_imageStorage = new ImageStorage;
-        g_soundStorage = new SoundStorage;
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
     }
     void TearDown()
     {

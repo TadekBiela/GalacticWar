@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
 #include "../app/playercontroller.hpp"
 #include "../app/playermodel.hpp"
@@ -25,6 +27,17 @@ public:
 
 class PlayerControllerTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(PlayerControllerTestsClass, AbortPlayer_CheckIfPlayerAfterDeleteWillBeSetToNullptr_Equal)
@@ -85,6 +98,8 @@ TEST_F(PlayerControllerTestsClass, Defeated_CheckIfWillEmitPlayerDefeatedSingal_
 {
     GeneralView*         view = new GeneralView;
     PlayerControllerTest playerController(view);
+    playerController.createPlayer();
+    view->addGameObject(playerController.getPlayerModel());
     QSignalSpy           signalDefeated(&playerController, &PlayerControllerTest::playerDefeated);
     signalDefeated.wait(utdef::minSignalTimeDelay);
 

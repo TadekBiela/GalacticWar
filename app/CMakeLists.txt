@@ -32,6 +32,10 @@ add_executable(${PROJECT_NAME} main.cpp
                                graphicsview.hpp
                                graphicsview.cpp
                                ifilemanager.hpp
+                               iimagestorage.hpp
+                               iimagestorage.cpp
+                               isoundstorage.hpp
+                               isoundstorage.cpp
                                imagestorage.hpp
                                imagestorage.cpp
                                irandomgenerator.hpp
