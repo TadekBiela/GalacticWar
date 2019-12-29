@@ -236,13 +236,15 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1Playe
     int  signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
     int  resultItemsOnScene = scene->items().size();
     auto resultAnimEffect   = scene->items().at(0);
+    auto resultPlayerModel  = scene->items().at(1);
 
-    EXPECT_EQ(startItemsOnScene,         2);
-    EXPECT_EQ(signalHealthCount,         1);
-    EXPECT_EQ(signalDefeatCount,         1);
-    EXPECT_EQ(signalHealthValue,         0);
-    EXPECT_EQ(resultItemsOnScene,        1);
-    EXPECT_EQ(typeid(*resultAnimEffect), typeid(AnimationEffectModel));
+    EXPECT_EQ(startItemsOnScene,          2);
+    EXPECT_EQ(signalHealthCount,          1);
+    EXPECT_EQ(signalDefeatCount,          1);
+    EXPECT_EQ(signalHealthValue,          0);
+    EXPECT_EQ(resultItemsOnScene,         2);
+    EXPECT_EQ(typeid(*resultAnimEffect),  typeid(AnimationEffectModel));
+    EXPECT_EQ(typeid(*resultPlayerModel), typeid(PlayerModelTest));
     delete generator;
     delete scene;
 }

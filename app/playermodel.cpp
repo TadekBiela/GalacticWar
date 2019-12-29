@@ -112,7 +112,6 @@ void PlayerModel::checkCollisions()
     {
         m_health = 0;
         emit changeHealth(0);
-        scene->removeItem(this);
         emit defeated();
     }
     else if(numOfCollisions > 0)

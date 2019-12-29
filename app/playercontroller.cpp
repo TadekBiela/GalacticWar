@@ -47,6 +47,7 @@ void PlayerController::defeated()
                                                                    "explosion",
                                                                    m_player->pos());
     SoundEffectModel* explosion = new SoundEffectModel("explosion");
+    m_player->scene()->removeItem(m_player);
     delete m_player;
     m_player = nullptr;
     emit playerDefeated();
