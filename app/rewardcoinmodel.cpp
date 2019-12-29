@@ -1,6 +1,7 @@
 #include "rewardcoinmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "soundeffectmodel.hpp"
 #include <QCoreApplication>
 
 RewardCoinModel::RewardCoinModel(coin_type type)
@@ -32,5 +33,6 @@ RewardCoinModel::~RewardCoinModel()
 void RewardCoinModel::collect()
 {
     emit collected(m_type);
+    SoundEffectModel* collect = new SoundEffectModel("collect_coin");
     destroy();
 }
