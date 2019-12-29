@@ -1,6 +1,7 @@
 #include "rewardspecialmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "soundeffectmodel.hpp"
 #include <QCoreApplication>
 
 RewardSpecialModel::RewardSpecialModel(special_type type)
@@ -35,5 +36,6 @@ RewardSpecialModel::~RewardSpecialModel()
 void RewardSpecialModel::collect()
 {
     emit collected(m_type);
+    SoundEffectModel* collect = new SoundEffectModel("collect_special");
     destroy();
 }
