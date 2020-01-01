@@ -53,6 +53,7 @@ void EnemyModel::checkCollisions()
             if(bullet->getType() != bullet_type::enemyBullet)
             {
                 sumDamage += bullet->getDamage();
+                SoundEffectModel* hit = new SoundEffectModel("hit_enemy");
                 scene->removeItem(collidingItems[i]);
                 delete collidingItems[i];
             }
