@@ -6,6 +6,7 @@
 #include "enemymodel.hpp"
 #include "rewardcoinmodel.hpp"
 #include "rewardspecialmodel.hpp"
+#include "soundeffectmodel.hpp"
 #include <QLineF>
 #include <QGraphicsScene>
 #include <typeinfo>
@@ -117,6 +118,7 @@ void PlayerModel::checkCollisions()
     else if(numOfCollisions > 0)
     {
         emit changeHealth(m_health / 10);
+        SoundEffectModel* hitSound = new SoundEffectModel("hit_player");
     }
     scene->update();
 }
