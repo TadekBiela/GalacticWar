@@ -1,6 +1,8 @@
 #include "rewardmodel.hpp"
+#include "animationeffectmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include <QGraphicsScene>
 
 RewardModel::RewardModel()
                          : m_animationFrameIdx(0)
@@ -42,5 +44,12 @@ void RewardModel::animation()
 
 void RewardModel::destroy()
 {
+    QPointF position = pos();
+    position.setX(position.x() + def::animationSmallFrameWight  / 2);
+    position.setY(position.y() + def::animationSmallFrameHeight / 2);
+    AnimationEffectModel* collect = new AnimationEffectModel(this->scene(),
+                                                             "collect_reward",
+                                                             position);
+    this->scene()->removeItem(this);
     delete this;
 }

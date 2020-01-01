@@ -1,5 +1,8 @@
 #include <gtest/gtest.h>
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
+#include "../app/animationeffectmodel.hpp"
 #include "../app/rewardmodel.hpp"
 #include <QTimer>
 #include <QGraphicsScene>
@@ -27,7 +30,17 @@ public:
 
 class RewardModelTestsClass : public testing::Test
 {
-
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(RewardModelTestsClass, RewardModelConstructor_CheckBuildModelCorrect_IsEqual)
@@ -108,8 +121,10 @@ TEST_F(RewardModelTestsClass, Destroy_CheckCorrectWorking_IsZero)
     int resultShouldBeOne = scene.items().size();
 
     rewardModel->destroy();
-    int resultShouldBeZero = scene.items().size();
+    int  resultSholudBeOnlyAnimation = scene.items().size();
+    auto resultAnimation             = scene.items().at(0);
 
-    EXPECT_EQ(resultShouldBeOne,  1);
-    EXPECT_EQ(resultShouldBeZero, 0);
+    EXPECT_EQ(resultShouldBeOne,           1);
+    EXPECT_EQ(resultSholudBeOnlyAnimation, 1);
+    EXPECT_EQ(typeid(*resultAnimation),    typeid(AnimationEffectModel));
 }

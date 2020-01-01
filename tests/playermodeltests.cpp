@@ -127,21 +127,17 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinRewardAndRe
     coin->setPos(playerPosition);
     scene->addItem(coin);
     scene->addItem(player);
-    int startItemsOnScene = scene->items().size();
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
     player->checkCollisions();
     int signalHealthCount  = signalHealth.count();
     int signalDefeatCount  = signalDefeat.count();
     int signalCoinCount    = signalCoin.count();
-    int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,     2);
     EXPECT_EQ(signalHealthCount,     0);
     EXPECT_EQ(signalDefeatCount,     0);
     EXPECT_EQ(signalCoinCount,       1);
-    EXPECT_EQ(resultItemsOnScene,    1);
     EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
@@ -159,21 +155,17 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialRewardAn
     special->setPos(playerPosition);
     scene->addItem(special);
     scene->addItem(player);
-    int startItemsOnScene = scene->items().size();
     signalDefeat.wait(utdef::minSignalTimeDelay);
 
     player->checkCollisions();
     int signalHealthCount  = signalHealth.count();
     int signalDefeatCount  = signalDefeat.count();
     int signalSpecialCount = signalSpecial.count();
-    int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,     2);
     EXPECT_EQ(signalHealthCount,     0);
     EXPECT_EQ(signalDefeatCount,     0);
     EXPECT_EQ(signalSpecialCount,    1);
-    EXPECT_EQ(resultItemsOnScene,    1);
     EXPECT_EQ(resultHealth,       1000);
     delete scene;
 }
@@ -277,24 +269,20 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
     signalSpecial.wait(utdef::minSignalTimeDelay);
 
     player->checkCollisions();
-    int  signalHealthCount  = signalHealth.count();
-    int  signalDefeatCount  = signalDefeat.count();
-    int  signalCoinCount    = signalCoin.count();
-    int  signalSpecialCount = signalSpecial.count();
-    int  signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-    int  resultItemsOnScene = scene->items().size();
-    auto resultAnimEffect   = scene->items().at(0);
-    auto resultPlayerModel  = scene->items().at(1);
-    int  resultHealth       = player->getHealth();
+    int signalHealthCount  = signalHealth.count();
+    int signalDefeatCount  = signalDefeat.count();
+    int signalCoinCount    = signalCoin.count();
+    int signalSpecialCount = signalSpecial.count();
+    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
+    int resultItemsOnScene = scene->items().size();
+    int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,            5);
-    EXPECT_EQ(signalHealthCount,            1);
-    EXPECT_EQ(signalDefeatCount,            0);
-    EXPECT_EQ(signalHealthValue,           85);
-    EXPECT_EQ(resultItemsOnScene,           2);
-    EXPECT_EQ(typeid(*resultAnimEffect),  typeid(AnimationEffectModel));
-    EXPECT_EQ(typeid(*resultPlayerModel), typeid(PlayerModelTest));
-    EXPECT_EQ(resultHealth,               850);
+    EXPECT_EQ(startItemsOnScene,    5);
+    EXPECT_EQ(signalHealthCount,    1);
+    EXPECT_EQ(signalDefeatCount,    0);
+    EXPECT_EQ(signalHealthValue,   85);
+    EXPECT_EQ(resultItemsOnScene,   4);
+    EXPECT_EQ(resultHealth,       850);
     delete generator;
     delete scene;
 }

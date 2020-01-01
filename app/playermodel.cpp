@@ -92,9 +92,8 @@ void PlayerModel::checkCollisions()
         else if(typeid(*collidingItems[i]) == typeid(RewardCoinModel) ||
                 typeid(*collidingItems[i]) == typeid(RewardSpecialModel))
         {
-            RewardModel* coin = static_cast<RewardModel*>(collidingItems[i]);
-            scene->removeItem(collidingItems[i]);
-            coin->collect();
+            RewardModel* reward = static_cast<RewardModel*>(collidingItems[i]);
+            reward->collect();
             numOfCollisions--;
         }
         else if(typeid(*collidingItems[i]) == typeid(AnimationEffectModel))

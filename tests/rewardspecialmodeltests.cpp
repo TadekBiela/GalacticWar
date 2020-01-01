@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
 #include "../app/rewardspecialmodel.hpp"
 #include "../app/rewardtypes.hpp"
@@ -25,6 +27,17 @@ public:
 
 class RewardSpecialModelTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(RewardSpecialModelTestsClass, RewardSpecialModelConstructor_CheckBuildModelCorrect_IsEqual)
@@ -49,7 +62,6 @@ TEST_F(RewardSpecialModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectT
     QGraphicsScene          scene;
     RewardSpecialModelTest* rewardSpecialModel = new RewardSpecialModelTest(special_type::weaponYellow);
     scene.addItem(rewardSpecialModel);
-    int resultShouldBeOne = scene.items().size();
     QSignalSpy signalCollect(rewardSpecialModel, &RewardSpecialModelTest::collected);
     signalCollect.wait(utdef::minSignalTimeDelay);
 
@@ -57,10 +69,7 @@ TEST_F(RewardSpecialModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectT
     int             resultSignalCollectCount = signalCollect.count();
     QList<QVariant> resultSignalCollect      = signalCollect.takeFirst();
     special_type    resultType               = qvariant_cast<special_type>(resultSignalCollect.at(0));
-    int             resultShouldBeZero       = scene.items().size();
 
     EXPECT_EQ(resultSignalCollectCount, 1);
     EXPECT_EQ(resultType,               special_type::weaponYellow);
-    EXPECT_EQ(resultShouldBeOne,        1);
-    EXPECT_EQ(resultShouldBeZero,       0);
 }

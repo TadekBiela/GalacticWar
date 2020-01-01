@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardtypes.hpp"
@@ -25,6 +27,17 @@ public:
 
 class RewardCoinModelTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(RewardCoinModelTestsClass, RewardCoinModelConstructor_CheckBuildModelCorrect_IsEqual)
@@ -49,7 +62,6 @@ TEST_F(RewardCoinModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType
     QGraphicsScene       scene;
     RewardCoinModelTest* rewardCoinModel = new RewardCoinModelTest(coin_type::silver);
     scene.addItem(rewardCoinModel);
-    int resultShouldBeOne = scene.items().size();
     QSignalSpy signalCollect(rewardCoinModel, &RewardCoinModelTest::collected);
     signalCollect.wait(utdef::minSignalTimeDelay);
 
@@ -57,10 +69,7 @@ TEST_F(RewardCoinModelTestsClass, Collect_CheckIfWillBeSendSignalWithCorrectType
     int             resultSignalCollectCount = signalCollect.count();
     QList<QVariant> resultSignalCollect      = signalCollect.takeFirst();
     coin_type       resultType               = qvariant_cast<coin_type>(resultSignalCollect.at(0));
-    int             resultShouldBeZero       = scene.items().size();
 
     EXPECT_EQ(resultSignalCollectCount, 1);
     EXPECT_EQ(resultType,               coin_type::silver);
-    EXPECT_EQ(resultShouldBeOne,        1);
-    EXPECT_EQ(resultShouldBeZero,       0);
 }
