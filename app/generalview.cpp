@@ -207,7 +207,7 @@ void GeneralView::start()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
-    m_view.setCursor(QCursor(Qt::BlankCursor));
+    m_view.setCursor(QCursor(Qt::CrossCursor));
     m_view.setGraphicsEffects(0, 0);
     m_scene.clear();
     emit startGame();
@@ -264,7 +264,7 @@ void GeneralView::continueGame()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
-    m_view.setCursor(QCursor(Qt::BlankCursor));
+    m_view.setCursor(QCursor(Qt::CrossCursor));
     m_view.setGraphicsEffects(0, 0);
     m_view.startAllItems();
 }
