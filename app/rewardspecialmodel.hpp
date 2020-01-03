@@ -3,6 +3,7 @@
 
 #include "rewardmodel.hpp"
 #include "rewardtypes.hpp"
+#include <QString>
 
 class RewardSpecialModel : public RewardModel
 {
@@ -18,6 +19,7 @@ signals:
 
 protected:
     special_type m_type;
+    QString      m_soundName;
 };
 
 #endif // REWARDSPECIALMODEL_HPP

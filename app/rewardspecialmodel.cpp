@@ -13,15 +13,19 @@ RewardSpecialModel::RewardSpecialModel(special_type type)
     {
         case health:
             animationName = "health";
+            m_soundName   = "collect_health";
             break;
         case weaponRed:
             animationName = "weapon_red";
+            m_soundName   = "collect_weapon";
             break;
         case weaponYellow:
             animationName = "weapon_yellow";
+            m_soundName   = "collect_weapon";
             break;
         case weaponBlue:
             animationName = "weapon_blue";
+            m_soundName   = "collect_weapon";
             break;
     }
 
@@ -37,7 +41,7 @@ RewardSpecialModel::~RewardSpecialModel()
 void RewardSpecialModel::collect()
 {
     emit collected(m_type);
-    SoundEffectModel* collect = new SoundEffectModel("collect_special");
+    SoundEffectModel* collect = new SoundEffectModel(m_soundName);
     QPointF position = pos();
     position.setX(position.x() + def::animationSmallFrameWight  / 2);
     position.setY(position.y() + def::animationSmallFrameHeight / 2);

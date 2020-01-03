@@ -19,6 +19,7 @@ public:
     virtual ~RewardSpecialModelTest() {}
 
     special_type  getType()              const { return m_type; }
+    QString       getSoundName()         const { return m_soundName; }
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
     const QTimer& getAnimationTimer()    const { return m_animationTimer; }
     const QTimer& getDestroyTimer()      const { return m_destroyTimer; }
@@ -44,11 +45,13 @@ TEST_F(RewardSpecialModelTestsClass, RewardSpecialModelConstructor_CheckBuildMod
 {
     RewardSpecialModelTest rewardSpecialModel(special_type::health);
     special_type  resultType         = rewardSpecialModel.getType();
+    QString       resultSoundName    = rewardSpecialModel.getSoundName();
     int           resultAnimFrameIdx = rewardSpecialModel.getAnimationFrameIdx();
     const QTimer& resultAnimTimer    = rewardSpecialModel.getAnimationTimer();
     const QTimer& resultDestroyTimer = rewardSpecialModel.getDestroyTimer();
 
     EXPECT_EQ(resultType,                          special_type::health);
+    EXPECT_EQ(resultSoundName,                     QString("collect_health"));
     EXPECT_EQ(resultAnimFrameIdx,                  0);
     EXPECT_EQ(resultAnimTimer.isActive(),          true);
     EXPECT_EQ(resultDestroyTimer.isActive(),       true);
