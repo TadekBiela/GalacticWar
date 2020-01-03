@@ -46,12 +46,12 @@ bool isOutOfScene(QPointF pos, QPixmap pixmap)
     return false;
 }
 
-QPixmap getAnimationFrame(QImage image, int animFrameIdx)
+QPixmap getAnimationFrame(QImage* image, int animFrameIdx)
 {
     QPixmap map;
-    map.convertFromImage(image.copy(animFrameIdx * image.height(),
+    map.convertFromImage(image->copy(animFrameIdx * image->height(),
                                     0,
-                                    image.height(),
-                                    image.height())); //Animation frame is square
+                                    image->height(),
+                                    image->height())); //Animation frame is square
     return map;
 }

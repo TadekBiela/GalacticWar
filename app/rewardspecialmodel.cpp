@@ -1,30 +1,31 @@
 #include "rewardspecialmodel.hpp"
+#include "animationeffectmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
 #include "soundeffectmodel.hpp"
-#include <QCoreApplication>
+#include "imagestorage.hpp"
 
 RewardSpecialModel::RewardSpecialModel(special_type type)
                                         : m_type(type)
 {
-    QString fileName;
+    QString animationName;
     switch (m_type)
     {
         case health:
-            fileName = "health.jpg";
+            animationName = "health";
             break;
         case weaponRed:
-            fileName = "red.jpg";
+            animationName = "weapon_red";
             break;
         case weaponYellow:
-            fileName = "yellow.jpg";
+            animationName = "weapon_yellow";
             break;
         case weaponBlue:
-            fileName = "blue.jpg";
+            animationName = "weapon_blue";
             break;
     }
 
-    m_image = QImage(QCoreApplication::applicationDirPath() + "/images/" + fileName);
+    m_image = g_imageStorage->getImage(animationName);
     setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }
 
@@ -37,5 +38,11 @@ void RewardSpecialModel::collect()
 {
     emit collected(m_type);
     SoundEffectModel* collect = new SoundEffectModel("collect_special");
+    QPointF position = pos();
+    position.setX(position.x() + def::animationSmallFrameWight  / 2);
+    position.setY(position.y() + def::animationSmallFrameHeight / 2);
+    AnimationEffectModel* collectAnim = new AnimationEffectModel(this->scene(),
+                                                                 "collect_reward",
+                                                                 position);
     destroy();
 }

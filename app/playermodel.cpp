@@ -1,6 +1,7 @@
 #include "playermodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "imagestorage.hpp"
 #include "animationeffectmodel.hpp"
 #include "bulletmodel.hpp"
 #include "enemymodel.hpp"
@@ -10,11 +11,9 @@
 #include <QLineF>
 #include <QGraphicsScene>
 #include <typeinfo>
-#include <QCoreApplication>
 
 PlayerModel::PlayerModel()
-                         : m_image(QCoreApplication::applicationDirPath() + "/images/player.jpg"),
-                           m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
+                         : m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
                            m_direction(0),
                            m_health(def::maxPlayerHealth),
                            m_weapon(defaultWeapon),
@@ -22,6 +21,7 @@ PlayerModel::PlayerModel()
                            m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
                            m_animationFrameIdx(0)
 {
+    m_image = g_imageStorage->getImage("player");
     setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 
     setPos(def::halfSceneWight  - def::animationFrameWight  / 2,

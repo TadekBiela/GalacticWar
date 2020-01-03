@@ -14,6 +14,6 @@ QPointF moveForward(const QPointF startPosition, int direction);
 
 bool isOutOfScene(QPointF pos, QPixmap pixmap);
 
-QPixmap getAnimationFrame(QImage image, int animFrameIdx);
+QPixmap getAnimationFrame(QImage* image, int animFrameIdx);
 
 #endif // FUNCTIONS_HPP

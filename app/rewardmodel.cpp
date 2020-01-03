@@ -44,12 +44,6 @@ void RewardModel::animation()
 
 void RewardModel::destroy()
 {
-    QPointF position = pos();
-    position.setX(position.x() + def::animationSmallFrameWight  / 2);
-    position.setY(position.y() + def::animationSmallFrameHeight / 2);
-    AnimationEffectModel* collect = new AnimationEffectModel(this->scene(),
-                                                             "collect_reward",
-                                                             position);
     this->scene()->removeItem(this);
     delete this;
 }

@@ -37,7 +37,7 @@ public slots:
 protected:
     void    changeWeapon(weapon_type weapon);
 
-    QImage  m_image;
+    QImage* m_image;
     QPointF m_movePosition;
     int     m_direction;
     int     m_health;

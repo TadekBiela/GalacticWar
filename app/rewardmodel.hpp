@@ -21,10 +21,10 @@ public slots:
     void destroy();
 
 protected:
-    QImage m_image;
-    int    m_animationFrameIdx;
-    QTimer m_animationTimer;
-    QTimer m_destroyTimer;
+    QImage* m_image;
+    int     m_animationFrameIdx;
+    QTimer  m_animationTimer;
+    QTimer  m_destroyTimer;
 };
 
 #endif // REWARDMODEL_HPP

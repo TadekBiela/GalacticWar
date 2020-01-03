@@ -34,15 +34,15 @@ public slots:
     virtual void animation();
 
 protected:
-    QImage m_image;
-    int    m_level;
-    int    m_health;
-    int    m_damage;
-    int    m_direction;
-    int    m_animationFrameIdx;
-    QTimer m_fireTimer;
-    QTimer m_moveTimer;
-    QTimer m_animationTimer;
+    QImage* m_image;
+    int     m_level;
+    int     m_health;
+    int     m_damage;
+    int     m_direction;
+    int     m_animationFrameIdx;
+    QTimer  m_fireTimer;
+    QTimer  m_moveTimer;
+    QTimer  m_animationTimer;
 };
 
 #endif // ENEMYMODEL_HPP

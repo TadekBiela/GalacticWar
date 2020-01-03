@@ -1,27 +1,28 @@
 #include "rewardcoinmodel.hpp"
+#include "animationeffectmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "imagestorage.hpp"
 #include "soundeffectmodel.hpp"
-#include <QCoreApplication>
 
 RewardCoinModel::RewardCoinModel(coin_type type)
                                   : m_type(type)
 {
-    QString fileName;
+    QString animationName;
     switch (m_type)
     {
         case bronze:
-            fileName = "coin1.jpg";
+            animationName = "coin1";
             break;
         case silver:
-            fileName = "coin2.jpg";
+            animationName = "coin2";
             break;
         case gold:
-            fileName = "coin3.jpg";
+            animationName = "coin3";
             break;
     }
 
-    m_image = QImage(QCoreApplication::applicationDirPath() + "/images/" + fileName);
+    m_image = g_imageStorage->getImage(animationName);
     setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
 }
 
@@ -34,5 +35,11 @@ void RewardCoinModel::collect()
 {
     emit collected(m_type);
     SoundEffectModel* collect = new SoundEffectModel("collect_coin");
+    QPointF position = pos();
+    position.setX(position.x() + def::animationSmallFrameWight  / 2);
+    position.setY(position.y() + def::animationSmallFrameHeight / 2);
+    AnimationEffectModel* collectAnim = new AnimationEffectModel(this->scene(),
+                                                                 "collect_reward",
+                                                                 position);
     destroy();
 }
