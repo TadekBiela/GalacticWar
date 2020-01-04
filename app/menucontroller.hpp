@@ -27,6 +27,8 @@ signals:
 
 public slots:
     void startGame();
+    void startSpawningEnemies();
+    void showScore();
     void escPressed();
     void updateScore(int score);
     void gameOver();

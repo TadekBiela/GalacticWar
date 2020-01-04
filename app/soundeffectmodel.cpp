@@ -18,6 +18,7 @@ void SoundEffectModel::destroy()
 {
     if(m_sound->isPlaying() == false)
     {
+        emit end();
         delete this;
     }
 }

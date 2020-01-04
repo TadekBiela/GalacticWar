@@ -1,4 +1,5 @@
 #include "menucontroller.hpp"
+#include "soundeffectmodel.hpp"
 
 MenuController::MenuController(GeneralView* view,
                                MenuModel*   model)
@@ -28,10 +29,23 @@ MenuController::~MenuController()
 void MenuController::startGame()
 {
     m_isGamePaused = false;
+
     emit resetLevel();
     emit resetScore();
     emit createNewPlayer();
+
+    SoundEffectModel* startGame = new SoundEffectModel("start_game");
+    connect(startGame, SIGNAL(end()), this, SLOT(startSpawningEnemies()));
+}
+
+void MenuController::startSpawningEnemies()
+{
     emit activateEnemySpawning();
+}
+
+void MenuController::showScore()
+{
+    emit getScore();
 }
 
 void MenuController::escPressed()
@@ -58,5 +72,7 @@ void MenuController::updateScore(int score)
 void MenuController::gameOver()
 {
     emit deactivateEnemySpawning();
-    emit getScore();
+
+    SoundEffectModel* gameOver = new SoundEffectModel("game_over");
+    connect(gameOver, SIGNAL(end()), this, SLOT(showScore()));
 }

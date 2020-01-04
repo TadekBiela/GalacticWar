@@ -12,6 +12,9 @@ public:
     SoundEffectModel(QString soundName);
     virtual ~SoundEffectModel();
 
+signals:
+    void end();
+
 public slots:
     void destroy();
 
