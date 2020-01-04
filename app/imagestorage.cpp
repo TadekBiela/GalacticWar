@@ -7,7 +7,7 @@
 ImageStorage::ImageStorage()
 {
     QDir directory(QCoreApplication::applicationDirPath() + "/images/");
-    QStringList sounds = directory.entryList(QStringList() << "*.jpg" << "*.JPG", QDir::Files);
+    QStringList sounds = directory.entryList(QStringList() << "*.png" << "*.PNG", QDir::Files);
     std::for_each(sounds.begin(), sounds.end(), [this](QString filename)
     {
         QString name = filename;
