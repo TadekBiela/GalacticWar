@@ -3,13 +3,13 @@
 
 #include "menumodel.hpp"
 #include "graphicsview.hpp"
+#include "pushbutton.hpp"
 #include <QMainWindow>
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QLabel>
 #include <QLineEdit>
-#include <QPushButton>
 #include <QListWidget>
 #include <QMouseEvent>
 #include <QPointF>
@@ -68,13 +68,13 @@ protected:
     QLabel      m_pause;             // Menu
     QLineEdit   m_player;            // GameOver
     QLabel      m_score;             // GameOver
-    QPushButton m_startButton;       // Menu
-    QPushButton m_highScoreButton;   // Menu
-    QPushButton m_quitButton;        // Menu
-    QPushButton m_backToMenuButton;  // HighScore
-    QPushButton m_backToMenuButton2; // GameOver & Pause
-    QPushButton m_saveAfterGameOver; // GameOver
-    QPushButton m_continueButton;    // Pause
+    PushButton  m_startButton;       // Menu
+    PushButton  m_highScoreButton;   // Menu
+    PushButton  m_quitButton;        // Menu
+    PushButton  m_backToMenuButton;  // HighScore
+    PushButton  m_backToMenuButton2; // GameOver & Pause
+    PushButton  m_saveAfterGameOver; // GameOver
+    PushButton  m_continueButton;    // Pause
     QListWidget m_highScoreList;     // HighScore
 
     //HealthView section

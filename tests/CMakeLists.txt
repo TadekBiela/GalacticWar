@@ -55,6 +55,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/playercontroller.cpp
                                ../app/playermodel.hpp
                                ../app/playermodel.cpp
+                               ../app/pushbutton.hpp
+                               ../app/pushbutton.cpp
                                ../app/rewardcontroller.hpp
                                ../app/rewardcontroller.cpp
                                ../app/rewardmodel.hpp
