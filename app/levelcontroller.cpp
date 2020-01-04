@@ -1,4 +1,5 @@
 #include "levelcontroller.hpp"
+#include "soundeffectmodel.hpp"
 
 LevelController::LevelController(LevelModel*  model,
                                  GeneralView* view)
@@ -19,9 +20,15 @@ void LevelController::resetLevel()
     emit reset();
 }
 
-void LevelController::nextLevel()
+void LevelController::changeLevel()
 {
     emit next();
+}
+
+void LevelController::nextLevel()
+{
+    SoundEffectModel* levelUp = new SoundEffectModel("level_up");
+    connect(levelUp, SIGNAL(end()), this, SLOT(changeLevel()));
 }
 
 void LevelController::change(EnemyConfiguration newEnemyConfiguration)

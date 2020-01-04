@@ -21,6 +21,7 @@ signals:
 
 public slots:
     void resetLevel();
+    void changeLevel();
     void nextLevel();
     void change(EnemyConfiguration newEnemyConfiguration);
 };
