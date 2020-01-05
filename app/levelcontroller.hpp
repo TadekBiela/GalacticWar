@@ -24,6 +24,9 @@ public slots:
     void changeLevel();
     void nextLevel();
     void change(EnemyConfiguration newEnemyConfiguration);
+
+protected:
+    GeneralView* m_view;
 };
 
 #endif // LEVELCONTROLLER_HPP

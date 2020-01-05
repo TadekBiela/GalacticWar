@@ -14,6 +14,8 @@ namespace def
     const int    animationFrameHeight      = 60;
     const int    animationSmallFrameWight  = 30;
     const int    animationSmallFrameHeight = 30;
+    const int    animationBigFrameWight    = 200;
+    const int    animationBigFrameHeight   = 30;
     const int    maxNumOfLevel             = 10;
     const int    maxWeaponTypes            = 3;
     const int    maxWeaponLevel            = 5;

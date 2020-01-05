@@ -22,6 +22,7 @@ class GeneralView : public QMainWindow
 public:
     GeneralView();
     virtual ~GeneralView();
+    QGraphicsScene* getScene() { return &m_scene; }
 
 signals:
     void startGame();

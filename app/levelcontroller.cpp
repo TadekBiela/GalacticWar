@@ -1,8 +1,10 @@
 #include "levelcontroller.hpp"
+#include "animationeffectmodel.hpp"
 #include "soundeffectmodel.hpp"
 
 LevelController::LevelController(LevelModel*  model,
                                  GeneralView* view)
+                                  : m_view(view)
 {
     connect(this,  SIGNAL(reset()),                    model, SLOT(reset()));
     connect(this,  SIGNAL(next()),                     model, SLOT(next()));
@@ -27,6 +29,13 @@ void LevelController::changeLevel()
 
 void LevelController::nextLevel()
 {
+    QPointF position(def::halfSceneWight,
+                     def::halfSceneHeight - def::halfSceneHeight / 4);
+    AnimationEffectModel* levelUpAnim = new AnimationEffectModel(m_view->getScene(),
+                                                                 "level_up",
+                                                                 position,
+                                                                 def::animationBigFrameWight,
+                                                                 def::animationBigFrameHeight);
     SoundEffectModel* levelUp = new SoundEffectModel("level_up");
     connect(levelUp, SIGNAL(end()), this, SLOT(changeLevel()));
 }
