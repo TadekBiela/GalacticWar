@@ -8,8 +8,8 @@ namespace def
     const int    moveVectorLength          = 10;
     const double pi                        = 3.14159265;
     const double radianConversionFactor    = pi / 180;
-    const int    maxAnimationFrames        = 5;
-    const int    maxAnimationFrameIdx      = 4;
+    const int    maxAnimationFrames        = 10;
+    const int    maxAnimationFrameIdx      = 9;
     const int    animationFrameWight       = 60;
     const int    animationFrameHeight      = 60;
     const int    animationSmallFrameWight  = 30;

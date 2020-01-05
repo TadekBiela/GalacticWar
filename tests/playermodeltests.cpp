@@ -501,6 +501,11 @@ TEST_F(PlayerModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckI
     int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
     playerModel.animation();
     playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
     int resultAnimationFrameIdxReset = playerModel.getAnimationFrameIdx();
 
     EXPECT_EQ(resultAnimationFrameIdx,      3);

@@ -389,6 +389,11 @@ TEST_F(EnemyModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIf
     int resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
     enemyModel.animation();
     enemyModel.animation();
+    enemyModel.animation();
+    enemyModel.animation();
+    enemyModel.animation();
+    enemyModel.animation();
+    enemyModel.animation();
     int resultAnimationFrameIdxReset = enemyModel.getAnimationFrameIdx();
 
     EXPECT_EQ(resultAnimationFrameIdx,      3);
