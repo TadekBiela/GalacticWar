@@ -18,6 +18,7 @@ public:
         setPixmap(map);
     }
     virtual ~RewardModelTest() {}
+    void setImage(QImage* image) { m_image = image; }
 
     int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
     const QTimer& getAnimationTimer()    const { return m_animationTimer; }
@@ -83,7 +84,9 @@ TEST_F(RewardModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
 
 TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreased_IsOne)
 {
+    QImage dumpImage;
     RewardModelTest rewardModel;
+    rewardModel.setImage(&dumpImage);
 
     rewardModel.animation();
     int resultAnimFrameIdx = rewardModel.getAnimationFrameIdx();
@@ -93,7 +96,9 @@ TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIs0CheckIfWillBeIncreas
 
 TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeResetTo0_IsZero)
 {
+    QImage dumpImage;
     RewardModelTest rewardModel;
+    rewardModel.setImage(&dumpImage);
     rewardModel.setAnimationFrameIdx(def::maxAnimationFrameIdx);
 
     rewardModel.animation();
@@ -104,7 +109,9 @@ TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIsMaxCheckIfWillBeReset
 
 TEST_F(RewardModelTestsClass, Animation_AnimationFrameIdxIsMaxMinusOneCheckIfWillBeSetToMax_IsEqual)
 {
+    QImage dumpImage;
     RewardModelTest rewardModel;
+    rewardModel.setImage(&dumpImage);
     rewardModel.setAnimationFrameIdx(def::maxAnimationFrameIdx - 1);
 
     rewardModel.animation();
@@ -121,10 +128,8 @@ TEST_F(RewardModelTestsClass, Destroy_CheckCorrectWorking_IsZero)
     int resultShouldBeOne = scene.items().size();
 
     rewardModel->destroy();
-    int  resultSholudBeOnlyAnimation = scene.items().size();
-    auto resultAnimation             = scene.items().at(0);
+    int resultSholudBeZero = scene.items().size();
 
-    EXPECT_EQ(resultShouldBeOne,           1);
-    EXPECT_EQ(resultSholudBeOnlyAnimation, 1);
-    EXPECT_EQ(typeid(*resultAnimation),    typeid(AnimationEffectModel));
+    EXPECT_EQ(resultShouldBeOne,  1);
+    EXPECT_EQ(resultSholudBeZero, 0);
 }

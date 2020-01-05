@@ -71,7 +71,11 @@ void EnemyModel::destroy()
     position.setY(position.y() + def::animationFrameHeight / 2);
     emit this->destroyed(position, m_level);
     SoundEffectModel*     explosion     = new SoundEffectModel("explosion");
-    AnimationEffectModel* explosionAnim = new AnimationEffectModel(scene, "explosion", position);
+    AnimationEffectModel* explosionAnim = new AnimationEffectModel(scene,
+                                                                   "explosion",
+                                                                   position,
+                                                                   def::animationFrameWight,
+                                                                   def::animationFrameHeight);
     delete this;
 }
 
@@ -106,5 +110,8 @@ void EnemyModel::animation()
         m_animationFrameIdx = 0;
     }
 
-    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
+    setPixmap(getAnimationFrame(m_image,
+                                m_animationFrameIdx,
+                                m_image->height(),
+                                m_image->height()));
 }

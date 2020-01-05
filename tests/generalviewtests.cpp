@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
 #include "stubs/randomgeneratorstub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/generalview.hpp"
 #include "../app/graphicsview.hpp"
 #include "../app/definitions.hpp"
@@ -54,6 +56,17 @@ public:
 
 class GeneralViewTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)

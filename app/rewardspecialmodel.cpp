@@ -30,7 +30,10 @@ RewardSpecialModel::RewardSpecialModel(special_type type)
     }
 
     m_image = g_imageStorage->getImage(animationName);
-    setPixmap(getAnimationFrame(m_image, m_animationFrameIdx));
+    setPixmap(getAnimationFrame(m_image,
+                                m_animationFrameIdx,
+                                m_image->height(),
+                                m_image->height()));
 }
 
 RewardSpecialModel::~RewardSpecialModel()
@@ -47,6 +50,8 @@ void RewardSpecialModel::collect()
     position.setY(position.y() + def::animationSmallFrameHeight / 2);
     AnimationEffectModel* collectAnim = new AnimationEffectModel(this->scene(),
                                                                  "collect_reward",
-                                                                 position);
+                                                                 position,
+                                                                 def::animationFrameWight,
+                                                                 def::animationFrameHeight);
     destroy();
 }

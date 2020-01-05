@@ -43,6 +43,7 @@ public:
     const QTimer& getFireTimer()         const { return m_fireTimer; }
     const QTimer& getMoveTimer()         const { return m_moveTimer; }
     const QTimer& getAnimationTimer()    const { return m_animationTimer; }
+    void setImage(QImage* image) { m_image = image; }
 
 public slots: //dummy implementation - slots not tested in this class
     void fire(){}
@@ -366,7 +367,9 @@ TEST_F(EnemyModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
 
 TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
 {
+    QImage dumpImage;
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    enemyModel.setImage(&dumpImage);
 
     enemyModel.animation();
     int resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
@@ -376,7 +379,9 @@ TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_I
 
 TEST_F(EnemyModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
 {
+    QImage dumpImage;
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
+    enemyModel.setImage(&dumpImage);
 
     enemyModel.animation();
     enemyModel.animation();

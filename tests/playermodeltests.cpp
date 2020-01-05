@@ -70,7 +70,6 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerSho
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
     signalDefeat.wait(utdef::minSignalTimeDelay);
-
     player->checkCollisions();
     int signalHealthCount  = signalHealth.count();
     int signalDefeatCount  = signalDefeat.count();
@@ -512,6 +511,17 @@ typedef std::tr1::tuple<weapon, int, special_type, weapon> input_params;
 
 class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_P(PlayerModelTestsParamClass, ChangeAtribute_CollectedWeapon_IsEqual)

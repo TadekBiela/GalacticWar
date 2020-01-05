@@ -45,7 +45,9 @@ void PlayerController::defeated()
 {
     AnimationEffectModel* explosionAnim = new AnimationEffectModel(m_player->scene(),
                                                                    "explosion",
-                                                                   m_player->pos());
+                                                                   m_player->pos(),
+                                                                   def::animationFrameWight,
+                                                                   def::animationFrameHeight);
     SoundEffectModel* explosion = new SoundEffectModel("explosion");
     m_player->scene()->removeItem(m_player);
     delete m_player;

@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/menucontroller.hpp"
 #include "../app/menumodel.hpp"
 #include "../app/generalview.hpp"
@@ -21,30 +23,38 @@ public:
 
 class MenuControllerTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
-TEST_F(MenuControllerTestsClass, StartGame_CheckIfWillBeSendSignalToActivateEnemies_IsEqual)
+TEST_F(MenuControllerTestsClass, StartGame_CheckIfWillBeSendSignalsToResetLevelAndScoreAndCreateNewPlayerModel_IsEqual)
 {
     FileManagerStub*   fileMgr = new FileManagerStub;
     MenuModel*         model   = new MenuModel(fileMgr);
     GeneralView*       view    = new GeneralView;
     MenuControllerTest menuController(view, model);
-    QSignalSpy signalResetLevel(&menuController,    &MenuControllerTest::resetLevel);
-    QSignalSpy signalResetScore(&menuController,    &MenuControllerTest::resetScore);
-    QSignalSpy signalCreate(&menuController,        &MenuControllerTest::createNewPlayer);
-    QSignalSpy signalActEnemySpawn(&menuController, &MenuControllerTest::activateEnemySpawning);
-    signalActEnemySpawn.wait(utdef::minSignalTimeDelay);
+    QSignalSpy signalResetLevel(&menuController, &MenuControllerTest::resetLevel);
+    QSignalSpy signalResetScore(&menuController, &MenuControllerTest::resetScore);
+    QSignalSpy signalCreate(&menuController,     &MenuControllerTest::createNewPlayer);
+    signalCreate.wait(utdef::minSignalTimeDelay);
 
     menuController.startGame();
-    int resultSignalResetLevelCount    = signalResetLevel.count();
-    int resultSignalResetScoreCount    = signalResetScore.count();
-    int resultSignalCreateCount        = signalCreate.count();
-    int resultSignalActEnemySpawnCount = signalActEnemySpawn.count();
+    int resultSignalResetLevelCount = signalResetLevel.count();
+    int resultSignalResetScoreCount = signalResetScore.count();
+    int resultSignalCreateCount     = signalCreate.count();
 
-    EXPECT_EQ(resultSignalResetLevelCount,    1);
-    EXPECT_EQ(resultSignalResetScoreCount,    1);
-    EXPECT_EQ(resultSignalCreateCount,        1);
-    EXPECT_EQ(resultSignalActEnemySpawnCount, 1);
+    EXPECT_EQ(resultSignalResetLevelCount, 1);
+    EXPECT_EQ(resultSignalResetScoreCount, 1);
+    EXPECT_EQ(resultSignalCreateCount,     1);
     delete model;
     delete fileMgr;
     delete view;
@@ -119,22 +129,19 @@ TEST_F(MenuControllerTestsClass, UpdateScore_CheckIfBeSendignalToStopAllGameAndS
     delete view;
 }
 
-TEST_F(MenuControllerTestsClass, GameOver_CheckIfBeSendTwoSignalsToStopAllGameAndGetScoreFromScoreController_IsEqual)
+TEST_F(MenuControllerTestsClass, GameOver_CheckIfBeSendSignalToStopSpawningEnemies_IsEqual)
 {
     FileManagerStub*   fileMgr = new FileManagerStub;
     MenuModel*         model   = new MenuModel(fileMgr);
     GeneralView*       view    = new GeneralView;
     MenuControllerTest menuController(view, model);
     QSignalSpy signalDeactEnemySpawn(&menuController, &MenuControllerTest::deactivateEnemySpawning);
-    QSignalSpy signalGetScore(&menuController, &MenuControllerTest::getScore);
-    signalGetScore.wait(utdef::minSignalTimeDelay);
+    signalDeactEnemySpawn.wait(utdef::minSignalTimeDelay);
 
     menuController.gameOver();
     int resultSignalDeactEnemySpawnCount = signalDeactEnemySpawn.count();
-    int resultSignalPlayerDefCount       = signalGetScore.count();
 
     EXPECT_EQ(resultSignalDeactEnemySpawnCount, 1);
-    EXPECT_EQ(resultSignalPlayerDefCount,       1);
     delete model;
     delete fileMgr;
     delete view;

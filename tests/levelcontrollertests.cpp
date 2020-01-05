@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/levelcontroller.hpp"
 #include "../app/levelmodel.hpp"
 #include "../app/generalview.hpp"
@@ -19,6 +21,17 @@ public:
 
 class LevelControllerTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(LevelControllerTestsClass, ResetLevel_CheckIfWillSendResetLevelInModelSignalOneTime_IsEqual)
@@ -33,22 +46,6 @@ TEST_F(LevelControllerTestsClass, ResetLevel_CheckIfWillSendResetLevelInModelSig
     int resultSignalResetLevelCount = signalReset.count();
 
     EXPECT_EQ(resultSignalResetLevelCount, 1);
-    delete model;
-    delete view;
-}
-
-TEST_F(LevelControllerTestsClass, NextLevel_CheckIfWillSendNextLevelInModelSignalOneTime_IsEqual)
-{
-    LevelModel*  model = new LevelModel;
-    GeneralView* view  = new GeneralView;
-    LevelControllerTest levelController(model, view);
-    QSignalSpy signalNext(&levelController, &LevelControllerTest::next);
-    signalNext.wait(utdef::minSignalTimeDelay);
-
-    levelController.nextLevel();
-    int resultSignalNextLevelCount = signalNext.count();
-
-    EXPECT_EQ(resultSignalNextLevelCount, 1);
     delete model;
     delete view;
 }

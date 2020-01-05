@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
 #include "stubs/randomgeneratorstub.hpp"
+#include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
 #include "../app/generalview.hpp"
 #include "../app/rewardcontroller.hpp"
@@ -23,6 +25,17 @@ public:
 
 class RewardControllerTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
 };
 
 TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1OnlyOneBronzeCoinShouldBeSpawned_IsEqual)

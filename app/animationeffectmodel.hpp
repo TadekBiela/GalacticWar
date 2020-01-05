@@ -14,7 +14,9 @@ class AnimationEffectModel : public GameObject
 public:
     AnimationEffectModel(QGraphicsScene* scene,
                          QString         animationName,
-                         QPointF         position);
+                         QPointF         position,
+                         int             animationFrameWidth = 0,
+                         int             animationFrameHeight = 0);
     virtual ~AnimationEffectModel();
 
 public slots:
@@ -27,6 +29,8 @@ protected:
     QImage* m_image;
     int     m_animationFrameIdx;
     QTimer  m_animationTimer;
+    int     m_animationFrameWidth;
+    int     m_animationFrameHeight;
 };
 
 #endif // ANIMATIONEFFECTMODEL_HPP
