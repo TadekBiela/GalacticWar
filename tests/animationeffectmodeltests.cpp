@@ -9,10 +9,16 @@ class AnimationEffectModelTest : public AnimationEffectModel
 public:
     AnimationEffectModelTest(QGraphicsScene* scene,
                              QString         animationName,
-                             QPointF         position)
+                             QPointF         position,
+                             int             animationFrameWidth,
+                             int             animationFrameHeight,
+                             int             numOfFrames)
                               : AnimationEffectModel(scene,
                                                      animationName,
-                                                     position)
+                                                     position,
+                                                     animationFrameWidth,
+                                                     animationFrameHeight,
+                                                     numOfFrames)
     {}
     virtual ~AnimationEffectModelTest() {}
 
@@ -37,7 +43,12 @@ public:
 TEST_F(AnimationEffectModelTestsClass, AnimationEffectModel_CheckCorrectModelBuilding_IsEqual)
 {
     QGraphicsScene*           scene              = new QGraphicsScene();
-    AnimationEffectModelTest* animation          = new AnimationEffectModelTest(scene, "explosion", QPointF(50, 50));
+    AnimationEffectModelTest* animation          = new AnimationEffectModelTest(scene,
+                                                                                "explosion",
+                                                                                QPointF(50, 50),
+                                                                                def::animationFrameWight,
+                                                                                def::animationFrameHeight,
+                                                                                def::maxAnimationFrames);
     int                       resultAnimFrameIdx = animation->getAnimationFrameIdx();
     const QTimer&             resultAnimTimer    = animation->getAnimationTimer();
 
@@ -50,7 +61,12 @@ TEST_F(AnimationEffectModelTestsClass, AnimationEffectModel_CheckCorrectModelBui
 TEST_F(AnimationEffectModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
 {
     QGraphicsScene*           scene     = new QGraphicsScene();
-    AnimationEffectModelTest* animation = new AnimationEffectModelTest(scene, "explosion", QPointF(50, 50));
+    AnimationEffectModelTest* animation = new AnimationEffectModelTest(scene,
+                                                                       "explosion",
+                                                                       QPointF(50, 50),
+                                                                       def::animationFrameWight,
+                                                                       def::animationFrameHeight,
+                                                                       def::maxAnimationFrames);
 
     animation->animation();
     int resultAnimFrameIdx = animation->getAnimationFrameIdx();
@@ -62,7 +78,12 @@ TEST_F(AnimationEffectModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncr
 TEST_F(AnimationEffectModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfEffectWillBeDeleted_IsEqual)
 {
     QGraphicsScene*           scene     = new QGraphicsScene();
-    AnimationEffectModelTest* animation = new AnimationEffectModelTest(scene, "explosion", QPointF(50, 50));
+    AnimationEffectModelTest* animation = new AnimationEffectModelTest(scene,
+                                                                       "explosion",
+                                                                       QPointF(50, 50),
+                                                                       def::animationFrameWight,
+                                                                       def::animationFrameHeight,
+                                                                       def::maxAnimationFrames);
     animation->setAnimationFrameIdx(def::maxAnimationFrameIdx);
 
     animation->animation();

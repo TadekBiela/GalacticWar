@@ -1,6 +1,7 @@
 #ifndef ANIMATIONEFFECTMODEL_HPP
 #define ANIMATIONEFFECTMODEL_HPP
 
+#include "definitions.hpp"
 #include "gameobject.hpp"
 #include "imagestorage.hpp"
 #include <QString>
@@ -15,8 +16,9 @@ public:
     AnimationEffectModel(QGraphicsScene* scene,
                          QString         animationName,
                          QPointF         position,
-                         int             animationFrameWidth = 0,
-                         int             animationFrameHeight = 0);
+                         int             animationFrameWidth,
+                         int             animationFrameHeight,
+                         int             numOfFrames = def::maxAnimationFrames);
     virtual ~AnimationEffectModel();
 
 public slots:
@@ -31,6 +33,7 @@ protected:
     QTimer  m_animationTimer;
     int     m_animationFrameWidth;
     int     m_animationFrameHeight;
+    int     m_numOfFrames;
 };
 
 #endif // ANIMATIONEFFECTMODEL_HPP

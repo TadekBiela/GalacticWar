@@ -1,5 +1,4 @@
 #include "animationeffectmodel.hpp"
-#include "definitions.hpp"
 #include "functions.hpp"
 #include <QGraphicsScene>
 
@@ -7,10 +6,12 @@ AnimationEffectModel::AnimationEffectModel(QGraphicsScene* scene,
                                            QString         animationName,
                                            QPointF         position,
                                            int             animationFrameWidth,
-                                           int             animationFrameHeight)
+                                           int             animationFrameHeight,
+                                           int             numOfFrames)
                                             : m_animationFrameIdx(0),
                                               m_animationFrameWidth(animationFrameWidth),
-                                              m_animationFrameHeight(animationFrameHeight)
+                                              m_animationFrameHeight(animationFrameHeight),
+                                              m_numOfFrames(numOfFrames)
 {
     m_image = g_imageStorage->getImage(animationName);
     setPixmap(getAnimationFrame(m_image,
@@ -37,7 +38,7 @@ AnimationEffectModel::~AnimationEffectModel()
 
 void AnimationEffectModel::animation()
 {
-    if(++m_animationFrameIdx >= def::maxAnimationFrameIdx)
+    if(++m_animationFrameIdx >= m_numOfFrames - 1)
     {
         destroy();
         return;
