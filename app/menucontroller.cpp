@@ -37,6 +37,14 @@ void MenuController::startGame()
     emit resetScore();
     emit createNewPlayer();
 
+    QPointF position(def::halfSceneWight,
+                     def::halfSceneHeight - def::halfSceneHeight / 4);
+    AnimationEffectModel* gameOverAnim = new AnimationEffectModel(m_view->getScene(),
+                                                                  "start_game",
+                                                                  position,
+                                                                  def::animationBigFrameWight,
+                                                                  def::animationBigFrameHeight,
+                                                                  40);
     SoundEffectModel* startGame = new SoundEffectModel("start_game");
     connect(startGame, SIGNAL(end()), this, SLOT(startSpawningEnemies()));
 }
