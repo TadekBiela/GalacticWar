@@ -1,9 +1,12 @@
 #include "menucontroller.hpp"
+#include "animationeffectmodel.hpp"
+#include "definitions.hpp"
 #include "soundeffectmodel.hpp"
 
 MenuController::MenuController(GeneralView* view,
                                MenuModel*   model)
-                                : m_isGamePaused(false)
+                                : m_isGamePaused(false),
+                                  m_view(view)
 {
     connect(view,  SIGNAL(save(PlayerScore)),
             model, SLOT(addRecordToHighScore(PlayerScore)));
@@ -73,6 +76,14 @@ void MenuController::gameOver()
 {
     emit deactivateEnemySpawning();
 
+    QPointF position(def::halfSceneWight,
+                     def::halfSceneHeight - def::halfSceneHeight / 4);
+    AnimationEffectModel* gameOverAnim = new AnimationEffectModel(m_view->getScene(),
+                                                                  "game_over",
+                                                                  position,
+                                                                  def::animationBigFrameWight,
+                                                                  def::animationBigFrameHeight,
+                                                                  20);
     SoundEffectModel* gameOver = new SoundEffectModel("game_over");
     connect(gameOver, SIGNAL(end()), this, SLOT(showScore()));
 }
