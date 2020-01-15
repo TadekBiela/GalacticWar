@@ -16,7 +16,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/animationeffectmodel.cpp
                                ../app/bulletmodel.hpp
                                ../app/bulletmodel.cpp
-                               ../app/bullettype.hpp
                                ../app/definitions.hpp
                                ../app/enemyconfiguration.hpp
                                ../app/enemycontroller.hpp

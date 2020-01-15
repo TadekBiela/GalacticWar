@@ -50,7 +50,7 @@ void EnemyModel::checkCollisions()
         if(typeid(*collidingItems[i]) == typeid(BulletModel))
         {
             BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
-            if(bullet->getType() != bullet_type::enemyBullet)
+            if(bullet->getName() != "bullet_enemy")
             {
                 sumDamage += bullet->getDamage();
                 SoundEffectModel* hit = new SoundEffectModel("hit_enemy");

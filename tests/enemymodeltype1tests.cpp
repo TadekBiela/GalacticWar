@@ -4,7 +4,6 @@
 #include "stubs/randomgeneratorstub.hpp"
 #include "stubs/soundstoragestub.hpp"
 #include "../app/enemymodeltype1.hpp"
-#include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
 #include <QSignalSpy>
 #include <QGraphicsScene>
@@ -140,7 +139,7 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     EXPECT_EQ(resultEnemyModel->getLevel(),         1);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -28);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -23);
-    EXPECT_EQ(resultBulletModel->getType(),       bullet_type::enemyBullet);
+    EXPECT_EQ(resultBulletModel->getName(),       "bullet_enemy");
     EXPECT_FLOAT_EQ(resultBulletModel->pos().x(),   0);
     EXPECT_FLOAT_EQ(resultBulletModel->pos().y(),  27);
     EXPECT_EQ(resultBulletModel->getDamage(),      10);

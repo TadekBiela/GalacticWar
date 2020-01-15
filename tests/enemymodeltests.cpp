@@ -96,7 +96,7 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)
 {
     QGraphicsScene* scene  = new QGraphicsScene;
-    BulletModel*    bullet = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 50, 5, 50);
+    BulletModel*    bullet = new BulletModel("bullet_default", QPointF(100, 100), 50, 5, 50);
     EnemyModelTest* enemy  = new EnemyModelTest(1, QPointF(100, 100), 300, 15, 20, 10);
     QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(bullet);
@@ -119,7 +119,7 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitCreateAnimationAndDestroy_IsEqual)
 {
     QGraphicsScene* scene  = new QGraphicsScene;
-    BulletModel*    bullet = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 50, 5, 50);
+    BulletModel*    bullet = new BulletModel("bullet_default", QPointF(100, 100), 50, 5, 50);
     EnemyModelTest* enemy  = new EnemyModelTest(1, QPointF(100, 100), 30, 15, 20, 10);
     QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(bullet);
@@ -147,9 +147,9 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShouldHitCreateAnimationDestroyAndHaveOneMoreCollision_IsEqual)
 {
     QGraphicsScene* scene   = new QGraphicsScene;
-    BulletModel*    bullet1 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
-    BulletModel*    bullet2 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
-    BulletModel*    bullet3 = new BulletModel(bullet_type::playerDefaultBullet, QPointF(100, 100), 100, 5, 50);
+    BulletModel*    bullet1 = new BulletModel("bullet_default", QPointF(100, 100), 100, 5, 50);
+    BulletModel*    bullet2 = new BulletModel("bullet_default", QPointF(100, 100), 100, 5, 50);
+    BulletModel*    bullet3 = new BulletModel("bullet_default", QPointF(100, 100), 100, 5, 50);
     EnemyModelTest* enemy   = new EnemyModelTest(1, QPointF(100, 100), 200, 15, 20, 10);
     QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(bullet1);
@@ -177,7 +177,7 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShou
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithEnemyBulletEnemyDoNothing_IsEqual)
 {
     QGraphicsScene* scene  = new QGraphicsScene;
-    BulletModel*    bullet = new BulletModel(bullet_type::enemyBullet, QPointF(100, 100), 50, 5, 50);
+    BulletModel*    bullet = new BulletModel("bullet_enemy", QPointF(100, 100), 50, 5, 50);
     EnemyModelTest* enemy  = new EnemyModelTest(1, QPointF(100, 100), 300, 15, 20, 10);
     QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(bullet);

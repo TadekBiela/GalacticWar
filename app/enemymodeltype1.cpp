@@ -35,7 +35,7 @@ void EnemyModelType1::fire()
     QPointF position = pos();
     position.setX(position.x() + pixmap().size().width() / 2 + ((m_direction - 180) * -0.5));
     position.setY(position.y() + pixmap().size().height() - 5);
-    BulletModel* bullet = new BulletModel(bullet_type::enemyBullet,
+    BulletModel* bullet = new BulletModel("bullet_enemy",
                                           position,
                                           m_damage,
                                           m_direction,

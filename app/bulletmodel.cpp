@@ -1,23 +1,23 @@
 #include "bulletmodel.hpp"
 #include "definitions.hpp"
 #include "functions.hpp"
+#include "imagestorage.hpp"
 #include "soundeffectmodel.hpp"
 
-BulletModel::BulletModel(bullet_type type,
-                         QPointF     position,
-                         int         damage,
-                         int         direction,
-                         int         moveTimeDelay)
-                          : m_type(type),
+BulletModel::BulletModel(QString name,
+                         QPointF position,
+                         int     damage,
+                         int     direction,
+                         int     moveTimeDelay)
+                          : m_name(name),
                             m_damage(damage)
 {
     int finiteDirection = direction % 360;
     m_direction = finiteDirection < 0 ? 360 + finiteDirection : finiteDirection;
 
     //Setup QPixmap
-    //temporary simple graphic
-    QPixmap map(QSize(4, 10));
-    map.fill(Qt::black);
+    QPixmap map;
+    map.convertFromImage(*g_imageStorage->getImage(m_name));
     setPixmap(map);
 
     setTransformOriginPoint(pixmap().size().width()  / 2,
@@ -32,7 +32,8 @@ BulletModel::BulletModel(bullet_type type,
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     m_moveTimer.setInterval(moveTimeDelay);
     m_moveTimer.start();
-    playSound();
+
+    SoundEffectModel* bulletSound = new SoundEffectModel(m_name);
 }
 
 BulletModel::~BulletModel()
@@ -40,28 +41,9 @@ BulletModel::~BulletModel()
 
 }
 
-void BulletModel::playSound()
+QString BulletModel::getName() const
 {
-    QString soundName;
-    switch(m_type)
-    {
-        case bullet_type::playerDefaultBullet:
-            soundName = "default_bullet";
-        case bullet_type::playerRedBullet:
-            soundName = "red_bullet";
-        case bullet_type::playerBlueBullet:
-            soundName = "blue_bullet";
-        case bullet_type::playerYellowBullet:
-            soundName = "yellow_bullet";
-        case bullet_type::enemyBullet:
-            soundName = "enemy_bullet";
-    }
-    SoundEffectModel* bulletSound = new SoundEffectModel(soundName);
-}
-
-bullet_type BulletModel::getType() const
-{
-    return m_type;
+    return m_name;
 }
 
 int BulletModel::getDamage() const

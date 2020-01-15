@@ -62,7 +62,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerSho
 {
     QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
-    BulletModel*     bullet = new BulletModel(bullet_type::enemyBullet, playerPosition, 50, 5, 50);
+    BulletModel*     bullet = new BulletModel("bullet_enemy", playerPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest; //default health is 1000
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
@@ -90,7 +90,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlaye
 {
     QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
-    BulletModel*     bullet = new BulletModel(bullet_type::playerDefaultBullet, playerPosition, 50, 5, 50);
+    BulletModel*     bullet = new BulletModel("bullet_default", playerPosition, 50, 5, 50);
     PlayerModelTest* player = new PlayerModelTest;
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
@@ -246,7 +246,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
     qRegisterMetaType<special_type>();
     QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
-    BulletModel*         bullet    = new BulletModel(bullet_type::enemyBullet, playerPosition, 50, 5, 50);
+    BulletModel*         bullet    = new BulletModel("bullet_enemy", playerPosition, 50, 5, 50);
     RewardCoinModel*     coin      = new RewardCoinModel(coin_type::bronze);
     RewardSpecialModel*  special   = new RewardSpecialModel(special_type::weaponRed);
     RandomGeneratorStub* generator = new RandomGeneratorStub;

@@ -4,7 +4,7 @@
 
 void defaultFireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
-    BulletModel* bullet = new BulletModel(bullet_type::playerDefaultBullet,
+    BulletModel* bullet = new BulletModel("bullet_default",
                                           startPosition,
                                           baseDamage,
                                           def::up,

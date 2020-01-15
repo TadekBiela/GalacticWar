@@ -1,28 +1,27 @@
 #include <gtest/gtest.h>
 #include <utility>
 #include "stubs/soundstoragestub.hpp"
-#include "../app/bullettype.hpp"
 #include "../app/bulletmodel.hpp"
 
 class BulletModelTest : public BulletModel
 {
 public:
-    BulletModelTest(bullet_type type,
-                    QPointF     position,
-                    int         damage,
-                    int         direction,
-                    int         moveTimeDelay)
-                     : BulletModel(type,
+    BulletModelTest(QString name,
+                    QPointF position,
+                    int     damage,
+                    int     direction,
+                    int     moveTimeDelay)
+                     : BulletModel(name,
                                    position,
                                    damage,
                                    direction,
                                    moveTimeDelay){}
     virtual ~BulletModelTest() {}
 
-    bullet_type getType()        const { return m_type; }
-    QPointF getPosition()        const { return QGraphicsItem::pos(); }
-    int getDamage()              const { return m_damage; }
-    int getDirection()           const { return m_direction; }
+    QString       getName()      const { return m_name; }
+    QPointF       getPosition()  const { return QGraphicsItem::pos(); }
+    int           getDamage()    const { return m_damage; }
+    int           getDirection() const { return m_direction; }
     const QTimer& getMoveTimer() const { return m_moveTimer; }
 };
 
@@ -41,14 +40,14 @@ public:
 
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_IsEqual)
 {
-    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 5, 50);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    BulletModelTest bulletModel("bullet_default", QPointF(3, 5), 10, 5, 50);
+    QString       resultBulletName = bulletModel.getName();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
-    EXPECT_EQ(resultBulletType,                 bullet_type::playerDefaultBullet);
+    EXPECT_EQ(resultBulletName,                 "bullet_default");
     EXPECT_EQ(resultDamage,                     10);
     EXPECT_EQ(resultDirection,                   5);
     EXPECT_EQ(resultMoveTimer.isActive(),       true);
@@ -59,14 +58,14 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrect_
 
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectDirectionIsMoreThan360Deg_IsEqual)
 {
-    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, 450, 10);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    BulletModelTest bulletModel("bullet_default", QPointF(3, 5), 10, 450, 10);
+    QString       resultBulletName = bulletModel.getName();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
-    EXPECT_EQ(resultBulletType,                 bullet_type::playerDefaultBullet);
+    EXPECT_EQ(resultBulletName,                 "bullet_default");
     EXPECT_EQ(resultDamage,                     10);
     EXPECT_EQ(resultDirection,                  90);
     EXPECT_EQ(resultMoveTimer.isActive(),       true);
@@ -77,14 +76,14 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectD
 
 TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectDirectionIsLessThan0Deg_IsEqual)
 {
-    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, -30, 10);
-    bullet_type   resultBulletType    = bulletModel.getType();
-    QPointF       resultPosition      = bulletModel.getPosition();
-    int           resultDamage        = bulletModel.getDamage();
-    int           resultDirection     = bulletModel.getDirection();
-    const QTimer& resultMoveTimer     = bulletModel.getMoveTimer();
+    BulletModelTest bulletModel("bullet_default", QPointF(3, 5), 10, -30, 10);
+    QString       resultBulletName = bulletModel.getName();
+    QPointF       resultPosition   = bulletModel.getPosition();
+    int           resultDamage     = bulletModel.getDamage();
+    int           resultDirection  = bulletModel.getDirection();
+    const QTimer& resultMoveTimer  = bulletModel.getMoveTimer();
 
-    EXPECT_EQ(resultBulletType,                 bullet_type::playerDefaultBullet);
+    EXPECT_EQ(resultBulletName,                 "bullet_default");
     EXPECT_EQ(resultDamage,                      10);
     EXPECT_EQ(resultDirection,                  330);
     EXPECT_EQ(resultMoveTimer.isActive(),       true);
@@ -95,7 +94,7 @@ TEST_F(BulletModelTestsClass, BulletModel_CheckIfConstructorIsBuildModelCorrectD
 
 TEST_F(BulletModelTestsClass, Start_CheckIfMoveTimerWillBeActive_IsEqual)
 {
-    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, -30, 10);
+    BulletModelTest bulletModel("bullet_default", QPointF(3, 5), 10, -30, 10);
 
     bulletModel.start();
     const QTimer& resultMoveTimer = bulletModel.getMoveTimer();
@@ -105,7 +104,7 @@ TEST_F(BulletModelTestsClass, Start_CheckIfMoveTimerWillBeActive_IsEqual)
 
 TEST_F(BulletModelTestsClass, Stop_CheckIfMoveTimerWillBeNotActive_IsEqual)
 {
-    BulletModelTest bulletModel(playerDefaultBullet, QPointF(3, 5), 10, -30, 10);
+    BulletModelTest bulletModel("bullet_default", QPointF(3, 5), 10, -30, 10);
 
     bulletModel.stop();
     const QTimer& resultMoveTimer = bulletModel.getMoveTimer();
@@ -131,7 +130,7 @@ TEST_P(BulletModelTestsParamClass, Move_CheckChangingPositionDependenceOfDirecti
     std::pair<int, QPointF> inputParams      = GetParam();
     int                     direction        = inputParams.first;
     QPointF                 expectedPosition = inputParams.second;
-    BulletModelTest         bulletModel(playerDefaultBullet,
+    BulletModelTest         bulletModel("bullet_default",
                                         QPointF(300, 200),
                                         1,
                                         direction,

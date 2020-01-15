@@ -10,7 +10,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                animationeffectmodel.cpp
                                bulletmodel.hpp
                                bulletmodel.cpp
-                               bullettype.hpp
                                definitions.hpp
                                enemyconfiguration.hpp
                                enemycontroller.hpp
