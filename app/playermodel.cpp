@@ -81,7 +81,7 @@ void PlayerModel::checkCollisions()
         if(typeid(*collidingItems[i]) == typeid(BulletModel))
         {
             BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
-            if(bullet->getName() != "bullet_enemy")
+            if(bullet->getName() == "bullet_enemy")
             {
                 m_health -= bullet->getDamage();
                 scene->removeItem(collidingItems[i]);
