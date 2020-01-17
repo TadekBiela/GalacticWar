@@ -130,6 +130,7 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     QGraphicsScene       mockScene;
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(2, 7), randomGenerator);
     mockScene.addItem(enemyModel);
+    dynamic_cast<ImageStorageStub*>(g_imageStorage)->setDummyImageSize(3, 15); //Change bullet pixmap size
 
     enemyModel->fire();
     QList<QGraphicsItem*> sceneItems        = mockScene.items();
@@ -140,8 +141,8 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -28);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -23);
     EXPECT_EQ(resultBulletModel->getName(),       "bullet_enemy");
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(),   0);
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(),  27);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(),   1);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(),  25);
     EXPECT_EQ(resultBulletModel->getDamage(),      10);
     delete enemyModel;
     delete randomGenerator;
