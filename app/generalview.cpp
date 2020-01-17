@@ -41,7 +41,7 @@ GeneralView::GeneralView()
     QFont   bigFont("Arial", 40, 3);
     QFont   normalFont("Arial", 30, 3);
     QFont   smallFont("Arial", 15, 3);
-    QString style("border: 1px solid black");
+    QString style("border: 1px solid white; color: #FFFFFF");
 
     //Menu setup
     m_title.setFont(normalFont);
@@ -54,6 +54,7 @@ GeneralView::GeneralView()
     m_author.setGeometry(def::sceneWight - 100, def::sceneHeight - 30, 100, 30);
 
     //Highscore setup
+    m_highScoreList.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent;"));
     m_highScoreList.addItem("Player\t\t\tScore");
     m_highScoreList.setGeometry(def::sceneWight / 2 - 150,
                                 m_title.pos().y() + m_title.size().height() + 30,
@@ -87,7 +88,7 @@ GeneralView::GeneralView()
                         100);
     m_player.setFont(smallFont);
     m_player.setAlignment(Qt::AlignCenter);
-    m_player.setStyleSheet(style);
+    m_player.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent;"));
     m_player.setGeometry(def::sceneWight / 2 - 150,
                          m_score.pos().y() + m_score.size().height() + 50,
                          300,
@@ -175,7 +176,7 @@ void GeneralView::menu()
     m_saveAfterGameOver.setVisible(false);
     m_continueButton.setVisible(false);
     m_highScoreList.setVisible(false);
-    m_view.setVisible(false);
+    m_view.setVisible(true);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
     m_levelGraphics.setVisible(false);
@@ -295,7 +296,7 @@ void GeneralView::gameOver(int score)
     m_saveAfterGameOver.setVisible(true);
     m_continueButton.setVisible(false);
     m_highScoreList.setVisible(false);
-    m_view.setVisible(false);
+    m_view.setVisible(true);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
     m_levelGraphics.setVisible(false);
@@ -319,7 +320,7 @@ void GeneralView::highScore()
     m_saveAfterGameOver.setVisible(false);
     m_continueButton.setVisible(false);
     m_highScoreList.setVisible(true);
-    m_view.setVisible(false);
+    m_view.setVisible(true);
     m_healthGraphics.setVisible(false);
     m_healthBar.setVisible(false);
     m_levelGraphics.setVisible(false);

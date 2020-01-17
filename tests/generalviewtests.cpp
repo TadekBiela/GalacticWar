@@ -96,7 +96,7 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
-    EXPECT_EQ(resultView.isVisible(),                    false);
+    EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
     EXPECT_EQ(resultAuthor.isVisible(),                  true);
     EXPECT_EQ(resultPause.isVisible(),                   false);
@@ -297,7 +297,7 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
     EXPECT_EQ(resultScore.text(),                        QString("100"));
-    EXPECT_EQ(resultView.isVisible(),                    false);
+    EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
     EXPECT_EQ(resultAuthor.isVisible(),                  true);
     EXPECT_EQ(resultPause.isVisible(),                   false);
@@ -365,7 +365,7 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
 
-    EXPECT_EQ(resultView.isVisible(),                    false);
+    EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
     EXPECT_EQ(resultAuthor.isVisible(),                  true);
     EXPECT_EQ(resultPause.isVisible(),                   false);

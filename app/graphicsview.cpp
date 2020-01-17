@@ -11,6 +11,7 @@ GraphicsView::GraphicsView(QGraphicsScene* scene, QWidget* parent)
                             : QGraphicsView(scene, parent)
 {
     setMouseTracking(true);
+    setBackgroundBrush(QBrush(Qt::black));
 }
 
 GraphicsView::~GraphicsView()
