@@ -9,7 +9,7 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
                                  IRandomGenerator* generator)
                                   : EnemyModel(1,
                                                position,
-                                               2,
+                                               50,
                                                10,
                                                80,
                                                1000)

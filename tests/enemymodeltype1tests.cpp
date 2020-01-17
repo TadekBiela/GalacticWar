@@ -59,19 +59,19 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     const QTimer& resultFireTimer         = enemyModel.getFireTimer();
     const QTimer& resultAnimTimer         = enemyModel.getAnimationTimer();
 
-    EXPECT_EQ(resultLevel,                         1);
-    EXPECT_EQ(resultHealth,                        2);
-    EXPECT_EQ(resultDamage,                       10);
-    EXPECT_EQ(resultDirection,                   180);
-    EXPECT_EQ(resultAnimationFrameIdx,             0);
+    EXPECT_EQ(resultLevel,                      1);
+    EXPECT_EQ(resultHealth,                     50);
+    EXPECT_EQ(resultDamage,                     10);
+    EXPECT_EQ(resultDirection,                  180);
+    EXPECT_EQ(resultAnimationFrameIdx,          0);
     EXPECT_EQ(resultMoveTimer.isActive(),       false);
     EXPECT_EQ(resultFireTimer.isActive(),       false);
     EXPECT_EQ(resultAnimTimer.isActive(),       false);
-    EXPECT_FLOAT_EQ(resultMoveTimer.interval(),   80);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(), 80);
     EXPECT_FLOAT_EQ(resultFireTimer.interval(), 1000);
-    EXPECT_FLOAT_EQ(resultAnimTimer.interval(),  100);
-    EXPECT_FLOAT_EQ(resultPosition.x(),          -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(),          -23);
+    EXPECT_FLOAT_EQ(resultAnimTimer.interval(), 100);
+    EXPECT_FLOAT_EQ(resultPosition.x(),         -28);
+    EXPECT_FLOAT_EQ(resultPosition.y(),         -23);
     delete randomGenerator;
 }
 
@@ -137,13 +137,13 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     EnemyModelType1Test*  resultEnemyModel  = dynamic_cast<EnemyModelType1Test*>(sceneItems[1]);
     BulletModel*          resultBulletModel = dynamic_cast<BulletModel*>(sceneItems[0]);
 
-    EXPECT_EQ(resultEnemyModel->getLevel(),         1);
+    EXPECT_EQ(resultEnemyModel->getLevel(),       1);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -28);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -23);
     EXPECT_EQ(resultBulletModel->getName(),       "bullet_enemy");
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(),   1);
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(),  25);
-    EXPECT_EQ(resultBulletModel->getDamage(),      10);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), 1);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 25);
+    EXPECT_EQ(resultBulletModel->getDamage(),     10);
     delete enemyModel;
     delete randomGenerator;
 }

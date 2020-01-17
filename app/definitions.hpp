@@ -22,9 +22,10 @@ namespace def
     const int    minEnemySpawnTimeDelay    = 1000;
     const int    maxEnemySpawnTimeDelay    = 5000;
     const int    percentDistTabSize        = 100;
+    const int    collisionDamageFactor     = 300;
 
     //Player default configuration
-    const int maxPlayerHealth             = 1000;
+    const int maxPlayerHealth             = 2000;
     const int defaultPlayerMoveTimeDelay  = 20;
 
     //Reward default configuration

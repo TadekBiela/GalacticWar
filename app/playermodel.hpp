@@ -36,6 +36,7 @@ public slots:
 
 protected:
     void    changeWeapon(weapon_type weapon);
+    int     healthInPercents(int healthPoints);
 
     QImage* m_image;
     QPointF m_movePosition;

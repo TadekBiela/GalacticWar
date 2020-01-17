@@ -66,6 +66,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerSho
     PlayerModelTest* player = new PlayerModelTest; //default health is 1000
     QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
+    const int        expectedPlayerHealth = def::maxPlayerHealth - 50;
     scene->addItem(bullet);
     scene->addItem(player);
     int startItemsOnScene = scene->items().size();
@@ -77,12 +78,12 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerSho
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,    2);
-    EXPECT_EQ(signalHealthCount,    1);
-    EXPECT_EQ(signalDefeatCount,    0);
-    EXPECT_EQ(signalHealthValue,   95);
-    EXPECT_EQ(resultItemsOnScene,   1);
-    EXPECT_EQ(resultHealth,       950);
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  1);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalHealthValue,  97);
+    EXPECT_EQ(resultItemsOnScene, 1);
+    EXPECT_EQ(resultHealth,       expectedPlayerHealth);
     delete scene;
 }
 
@@ -105,11 +106,11 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlaye
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,     2);
-    EXPECT_EQ(signalHealthCount,     0);
-    EXPECT_EQ(signalDefeatCount,     0);
-    EXPECT_EQ(resultItemsOnScene,    2);
-    EXPECT_EQ(resultHealth,       1000);
+    EXPECT_EQ(startItemsOnScene,  2);
+    EXPECT_EQ(signalHealthCount,  0);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(resultItemsOnScene, 2);
+    EXPECT_EQ(resultHealth,       def::maxPlayerHealth);
     delete scene;
 }
 
@@ -134,10 +135,10 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinRewardAndRe
     int signalCoinCount    = signalCoin.count();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(signalHealthCount,     0);
-    EXPECT_EQ(signalDefeatCount,     0);
-    EXPECT_EQ(signalCoinCount,       1);
-    EXPECT_EQ(resultHealth,       1000);
+    EXPECT_EQ(signalHealthCount, 0);
+    EXPECT_EQ(signalDefeatCount, 0);
+    EXPECT_EQ(signalCoinCount,   1);
+    EXPECT_EQ(resultHealth,      def::maxPlayerHealth);
     delete scene;
 }
 
@@ -162,10 +163,10 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialRewardAn
     int signalSpecialCount = signalSpecial.count();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(signalHealthCount,     0);
-    EXPECT_EQ(signalDefeatCount,     0);
-    EXPECT_EQ(signalSpecialCount,    1);
-    EXPECT_EQ(resultHealth,       1000);
+    EXPECT_EQ(signalHealthCount,  0);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalSpecialCount, 1);
+    EXPECT_EQ(resultHealth,       def::maxPlayerHealth);
     delete scene;
 }
 
@@ -175,9 +176,10 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1Playe
     QGraphicsScene*      scene     = new QGraphicsScene();
     RandomGeneratorStub* generator = new RandomGeneratorStub;
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
-    PlayerModelTest*     player    = new PlayerModelTest; //default health is 1000
+    PlayerModelTest*     player    = new PlayerModelTest; //default health is 2000
     QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
     QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
+    const int            expectedPlayerHealth = def::maxPlayerHealth - def::collisionDamageFactor;
     enemy->setPos(playerPosition);
     scene->addItem(enemy);
     scene->addItem(player);
@@ -193,14 +195,14 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1Playe
     auto resultPlayerModel  = scene->items().at(1);
     int  resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,            2);
-    EXPECT_EQ(signalHealthCount,            1);
-    EXPECT_EQ(signalDefeatCount,            0);
-    EXPECT_EQ(signalHealthValue,           90);
-    EXPECT_EQ(resultItemsOnScene,           2);
+    EXPECT_EQ(startItemsOnScene,          2);
+    EXPECT_EQ(signalHealthCount,          1);
+    EXPECT_EQ(signalDefeatCount,          0);
+    EXPECT_EQ(signalHealthValue,          85);
+    EXPECT_EQ(resultItemsOnScene,         2);
     EXPECT_EQ(typeid(*resultAnimEffect),  typeid(AnimationEffectModel));
     EXPECT_EQ(typeid(*resultPlayerModel), typeid(PlayerModelTest));
-    EXPECT_EQ(resultHealth,               900);
+    EXPECT_EQ(resultHealth,               expectedPlayerHealth);
     delete generator;
     delete scene;
 }
@@ -256,6 +258,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
     QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
     QSignalSpy           signalCoin(coin, &RewardCoinModel::collected);
     QSignalSpy           signalSpecial(special, &RewardSpecialModel::collected);
+    const int            expectedPlayerHealth = def::maxPlayerHealth - def::collisionDamageFactor - 50;
     coin->setPos(playerPosition);
     special->setPos(playerPosition);
     enemy->setPos(playerPosition);
@@ -276,12 +279,14 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
     int resultItemsOnScene = scene->items().size();
     int resultHealth       = player->getHealth();
 
-    EXPECT_EQ(startItemsOnScene,    5);
-    EXPECT_EQ(signalHealthCount,    1);
-    EXPECT_EQ(signalDefeatCount,    0);
-    EXPECT_EQ(signalHealthValue,   85);
-    EXPECT_EQ(resultItemsOnScene,   4);
-    EXPECT_EQ(resultHealth,       850);
+    EXPECT_EQ(startItemsOnScene,  5);
+    EXPECT_EQ(signalHealthCount,  1);
+    EXPECT_EQ(signalCoinCount,    1);
+    EXPECT_EQ(signalSpecialCount, 1);
+    EXPECT_EQ(signalDefeatCount,  0);
+    EXPECT_EQ(signalHealthValue,  82);
+    EXPECT_EQ(resultItemsOnScene, 4);
+    EXPECT_EQ(resultHealth,       expectedPlayerHealth);
     delete generator;
     delete scene;
 }
@@ -444,8 +449,8 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     auto resultSignalChange      = signalChange.takeFirst();
 
     EXPECT_EQ(resultHealth,                     600);
-    EXPECT_EQ(resultSignalChangeCount,            1);
-    EXPECT_EQ(resultSignalChange.at(0).toInt(),  60);
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(), 30);
 }
 
 TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsMax_IsEqual)
@@ -459,15 +464,15 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     int  resultSignalChangeCount = signalChange.count();
     auto resultSignalChange      = signalChange.takeFirst();
 
-    EXPECT_EQ(resultHealth,                     1000);
-    EXPECT_EQ(resultSignalChangeCount,             1);
-    EXPECT_EQ(resultSignalChange.at(0).toInt(),  100);
+    EXPECT_EQ(resultHealth,                     def::maxPlayerHealth);
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
 }
 
 TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsNearMaxAndShouldBeMax_IsEqual)
 {
     PlayerModelTest playerModel;
-    playerModel.setHealth(990);
+    playerModel.setHealth(def::maxPlayerHealth - 10);
     QSignalSpy      signalChange(&playerModel, &PlayerModelTest::changeHealth);
     signalChange.wait(utdef::minSignalTimeDelay);
 
@@ -476,9 +481,9 @@ TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSi
     int  resultSignalChangeCount = signalChange.count();
     auto resultSignalChange      = signalChange.takeFirst();
 
-    EXPECT_EQ(resultHealth,                     1000);
-    EXPECT_EQ(resultSignalChangeCount,             1);
-    EXPECT_EQ(resultSignalChange.at(0).toInt(),  100);
+    EXPECT_EQ(resultHealth,                     def::maxPlayerHealth);
+    EXPECT_EQ(resultSignalChangeCount,          1);
+    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
 }
 
 TEST_F(PlayerModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)

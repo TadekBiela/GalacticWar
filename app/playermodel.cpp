@@ -106,7 +106,7 @@ void PlayerModel::checkCollisions()
         else //It should be Enemy
         {
             EnemyModel* enemy = static_cast<EnemyModel*>(collidingItems[i]);
-            m_health -= enemy->getLevel() * 100;
+            m_health -= enemy->getLevel() * def::collisionDamageFactor;
             enemy->destroy();
         }
     }
@@ -119,7 +119,7 @@ void PlayerModel::checkCollisions()
     }
     else if(numOfCollisions > 0)
     {
-        emit changeHealth(m_health / 10);
+        emit changeHealth(healthInPercents(m_health));
         SoundEffectModel* hitSound = new SoundEffectModel("hit_player");
     }
     scene->update();
@@ -176,7 +176,7 @@ void PlayerModel::changeAtribute(special_type specialReward)
     {
         case special_type::health:
             m_health = m_health + 100 > def::maxPlayerHealth ? def::maxPlayerHealth : m_health + 100;
-            emit changeHealth(m_health / 10);
+            emit changeHealth(healthInPercents(m_health));
             break;
         case special_type::weaponRed:
             changeWeapon(weapon_type::redWeapon);
@@ -206,6 +206,11 @@ void PlayerModel::changeWeapon(weapon_type weapon)
         m_weapon = weapons[(weapon * def::maxWeaponLevel) + m_weaponTier];
     }
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
+}
+
+int PlayerModel::healthInPercents(int healthPoints)
+{
+    return (healthPoints * 100) / def::maxPlayerHealth;
 }
 
 void PlayerModel::animation()
