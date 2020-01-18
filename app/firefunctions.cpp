@@ -206,27 +206,170 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
 
 void yellowLevel1FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
-
+    static int fireSide = 1;
+    QPointF bulletPosition = startPosition;
+    bulletPosition.setX(startPosition.x() - 10 * fireSide);
+    bulletPosition.setY(startPosition.y() + 20);
+    BulletModel* bullet = new BulletModel("bullet_yellow",
+                                          bulletPosition,
+                                          baseDamage / 2,
+                                          def::up - 15 * fireSide,
+                                          def::defaultBulletSpeed,
+                                          0.75);
+    scene->addItem(bullet);
+    fireSide *= -1;
 }
 
 void yellowLevel2FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
-
+    int   damage[3]    = { baseDamage / 3, baseDamage, baseDamage / 3 };
+    int   direction[3] = {   def::up - 15,    def::up,   def::up + 15 };
+    int   positionX[3] = {            -15,          0,             15 };
+    float scale[3]     = {           0.65,          1,           0.65 };
+    static int fireSide = 0;
+    QPointF bulletPosition = startPosition;
+    bulletPosition.setX(startPosition.x() + positionX[fireSide]);
+    bulletPosition.setY(startPosition.y() + 10);
+    BulletModel* bullet = new BulletModel("bullet_yellow",
+                                          bulletPosition,
+                                          damage[fireSide],
+                                          direction[fireSide],
+                                          def::defaultBulletSpeed,
+                                          scale[fireSide]);
+    scene->addItem(bullet);
+    fireSide++;
+    fireSide = fireSide % 3;
 }
 
 void yellowLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
+    int   damage[3]    = { baseDamage / 2, baseDamage, baseDamage / 2 };
+    int   direction[3] = {   def::up - 15,    def::up,   def::up + 15 };
+    int   positionX[3] = {            -15,          0,             15 };
+    float scale[3]     = {           0.65,          1,           0.65 };
+    static int fireSide = 0;
+    QPointF bulletPosition = startPosition;
+    bulletPosition.setX(startPosition.x() + positionX[fireSide]);
+    bulletPosition.setY(startPosition.y() + 10);
+    BulletModel* bullet = new BulletModel("bullet_yellow",
+                                          bulletPosition,
+                                          damage[fireSide],
+                                          direction[fireSide],
+                                          def::defaultBulletSpeed,
+                                          scale[fireSide]);
+    scene->addItem(bullet);
+    fireSide++;
+    fireSide = fireSide % 3;
 
+    static int fireSide2 = 1;
+    QPointF bulletPosition2 = startPosition;
+    bulletPosition2.setX(startPosition.x() - 20 * fireSide2);
+    bulletPosition2.setY(startPosition.y() + 30);
+    BulletModel* bullet2 = new BulletModel("bullet_yellow",
+                                           bulletPosition2,
+                                           baseDamage / 4,
+                                           def::left * fireSide2,
+                                           def::defaultBulletSpeed,
+                                           0.5);
+    scene->addItem(bullet2);
+    fireSide2 *= -1;
 }
 
 void yellowLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
+    int   damage[3]    = { baseDamage / 2, baseDamage, baseDamage / 2 };
+    int   direction[3] = {   def::up - 15,    def::up,   def::up + 15 };
+    int   positionX[3] = {            -15,          0,             15 };
+    float scale[3]     = {           0.65,          1,           0.65 };
+    static int fireSide = 0;
+    QPointF bulletPosition = startPosition;
+    bulletPosition.setX(startPosition.x() + positionX[fireSide]);
+    bulletPosition.setY(startPosition.y() + 10);
+    BulletModel* bullet = new BulletModel("bullet_yellow",
+                                          bulletPosition,
+                                          damage[fireSide],
+                                          direction[fireSide],
+                                          def::defaultBulletSpeed,
+                                          scale[fireSide]);
+    scene->addItem(bullet);
+    fireSide++;
+    fireSide = fireSide % 3;
 
+    static int fireSide2 = 1;
+    QPointF bulletPosition2 = startPosition;
+    bulletPosition2.setX(startPosition.x() - 20 * fireSide2);
+    bulletPosition2.setY(startPosition.y() + 30);
+    BulletModel* bullet2 = new BulletModel("bullet_yellow",
+                                           bulletPosition2,
+                                           baseDamage / 3,
+                                           def::left * fireSide2,
+                                           def::defaultBulletSpeed,
+                                           0.65);
+    scene->addItem(bullet2);
+
+    QPointF bulletPosition3 = startPosition;
+    bulletPosition3.setX(startPosition.x() + 20 * fireSide2);
+    bulletPosition3.setY(startPosition.y() + 50);
+    BulletModel* bullet3 = new BulletModel("bullet_yellow",
+                                           bulletPosition3,
+                                           baseDamage / 3,
+                                           def::down - 30 * fireSide2,
+                                           def::defaultBulletSpeed,
+                                           0.65);
+    scene->addItem(bullet3);
+    fireSide2 *= -1;
 }
 
 void yellowLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
+    int sideFactor[3] = { -30, 0, 30 };
+    static int fireSide = 0;
+    QPointF bulletPosition = startPosition;
+    bulletPosition.setX(startPosition.x() + sideFactor[fireSide]);
+    bulletPosition.setY(startPosition.y() + 10);
+    BulletModel* bullet = new BulletModel("bullet_yellow",
+                                          bulletPosition,
+                                          baseDamage / 2,
+                                          def::up + sideFactor[fireSide],
+                                          def::defaultBulletSpeed,
+                                          0.75);
+    scene->addItem(bullet);
 
+    QPointF bulletPosition2 = startPosition;
+    bulletPosition2.setX(startPosition.x() + 20);
+    bulletPosition2.setY(startPosition.y() + 30 + sideFactor[fireSide]);
+    BulletModel* bullet2 = new BulletModel("bullet_yellow",
+                                           bulletPosition2,
+                                           baseDamage / 2,
+                                           def::right + sideFactor[fireSide],
+                                           def::defaultBulletSpeed,
+                                           0.75);
+    scene->addItem(bullet2);
+
+    QPointF bulletPosition3 = startPosition;
+    bulletPosition3.setX(startPosition.x() + sideFactor[fireSide] * -1);
+    bulletPosition3.setY(startPosition.y() + 50);
+    BulletModel* bullet3 = new BulletModel("bullet_yellow",
+                                           bulletPosition3,
+                                           baseDamage / 2,
+                                           def::down + sideFactor[fireSide],
+                                           def::defaultBulletSpeed,
+                                           0.75);
+    scene->addItem(bullet3);
+
+    QPointF bulletPosition4 = startPosition;
+    bulletPosition4.setX(startPosition.x() - 20);
+    bulletPosition4.setY(startPosition.y() + 30 + sideFactor[fireSide] * -1);
+    BulletModel* bullet4 = new BulletModel("bullet_yellow",
+                                           bulletPosition4,
+                                           baseDamage / 2,
+                                           def::left + sideFactor[fireSide],
+                                           def::defaultBulletSpeed,
+                                           0.75);
+    scene->addItem(bullet4);
+
+    fireSide++;
+    fireSide = fireSide % 3;
 }
 
 void blueLevel1FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
