@@ -3,15 +3,15 @@
 weapon defaultWeapon = { weapon_type::defWeapon, 10, &defaultFireFunc, 300 };
 
 weapon weapons[def::maxWeaponTypes * def::maxWeaponLevel] = {
-    { weapon_type::redWeapon, 20, &redLevel1FireFunc, 200 },
-    { weapon_type::redWeapon, 20, &redLevel2FireFunc, 180 },
-    { weapon_type::redWeapon, 40, &redLevel3FireFunc, 160 },
-    { weapon_type::redWeapon, 60, &redLevel4FireFunc, 140 },
-    { weapon_type::redWeapon, 80, &redLevel5FireFunc, 120 },
+    { weapon_type::redWeapon,  40, &redLevel1FireFunc, 700 },
+    { weapon_type::redWeapon,  50, &redLevel2FireFunc, 650 },
+    { weapon_type::redWeapon,  70, &redLevel3FireFunc, 620 },
+    { weapon_type::redWeapon, 100, &redLevel4FireFunc, 580 },
+    { weapon_type::redWeapon, 150, &redLevel5FireFunc, 500 },
 
     { weapon_type::yellowWeapon,  30, &yellowLevel1FireFunc, 300 },
     { weapon_type::yellowWeapon,  40, &yellowLevel2FireFunc, 260 },
-    { weapon_type::yellowWeapon,  40, &yellowLevel3FireFunc, 240 },
+    { weapon_type::yellowWeapon,  50, &yellowLevel3FireFunc, 240 },
     { weapon_type::yellowWeapon,  80, &yellowLevel4FireFunc, 200 },
     { weapon_type::yellowWeapon, 120, &yellowLevel5FireFunc, 180 },
 
