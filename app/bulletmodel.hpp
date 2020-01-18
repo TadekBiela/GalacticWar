@@ -13,7 +13,8 @@ public:
                 QPointF position,
                 int     damage,
                 int     direction,
-                int     moveTimeDelay);
+                int     moveTimeDelay,
+                float   pixmapScaleFactor = 1);
     virtual ~BulletModel();
     QString getName() const;
     int     getDamage() const;

@@ -8,7 +8,8 @@ BulletModel::BulletModel(QString name,
                          QPointF position,
                          int     damage,
                          int     direction,
-                         int     moveTimeDelay)
+                         int     moveTimeDelay,
+                         float   pixmapScaleFactor)
                           : m_name(name),
                             m_damage(damage)
 {
@@ -18,7 +19,8 @@ BulletModel::BulletModel(QString name,
     //Setup QPixmap
     QPixmap map;
     map.convertFromImage(*g_imageStorage->getImage(m_name));
-    setPixmap(map);
+    setPixmap(map.scaled(map.width()  * pixmapScaleFactor,
+                         map.height() * pixmapScaleFactor));
 
     setTransformOriginPoint(pixmap().size().width()  / 2,
                             pixmap().size().height() / 2);
