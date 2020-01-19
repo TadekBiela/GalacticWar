@@ -65,7 +65,10 @@ void EnemyController::startSpawning()
 
 void EnemyController::stopSpawning()
 {
-    m_remainigSpawnTime = m_enemySpawnTimer.remainingTime();
+    int remainingSpawnTime = m_enemySpawnTimer.remainingTime() > 0 ?
+                             m_enemySpawnTimer.remainingTime() :
+                             def::minEnemySpawnTimeDelay;
+    m_remainigSpawnTime = remainingSpawnTime;
     m_enemySpawnTimer.stop();
 }
 

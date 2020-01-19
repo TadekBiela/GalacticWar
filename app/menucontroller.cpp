@@ -5,7 +5,8 @@
 
 MenuController::MenuController(GeneralView* view,
                                MenuModel*   model)
-                                : m_isGamePaused(false),
+                                : m_isGameStarted(false),
+                                  m_isGamePaused(false),
                                   m_view(view)
 {
     connect(view,  SIGNAL(save(PlayerScore)),
@@ -31,7 +32,8 @@ MenuController::~MenuController()
 
 void MenuController::startGame()
 {
-    m_isGamePaused = false;
+    m_isGameStarted = false;
+    m_isGamePaused  = false;
 
     emit resetLevel();
     emit resetScore();
@@ -51,6 +53,7 @@ void MenuController::startGame()
 
 void MenuController::startSpawningEnemies()
 {
+    m_isGameStarted = true;
     emit activateEnemySpawning();
 }
 
@@ -61,17 +64,20 @@ void MenuController::showScore()
 
 void MenuController::escPressed()
 {
-    if(m_isGamePaused == false)
+    if(m_isGameStarted == true)
     {
-        emit deactivateEnemySpawning();
-        emit pauseGame();
-        m_isGamePaused = true;
-    }
-    else
-    {
-        emit activateEnemySpawning();
-        emit continueGame();
-        m_isGamePaused = false;
+        if(m_isGamePaused == false)
+        {
+            emit deactivateEnemySpawning();
+            emit pauseGame();
+            m_isGamePaused = true;
+        }
+        else
+        {
+            emit activateEnemySpawning();
+            emit continueGame();
+            m_isGamePaused = false;
+        }
     }
 }
 

@@ -23,6 +23,7 @@ public:
 
     int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
     const QTimer& getEnemySpawnTimer()     { return m_enemySpawnTimer; }
+    int           getRemainigSpawnTime()   { return m_remainigSpawnTime; }
     void          startEnemySpawnTimer()   { m_enemySpawnTimer.start(); }
 
 public slots:
@@ -157,6 +158,25 @@ TEST_F(EnemyControllerTestsClass, StopSpawning_ShouldStopEnemySpawnTimer_IsEqual
 
     EXPECT_EQ(oldEnemySpawnTimerStatus,    true);
     EXPECT_EQ(resultEnemySpawnTimerStatus, false);
+    delete view;
+    delete generator;
+}
+
+
+TEST_F(EnemyControllerTestsClass, StopSpawning_WhenGameIsntStartShouldSetRemainingTimeOnDefaultValue_IsEqual)
+{
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    GeneralView*         view      = new GeneralView;
+    EnemyControllerTest  enemyController(view, generator);
+    bool                 oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    enemyController.stopSpawning();
+    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+    int  resultRemainingSpawnTime    = enemyController.getRemainigSpawnTime();
+
+    EXPECT_FALSE(oldEnemySpawnTimerStatus);
+    EXPECT_FALSE(resultEnemySpawnTimerStatus);
+    EXPECT_EQ(resultRemainingSpawnTime, def::minEnemySpawnTimeDelay);
     delete view;
     delete generator;
 }

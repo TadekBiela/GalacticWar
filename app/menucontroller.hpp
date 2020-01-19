@@ -34,6 +34,7 @@ public slots:
     void gameOver();
 
 protected:
+    bool         m_isGameStarted;
     bool         m_isGamePaused;
     GeneralView* m_view;
 };
