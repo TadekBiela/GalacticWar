@@ -43,9 +43,12 @@ void PlayerController::createNewPlayer()
 
 void PlayerController::defeated()
 {
+    QPointF position;
+    position.setX(m_player->pos().x() + m_player->pixmap().width()  / 2);
+    position.setY(m_player->pos().y() + m_player->pixmap().height() / 2);
     AnimationEffectModel* explosionAnim = new AnimationEffectModel(m_player->scene(),
                                                                    "explosion",
-                                                                   m_player->pos(),
+                                                                   position,
                                                                    def::animationFrameWight,
                                                                    def::animationFrameHeight);
     SoundEffectModel* explosion = new SoundEffectModel("explosion");
