@@ -103,6 +103,8 @@ GeneralView::GeneralView()
                                     defaultButtonHeight);
 
     //HealthView setup
+    m_healthGraphics.setCursor(QCursor(Qt::CrossCursor));
+    m_healthGraphics.setFocusProxy(&m_view);
     m_healthGraphics.setStyleSheet(style);
     m_healthGraphics.setGeometry(10,
                                  def::sceneHeight - 50,
@@ -112,15 +114,21 @@ GeneralView::GeneralView()
                             m_healthGraphics.pos().y() + 8 ,
                             m_healthGraphics.size().width()  - 16,
                             m_healthGraphics.size().height() - 16);
+    m_healthBar.setCursor(QCursor(Qt::CrossCursor));
+    m_healthBar.setFocusProxy(&m_view);
     m_healthBar.setTextVisible(false);
     m_healthBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #DE0101; }"));
 
     //LevelView setup
+    m_levelGraphics.setCursor(QCursor(Qt::CrossCursor));
+    m_levelGraphics.setFocusProxy(&m_view);
     m_levelGraphics.setStyleSheet(style);
     m_levelGraphics.setGeometry(def::sceneWight / 2 - 40,
                                 def::sceneHeight - 90,
                                 80,
                                 80);
+    m_levelText.setCursor(QCursor(Qt::CrossCursor));
+    m_levelText.setFocusProxy(&m_view);
     m_levelText.setFont(normalFont);
     m_levelText.setAlignment(Qt::AlignCenter);
     m_levelText.setStyleSheet(style);
@@ -131,6 +139,8 @@ GeneralView::GeneralView()
                             m_levelGraphics.size().height() - 16);
 
     //ScoreView setup
+    m_scoreGraphics.setCursor(QCursor(Qt::CrossCursor));
+    m_scoreGraphics.setFocusProxy(&m_view);
     m_scoreGraphics.setStyleSheet(style);
     m_scoreGraphics.setGeometry(def::sceneWight - 230,
                                 def::sceneHeight - 50,
@@ -140,6 +150,8 @@ GeneralView::GeneralView()
                            m_scoreGraphics.pos().y() + 8 ,
                            m_scoreGraphics.size().width()  - 16,
                            m_scoreGraphics.size().height() - 16);
+    m_scoreBar.setCursor(QCursor(Qt::CrossCursor));
+    m_scoreBar.setFocusProxy(&m_view);
     m_scoreBar.setTextVisible(false);
     m_scoreBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #FCCD10; }"));
 
