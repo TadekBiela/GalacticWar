@@ -376,6 +376,18 @@ void GeneralView::keyPressEvent(QKeyEvent* event)
     }
 }
 
+void GeneralView::leaveEvent(QEvent *event)
+{
+    event->ignore();
+    emit escPressed();
+}
+
+void GeneralView::enterEvent(QEvent *event)
+{
+    event->ignore();
+    emit escPressed();
+}
+
 void GeneralView::continueButtonClicked()
 {
     emit escPressed();

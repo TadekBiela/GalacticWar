@@ -47,6 +47,8 @@ public slots:
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void keyPressEvent(QKeyEvent* event);
+    void leaveEvent(QEvent *event);
+    void enterEvent(QEvent *event);
     void continueButtonClicked();
     void savePlayerScore();
     void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
