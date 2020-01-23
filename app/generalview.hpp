@@ -91,6 +91,8 @@ protected:
     //ScoreView section
     QLabel       m_scoreGraphics;
     QProgressBar m_scoreBar;
+
+    bool m_isGamePaused = false;
 };
 
 #endif // GENERALVIEW_HPP

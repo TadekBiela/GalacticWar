@@ -252,6 +252,7 @@ void GeneralView::pauseGame()
     m_view.setCursor(QCursor(Qt::ArrowCursor));
     m_view.setGraphicsEffects(0.5, 5);
     m_view.stopAllItems();
+    m_isGamePaused = true;
 }
 
 void GeneralView::continueGame()
@@ -280,6 +281,7 @@ void GeneralView::continueGame()
     m_view.setCursor(QCursor(Qt::CrossCursor));
     m_view.setGraphicsEffects(0, 0);
     m_view.startAllItems();
+    m_isGamePaused = false;
 }
 
 
@@ -355,7 +357,10 @@ void GeneralView::addGameObject(QGraphicsItem* newObject)
 
 void GeneralView::mousePressEvent(QMouseEvent* event)
 {
-    emit mousePressed();
+    if(!m_isGamePaused)
+    {
+        emit mousePressed();
+    }
 }
 
 void GeneralView::mouseReleaseEvent(QMouseEvent* event)
