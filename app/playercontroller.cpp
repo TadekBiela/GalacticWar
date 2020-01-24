@@ -6,7 +6,6 @@ PlayerController::PlayerController(GeneralView* view)
                                     : m_view(view)
 {
     connect(this, SIGNAL(addPlayerToScene(QGraphicsItem*)), view, SLOT(addGameObject(QGraphicsItem*)));
-    connect(view, SIGNAL(abortGame()),                      this, SLOT(abortPlayer()));
     m_player = nullptr;
 }
 

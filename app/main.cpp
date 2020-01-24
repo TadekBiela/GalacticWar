@@ -59,6 +59,8 @@ int main(int argc, char *argv[])
                      &enemyController,  SLOT(stopSpawning()));
     QObject::connect(&menuController,   SIGNAL(getScore()),
                      &scoreController,  SLOT(getScore()));
+    QObject::connect(&menuController,   SIGNAL(abortPlayer()),
+                     &playerController, SLOT(abortPlayer()));
     QObject::connect(&playerController, SIGNAL(playerDefeated()),
                      &menuController,   SLOT(gameOver()));
     QObject::connect(&rewardController, SIGNAL(rewardCoinCollected(coin_type)),

@@ -49,9 +49,11 @@ public:
     const QLabel&         getLevelText()               { return m_levelText; }
     const QLabel&         getScoreGraphics()           { return m_scoreGraphics; }
     const QProgressBar&   getScoreBar()                { return m_scoreBar; }
+    bool                  getIsGamePaused() const      { return m_isGamePaused; }
     void addItemToScene(QGraphicsItem* item) { m_scene.addItem(item); }
-    void setPlayer(QString player)  { m_player.setText(player); }
-    void setScore(int score)        { m_score.setText(QString::number(score)); }
+    void setPlayer(QString player)           { m_player.setText(player); }
+    void setScore(int score)                 { m_score.setText(QString::number(score)); }
+    void setIsGamePaused(bool isGamePaused)  { m_isGamePaused = isGamePaused; }
 };
 
 class GeneralViewTestsClass : public testing::Test
@@ -95,6 +97,7 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+    bool                resultIsGamePaused            = generalView.getIsGamePaused();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   true);
@@ -116,6 +119,7 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
+    EXPECT_FALSE(resultIsGamePaused);
 }
 
 TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
@@ -147,6 +151,7 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
     int                 resultSignalStartCount        = signalStart.count();
+    bool                resultIsGamePaused            = generalView.getIsGamePaused();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
@@ -169,6 +174,7 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultScoreGraphics.isVisible(),           true);
     EXPECT_EQ(resultScoreBar.isVisible(),                true);
     EXPECT_EQ(resultSignalStartCount,                    1);
+    EXPECT_FALSE(resultIsGamePaused);
 }
 
 TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
@@ -197,6 +203,7 @@ TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+    bool                resultIsGamePaused            = generalView.getIsGamePaused();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
@@ -218,6 +225,7 @@ TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
+    EXPECT_TRUE(resultIsGamePaused);
 }
 
 TEST_F(GeneralViewTestsClass, ContinueGame_CheckCorrectVisibleUI_IsEqual)
@@ -246,6 +254,7 @@ TEST_F(GeneralViewTestsClass, ContinueGame_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+    bool                resultIsGamePaused            = generalView.getIsGamePaused();
 
     EXPECT_EQ(resultView.isVisible(),                    true);
     EXPECT_EQ(resultTitle.isVisible(),                   false);
@@ -257,7 +266,7 @@ TEST_F(GeneralViewTestsClass, ContinueGame_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultHighScoreButton.isVisible(),         false);
     EXPECT_EQ(resultQuitButton.isVisible(),              false);
     EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
-    EXPECT_EQ(resultBackToMenuButton.isVisible(),        false);
+    EXPECT_EQ(resultBackToMenuButton2.isVisible(),       false);
     EXPECT_EQ(resultSaveAfterGameOverButton.isVisible(), false);
     EXPECT_EQ(resultContinueButton.isVisible(),          false);
     EXPECT_EQ(resultHighScoreList.isVisible(),           false);
@@ -267,6 +276,7 @@ TEST_F(GeneralViewTestsClass, ContinueGame_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               true);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           true);
     EXPECT_EQ(resultScoreBar.isVisible(),                true);
+    EXPECT_FALSE(resultIsGamePaused);
 }
 
 TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
@@ -295,6 +305,7 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     const QLabel&       resultLevelText               = generalView.getLevelText();
     const QLabel&       resultScoreGraphics           = generalView.getScoreGraphics();
     const QProgressBar& resultScoreBar                = generalView.getScoreBar();
+    bool                resultIsGamePaused            = generalView.getIsGamePaused();
 
     EXPECT_EQ(resultScore.text(),                        QString("100"));
     EXPECT_EQ(resultView.isVisible(),                    true);
@@ -317,6 +328,7 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     EXPECT_EQ(resultLevelText.isVisible(),               false);
     EXPECT_EQ(resultScoreGraphics.isVisible(),           false);
     EXPECT_EQ(resultScoreBar.isVisible(),                false);
+    EXPECT_FALSE(resultIsGamePaused);
 }
 
 TEST_F(GeneralViewTestsClass, GameOver_AllGameObjectsShouldBeRemovedFromScene_IsEqual)
@@ -444,7 +456,7 @@ TEST_F(GeneralViewTestsClass, AddGameObject_AddRewardSpecialModelCheckIfWillAdde
     EXPECT_EQ(resultspecial->getType(), special_type::weaponBlue);
 }
 
-TEST_F(GeneralViewTestsClass, MousePressEvent_CheckIfSignalWillBeSend_IsEqual)
+TEST_F(GeneralViewTestsClass, MousePressEvent_IsGamePausedIsFalseCheckIfSignalWillBeSend_IsEqual)
 {
     QMouseEvent      event(QEvent::MouseButtonPress,
                            QPointF(0, 0),
@@ -454,6 +466,7 @@ TEST_F(GeneralViewTestsClass, MousePressEvent_CheckIfSignalWillBeSend_IsEqual)
     GeneralViewTests generalView;
     QSignalSpy       signalPressed(&generalView, &GeneralViewTests::mousePressed);
     signalPressed.wait(utdef::minSignalTimeDelay);
+    generalView.setIsGamePaused(false);
 
     generalView.mousePressEvent(&event);
     int resultSignalPressedCount = signalPressed.count();
@@ -461,7 +474,25 @@ TEST_F(GeneralViewTestsClass, MousePressEvent_CheckIfSignalWillBeSend_IsEqual)
     EXPECT_EQ(resultSignalPressedCount, 1);
 }
 
-TEST_F(GeneralViewTestsClass, MouseReleaseEvent_CheckIfSignalWillBeSend_IsEqual)
+TEST_F(GeneralViewTestsClass, MousePressEvent_IsGamePausedIsTrueSouldDoNothing_IsEqual)
+{
+    QMouseEvent      event(QEvent::MouseButtonPress,
+                           QPointF(0, 0),
+                           Qt::LeftButton,
+                           Qt::LeftButton,
+                           Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalPressed(&generalView, &GeneralViewTests::mousePressed);
+    signalPressed.wait(utdef::minSignalTimeDelay);
+    generalView.setIsGamePaused(true);
+
+    generalView.mousePressEvent(&event);
+    int resultSignalPressedCount = signalPressed.count();
+
+    EXPECT_EQ(resultSignalPressedCount, 0);
+}
+
+TEST_F(GeneralViewTestsClass, MouseReleaseEvent_IsGamePausedIsFalseCheckIfSignalWillBeSend_IsEqual)
 {
     QMouseEvent      event(QEvent::MouseButtonRelease,
                            QPointF(0, 0),
@@ -471,11 +502,43 @@ TEST_F(GeneralViewTestsClass, MouseReleaseEvent_CheckIfSignalWillBeSend_IsEqual)
     GeneralViewTests generalView;
     QSignalSpy       signalReleased(&generalView, &GeneralViewTests::mouseReleased);
     signalReleased.wait(utdef::minSignalTimeDelay);
+    generalView.setIsGamePaused(false);
 
     generalView.mouseReleaseEvent(&event);
     int resultSignalReleasedCount = signalReleased.count();
 
     EXPECT_EQ(resultSignalReleasedCount, 1);
+}
+
+TEST_F(GeneralViewTestsClass, MouseReleaseEvent_IsGamePausedIsTrueShouldDoNothingIsEqual)
+{
+    QMouseEvent      event(QEvent::MouseButtonRelease,
+                           QPointF(0, 0),
+                           Qt::LeftButton,
+                           Qt::LeftButton,
+                           Qt::NoModifier);
+    GeneralViewTests generalView;
+    QSignalSpy       signalReleased(&generalView, &GeneralViewTests::mouseReleased);
+    signalReleased.wait(utdef::minSignalTimeDelay);
+    generalView.setIsGamePaused(true);
+
+    generalView.mouseReleaseEvent(&event);
+    int resultSignalReleasedCount = signalReleased.count();
+
+    EXPECT_EQ(resultSignalReleasedCount, 0);
+}
+
+TEST_F(GeneralViewTestsClass, LeaveEvent_CheckIfSignalWillBeSend_IsEqual)
+{
+    QEvent           event(QEvent::Leave);
+    GeneralViewTests generalView;
+    QSignalSpy       signalLeave(&generalView, &GeneralViewTests::mouseLeaveWindow);
+    signalLeave.wait(utdef::minSignalTimeDelay);
+
+    generalView.leaveEvent(&event);
+    int resultSignalLeaveCount = signalLeave.count();
+
+    EXPECT_EQ(resultSignalLeaveCount, 1);
 }
 
 TEST_F(GeneralViewTestsClass, MouseMoveEvent_CheckIfSignalWillBeSend_IsEqual)

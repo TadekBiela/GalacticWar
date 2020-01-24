@@ -223,6 +223,7 @@ void GeneralView::start()
     m_view.setCursor(QCursor(Qt::CrossCursor));
     m_view.setGraphicsEffects(0, 0);
     m_scene.clear();
+    m_isGamePaused = false;
     emit startGame();
 }
 
@@ -317,6 +318,7 @@ void GeneralView::gameOver(int score)
     m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
+    m_isGamePaused = false;
 }
 
 void GeneralView::highScore()
@@ -357,15 +359,20 @@ void GeneralView::addGameObject(QGraphicsItem* newObject)
 
 void GeneralView::mousePressEvent(QMouseEvent* event)
 {
-    if(!m_isGamePaused)
+    if(m_isGamePaused == false)
     {
         emit mousePressed();
     }
+    event->ignore();
 }
 
 void GeneralView::mouseReleaseEvent(QMouseEvent* event)
 {
-    emit mouseReleased();
+    if(m_isGamePaused == false)
+    {
+        emit mouseReleased();
+    }
+    event->ignore();
 }
 
 void GeneralView::mouseMoveEvent(QMouseEvent* event)
@@ -383,14 +390,8 @@ void GeneralView::keyPressEvent(QKeyEvent* event)
 
 void GeneralView::leaveEvent(QEvent *event)
 {
+    emit mouseLeaveWindow();
     event->ignore();
-    emit escPressed();
-}
-
-void GeneralView::enterEvent(QEvent *event)
-{
-    event->ignore();
-    emit escPressed();
 }
 
 void GeneralView::continueButtonClicked()

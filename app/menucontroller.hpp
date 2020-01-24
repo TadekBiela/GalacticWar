@@ -20,6 +20,7 @@ signals:
     void resetLevel();
     void resetScore();
     void createNewPlayer();
+    void abortPlayer();
     void activateEnemySpawning();
     void deactivateEnemySpawning();
     void getScore();
@@ -29,8 +30,10 @@ public slots:
     void startGame();
     void startSpawningEnemies();
     void showScore();
+    void mouseLeaveWindow();
     void escPressed();
     void updateScore(int score);
+    void abortGame();
     void gameOver();
 
 protected:

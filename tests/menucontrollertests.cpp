@@ -50,13 +50,39 @@ TEST_F(MenuControllerTestsClass, StartGame_CheckIfWillBeSendSignalsToResetLevelA
     signalCreate.wait(utdef::minSignalTimeDelay);
 
     menuController.startGame();
-    int resultSignalResetLevelCount = signalResetLevel.count();
-    int resultSignalResetScoreCount = signalResetScore.count();
-    int resultSignalCreateCount     = signalCreate.count();
+    bool resultIsGamePaused          = menuController.getIsGamePaused();
+    bool resultIsGameStarted         = menuController.getIsGameStarted();
+    int  resultSignalResetLevelCount = signalResetLevel.count();
+    int  resultSignalResetScoreCount = signalResetScore.count();
+    int  resultSignalCreateCount     = signalCreate.count();
 
+    EXPECT_FALSE(resultIsGamePaused);
+    EXPECT_FALSE(resultIsGameStarted);
     EXPECT_EQ(resultSignalResetLevelCount, 1);
     EXPECT_EQ(resultSignalResetScoreCount, 1);
     EXPECT_EQ(resultSignalCreateCount,     1);
+    delete model;
+    delete fileMgr;
+    delete view;
+}
+
+TEST_F(MenuControllerTestsClass, AbortGame_CheckIfWillBeSendSignalsToResetLevelAndScoreAndCreateNewPlayerModel_IsEqual)
+{
+    FileManagerStub*   fileMgr = new FileManagerStub;
+    MenuModel*         model   = new MenuModel(fileMgr);
+    GeneralView*       view    = new GeneralView;
+    MenuControllerTest menuController(view, model);
+    QSignalSpy signalAbortPlayer(&menuController, &MenuControllerTest::abortPlayer);
+    signalAbortPlayer.wait(utdef::minSignalTimeDelay);
+
+    menuController.abortGame();
+    bool resultIsGamePaused           = menuController.getIsGamePaused();
+    bool resultIsGameStarted          = menuController.getIsGameStarted();
+    int  resultSignalAbortPlayerCount = signalAbortPlayer.count();
+
+    EXPECT_FALSE(resultIsGamePaused);
+    EXPECT_FALSE(resultIsGameStarted);
+    EXPECT_EQ(resultSignalAbortPlayerCount, 1);
     delete model;
     delete fileMgr;
     delete view;
@@ -76,12 +102,88 @@ TEST_F(MenuControllerTestsClass, EscPressed_IsGameStartedIsFalseEscapePressedSho
 
     menuController.escPressed();
     bool reslutIsGamePaused        = menuController.getIsGamePaused();
+    bool reslutIsGameStarted       = menuController.getIsGameStarted();
     int  resultSignalPauseCount    = signalContinue.count();
     int  resultSignalActivateCount = signalActivate.count();
 
     EXPECT_FALSE(reslutIsGamePaused);
+    EXPECT_FALSE(reslutIsGameStarted);
     EXPECT_EQ(resultSignalPauseCount,    0);
     EXPECT_EQ(resultSignalActivateCount, 0);
+    delete model;
+    delete fileMgr;
+    delete view;
+}
+
+TEST_F(MenuControllerTestsClass, MouseLeaveWindow_IsGameStartedIsFalseShouldDoNothing_IsEqual)
+{
+    FileManagerStub*   fileMgr = new FileManagerStub;
+    MenuModel*         model   = new MenuModel(fileMgr);
+    GeneralView*       view    = new GeneralView;
+    MenuControllerTest menuController(view, model);
+    QSignalSpy signalPause(&menuController, &MenuControllerTest::pauseGame);
+    QSignalSpy signalDeactivate(&menuController, &MenuControllerTest::deactivateEnemySpawning);
+    signalPause.wait(utdef::minSignalTimeDelay);
+    menuController.setIsGameStarted(false);
+
+    menuController.mouseLeaveWindow();
+    bool reslutIsGamePaused          = menuController.getIsGamePaused();
+    int  resultSignalPauseCount      = signalPause.count();
+    int  resultSignalDeactivateCount = signalDeactivate.count();
+
+    EXPECT_FALSE(reslutIsGamePaused);
+    EXPECT_EQ(resultSignalPauseCount,      0);
+    EXPECT_EQ(resultSignalDeactivateCount, 0);
+    delete model;
+    delete fileMgr;
+    delete view;
+}
+
+TEST_F(MenuControllerTestsClass, MouseLeaveWindow_IsGameStartedIsTrueAndIsGamePausedIsTrueShouldDoNothing_IsEqual)
+{
+    FileManagerStub*   fileMgr = new FileManagerStub;
+    MenuModel*         model   = new MenuModel(fileMgr);
+    GeneralView*       view    = new GeneralView;
+    MenuControllerTest menuController(view, model);
+    QSignalSpy signalPause(&menuController, &MenuControllerTest::pauseGame);
+    QSignalSpy signalDeactivate(&menuController, &MenuControllerTest::deactivateEnemySpawning);
+    signalPause.wait(utdef::minSignalTimeDelay);
+    menuController.setIsGameStarted(true);
+    menuController.setIsGamePaused(true);
+
+    menuController.mouseLeaveWindow();
+    bool reslutIsGamePaused          = menuController.getIsGamePaused();
+    int  resultSignalPauseCount      = signalPause.count();
+    int  resultSignalDeactivateCount = signalDeactivate.count();
+
+    EXPECT_TRUE(reslutIsGamePaused);
+    EXPECT_EQ(resultSignalPauseCount,      0);
+    EXPECT_EQ(resultSignalDeactivateCount, 0);
+    delete model;
+    delete fileMgr;
+    delete view;
+}
+
+TEST_F(MenuControllerTestsClass, MouseLeaveWindow_IsGameStartedIsTrueAndIsGamePausedIsFalseShouldTrunOnPauseIsEqual)
+{
+    FileManagerStub*   fileMgr = new FileManagerStub;
+    MenuModel*         model   = new MenuModel(fileMgr);
+    GeneralView*       view    = new GeneralView;
+    MenuControllerTest menuController(view, model);
+    QSignalSpy signalPause(&menuController, &MenuControllerTest::pauseGame);
+    QSignalSpy signalDeactivate(&menuController, &MenuControllerTest::deactivateEnemySpawning);
+    signalPause.wait(utdef::minSignalTimeDelay);
+    menuController.setIsGameStarted(true);
+    menuController.setIsGamePaused(false);
+
+    menuController.mouseLeaveWindow();
+    bool reslutIsGamePaused          = menuController.getIsGamePaused();
+    int  resultSignalPauseCount      = signalPause.count();
+    int  resultSignalDeactivateCount = signalDeactivate.count();
+
+    EXPECT_TRUE(reslutIsGamePaused);
+    EXPECT_EQ(resultSignalPauseCount,      1);
+    EXPECT_EQ(resultSignalDeactivateCount, 1);
     delete model;
     delete fileMgr;
     delete view;
@@ -168,9 +270,13 @@ TEST_F(MenuControllerTestsClass, GameOver_CheckIfBeSendSignalToStopSpawningEnemi
     signalDeactEnemySpawn.wait(utdef::minSignalTimeDelay);
 
     menuController.gameOver();
-    int resultSignalDeactEnemySpawnCount = signalDeactEnemySpawn.count();
+    int  resultSignalDeactEnemySpawnCount = signalDeactEnemySpawn.count();
+    bool resultIsGamePaused               = menuController.getIsGamePaused();
+    bool resultIsGameStarted              = menuController.getIsGameStarted();
 
     EXPECT_EQ(resultSignalDeactEnemySpawnCount, 1);
+    EXPECT_FALSE(resultIsGamePaused);
+    EXPECT_FALSE(resultIsGameStarted);
     delete model;
     delete fileMgr;
     delete view;

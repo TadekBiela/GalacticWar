@@ -17,12 +17,16 @@ MenuController::MenuController(GeneralView* view,
             view,  SLOT(gameOver(int)));
     connect(view,  SIGNAL(startGame()),
             this,  SLOT(startGame()));
+    connect(view,  SIGNAL(mouseLeaveWindow()),
+            this,  SLOT(mouseLeaveWindow()));
     connect(view,  SIGNAL(escPressed()),
             this,  SLOT(escPressed()));
     connect(this,  SIGNAL(pauseGame()),
             view,  SLOT(pauseGame()));
     connect(this,  SIGNAL(continueGame()),
             view,  SLOT(continueGame()));
+    connect(view,  SIGNAL(abortGame()),
+            this,  SLOT(abortGame()));
 }
 
 MenuController::~MenuController()
@@ -51,6 +55,13 @@ void MenuController::startGame()
     connect(startGame, SIGNAL(end()), this, SLOT(startSpawningEnemies()));
 }
 
+void MenuController::abortGame()
+{
+    emit abortPlayer();
+    m_isGameStarted = false;
+    m_isGamePaused  = false;
+}
+
 void MenuController::startSpawningEnemies()
 {
     m_isGameStarted = true;
@@ -59,7 +70,21 @@ void MenuController::startSpawningEnemies()
 
 void MenuController::showScore()
 {
+    m_isGameStarted = false;
     emit getScore();
+}
+
+void MenuController::mouseLeaveWindow()
+{
+    if(m_isGameStarted == true)
+    {
+        if(m_isGamePaused == false)
+        {
+            emit deactivateEnemySpawning();
+            emit pauseGame();
+            m_isGamePaused = true;
+        }
+    }
 }
 
 void MenuController::escPressed()
@@ -100,4 +125,6 @@ void MenuController::gameOver()
                                                                   20);
     SoundEffectModel* gameOver = new SoundEffectModel("game_over");
     connect(gameOver, SIGNAL(end()), this, SLOT(showScore()));
+    m_isGamePaused = false;
+    m_isGameStarted = false;
 }
