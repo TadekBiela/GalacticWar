@@ -318,6 +318,9 @@ void GeneralView::gameOver(int score)
     m_levelText.setVisible(false);
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
+
+    m_view.setCursor(QCursor(Qt::ArrowCursor));
+    m_view.setGraphicsEffects(0, 0);
     m_isGamePaused = false;
 }
 
