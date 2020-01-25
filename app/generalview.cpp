@@ -38,23 +38,19 @@ GeneralView::GeneralView()
     int buttonOffsetX       = (def::sceneWight / 2) - (defaultButtonWight / 2);
     int buttonoffsetY       = defaultButtonHeight + buttonBetweenOffset;
 
-    QFont   bigFont("Arial", 40, 3);
-    QFont   normalFont("Arial", 30, 3);
-    QFont   smallFont("Arial", 15, 3);
-    QString style("border: 1px solid white; color: #FFFFFF");
+    QString style("border: 0px; color: #FFFFFF");
 
     //Menu setup
-    m_title.setFont(normalFont);
     m_title.setAlignment(Qt::AlignCenter);
-    m_title.setGeometry((def::sceneWight / 2) - 200, def::sceneHeight / 8, 400, 100);
-    m_title.setStyleSheet(style);
+    m_title.setGeometry((def::sceneWight / 2) - 250, def::sceneHeight / 8, 500, 100);
+    m_title.setStyleSheet(style + "; font-size: 45px;");
     m_startButton.setGeometry(    buttonOffsetX, startButtonSection,                     defaultButtonWight, defaultButtonHeight);
     m_highScoreButton.setGeometry(buttonOffsetX, startButtonSection + buttonoffsetY,     defaultButtonWight, defaultButtonHeight);
     m_quitButton.setGeometry(     buttonOffsetX, startButtonSection + buttonoffsetY * 2, defaultButtonWight, defaultButtonHeight);
     m_author.setGeometry(def::sceneWight - 100, def::sceneHeight - 30, 100, 30);
 
     //Highscore setup
-    m_highScoreList.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent;"));
+    m_highScoreList.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; font-size: 12px"));
     m_highScoreList.addItem("Player\t\t\tScore");
     m_highScoreList.setGeometry(def::sceneWight / 2 - 150,
                                 m_title.pos().y() + m_title.size().height() + 30,
@@ -66,9 +62,8 @@ GeneralView::GeneralView()
                                    defaultButtonHeight);
 
     //Pause setup
-    m_pause.setFont(bigFont);
     m_pause.setAlignment(Qt::AlignCenter);
-    m_pause.setStyleSheet(style);
+    m_pause.setStyleSheet(style + "; font-size: 40px");
     m_pause.setGeometry(def::sceneWight / 2 - 200,
                         def::sceneHeight / 3,
                         400,
@@ -79,16 +74,14 @@ GeneralView::GeneralView()
                                  defaultButtonHeight);
 
     //Gameover setup
-    m_score.setFont(bigFont);
     m_score.setAlignment(Qt::AlignCenter);
-    m_score.setStyleSheet(style);
+    m_score.setStyleSheet(style + "; font-size: 55px");
     m_score.setGeometry(def::sceneWight / 2 - 200,
                         def::sceneHeight / 4,
                         400,
                         100);
-    m_player.setFont(smallFont);
     m_player.setAlignment(Qt::AlignCenter);
-    m_player.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent;"));
+    m_player.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; font-size: 30px"));
     m_player.setGeometry(def::sceneWight / 2 - 150,
                          m_score.pos().y() + m_score.size().height() + 50,
                          300,
@@ -129,9 +122,8 @@ GeneralView::GeneralView()
                                 80);
     m_levelText.setCursor(QCursor(Qt::CrossCursor));
     m_levelText.setFocusProxy(&m_view);
-    m_levelText.setFont(normalFont);
     m_levelText.setAlignment(Qt::AlignCenter);
-    m_levelText.setStyleSheet(style);
+    m_levelText.setStyleSheet(style + "; font-size: 40px");
     m_levelText.setNum(1);
     m_levelText.setGeometry(m_levelGraphics.pos().x() + 8,
                             m_levelGraphics.pos().y() + 8 ,

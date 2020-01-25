@@ -8,11 +8,13 @@ set(CMAKE_CXX_COMPILER C:/Qt/Tools/mingw730_32/bin/g++.exe)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/images/
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/images)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/images/
-      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/images)
-  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/sounds/
-       DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/sounds)
-  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/sounds/
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/sounds)
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/images)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/sounds/
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/sounds)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/sounds/
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/sounds)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/fonts/
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/fonts)
 
 project("Galacic War")
 enable_testing()

@@ -16,12 +16,16 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QObject>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     g_imageStorage = new ImageStorage;
     g_soundStorage = new SoundStorage;
+
+    QFontDatabase::addApplicationFont(a.applicationDirPath() + "/fonts/joystix monospace.ttf");
+    a.setFont(QFont("joystix monospace"));
 
     FileManager     fileManager;
     RandomGenerator randomGenerator;
