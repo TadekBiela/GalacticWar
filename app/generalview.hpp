@@ -10,7 +10,7 @@
 #include <QGraphicsScene>
 #include <QLabel>
 #include <QLineEdit>
-#include <QListWidget>
+#include <QTableWidget>
 #include <QMouseEvent>
 #include <QPointF>
 #include <QProgressBar>
@@ -66,19 +66,19 @@ protected:
     QGraphicsScene m_scene;
     GraphicsView   m_view;
 
-    QLabel      m_title;             // Menu
-    QLabel      m_author;            // Menu
-    QLabel      m_pause;             // Menu
-    QLineEdit   m_player;            // GameOver
-    QLabel      m_score;             // GameOver
-    PushButton  m_startButton;       // Menu
-    PushButton  m_highScoreButton;   // Menu
-    PushButton  m_quitButton;        // Menu
-    PushButton  m_backToMenuButton;  // HighScore
-    PushButton  m_backToMenuButton2; // GameOver & Pause
-    PushButton  m_saveAfterGameOver; // GameOver
-    PushButton  m_continueButton;    // Pause
-    QListWidget m_highScoreList;     // HighScore
+    QLabel       m_title;             // Menu
+    QLabel       m_author;            // Menu
+    QLabel       m_pause;             // Menu
+    QLineEdit    m_player;            // GameOver
+    QLabel       m_score;             // GameOver
+    PushButton   m_startButton;       // Menu
+    PushButton   m_highScoreButton;   // Menu
+    PushButton   m_quitButton;        // Menu
+    PushButton   m_backToMenuButton;  // HighScore
+    PushButton   m_backToMenuButton2; // GameOver & Pause
+    PushButton   m_saveAfterGameOver; // GameOver
+    PushButton   m_continueButton;    // Pause
+    QTableWidget m_highScoreList;     // HighScore
 
     //HealthView section
     QLabel       m_healthGraphics;

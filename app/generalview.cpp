@@ -4,6 +4,7 @@
 #include "soundstorage.hpp"
 #include <QString>
 #include <QGraphicsEffect>
+#include <QHeaderView>
 
 GeneralView::GeneralView()
                          : m_scene(0, 0, def::sceneWight, def::sceneHeight, this),
@@ -50,12 +51,38 @@ GeneralView::GeneralView()
     m_author.setGeometry(def::sceneWight - 100, def::sceneHeight - 30, 100, 30);
 
     //Highscore setup
-    m_highScoreList.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; font-size: 12px"));
-    m_highScoreList.addItem("Player\t\t\tScore");
-    m_highScoreList.setGeometry(def::sceneWight / 2 - 150,
+    m_highScoreList.setColumnCount(2);
+    m_highScoreList.setRowCount(0);
+    m_highScoreList.setEnabled(false);
+    m_highScoreList.setShowGrid(false);
+    m_highScoreList.verticalHeader()->hide();
+    m_highScoreList.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_highScoreList.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_highScoreList.setStyleSheet("QTableView { border-style: solid;"
+                                               "border-width: 2px;"
+                                               "border-radius: 5px;"
+                                               "border-color: white;"
+                                               "background: transparent;"
+                                               "font-size: 18px; }"
+                                  "QTableView::item { background: transparent;"
+                                                     "color: white; }"
+                                  "QHeaderView { border-style: solid;"
+                                                "border-bottom-width: 2px;"
+                                                "border-color: white;"
+                                                "background-color: transparent; }"
+                                  "QHeaderView::section { background-color: transparent;"
+                                                          "font-size: 20px;"
+                                                          "color: white; }");
+    m_highScoreList.horizontalHeader()->setSectionsClickable(false);
+    QStringList labels = { "Player", "Score" };
+    m_highScoreList.setHorizontalHeaderLabels(labels);
+
+    m_highScoreList.setGeometry(def::sceneWight / 2 - 200,
                                 m_title.pos().y() + m_title.size().height() + 30,
-                                300,
-                                300);
+                                400,
+                                400);
+    m_highScoreList.setColumnWidth(0, m_highScoreList.width() / 2);
+    m_highScoreList.setColumnWidth(1, m_highScoreList.width() / 2);
     m_backToMenuButton.setGeometry(buttonOffsetX,
                                    m_highScoreList.pos().y() + m_highScoreList.size().height() + 30,
                                    defaultButtonWight,
@@ -407,11 +434,19 @@ void GeneralView::savePlayerScore()
 void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
 {
     m_highScoreList.clear();
-    m_highScoreList.addItem("Player\t\t\tScore");
+    QStringList labels = { "Player", "Score" };
+    m_highScoreList.setHorizontalHeaderLabels(labels);
+
     for(int i = 0; i < size; i++)
     {
         iterator--;
-        m_highScoreList.addItem(iterator.value() + "\t\t\t" + QString::number(iterator.key()));
+        QTableWidgetItem* playerName  = new QTableWidgetItem(" " + iterator.value());
+        QTableWidgetItem* playerScore = new QTableWidgetItem(QString::number(iterator.key()) + " ");
+        playerScore->setTextAlignment(Qt::AlignRight + Qt::AlignCenter);
+        m_highScoreList.insertRow(m_highScoreList.rowCount());
+        m_highScoreList.setRowHeight(i, 18);
+        m_highScoreList.setItem(i, 0, playerName);
+        m_highScoreList.setItem(i, 1, playerScore);
     }
 }
 

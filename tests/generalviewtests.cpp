@@ -42,7 +42,7 @@ public:
     const QPushButton&    getBackToMenuButton2()       { return m_backToMenuButton2; }
     const QPushButton&    getSaveAfterGameOverButton() { return m_saveAfterGameOver; }
     const QPushButton&    getContinueButton()          { return m_continueButton; }
-    const QListWidget&    getHighScoreList()           { return m_highScoreList; }
+    const QTableWidget&   getHighScoreList()           { return m_highScoreList; }
     const QLabel&         getHealthGraphics()          { return m_healthGraphics; }
     const QProgressBar&   getHealthBar()               { return m_healthBar; }
     const QLabel&         getLevelGraphics()           { return m_levelGraphics; }
@@ -90,7 +90,7 @@ TEST_F(GeneralViewTestsClass, Menu_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QPushButton&  resultContinueButton          = generalView.getContinueButton();
-    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QTableWidget& resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
     const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
@@ -143,7 +143,7 @@ TEST_F(GeneralViewTestsClass, Start_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QPushButton&  resultContinueButton          = generalView.getContinueButton();
-    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QTableWidget& resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
     const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
@@ -196,7 +196,7 @@ TEST_F(GeneralViewTestsClass, PauseGame_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QPushButton&  resultContinueButton          = generalView.getContinueButton();
-    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QTableWidget& resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
     const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
@@ -247,7 +247,7 @@ TEST_F(GeneralViewTestsClass, ContinueGame_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QPushButton&  resultContinueButton          = generalView.getContinueButton();
-    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QTableWidget& resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
     const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
@@ -298,7 +298,7 @@ TEST_F(GeneralViewTestsClass, GameOver_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
     const QPushButton&  resultContinueButton          = generalView.getContinueButton();
-    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QTableWidget& resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
     const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
@@ -369,7 +369,7 @@ TEST_F(GeneralViewTestsClass, HighScore_CheckCorrectVisibleUI_IsEqual)
     const QPushButton&  resultBackToMenuButton        = generalView.getBackToMenuButton();
     const QPushButton&  resultBackToMenuButton2       = generalView.getBackToMenuButton2();
     const QPushButton&  resultSaveAfterGameOverButton = generalView.getSaveAfterGameOverButton();
-    const QListWidget&  resultHighScoreList           = generalView.getHighScoreList();
+    const QTableWidget& resultHighScoreList           = generalView.getHighScoreList();
     const QLabel&       resultHealthGraphics          = generalView.getHealthGraphics();
     const QProgressBar& resultHealthBar               = generalView.getHealthBar();
     const QLabel&       resultLevelGraphics           = generalView.getLevelGraphics();
@@ -627,11 +627,13 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs0ListShouldHaveOnl
     GeneralViewTests generalView;
 
     generalView.updateHighScoreList(iterator, input.size());
-    const QListWidget&     resultHighScoreList = generalView.getHighScoreList();
-    const QListWidgetItem* resultListItem0     = resultHighScoreList.item(0);
+    const QTableWidget& resultHighScoreList = generalView.getHighScoreList();
+    QString             resultHeaderList0   = resultHighScoreList.horizontalHeaderItem(0)->text();
+    QString             resultHeaderList1   = resultHighScoreList.horizontalHeaderItem(1)->text();
 
-    EXPECT_EQ(resultHighScoreList.count(),           1);
-    EXPECT_EQ(resultListItem0->text().toStdString(), "Player\t\t\tScore");
+    EXPECT_EQ(resultHighScoreList.rowCount(), 0);
+    EXPECT_EQ(resultHeaderList0,              "Player");
+    EXPECT_EQ(resultHeaderList1,              "Score");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs1ListShouldHaveTitlesAndOneRecord_IsEqual)
@@ -642,13 +644,17 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs1ListShouldHaveTit
     GeneralViewTests generalView;
 
     generalView.updateHighScoreList(iterator, input.size());
-    const QListWidget&     resultHighScoreList = generalView.getHighScoreList();
-    const QListWidgetItem* resultListItem0     = resultHighScoreList.item(0);
-    const QListWidgetItem* resultListItem1     = resultHighScoreList.item(1);
+    const QTableWidget& resultHighScoreList = generalView.getHighScoreList();
+    QString             resultHeaderList0   = resultHighScoreList.horizontalHeaderItem(0)->text();
+    QString             resultHeaderList1   = resultHighScoreList.horizontalHeaderItem(1)->text();
+    QString             resultRow0Column0   = resultHighScoreList.item(0, 0)->text();
+    QString             resultRow0Column1   = resultHighScoreList.item(0, 1)->text();
 
-    EXPECT_EQ(resultHighScoreList.count(),           2);
-    EXPECT_EQ(resultListItem0->text().toStdString(), "Player\t\t\tScore");
-    EXPECT_EQ(resultListItem1->text().toStdString(), "Andy\t\t\t100");
+    EXPECT_EQ(resultHighScoreList.rowCount(),  1);
+    EXPECT_EQ(resultHeaderList0,               "Player");
+    EXPECT_EQ(resultHeaderList1,               "Score");
+    EXPECT_EQ(resultRow0Column0.toStdString(), " Andy");
+    EXPECT_EQ(resultRow0Column1.toStdString(), "100 ");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTitlesAnd5Records_IsEqual)
@@ -663,21 +669,33 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTit
     GeneralViewTests generalView;
 
     generalView.updateHighScoreList(iterator, input.size());
-    const QListWidget&     resultHighScoreList = generalView.getHighScoreList();
-    const QListWidgetItem* resultListItem0     = resultHighScoreList.item(0);
-    const QListWidgetItem* resultListItem1     = resultHighScoreList.item(1);
-    const QListWidgetItem* resultListItem2     = resultHighScoreList.item(2);
-    const QListWidgetItem* resultListItem3     = resultHighScoreList.item(3);
-    const QListWidgetItem* resultListItem4     = resultHighScoreList.item(4);
-    const QListWidgetItem* resultListItem5     = resultHighScoreList.item(5);
+    const QTableWidget& resultHighScoreList = generalView.getHighScoreList();
+    QString             resultHeaderList0   = resultHighScoreList.horizontalHeaderItem(0)->text();
+    QString             resultHeaderList1   = resultHighScoreList.horizontalHeaderItem(1)->text();
+    QString             resultRow0Column0   = resultHighScoreList.item(0, 0)->text();
+    QString             resultRow0Column1   = resultHighScoreList.item(0, 1)->text();
+    QString             resultRow1Column0   = resultHighScoreList.item(1, 0)->text();
+    QString             resultRow1Column1   = resultHighScoreList.item(1, 1)->text();
+    QString             resultRow2Column0   = resultHighScoreList.item(2, 0)->text();
+    QString             resultRow2Column1   = resultHighScoreList.item(2, 1)->text();
+    QString             resultRow3Column0   = resultHighScoreList.item(3, 0)->text();
+    QString             resultRow3Column1   = resultHighScoreList.item(3, 1)->text();
+    QString             resultRow4Column0   = resultHighScoreList.item(4, 0)->text();
+    QString             resultRow4Column1   = resultHighScoreList.item(4, 1)->text();
 
-    EXPECT_EQ(resultHighScoreList.count(),           6);
-    EXPECT_EQ(resultListItem0->text().toStdString(), "Player\t\t\tScore");
-    EXPECT_EQ(resultListItem1->text().toStdString(), "Andy\t\t\t500");
-    EXPECT_EQ(resultListItem2->text().toStdString(), "Mendy\t\t\t400");
-    EXPECT_EQ(resultListItem3->text().toStdString(), "Andy\t\t\t100");
-    EXPECT_EQ(resultListItem4->text().toStdString(), "Bob\t\t\t50");
-    EXPECT_EQ(resultListItem5->text().toStdString(), "Mendy\t\t\t0");
+    EXPECT_EQ(resultHighScoreList.rowCount(),  5);
+    EXPECT_EQ(resultHeaderList0,               "Player");
+    EXPECT_EQ(resultHeaderList1,               "Score");
+    EXPECT_EQ(resultRow0Column0.toStdString(), " Andy");
+    EXPECT_EQ(resultRow0Column1.toStdString(), "500 ");
+    EXPECT_EQ(resultRow1Column0.toStdString(), " Mendy");
+    EXPECT_EQ(resultRow1Column1.toStdString(), "400 ");
+    EXPECT_EQ(resultRow2Column0.toStdString(), " Andy");
+    EXPECT_EQ(resultRow2Column1.toStdString(), "100 ");
+    EXPECT_EQ(resultRow3Column0.toStdString(), " Bob");
+    EXPECT_EQ(resultRow3Column1.toStdString(), "50 ");
+    EXPECT_EQ(resultRow4Column0.toStdString(), " Mendy");
+    EXPECT_EQ(resultRow4Column1.toStdString(), "0 ");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHealth_UpdateWithValue0_IsZero)
