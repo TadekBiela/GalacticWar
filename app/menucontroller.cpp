@@ -13,6 +13,10 @@ MenuController::MenuController(GeneralView* view,
             model, SLOT(addRecordToHighScore(PlayerScore)));
     connect(model, SIGNAL(updateHighScore(PlayerScoreMapIterator, int)),
             view,  SLOT(updateHighScoreList(PlayerScoreMapIterator, int)));
+    connect(this,  SIGNAL(saveHighScore()),
+            model, SLOT(saveHighScore()));
+    connect(this,  SIGNAL(loadHighScore()),
+            model, SLOT(loadHighScore()));
     connect(this,  SIGNAL(playerDefeated(int)),
             view,  SLOT(gameOver(int)));
     connect(view,  SIGNAL(startGame()),
@@ -27,6 +31,10 @@ MenuController::MenuController(GeneralView* view,
             view,  SLOT(continueGame()));
     connect(view,  SIGNAL(abortGame()),
             this,  SLOT(abortGame()));
+    connect(view,  SIGNAL(exitGame()),
+            this,  SLOT(exitGame()));
+
+    emit loadHighScore();
 }
 
 MenuController::~MenuController()
@@ -127,4 +135,12 @@ void MenuController::gameOver()
     connect(gameOver, SIGNAL(end()), this, SLOT(showScore()));
     m_isGamePaused = false;
     m_isGameStarted = false;
+}
+
+void MenuController::exitGame()
+{
+    emit saveHighScore();
+    delete g_soundStorage;
+    delete g_imageStorage;
+    m_view->close();
 }

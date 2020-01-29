@@ -17,6 +17,7 @@ signals:
     void pauseGame();
     void continueGame();
     void saveHighScore();
+    void loadHighScore();
     void resetLevel();
     void resetScore();
     void createNewPlayer();
@@ -35,6 +36,7 @@ public slots:
     void updateScore(int score);
     void abortGame();
     void gameOver();
+    void exitGame();
 
 protected:
     bool         m_isGameStarted;

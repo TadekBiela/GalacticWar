@@ -28,7 +28,7 @@ public:
     GeneralViewTests() {}
     virtual ~GeneralViewTests() {}
 
-    const QGraphicsScene& getScene()                   { return m_scene; }
+    const QGraphicsScene& getScene()                  { return m_scene; }
     const GraphicsView&   getView()                    { return m_view; }
     const QLabel&         getTitle()                   { return m_title; }
     const QLabel&         getAuthor()                  { return m_author; }
@@ -653,8 +653,8 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs1ListShouldHaveTit
     EXPECT_EQ(resultHighScoreList.rowCount(),  1);
     EXPECT_EQ(resultHeaderList0,               "Player");
     EXPECT_EQ(resultHeaderList1,               "Score");
-    EXPECT_EQ(resultRow0Column0.toStdString(), " Andy");
-    EXPECT_EQ(resultRow0Column1.toStdString(), "100 ");
+    EXPECT_EQ(resultRow0Column0.toStdString(), "Andy");
+    EXPECT_EQ(resultRow0Column1.toStdString(), "100");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTitlesAnd5Records_IsEqual)
@@ -686,16 +686,16 @@ TEST_F(GeneralViewTestsClass, UpdateHighScoreList_SizeOfListIs5ListShouldHaveTit
     EXPECT_EQ(resultHighScoreList.rowCount(),  5);
     EXPECT_EQ(resultHeaderList0,               "Player");
     EXPECT_EQ(resultHeaderList1,               "Score");
-    EXPECT_EQ(resultRow0Column0.toStdString(), " Andy");
-    EXPECT_EQ(resultRow0Column1.toStdString(), "500 ");
-    EXPECT_EQ(resultRow1Column0.toStdString(), " Mendy");
-    EXPECT_EQ(resultRow1Column1.toStdString(), "400 ");
-    EXPECT_EQ(resultRow2Column0.toStdString(), " Andy");
-    EXPECT_EQ(resultRow2Column1.toStdString(), "100 ");
-    EXPECT_EQ(resultRow3Column0.toStdString(), " Bob");
-    EXPECT_EQ(resultRow3Column1.toStdString(), "50 ");
-    EXPECT_EQ(resultRow4Column0.toStdString(), " Mendy");
-    EXPECT_EQ(resultRow4Column1.toStdString(), "0 ");
+    EXPECT_EQ(resultRow0Column0.toStdString(), "Andy");
+    EXPECT_EQ(resultRow0Column1.toStdString(), "500");
+    EXPECT_EQ(resultRow1Column0.toStdString(), "Mendy");
+    EXPECT_EQ(resultRow1Column1.toStdString(), "400");
+    EXPECT_EQ(resultRow2Column0.toStdString(), "Andy");
+    EXPECT_EQ(resultRow2Column1.toStdString(), "100");
+    EXPECT_EQ(resultRow3Column0.toStdString(), "Bob");
+    EXPECT_EQ(resultRow3Column1.toStdString(), "50");
+    EXPECT_EQ(resultRow4Column0.toStdString(), "Mendy");
+    EXPECT_EQ(resultRow4Column1.toStdString(), "0");
 }
 
 TEST_F(GeneralViewTestsClass, UpdateHealth_UpdateWithValue0_IsZero)

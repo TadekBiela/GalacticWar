@@ -199,7 +199,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighScore_AddThreeNewRecordsWithTheSameSc
 TEST_F(MenuModelTestsClass, SaveHighScore_CheckCorrectWorking_IsEqual)
 {
     PlayerScoreMap   highScore           = { {1000, "Andy"},{1000, "Bob"}, {1000, "Ed"} };
-    QString          expectedFileContent = "1000 Ed 1000 Bob 1000 Andy ";
+    QString          expectedFileContent = "1000\nEd\n1000\nBob\n1000\nAndy\n";
     FileManagerMock* fileManager = new FileManagerMock();
     MenuModelTests   menuModel(fileManager);
     menuModel.setHighScore(highScore);
@@ -214,7 +214,7 @@ TEST_F(MenuModelTestsClass, SaveHighScore_CheckCorrectWorking_IsEqual)
 TEST_F(MenuModelTestsClass, SaveHighScore_OnlyOneRecordCheckCorrectWorking_IsEqual)
 {
     PlayerScoreMap   highScore           = { {1000, "Andy"} };
-    QString          expectedFileContent = "1000 Andy ";
+    QString          expectedFileContent = "1000\nAndy\n";
     FileManagerMock* fileManager = new FileManagerMock();
     MenuModelTests   menuModel(fileManager);
     menuModel.setHighScore(highScore);
@@ -248,7 +248,7 @@ TEST_F(MenuModelTestsClass, LoadHighScore_CheckCorrectWorking_IsEqual)
     auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
     auto             expectedSecondParamType = QVariant::Int;
     FileManagerMock* fileManager       = new FileManagerMock();
-    fileManager->setFileContent(QString("300 Andy 1000 Ed 1000 Bob 1000 Andy 1300 Fred "));
+    fileManager->setFileContent(QString("300\nAndy\n1000\nEd\n1000\nBob\n1000\nAndy\n1300\nFred\n"));
     MenuModelTests   menuModel(fileManager);
     QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);
@@ -273,7 +273,7 @@ TEST_F(MenuModelTestsClass, LoadHighScore_OneRecordInFileCheckCorrectWorking_IsE
     auto             expectedFirstParamType  = QVariant::fromValue(PlayerScoreMapIterator()).type();
     auto             expectedSecondParamType = QVariant::Int;
     FileManagerMock* fileManager       = new FileManagerMock();
-    fileManager->setFileContent(QString("1300 Fred "));
+    fileManager->setFileContent(QString("1300\nFred\n"));
     MenuModelTests   menuModel(fileManager);
     QSignalSpy       signalUpdate(&menuModel, &MenuModelTests::updateHighScore);
     signalUpdate.wait(utdef::minSignalTimeDelay);

@@ -35,7 +35,8 @@ QString FileManager::loadFile(const QString fileName)
     if(file.open(QIODevice::ReadOnly))
     {
         QTextStream in(&file);
-        in >> data;
+        data = in.readAll();
         file.close();
     }
+    return data;
 }

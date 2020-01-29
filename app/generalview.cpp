@@ -5,6 +5,7 @@
 #include <QString>
 #include <QGraphicsEffect>
 #include <QHeaderView>
+#include <QScrollBar>
 
 GeneralView::GeneralView()
                          : m_scene(0, 0, def::sceneWight, def::sceneHeight, this),
@@ -48,46 +49,72 @@ GeneralView::GeneralView()
     m_startButton.setGeometry(    buttonOffsetX, startButtonSection,                     defaultButtonWight, defaultButtonHeight);
     m_highScoreButton.setGeometry(buttonOffsetX, startButtonSection + buttonoffsetY,     defaultButtonWight, defaultButtonHeight);
     m_quitButton.setGeometry(     buttonOffsetX, startButtonSection + buttonoffsetY * 2, defaultButtonWight, defaultButtonHeight);
-    m_author.setGeometry(def::sceneWight - 100, def::sceneHeight - 30, 100, 30);
+    m_author.setAlignment(Qt::AlignRight);
+    m_author.setGeometry(def::sceneWight - 150, def::sceneHeight - 15, 150, 15);
+    m_author.setStyleSheet(style + "; font-size: 8px;");
 
     //Highscore setup
+    m_highScoreList.setGeometry(def::sceneWight / 2 - 250,
+                                m_title.pos().y() + m_title.size().height() + 30,
+                                500,
+                                400);
     m_highScoreList.setColumnCount(2);
-    m_highScoreList.setRowCount(0);
-    m_highScoreList.setEnabled(false);
-    m_highScoreList.setShowGrid(false);
-    m_highScoreList.verticalHeader()->hide();
-    m_highScoreList.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_highScoreList.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_highScoreList.setStyleSheet("QTableView { border-style: solid;"
-                                               "border-width: 2px;"
-                                               "border-radius: 5px;"
-                                               "border-color: white;"
-                                               "background: transparent;"
-                                               "font-size: 18px; }"
-                                  "QTableView::item { background: transparent;"
-                                                     "color: white; }"
-                                  "QHeaderView { border-style: solid;"
-                                                "border-bottom-width: 2px;"
-                                                "border-color: white;"
-                                                "background-color: transparent; }"
-                                  "QHeaderView::section { background-color: transparent;"
-                                                          "font-size: 20px;"
-                                                          "color: white; }");
-    m_highScoreList.horizontalHeader()->setSectionsClickable(false);
+    m_highScoreList.setColumnWidth(0, m_highScoreList.width() / 2 - 10);
+    m_highScoreList.setColumnWidth(1, m_highScoreList.width() / 2 - 38);
     QStringList labels = { "Player", "Score" };
     m_highScoreList.setHorizontalHeaderLabels(labels);
-
-    m_highScoreList.setGeometry(def::sceneWight / 2 - 200,
-                                m_title.pos().y() + m_title.size().height() + 30,
-                                400,
-                                400);
-    m_highScoreList.setColumnWidth(0, m_highScoreList.width() / 2);
-    m_highScoreList.setColumnWidth(1, m_highScoreList.width() / 2);
+    m_highScoreList.horizontalHeader()->setSectionsClickable(false);
+    m_highScoreList.horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_highScoreList.verticalHeader()->setSectionsClickable(false);
+    m_highScoreList.verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    m_highScoreList.setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_highScoreList.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_highScoreList.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_highScoreList.setVerticalScrollMode(QAbstractItemView::ScrollMode::ScrollPerPixel);
+    m_highScoreList.setRowCount(0);
+    m_highScoreList.setShowGrid(false);
+    m_highScoreList.setStyleSheet("QTableView {"
+                                  "        border-style: solid;"
+                                  "        border-width: 2px;"
+                                  "        border-radius: 5px;"
+                                  "        border-color: white;"
+                                  "        background: transparent;"
+                                  "        font-size: 16px;"
+                                  "}"
+                                  "QTableView::item {"
+                                  "        background: transparent;"
+                                  "        color: white;"
+                                  "}"
+                                  "QTableView QTableCornerButton::section {"
+                                  "        background: transparent;"
+                                  "        border-top: 0px;"
+                                  "        border-right: 0px;"
+                                  "        border-left: 0px;"
+                                  "        border-bottom: 2px solid white;"
+                                  "}"
+                                  "QHeaderView {"
+                                  "        background-color: transparent;"
+                                  "}"
+                                  "QHeaderView::section {"
+                                  "        background-color: transparent;"
+                                  "        border-style: none;"
+                                  "        font-size: 18px;"
+                                  "        color: white;"
+                                  "}"
+                                  "QHeaderView::section::vertical {"
+                                  "        border-bottom-width: 0px;"
+                                  "        background-color: transparent;"
+                                  "}"
+                                  "QHeaderView::section::horizontal {"
+                                  "        border-style: solid;"
+                                  "        border-bottom-width: 2px;"
+                                  "        border-color: white;"
+                                  "        background-color: transparent;"
+                                  "}");
     m_backToMenuButton.setGeometry(buttonOffsetX,
                                    m_highScoreList.pos().y() + m_highScoreList.size().height() + 30,
                                    defaultButtonWight,
                                    defaultButtonHeight);
-
     //Pause setup
     m_pause.setAlignment(Qt::AlignCenter);
     m_pause.setStyleSheet(style + "; font-size: 40px");
@@ -369,9 +396,7 @@ void GeneralView::highScore()
 
 void GeneralView::quitGame()
 {
-    delete g_soundStorage;
-    delete g_imageStorage;
-    close();
+    emit exitGame();
 }
 
 void GeneralView::addGameObject(QGraphicsItem* newObject)
@@ -433,18 +458,17 @@ void GeneralView::savePlayerScore()
 
 void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)
 {
-    m_highScoreList.clear();
-    QStringList labels = { "Player", "Score" };
-    m_highScoreList.setHorizontalHeaderLabels(labels);
-
+    while(m_highScoreList.rowCount() != 0)
+    {
+        m_highScoreList.removeRow(0);
+    }
     for(int i = 0; i < size; i++)
     {
         iterator--;
-        QTableWidgetItem* playerName  = new QTableWidgetItem(" " + iterator.value());
-        QTableWidgetItem* playerScore = new QTableWidgetItem(QString::number(iterator.key()) + " ");
+        QTableWidgetItem* playerName  = new QTableWidgetItem(iterator.value());
+        QTableWidgetItem* playerScore = new QTableWidgetItem(QString::number(iterator.key()));
         playerScore->setTextAlignment(Qt::AlignRight + Qt::AlignCenter);
         m_highScoreList.insertRow(m_highScoreList.rowCount());
-        m_highScoreList.setRowHeight(i, 18);
         m_highScoreList.setItem(i, 0, playerName);
         m_highScoreList.setItem(i, 1, playerScore);
     }

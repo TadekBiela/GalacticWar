@@ -27,6 +27,7 @@ public:
 signals:
     void startGame();
     void abortGame();
+    void exitGame();
     void mousePressed();
     void mouseReleased();
     void mouseMoved(QPointF newPosition);
