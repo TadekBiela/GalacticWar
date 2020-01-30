@@ -1,13 +1,12 @@
-environment:
-  matrix:
-    - QTDIR: C:\Qt\5.12.6\mingw73_32\bin
-      CC: C:\Qt\Tools\mingw730_32\bin\gcc.exe
-      CXX: C:\Qt\Tools\mingw730_32\bin\g++.exe
+configuration:
+  - BuildApp
+  - BuildUts
+  - RunUts
 
 install:
   - set PATH=C:\Qt\5.12.6\mingw73_32\bin;C:\Qt\5.12.6\mingw73_64\bin;C:\Qt\Tools\CMake_32\bin;C:\Qt\Tools\CMake_64\bin;C:\Qt\Tools\mingw730_32\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%
 
-build_script:
+before_build:
   - cp C:\Qt\Tools\mingw730_32\bin\mingw32-make.exe C:\Qt\Tools\mingw730_32\bin\make.exe
   - cd C:\
   - git clone https://github.com/google/googletest.git
@@ -15,10 +14,31 @@ build_script:
   - mkdir GTest\build
   - cd GTest\build
   - cmake ..
-  - ls googletest
-  - ls googlemock
   - cd C:\projects\galacticwar
   - mkdir build
   - cd build
-  - cmake ../ -G "MSYS Makefiles"
-  - make -j
+
+environment:
+  QTDIR: C:\Qt\5.12.6\mingw73_32\bin
+  CC: C:\Qt\Tools\mingw730_32\bin\gcc.exe
+  CXX: C:\Qt\Tools\mingw730_32\bin\g++.exe
+
+for:
+  - matrix:
+      only:
+        - configuration: BuildApp
+    build_script:
+      - cmake ../ -G "MSYS Makefiles"
+      - make -j app
+  - matrix:
+      only:
+        - configuration: BuildUts
+    build_script:
+      - cmake ../ -G "MSYS Makefiles"
+      - make -j buildut
+  - matrix:
+      only:
+        - configuration: RunUts
+    build_script:
+      - cmake ../ -G "MSYS Makefiles"
+      - make -j runut

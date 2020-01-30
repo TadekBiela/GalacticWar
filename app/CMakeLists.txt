@@ -1,3 +1,4 @@
+add_custom_target(app)
 set(PROJECT_NAME galacticwar)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -76,3 +77,4 @@ add_executable(${PROJECT_NAME} main.cpp
                                weapontype.hpp)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia)
+add_dependencies(app ${PROJECT_NAME})

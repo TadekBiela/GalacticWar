@@ -1,3 +1,6 @@
+add_custom_target(buildut)
+add_custom_target(runut
+                  COMMAND exec ${CMAKE_BINARY_DIR}/tests/ut.exe)
 set(PROJECT_NAME ut)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -107,3 +110,5 @@ add_test(NAME bulletmodeltests COMMAND ${PROJECT_NAME})
 
 file(COPY        ${STD_LIB}
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+ add_dependencies(buildut ${PROJECT_NAME})
+ add_dependencies(runut ${PROJECT_NAME})
