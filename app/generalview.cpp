@@ -135,7 +135,13 @@ GeneralView::GeneralView()
                         400,
                         100);
     m_player.setAlignment(Qt::AlignCenter);
-    m_player.setStyleSheet(QString("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; font-size: 30px"));
+    m_player.setStyleSheet(QString("border-style:     solid;"
+                                   "border-width:     2px;"
+                                   "border-radius:    5px;"
+                                   "border-color:     #FFFFFF;"
+                                   "color:            #FFFFFF;"
+                                   "background-color: transparent;"
+                                   "font-size:        30px"));
     m_player.setGeometry(def::sceneWight / 2 - 150,
                          m_score.pos().y() + m_score.size().height() + 50,
                          300,
@@ -152,54 +158,109 @@ GeneralView::GeneralView()
     //HealthView setup
     m_healthGraphics.setCursor(QCursor(Qt::CrossCursor));
     m_healthGraphics.setFocusProxy(&m_view);
-    m_healthGraphics.setStyleSheet(style);
+    m_healthGraphics.setStyleSheet("border-top:    3px;"
+                                   "border-bottom: 5px;"
+                                   "border-left:   4px;"
+                                   "border-right:  0px;"
+                                   "border-style:  solid;"
+                                   "border-color:  white;"
+                                   "border-radius: 6px;"
+                                   "background:    transparent;");
     m_healthGraphics.setGeometry(10,
-                                 def::sceneHeight - 50,
-                                 220,
+                                 def::sceneHeight - 68,
+                                 240,
                                  40);
-    m_healthBar.setGeometry(m_healthGraphics.pos().x() + 8,
-                            m_healthGraphics.pos().y() + 8 ,
-                            m_healthGraphics.size().width()  - 16,
-                            m_healthGraphics.size().height() - 16);
+    m_healthBar.setGeometry(m_healthGraphics.pos().x() + 20,
+                            m_healthGraphics.pos().y() + 11,
+                            m_healthGraphics.size().width()  - 25,
+                            m_healthGraphics.size().height() - 26);
     m_healthBar.setCursor(QCursor(Qt::CrossCursor));
     m_healthBar.setFocusProxy(&m_view);
     m_healthBar.setTextVisible(false);
-    m_healthBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #DE0101; }"));
+    m_healthBar.setStyleSheet(QString("QProgressBar {"
+                                      "     border-radius:    2px;"
+                                      "     background-color: transparent; }"
+                                      "QProgressBar::chunk { "
+                                      "     border-radius:    2px;"
+                                      "     background-color: #DE0101; }"
+                                      "QProgressBar::sub-line {"
+                                      "     background-color: transparent; }"));
 
     //LevelView setup
     m_levelGraphics.setCursor(QCursor(Qt::CrossCursor));
     m_levelGraphics.setFocusProxy(&m_view);
-    m_levelGraphics.setStyleSheet(style);
-    m_levelGraphics.setGeometry(def::sceneWight / 2 - 40,
-                                def::sceneHeight - 90,
-                                80,
-                                80);
+    m_levelGraphics.setStyleSheet("border-top:    3px;"
+                                  "border-bottom: 4px;"
+                                  "border-left:   0px;"
+                                  "border-right:  0px;"
+                                  "border-style:  solid;"
+                                  "border-color:  white;"
+                                  "border-radius: 6px;"
+                                  "background:    transparent;"
+                                  "margin-top:    2px;"
+                                  "margin-bottom: 2px;"
+                                  "margin-left:   2px;"
+                                  "margin-right:  2px;");
+    m_levelGraphics.setGeometry(def::sceneWight / 2 - 32,
+                                def::sceneHeight - 80,
+                                64,
+                                60);
     m_levelText.setCursor(QCursor(Qt::CrossCursor));
     m_levelText.setFocusProxy(&m_view);
     m_levelText.setAlignment(Qt::AlignCenter);
-    m_levelText.setStyleSheet(style + "; font-size: 40px");
+    m_levelText.setStyleSheet("border-top:    2px;"
+                              "border-bottom: 2px;"
+                              "border-left:   0px;"
+                              "border-right:  0px;"
+                              "border-style:  solid;"
+                              "border-color:  white;"
+                              "border-radius: 6px;"
+                              "background:    transparent;"
+                              "color:         white;"
+                              "font-size:     25px;"
+                              "margin-top:    2px;"
+                              "margin-bottom: 4px;"
+                              "margin-left:   2px;"
+                              "margin-right:  2px;");
     m_levelText.setNum(1);
-    m_levelText.setGeometry(m_levelGraphics.pos().x() + 8,
+    m_levelText.setGeometry(m_levelGraphics.pos().x() + 5,
                             m_levelGraphics.pos().y() + 8 ,
-                            m_levelGraphics.size().width()  - 16,
+                            m_levelGraphics.size().width()  - 10,
                             m_levelGraphics.size().height() - 16);
 
     //ScoreView setup
     m_scoreGraphics.setCursor(QCursor(Qt::CrossCursor));
     m_scoreGraphics.setFocusProxy(&m_view);
-    m_scoreGraphics.setStyleSheet(style);
-    m_scoreGraphics.setGeometry(def::sceneWight - 230,
-                                def::sceneHeight - 50,
-                                220,
+    m_scoreGraphics.setStyleSheet("border-top:    3px;"
+                                  "border-bottom: 5px;"
+                                  "border-left:   0px;"
+                                  "border-right:  4px;"
+                                  "border-style:  solid;"
+                                  "border-color:  white;"
+                                  "border-radius: 6px;"
+                                  "background:    transparent;");
+    m_scoreGraphics.setGeometry(def::sceneWight - 250,
+                                def::sceneHeight - 68,
+                                240,
                                 40);
-    m_scoreBar.setGeometry(m_scoreGraphics.pos().x() + 8,
-                           m_scoreGraphics.pos().y() + 8 ,
-                           m_scoreGraphics.size().width()  - 16,
-                           m_scoreGraphics.size().height() - 16);
+    m_scoreBar.setGeometry(m_scoreGraphics.pos().x() + 5,
+                           m_scoreGraphics.pos().y() + 11 ,
+                           m_scoreGraphics.size().width()  - 25,
+                           m_scoreGraphics.size().height() - 26);
     m_scoreBar.setCursor(QCursor(Qt::CrossCursor));
     m_scoreBar.setFocusProxy(&m_view);
     m_scoreBar.setTextVisible(false);
-    m_scoreBar.setStyleSheet(QString("QProgressBar::chunk { background-color: #FCCD10; }"));
+    m_scoreBar.setInvertedAppearance(true);
+    m_scoreBar.setStyleSheet(QString("QProgressBar {"
+                                     "     border-radius:    2px;"
+                                     "     background-color: transparent; }"
+                                     "QProgressBar::chunk { "
+                                     "     border-radius:    2px;"
+                                     "     background-color: #FCCD10; }"
+                                     "QProgressBar::add-line {"
+                                     "     background-color: transparent; }"
+                                     "QProgressBar::sub-line {"
+                                     "     background-color: transparent; }"));
 
     connect(&m_startButton,       SIGNAL(clicked()), this, SLOT(start()));
     connect(&m_highScoreButton,   SIGNAL(clicked()), this, SLOT(highScore()));
