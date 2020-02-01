@@ -33,6 +33,10 @@ GeneralView::GeneralView()
     setFixedSize(QSize(def::windowWight, def::windowHeight));
     m_view.setGeometry(0, 0, def::sceneWight + 2, def::sceneHeight + 2);
     m_view.setFixedSize(def::sceneWight + 2, def::sceneHeight + 2);
+
+    m_arrowCursorMap.convertFromImage(*g_imageStorage->getImage("arrow_cursor"));
+    m_crossCursorMap.convertFromImage(*g_imageStorage->getImage("cross_cursor"));
+
     int defaultButtonWight  = 200;
     int defaultButtonHeight = 50;
     int buttonBetweenOffset = 15;
@@ -272,6 +276,8 @@ GeneralView::GeneralView()
     connect(&m_view, SIGNAL(mousePressed(QMouseEvent*)),  this, SLOT(mousePressEvent(QMouseEvent*)));
     connect(&m_view, SIGNAL(mouseReleased(QMouseEvent*)), this, SLOT(mouseReleaseEvent(QMouseEvent*)));
     connect(&m_view, SIGNAL(mouseMoved(QMouseEvent*)),    this, SLOT(mouseMoveEvent(QMouseEvent*)));
+    QCursor arrowCursor(m_arrowCursorMap, 0, 0);
+    setCursor(arrowCursor);
     menu();
 }
 
@@ -327,7 +333,8 @@ void GeneralView::start()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
-    m_view.setCursor(QCursor(Qt::CrossCursor));
+    QCursor crossCursor(m_crossCursorMap, 15, 15);
+    setCursor(crossCursor);
     m_view.setGraphicsEffects(0, 0);
     m_scene.clear();
     m_isGamePaused = false;
@@ -357,7 +364,8 @@ void GeneralView::pauseGame()
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 
-    m_view.setCursor(QCursor(Qt::ArrowCursor));
+    QCursor arrowCursor(m_arrowCursorMap, 0, 0);
+    setCursor(arrowCursor);
     m_view.setGraphicsEffects(0.5, 5);
     m_view.stopAllItems();
     m_isGamePaused = true;
@@ -386,7 +394,8 @@ void GeneralView::continueGame()
     m_scoreGraphics.setVisible(true);
     m_scoreBar.setVisible(true);
 
-    m_view.setCursor(QCursor(Qt::CrossCursor));
+    QCursor crossCursor(m_crossCursorMap, 15, 15);
+    setCursor(crossCursor);
     m_view.setGraphicsEffects(0, 0);
     m_view.startAllItems();
     m_isGamePaused = false;
@@ -426,7 +435,8 @@ void GeneralView::gameOver(int score)
     m_scoreGraphics.setVisible(false);
     m_scoreBar.setVisible(false);
 
-    m_view.setCursor(QCursor(Qt::ArrowCursor));
+    QCursor arrowCursor(m_arrowCursorMap, 0, 0);
+    setCursor(arrowCursor);
     m_view.setGraphicsEffects(0, 0);
     m_isGamePaused = false;
 }

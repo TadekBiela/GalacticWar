@@ -95,6 +95,8 @@ protected:
     QProgressBar m_scoreBar;
 
     bool m_isGamePaused = false;
+    QPixmap m_arrowCursorMap;
+    QPixmap m_crossCursorMap;
 };
 
 #endif // GENERALVIEW_HPP
