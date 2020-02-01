@@ -31,8 +31,8 @@ GeneralView::GeneralView()
                            m_scoreBar(this)
 {
     setFixedSize(QSize(def::windowWight, def::windowHeight));
-    m_view.setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
-
+    m_view.setGeometry(0, 0, def::sceneWight + 2, def::sceneHeight + 2);
+    m_view.setFixedSize(def::sceneWight + 2, def::sceneHeight + 2);
     int defaultButtonWight  = 200;
     int defaultButtonHeight = 50;
     int buttonBetweenOffset = 15;
@@ -515,6 +515,12 @@ void GeneralView::savePlayerScore()
 
     emit save(newPlayerScore);
     menu();
+}
+
+void GeneralView::show()
+{
+    QWidget::show();
+    resize(def::windowWight, def::windowHeight);
 }
 
 void GeneralView::updateHighScoreList(PlayerScoreMapIterator iterator, int size)

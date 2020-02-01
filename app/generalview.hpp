@@ -52,6 +52,7 @@ public slots:
     void leaveEvent(QEvent *event);
     void continueButtonClicked();
     void savePlayerScore();
+    void show();
     void updateHighScoreList(PlayerScoreMapIterator iterator, int size);
 
     //HealthView section
