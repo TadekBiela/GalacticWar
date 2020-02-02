@@ -17,15 +17,15 @@ public:
                                            generator){}
     virtual ~EnemyModelType1Test() {}
 
-    int           getLevel()             const { return m_level; }
-    QPointF       getPosition()          const { return pos(); }
-    int           getHealth()            const { return m_health; }
-    int           getDamage()            const { return m_damage; }
-    int           getDirection()         const { return m_direction; }
-    int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
-    const QTimer& getFireTimer()         const { return m_fireTimer; }
-    const QTimer& getMoveTimer()         const { return m_moveTimer; }
-    const QTimer& getAnimationTimer()    const { return m_animationTimer; }
+    int           getLevel()              const { return m_level; }
+    QPointF       getPosition()           const { return pos(); }
+    int           getHealth()             const { return m_health; }
+    int           getDamage()             const { return m_damage; }
+    int           getDirection()          const { return m_direction; }
+    int           getAnimationFrameXIdx() const { return m_animationFrameXIdx; }
+    const QTimer& getFireTimer()          const { return m_fireTimer; }
+    const QTimer& getMoveTimer()          const { return m_moveTimer; }
+    const QTimer& getAnimationTimer()     const { return m_animationTimer; }
 };
 
 class EnemyModelType1TestClass : public testing::Test
@@ -49,21 +49,21 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     randomGenerator->setRandomGeneratorFakeResult(0);
 
     EnemyModelType1Test enemyModel(QPointF(2, 7), randomGenerator);
-    int           resultLevel             = enemyModel.getLevel();
-    QPointF       resultPosition          = enemyModel.getPosition();
-    int           resultHealth            = enemyModel.getHealth();
-    int           resultDamage            = enemyModel.getDamage();
-    int           resultDirection         = enemyModel.getDirection();
-    int           resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
-    const QTimer& resultMoveTimer         = enemyModel.getMoveTimer();
-    const QTimer& resultFireTimer         = enemyModel.getFireTimer();
-    const QTimer& resultAnimTimer         = enemyModel.getAnimationTimer();
+    int           resultLevel              = enemyModel.getLevel();
+    QPointF       resultPosition           = enemyModel.getPosition();
+    int           resultHealth             = enemyModel.getHealth();
+    int           resultDamage             = enemyModel.getDamage();
+    int           resultDirection          = enemyModel.getDirection();
+    int           resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
+    const QTimer& resultMoveTimer          = enemyModel.getMoveTimer();
+    const QTimer& resultFireTimer          = enemyModel.getFireTimer();
+    const QTimer& resultAnimTimer          = enemyModel.getAnimationTimer();
 
     EXPECT_EQ(resultLevel,                      1);
     EXPECT_EQ(resultHealth,                     50);
     EXPECT_EQ(resultDamage,                     10);
     EXPECT_EQ(resultDirection,                  180);
-    EXPECT_EQ(resultAnimationFrameIdx,          0);
+    EXPECT_EQ(resultAnimationFrameXIdx,         0);
     EXPECT_EQ(resultMoveTimer.isActive(),       false);
     EXPECT_EQ(resultFireTimer.isActive(),       false);
     EXPECT_EQ(resultAnimTimer.isActive(),       false);
@@ -141,8 +141,8 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -30);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -25);
     EXPECT_EQ(resultBulletModel->getName(),       "bullet_enemy");
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), -1);
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 23);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), 1);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 27);
     EXPECT_EQ(resultBulletModel->getDamage(),     10);
     delete enemyModel;
     delete randomGenerator;

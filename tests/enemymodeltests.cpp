@@ -34,15 +34,15 @@ public:
     }
     virtual ~EnemyModelTest() {}
 
-    int           getLevel()             const { return m_level; }
-    QPointF       getPosition()          const { return pos(); }
-    int           getHealth()            const { return m_health; }
-    int           getDamage()            const { return m_damage; }
-    int           getDirection()         const { return m_direction; }
-    int           getAnimationFrameIdx() const { return m_animationFrameIdx; }
-    const QTimer& getFireTimer()         const { return m_fireTimer; }
-    const QTimer& getMoveTimer()         const { return m_moveTimer; }
-    const QTimer& getAnimationTimer()    const { return m_animationTimer; }
+    int           getLevel()              const { return m_level; }
+    QPointF       getPosition()           const { return pos(); }
+    int           getHealth()             const { return m_health; }
+    int           getDamage()             const { return m_damage; }
+    int           getDirection()          const { return m_direction; }
+    int           getAnimationFrameXIdx() const { return m_animationFrameXIdx; }
+    const QTimer& getFireTimer()          const { return m_fireTimer; }
+    const QTimer& getMoveTimer()          const { return m_moveTimer; }
+    const QTimer& getAnimationTimer()     const { return m_animationTimer; }
     void setImage(QImage* image) { m_image = image; }
 
 public slots: //dummy implementation - slots not tested in this class
@@ -68,26 +68,26 @@ public:
 TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    int           resultLevel             = enemyModel.getLevel();
-    QPointF       resultPosition          = enemyModel.getPosition();
-    int           resultHealth            = enemyModel.getHealth();
-    int           resultDamage            = enemyModel.getDamage();
-    int           resultDirection         = enemyModel.getDirection();
-    int           resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
-    const QTimer& resultMoveTimer         = enemyModel.getMoveTimer();
-    const QTimer& resultFireTimer         = enemyModel.getFireTimer();
-    const QTimer& resultAnimTimer         = enemyModel.getAnimationTimer();
+    int           resultLevel              = enemyModel.getLevel();
+    QPointF       resultPosition           = enemyModel.getPosition();
+    int           resultHealth             = enemyModel.getHealth();
+    int           resultDamage             = enemyModel.getDamage();
+    int           resultDirection          = enemyModel.getDirection();
+    int           resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
+    const QTimer& resultMoveTimer          = enemyModel.getMoveTimer();
+    const QTimer& resultFireTimer          = enemyModel.getFireTimer();
+    const QTimer& resultAnimTimer          = enemyModel.getAnimationTimer();
 
-    EXPECT_EQ(resultLevel,                        1);
-    EXPECT_EQ(resultHealth,                      30);
-    EXPECT_EQ(resultDamage,                      15);
-    EXPECT_EQ(resultDirection,                    0);
-    EXPECT_EQ(resultAnimationFrameIdx,            0);
+    EXPECT_EQ(resultLevel,                      1);
+    EXPECT_EQ(resultHealth,                     30);
+    EXPECT_EQ(resultDamage,                     15);
+    EXPECT_EQ(resultDirection,                  0);
+    EXPECT_EQ(resultAnimationFrameXIdx,         0);
     EXPECT_EQ(resultMoveTimer.isActive(),       false);
     EXPECT_EQ(resultFireTimer.isActive(),       false);
     EXPECT_EQ(resultAnimTimer.isActive(),       false);
-    EXPECT_FLOAT_EQ(resultMoveTimer.interval(),  20);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(),  10);
+    EXPECT_FLOAT_EQ(resultMoveTimer.interval(), 20);
+    EXPECT_FLOAT_EQ(resultFireTimer.interval(), 10);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(), 100);
     EXPECT_FLOAT_EQ(resultPosition.x(),         -30);
     EXPECT_FLOAT_EQ(resultPosition.y(),         -25);
@@ -365,19 +365,19 @@ TEST_F(EnemyModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
     EXPECT_EQ(resultAnimTimer.isActive(), false);
 }
 
-TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
+TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameXIdxWasIncreasedBy1_IsEqual)
 {
     QImage dumpImage;
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
     enemyModel.setImage(&dumpImage);
 
     enemyModel.animation();
-    int resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+    int resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
 
-    EXPECT_EQ(resultAnimationFrameIdx, 1);
+    EXPECT_EQ(resultAnimationFrameXIdx, 1);
 }
 
-TEST_F(EnemyModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
+TEST_F(EnemyModelTestsClass, Animation_AnimationFrameXIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
 {
     QImage dumpImage;
     EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
@@ -386,7 +386,7 @@ TEST_F(EnemyModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIf
     enemyModel.animation();
     enemyModel.animation();
     enemyModel.animation();
-    int resultAnimationFrameIdx = enemyModel.getAnimationFrameIdx();
+    int resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
     enemyModel.animation();
     enemyModel.animation();
     enemyModel.animation();
@@ -394,8 +394,8 @@ TEST_F(EnemyModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIf
     enemyModel.animation();
     enemyModel.animation();
     enemyModel.animation();
-    int resultAnimationFrameIdxReset = enemyModel.getAnimationFrameIdx();
+    int resultAnimationFrameXIdxReset = enemyModel.getAnimationFrameXIdx();
 
-    EXPECT_EQ(resultAnimationFrameIdx,      3);
-    EXPECT_EQ(resultAnimationFrameIdxReset, 0);
+    EXPECT_EQ(resultAnimationFrameXIdx,      3);
+    EXPECT_EQ(resultAnimationFrameXIdxReset, 0);
 }

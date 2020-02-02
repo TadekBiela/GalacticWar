@@ -39,7 +39,8 @@ protected:
     int     m_health;
     int     m_damage;
     int     m_direction;
-    int     m_animationFrameIdx;
+    int     m_animationFrameXIdx;
+    int     m_animationFrameYIdx;
     QTimer  m_fireTimer;
     QTimer  m_moveTimer;
     QTimer  m_animationTimer;

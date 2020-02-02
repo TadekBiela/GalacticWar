@@ -17,7 +17,8 @@ EnemyModel::EnemyModel(int     level,
                           m_health(health),
                           m_damage(damage),
                           m_direction(0),
-                          m_animationFrameIdx(0)
+                          m_animationFrameXIdx(0),
+                          m_animationFrameYIdx(0)
 {
     setTransformOriginPoint(def::animationFrameWight  / 2,
                             def::animationFrameHeight / 2);
@@ -105,14 +106,14 @@ void EnemyModel::stop()
 
 void EnemyModel::animation()
 {
-    if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
+    if(++m_animationFrameXIdx > def::maxAnimationFrameIdx)
     {
-        m_animationFrameIdx = 0;
+        m_animationFrameXIdx = 0;
     }
 
     setPixmap(getAnimationFrame(m_image,
-                                m_animationFrameIdx,
-                                0,
-                                m_image->height(),
-                                m_image->height()));
+                                m_animationFrameXIdx,
+                                def::animationFrameHeight * m_animationFrameYIdx,
+                                def::animationFrameWight,
+                                def::animationFrameHeight));
 }
