@@ -16,6 +16,7 @@ AnimationEffectModel::AnimationEffectModel(QGraphicsScene* scene,
     m_image = g_imageStorage->getImage(animationName);
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
+                                0,
                                 m_animationFrameWidth,
                                 m_animationFrameHeight));
 
@@ -45,6 +46,7 @@ void AnimationEffectModel::animation()
     }
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
+                                0,
                                 m_animationFrameWidth,
                                 m_animationFrameHeight));
 }

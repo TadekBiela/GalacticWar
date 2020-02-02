@@ -47,13 +47,14 @@ bool isOutOfScene(QPointF pos, QPixmap pixmap)
 }
 
 QPixmap getAnimationFrame(QImage* image,
-                          int     animFrameIdx,
+                          int     animFrameXIdx,
+                          int     animFrameYIdx,
                           int     animationFrameWidth,
                           int     animationFrameHeight)
 {
     QPixmap map;
-    map.convertFromImage(image->copy(animFrameIdx * animationFrameWidth,
-                                     0,
+    map.convertFromImage(image->copy(animFrameXIdx * animationFrameWidth,
+                                     animFrameYIdx,
                                      animationFrameWidth,
                                      animationFrameHeight));
     return map;

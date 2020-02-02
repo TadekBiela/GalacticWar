@@ -24,8 +24,9 @@ PlayerModel::PlayerModel()
     m_image = g_imageStorage->getImage("player");
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
-                                m_image->height(),
-                                m_image->height()));
+                                0,
+                                def::animationFrameWight,
+                                def::animationFrameHeight));
 
     setPos(def::halfSceneWight  - def::animationFrameWight  / 2,
            def::halfSceneHeight - def::animationFrameHeight / 2);
@@ -219,9 +220,22 @@ void PlayerModel::animation()
     {
         m_animationFrameIdx = 0;
     }
-
+    int animYIdx = 0;
+    switch (m_direction / 30)
+    {
+        case 2:
+        case 3:
+        case 4:
+            animYIdx = 2;
+            break;
+        case 8:
+        case 9:
+        case 10:
+            animYIdx = 1;
+    }
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
-                                m_image->height(),
-                                m_image->height()));
+                                def::animationFrameHeight * animYIdx,
+                                def::animationFrameWight,
+                                def::animationFrameHeight));
 }

@@ -41,6 +41,7 @@ void RewardModel::animation()
 
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
+                                0,
                                 m_image->height(),
                                 m_image->height()));
 }

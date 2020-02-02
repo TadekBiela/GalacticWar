@@ -15,7 +15,8 @@ QPointF moveForward(const QPointF startPosition, int direction);
 bool isOutOfScene(QPointF pos, QPixmap pixmap);
 
 QPixmap getAnimationFrame(QImage* image,
-                          int     animFrameIdx,
+                          int     animFrameXIdx,
+                          int     animFrameYIdx,
                           int     animationFrameWidth,
                           int     animationFrameHeight);
 

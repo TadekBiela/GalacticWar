@@ -10,8 +10,8 @@ namespace def
     const double radianConversionFactor    = pi / 180;
     const int    maxAnimationFrames        = 10;
     const int    maxAnimationFrameIdx      = 9;
-    const int    animationFrameWight       = 60;
-    const int    animationFrameHeight      = 60;
+    const int    animationFrameWight       = 64;
+    const int    animationFrameHeight      = 64;
     const int    animationSmallFrameWight  = 30;
     const int    animationSmallFrameHeight = 30;
     const int    animationBigFrameWight    = 200;

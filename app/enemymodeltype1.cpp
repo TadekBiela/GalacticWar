@@ -17,6 +17,7 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
     m_image = g_imageStorage->getImage("enemy1");
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
+                                0,
                                 m_image->height(),
                                 m_image->height()));
     int destinationLeftRightFactor = (((def::sceneWight - static_cast<int>(position.x())) / (def::sceneWight / 2)) * 2) - 1; // Can only be -1 or 1

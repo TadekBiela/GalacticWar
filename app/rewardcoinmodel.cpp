@@ -25,6 +25,7 @@ RewardCoinModel::RewardCoinModel(coin_type type)
     m_image = g_imageStorage->getImage(animationName);
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
+                                0,
                                 m_image->height(),
                                 m_image->height()));
 }
