@@ -70,8 +70,8 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     EXPECT_FLOAT_EQ(resultMoveTimer.interval(), 80);
     EXPECT_FLOAT_EQ(resultFireTimer.interval(), 1000);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(), 100);
-    EXPECT_FLOAT_EQ(resultPosition.x(),         -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(),         -23);
+    EXPECT_FLOAT_EQ(resultPosition.x(),         -30);
+    EXPECT_FLOAT_EQ(resultPosition.y(),         -25);
     delete randomGenerator;
 }
 
@@ -138,11 +138,11 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     BulletModel*          resultBulletModel = dynamic_cast<BulletModel*>(sceneItems[0]);
 
     EXPECT_EQ(resultEnemyModel->getLevel(),       1);
-    EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -28);
-    EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -23);
+    EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -30);
+    EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -25);
     EXPECT_EQ(resultBulletModel->getName(),       "bullet_enemy");
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), 1);
-    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 25);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), -1);
+    EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 23);
     EXPECT_EQ(resultBulletModel->getDamage(),     10);
     delete enemyModel;
     delete randomGenerator;
@@ -152,7 +152,7 @@ TEST_F(EnemyModelType1TestClass, Move_PositionIsOnLeftSideOfSceneCheckIfEnemyMov
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(0);
-    QPointF              expectedPosition(170.00l, 180.00l);
+    QPointF              expectedPosition(168.00l, 178.00l);
     QGraphicsScene       mockScene(0, 0, 600, 800);
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(200, 200), randomGenerator);
     mockScene.addItem(enemyModel);
@@ -170,7 +170,7 @@ TEST_F(EnemyModelType1TestClass, Move_PositionIsOnLeftSideOfSceneCheckIfEnemyMov
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(1);
-    QPointF              expectedPosition(171.74l, 179.85l);
+    QPointF              expectedPosition(169.74l, 177.85l);
     QGraphicsScene       mockScene(0, 0, 600, 800);
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(200, 200), randomGenerator);
     mockScene.addItem(enemyModel);
@@ -188,7 +188,7 @@ TEST_F(EnemyModelType1TestClass, Move_PositionIsOnRightSideOfSceneCheckIfEnemyMo
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(0);
-    QPointF              expectedPosition(420.00l, -20.00l);
+    QPointF              expectedPosition(418.00l, -22.00l);
     QGraphicsScene       mockScene(0, 0, 600, 800);
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
     mockScene.addItem(enemyModel);
@@ -206,7 +206,7 @@ TEST_F(EnemyModelType1TestClass, Move_PositionIsOnRightSideOfSceneCheckIfEnemyMo
 {
     RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
     randomGenerator->setRandomGeneratorFakeResult(1);
-    QPointF              expectedPosition(418.26l, -20.15l);
+    QPointF              expectedPosition(416.26l, -22.15l);
     QGraphicsScene       mockScene(0, 0, 600, 800);
     EnemyModelType1Test* enemyModel = new EnemyModelType1Test(QPointF(450, 0), randomGenerator);
     mockScene.addItem(enemyModel);

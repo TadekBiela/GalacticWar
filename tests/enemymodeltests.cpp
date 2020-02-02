@@ -89,8 +89,8 @@ TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqua
     EXPECT_FLOAT_EQ(resultMoveTimer.interval(),  20);
     EXPECT_FLOAT_EQ(resultFireTimer.interval(),  10);
     EXPECT_FLOAT_EQ(resultAnimTimer.interval(), 100);
-    EXPECT_FLOAT_EQ(resultPosition.x(),         -28);
-    EXPECT_FLOAT_EQ(resultPosition.y(),         -23);
+    EXPECT_FLOAT_EQ(resultPosition.x(),         -30);
+    EXPECT_FLOAT_EQ(resultPosition.y(),         -25);
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)
