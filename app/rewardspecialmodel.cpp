@@ -52,7 +52,7 @@ void RewardSpecialModel::collect()
     AnimationEffectModel* collectAnim = new AnimationEffectModel(this->scene(),
                                                                  "collect_reward",
                                                                  position,
-                                                                 def::animationFrameWight,
-                                                                 def::animationFrameHeight);
+                                                                 def::animationSmallFrameWight,
+                                                                 def::animationSmallFrameHeight);
     destroy();
 }

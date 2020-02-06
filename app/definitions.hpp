@@ -12,8 +12,8 @@ namespace def
     const int    maxAnimationFrameIdx      = 9;
     const int    animationFrameWight       = 64;
     const int    animationFrameHeight      = 64;
-    const int    animationSmallFrameWight  = 30;
-    const int    animationSmallFrameHeight = 30;
+    const int    animationSmallFrameWight  = 32;
+    const int    animationSmallFrameHeight = 32;
     const int    animationBigFrameWight    = 200;
     const int    animationBigFrameHeight   = 30;
     const int    maxNumOfLevel             = 10;
