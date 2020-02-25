@@ -6,6 +6,11 @@ configuration:
 install:
   - set PATH=C:\Qt\5.12.6\mingw73_32\bin;C:\Qt\5.12.6\mingw73_64\bin;C:\Qt\Tools\CMake_32\bin;C:\Qt\Tools\CMake_64\bin;C:\Qt\Tools\mingw730_32\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%
 
+environment:
+  QTDIR: C:\Qt\5.12.6\mingw73_32\bin
+  CC: C:\Qt\Tools\mingw730_32\bin\gcc.exe
+  CXX: C:\Qt\Tools\mingw730_32\bin\g++.exe
+
 before_build:
   - cp C:\Qt\Tools\mingw730_32\bin\mingw32-make.exe C:\Qt\Tools\mingw730_32\bin\make.exe
   - cd C:\
@@ -13,15 +18,10 @@ before_build:
   - mv googletest GTest
   - mkdir GTest\build
   - cd GTest\build
-  - cmake ..
+  - cmake  ../ -G "MSYS Makefiles"
   - cd C:\projects\galacticwar
   - mkdir build
   - cd build
-
-environment:
-  QTDIR: C:\Qt\5.12.6\mingw73_32\bin
-  CC: C:\Qt\Tools\mingw730_32\bin\gcc.exe
-  CXX: C:\Qt\Tools\mingw730_32\bin\g++.exe
 
 for:
   - matrix:
@@ -40,5 +40,8 @@ for:
       only:
         - configuration: RunUts
     build_script:
+      - mkdir tests\platforms
+      - ls C:\Qt\5.12.6\mingw73_32\plugins\platforms
+      - cp C:\Qt\5.12.6\mingw73_32\plugins\platforms\qwindows.dll tests\platforms
       - cmake ../ -G "MSYS Makefiles"
-      - make -j runut
+      - make runut
