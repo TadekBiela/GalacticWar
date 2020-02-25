@@ -11,6 +11,5 @@ int StartGoodleTest(int &argc, char** &argv)
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
-    StartGoodleTest(argc, argv);
-    return 0;
+    return StartGoodleTest(argc, argv);
 }
