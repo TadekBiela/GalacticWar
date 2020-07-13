@@ -28,6 +28,7 @@ for:
       only:
         - configuration: BuildApp
     build_script:
+      - ls C:\Qt
       - cmake ../ -G "MSYS Makefiles"
       - make -j app
   - matrix:
