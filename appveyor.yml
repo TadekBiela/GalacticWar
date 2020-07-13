@@ -4,10 +4,10 @@ configuration:
   - RunUts
 
 install:
-  - set PATH=C:\Qt\5.12.6\mingw73_32\bin;C:\Qt\5.12.6\mingw73_64\bin;C:\Qt\Tools\CMake_32\bin;C:\Qt\Tools\CMake_64\bin;C:\Qt\Tools\mingw730_32\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%
+  - set PATH=C:\Qt\5.12.9\mingw73_32\bin;C:\Qt\5.12.9\mingw73_64\bin;C:\Qt\Tools\CMake_32\bin;C:\Qt\Tools\CMake_64\bin;C:\Qt\Tools\mingw730_32\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%
 
 environment:
-  QTDIR: C:\Qt\5.12.6\mingw73_32\bin
+  QTDIR: C:\Qt\5.12.9\mingw73_32\bin
   CC: C:\Qt\Tools\mingw730_32\bin\gcc.exe
   CXX: C:\Qt\Tools\mingw730_32\bin\g++.exe
 
@@ -42,7 +42,7 @@ for:
         - configuration: RunUts
     build_script:
       - mkdir tests\platforms
-      - ls C:\Qt\5.12.6\mingw73_32\plugins\platforms
-      - cp C:\Qt\5.12.6\mingw73_32\plugins\platforms\qwindows.dll tests\platforms
+      - ls C:\Qt\5.12.9\mingw73_32\plugins\platforms
+      - cp C:\Qt\5.12.9\mingw73_32\plugins\platforms\qwindows.dll tests\platforms
       - cmake ../ -G "MSYS Makefiles"
       - make runut
