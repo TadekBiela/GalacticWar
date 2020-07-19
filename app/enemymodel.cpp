@@ -55,6 +55,7 @@ void EnemyModel::checkCollisions()
             {
                 sumDamage += bullet->getDamage();
                 SoundEffectModel* hit = new SoundEffectModel("hit_enemy");
+                hit->play();
                 scene->removeItem(collidingItems[i]);
                 delete collidingItems[i];
             }
@@ -72,11 +73,12 @@ void EnemyModel::destroy()
     position.setY(position.y() + def::animationFrameHeight / 2);
     emit this->destroyed(position, m_level);
     SoundEffectModel*     explosion     = new SoundEffectModel("explosion");
-    AnimationEffectModel* explosionAnim = new AnimationEffectModel(scene,
-                                                                   "explosion",
-                                                                   position,
-                                                                   def::animationFrameWight,
-                                                                   def::animationFrameHeight);
+//    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
+//                                                                   position,
+//                                                                   def::animationFrameWight,
+//                                                                   def::animationFrameHeight);
+    explosion->play();
+//    explosionAnim->play();
     delete this;
 }
 

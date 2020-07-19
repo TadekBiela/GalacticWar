@@ -13,13 +13,13 @@ class AnimationEffectModel : public GameObject
 {
     Q_OBJECT
 public:
-    AnimationEffectModel(QGraphicsScene* scene,
-                         QString         animationName,
-                         QPointF         position,
-                         int             animationFrameWidth,
-                         int             animationFrameHeight,
-                         int             numOfFrames = def::maxAnimationFrames);
+    AnimationEffectModel(QString animationName,
+                         QPointF position,
+                         int     animationFrameWidth,
+                         int     animationFrameHeight,
+                         int     numOfFrames = def::maxAnimationFrames);
     virtual ~AnimationEffectModel();
+    void play();
 
 public slots:
     void start(){}

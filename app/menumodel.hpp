@@ -2,33 +2,27 @@
 #define MENUMODEL_HPP
 
 #include "ifilemanager.hpp"
-#include <QObject>
-#include <QMultiMap>
+#include <QVector>
 #include <QPair>
 
-typedef QMultiMap<int, QString>           PlayerScoreMap;
-typedef QMultiMap<int, QString>::iterator PlayerScoreMapIterator;
-typedef QPair<int, QString>               PlayerScore;
+typedef QPair<QString, int>            PlayerScore;
+typedef QVector<PlayerScore>           PlayerScoreTable;
+typedef QVector<PlayerScore>::iterator PlayerScoreIterator;
 
-class MenuModel : public QObject
+class MenuModel
 {
-    Q_OBJECT
 public:
-    MenuModel(IFileManager* fileManager);
-    virtual ~MenuModel();
-
-signals:
-     void updateHighScore(PlayerScoreMapIterator highScoreIterator,
-                          int                    size);
-
-public slots:
-     void addRecordToHighScore(PlayerScore newPlayerScore);
-     void saveHighScore();
-     void loadHighScore();
+    MenuModel();
+    ~MenuModel();
+    void addRecordToHighscore(PlayerScore newPlayerScore);
+    void saveHighscoreToFile();
+    void loadHighscoreFromFile();
+    PlayerScoreIterator getHighscoreBeginIterator();
+    PlayerScoreIterator getHighscoreEndIterator();
 
 protected:
-     PlayerScoreMap m_highScore;
-     IFileManager*  m_fileManager;
+     PlayerScoreTable m_highscore;
+     IFileManager*    m_fileManager;
 };
 
 #endif // MENUMODEL_HPP

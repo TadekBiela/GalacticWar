@@ -7,8 +7,9 @@ class PushButton : public QPushButton
 {
     Q_OBJECT
 public:
-    PushButton(const QString& text, QWidget* parent = nullptr);
+    PushButton(const QString& text, QWidget* parent);
     virtual ~PushButton() {}
+    void setPosition(int x, int y);
 
 protected:
     virtual void enterEvent(QEvent* event);

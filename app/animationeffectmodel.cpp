@@ -2,12 +2,11 @@
 #include "functions.hpp"
 #include <QGraphicsScene>
 
-AnimationEffectModel::AnimationEffectModel(QGraphicsScene* scene,
-                                           QString         animationName,
-                                           QPointF         position,
-                                           int             animationFrameWidth,
-                                           int             animationFrameHeight,
-                                           int             numOfFrames)
+AnimationEffectModel::AnimationEffectModel(QString animationName,
+                                           QPointF position,
+                                           int     animationFrameWidth,
+                                           int     animationFrameHeight,
+                                           int     numOfFrames)
                                             : m_animationFrameIdx(0),
                                               m_animationFrameWidth(animationFrameWidth),
                                               m_animationFrameHeight(animationFrameHeight),
@@ -27,14 +26,18 @@ AnimationEffectModel::AnimationEffectModel(QGraphicsScene* scene,
     connect(&m_animationTimer, SIGNAL(timeout()), this, SLOT(animation()));
 
     m_animationTimer.setInterval(def::animationFrameDuration);
-    m_animationTimer.start();
 
-    scene->addItem(this);
+    QGraphicsItem::scene()->addItem(this); //TODO: change to global
 }
 
 AnimationEffectModel::~AnimationEffectModel()
 {
 
+}
+
+void AnimationEffectModel::play()
+{
+    m_animationTimer.start();
 }
 
 void AnimationEffectModel::animation()

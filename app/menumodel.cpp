@@ -1,45 +1,68 @@
 #include "menumodel.hpp"
+#include "filemanager.hpp"
+#include <algorithm>
 
-MenuModel::MenuModel(IFileManager *fileManager)
-                      : m_fileManager(fileManager)
+MenuModel::MenuModel()
+    : m_highscore(),
+      m_fileManager(new FileManager)
 {
 
 }
 
 MenuModel::~MenuModel()
 {
-
+    delete m_fileManager;
 }
 
-void MenuModel::addRecordToHighScore(PlayerScore newPlayerScore)
+void MenuModel::addRecordToHighscore(PlayerScore newPlayerScore)
 {
-    m_highScore.insert(m_highScore.constBegin(),
-                       newPlayerScore.first,
-                       newPlayerScore.second);
-
-    emit updateHighScore(m_highScore.end(), m_highScore.size());
+    m_highscore.push_back(newPlayerScore);
+    std::sort(m_highscore.begin(), m_highscore.end(),
+              [](const PlayerScore& a, const PlayerScore& b)->bool
+                {
+                    if(a.second > b.second) //If score a is higher return true
+                    {
+                        return true;
+                    }
+                    else if (a.second == b.second)
+                    {
+                        return (a.first < b.first); //If score is equal check player name alphabetical order
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+    );
 }
 
-void MenuModel::saveHighScore()
+void MenuModel::saveHighscoreToFile()
 {
     QString dataToSave;
-    for(PlayerScoreMapIterator it = m_highScore.begin(); it != m_highScore.end(); it++)
+    for(PlayerScoreIterator it = m_highscore.begin(); it != m_highscore.end(); it++)
     {
-        dataToSave += QString::number(it.key()) + "\n" + it.value() + "\n";
+        dataToSave += it->first + "\n" + QString::number(it->second) + "\n";
     }
     m_fileManager->saveFile("hs.txt", dataToSave);
 }
 
-void MenuModel::loadHighScore()
+void MenuModel::loadHighscoreFromFile()
 {
     QString     data     = m_fileManager->loadFile("hs.txt");
     QStringList dataList = data.split("\n", QString::SplitBehavior::SkipEmptyParts);
     for(int i = 0; i < dataList.size() - 1; i += 2)
     {
-        m_highScore.insert(dataList.at(i).toInt(), dataList.at(i + 1));
+        PlayerScore record(dataList.at(i), dataList.at(i + 1).toInt());
+        m_highscore.push_back(record);
     }
-    if(m_highScore.size() != 0)
-    {
-        emit updateHighScore(m_highScore.end(), m_highScore.size());
-    }
+}
+
+PlayerScoreIterator MenuModel::getHighscoreBeginIterator()
+{
+    return m_highscore.begin();
+}
+
+PlayerScoreIterator MenuModel::getHighscoreEndIterator()
+{
+    return m_highscore.end();
 }

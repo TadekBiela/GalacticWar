@@ -1,39 +1,55 @@
 #include "scorecontroller.hpp"
+#include "randomgenerator.hpp"
 
-ScoreController::ScoreController(ScoreModel*       model,
-                                 GeneralView*      view,
-                                 IRandomGenerator* generator)
-                                  : m_generator(generator)
+ScoreController::ScoreController(QWidget* displayWidget)
+                                  : m_displayWidget(displayWidget),
+                                    m_generator(new RandomGenerator()),
+                                    m_model(nullptr),
+                                    m_view(nullptr)
 {
-    connect(this,  SIGNAL(reset()),               model, SLOT(reset()));
-    connect(this,  SIGNAL(get()),                 model, SLOT(get()));
-    connect(this,  SIGNAL(addPoints(int)),        model, SLOT(addPoints(int)));
-    connect(model, SIGNAL(update(int)),           this,  SLOT(update(int)));
-    connect(model, SIGNAL(maxPerLevelAchieved()), this,  SLOT(maxPerLevelAchieved()));
-    connect(model, SIGNAL(updateView(int)),       view,  SLOT(updateScore(int)));
+
 }
 
 ScoreController::~ScoreController()
 {
-
+    delete m_generator;
+    if(m_model)
+    {
+        delete m_model;
+    }
+    if(m_view)
+    {
+        delete m_view;
+    }
 }
 
-void ScoreController::resetScore()
+void ScoreController::create()
 {
-    emit reset();
+    m_model = new ScoreModel();
+    m_view  = new BarView(m_displayWidget,
+                          "scoreBar",
+                          def::darkYellowHex);
+    m_view->setPosition(def::scoreGraphicsPositionX,
+                        def::scoreGraphicsPositionY);
 }
 
-void ScoreController::getScore()
+void ScoreController::destroy()
 {
-    emit get();
+    delete m_model;
+    delete m_view;
 }
 
-void ScoreController::update(int score)
+void ScoreController::show()
 {
-    emit updateScore(score);
+    m_view->show();
 }
 
-void ScoreController::addScorePoints(coin_type coin)
+void ScoreController::hide()
+{
+    m_view->hide();
+}
+
+void ScoreController::addScorePointsBasedOnCoinType(coin_type coin)
 {
     int points = 0;
     switch (coin)
@@ -51,10 +67,16 @@ void ScoreController::addScorePoints(coin_type coin)
                                           def::maxPointsForGoldCoin);
             break;
     }
-    emit addPoints(points);
+    Score_Per_Level status = m_model->add(points);
+    if(Score_Per_Level_Next == status)
+    {
+        emit maxScorePerLevelAchieved();
+    }
+    m_view->set(m_model->getCurrentScoreInPercent());
 }
 
-void ScoreController::maxPerLevelAchieved()
+void ScoreController::emitTotalScoreAndDestroy()
 {
-    emit maxScorePerLevelAchieved();
+    emit totalScore(m_model->getTotalScore());
+    destroy();
 }

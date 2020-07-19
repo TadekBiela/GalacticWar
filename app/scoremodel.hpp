@@ -2,24 +2,24 @@
 #define SCOREMODEL_HPP
 
 #include "definitions.hpp"
-#include <QObject>
 
-class ScoreModel : public QObject
+enum Score_Per_Level
 {
-    Q_OBJECT
+    Score_Per_Level_Current = 0,
+    Score_Per_Level_Next    = 1
+};
+
+class ScoreModel
+{
+
 public:
     ScoreModel();
     virtual ~ScoreModel();
-
-signals:
-    void update(int score);
-    void updateView(int value);
-    void maxPerLevelAchieved();
-
-public slots:
-    void reset();
-    void get();
-    void addPoints(int points);
+    int getCurrentScore() const;
+    int getCurrentScoreInPercent() const;
+    int getCurrentTreshold() const;
+    int getTotalScore() const;
+    Score_Per_Level add(int scorePoints);
 
 protected:
     int m_currentTresholdIdx;

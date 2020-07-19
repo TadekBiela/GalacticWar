@@ -36,7 +36,6 @@ void PlayerController::createNewPlayer()
 
     m_player->start();
     m_player->setFocus();
-    m_view->updateHealth(def::maxPlayerHealth);
     emit addPlayerToScene(m_player);
 }
 
@@ -45,12 +44,13 @@ void PlayerController::defeated()
     QPointF position;
     position.setX(m_player->pos().x() + m_player->pixmap().width()  / 2);
     position.setY(m_player->pos().y() + m_player->pixmap().height() / 2);
-    AnimationEffectModel* explosionAnim = new AnimationEffectModel(m_player->scene(),
-                                                                   "explosion",
-                                                                   position,
-                                                                   def::animationFrameWight,
-                                                                   def::animationFrameHeight);
+//    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
+//                                                                   position,
+//                                                                   def::animationFrameWight,
+//                                                                   def::animationFrameHeight);
     SoundEffectModel* explosion = new SoundEffectModel("explosion");
+//    explosionAnim->play();
+    explosion->play();
     m_player->scene()->removeItem(m_player);
     delete m_player;
     m_player = nullptr;

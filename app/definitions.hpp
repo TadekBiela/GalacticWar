@@ -1,6 +1,8 @@
 #ifndef DEFINITIONS_HPP
 #define DEFINITIONS_HPP
 
+#include <QString>
+
 namespace def
 {
     const int    defaultBulletSpeed        = 20;
@@ -23,6 +25,10 @@ namespace def
     const int    maxEnemySpawnTimeDelay    = 5000;
     const int    percentDistTabSize        = 100;
     const int    collisionDamageFactor     = 300;
+    const int    valueBarPositionOffset    = 15;
+    const int    valueBarSizeOffset        = 25;
+    const int    valueLabelPositionOffset  = 5;
+    const int    valueLabelSizeOffset      = 10;
 
     //Player default configuration
     const int maxPlayerHealth             = 2000;
@@ -51,15 +57,73 @@ namespace def
     const int halfSceneWight  = sceneWight  / 2;
     const int halfSceneHeight = sceneHeight / 2;
 
+    //Labels
+    const int labelWidth                  = 500;
+    const int labelHeight                 = 100;
+    const int labelPositionX              = halfSceneWight - (labelWidth / 2);
+    const int labelPositionY              = (halfSceneHeight / 3) - (labelHeight / 2);
+    const int gameoverScoreLabelPositionX = halfSceneWight    - (labelWidth  / 2);
+    const int gameoverScoreLabelPositionY = (sceneHeight / 3) - (labelHeight / 2);
+    const int authorLabelWidth            = 150;
+    const int authorLabelHeight           = 15;
+    const int authorLabelPositionX        = sceneWight  - authorLabelWidth;
+    const int authorLabelPositionY        = sceneHeight - authorLabelHeight;
+
+    //Tabels
+    const int highscoreTableWight     = 500;
+    const int highscoreTableHeight    = 400;
+    const int highscoreTablePositionX = halfSceneWight - (highscoreTableWight / 2);
+    const int highscoreTablePositionY = labelPositionY + labelHeight + 30;
+
+    //EditLines
+    const int gameoverPlayerNameFieldWidth     = 300;
+    const int gameoverPlayerNameFieldHeight    = 50;
+    const int gameoverPlayerNameFieldPositionX = halfSceneWight - (gameoverPlayerNameFieldWidth / 2);
+    const int gameoverPlayerNameFieldPositionY = gameoverScoreLabelPositionY
+                                               + labelHeight + 25;
+
     //Buttons
-    const int buttonWight  = 50;
-    const int buttonHeight = 150;
+    const int buttonWight  = 200;
+    const int buttonHeight = 50;
+    const int centerButtonPositionX         = halfSceneWight - (buttonWight / 2);
+    const int startButtonPositionY          = labelPositionY + labelHeight + 100;
+    const int highscoreButtonPositionY      = startButtonPositionY     + buttonHeight + 25;
+    const int quitButtonPositionY           = highscoreButtonPositionY + buttonHeight + 25;
+    const int highscoreBackButtonPositionY  = highscoreTablePositionY  + highscoreTableHeight + 25;
+    const int pauseAbortButtonPositionX     = halfSceneWight + 25;
+    const int pauseContinueButtonPositionX  = halfSceneWight - buttonWight - 25;
+    const int pauseBottomButtonPositionY    = halfSceneHeight;
+    const int gameoverSaveButtonPositionX   = pauseAbortButtonPositionX;
+    const int gameoverBackButtonPositionX   = pauseContinueButtonPositionX;
+    const int gameoverBottomButtonPositionY = gameoverPlayerNameFieldPositionY
+                                            + gameoverPlayerNameFieldHeight + 100;
+    //Interface
+    const int healthGraphicsPositionX = 10;
+    const int healthGraphicsPositionY = def::sceneHeight - 68;
+    const int scoreGraphicsPositionX  = def::sceneWight - 250;
+    const int scoreGraphicsPositionY  = healthGraphicsPositionY;
 
     //Defalut directions
     const int up    = 0;
     const int down  = 180;
     const int right = 90;
     const int left  = 270;
+
+    //Texts
+    const QString authorTitle = "Created by TED";
+    const QString backText = "BACK";
+    const QString continueText = "CONTINUE";
+    const QString gameTitle = "GALACTIC WAR";
+    const QString gameoverText = "GAME OVER";
+    const QString highscoreText = "HIGH SCORE";
+    const QString pauseText = "PAUSE";
+    const QString startgameText = "START GAME";
+    const QString saveText = "SAVE";
+    const QString quitText = "QUIT";
+
+    //Colors
+    const QString darkRedHex    = "#DE0101";
+    const QString darkYellowHex = "#FCCD10";
 }
 
 #endif // DEFINITIONS_HPP

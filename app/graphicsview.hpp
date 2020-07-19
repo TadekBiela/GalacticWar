@@ -2,27 +2,24 @@
 #define GRAPHICSVIEW_HPP
 
 #include <QGraphicsView>
+#include <QWidget>
 
 class GraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    GraphicsView();
-    GraphicsView(QGraphicsScene* scene, QWidget* parent = nullptr);
+    GraphicsView(QWidget* displayWidget);
     virtual ~GraphicsView();
     void setGraphicsEffects(qreal opacity, qreal blurRadius);
-    void startAllItems();
-    void stopAllItems();
-
-signals:
-    void mousePressed(QMouseEvent* event);
-    void mouseReleased(QMouseEvent* event);
-    void mouseMoved(QMouseEvent* event);
+    virtual void startAllItems() = 0;
+    virtual void stopAllItems() = 0;
 
 public slots:
-    void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
+    virtual void activate() = 0;
+    virtual void deactivate() = 0;
+
+protected:
+    QGraphicsScene m_scene;
 };
 
 #endif // GRAPHICSVIEW_HPP

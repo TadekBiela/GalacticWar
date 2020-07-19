@@ -1,6 +1,10 @@
+#include "animationplaneview.hpp"
+#include "controlplane.hpp"
 #include "enemycontroller.hpp"
 #include "filemanager.hpp"
+#include "gameplayview.hpp"
 #include "generalview.hpp"
+#include "healthcontroller.hpp"
 #include "imagestorage.hpp"
 #include "levelcontroller.hpp"
 #include "levelmodel.hpp"
@@ -21,30 +25,36 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QMainWindow mainWindow;
     g_imageStorage = new ImageStorage;
     g_soundStorage = new SoundStorage;
 
     QFontDatabase::addApplicationFont(a.applicationDirPath() + "/fonts/joystix monospace.ttf");
     a.setFont(QFont("joystix monospace"));
 
-    FileManager     fileManager;
     RandomGenerator randomGenerator;
 
     //Model
     LevelModel levelModel;
-    MenuModel  menuModel(&fileManager);
-    ScoreModel scoreModel;
 
     //View
+    AnimationPlaneView animationView(&mainWindow);
+    ControlPlane       controller(&mainWindow);
+    GameplayView       gameplayView(&mainWindow);
     GeneralView generalView;
+
 
     //Controller
     EnemyController  enemyController(&generalView, &randomGenerator);
+    HealthController healthController(&mainWindow);
     LevelController  levelController(&levelModel, &generalView);
-    MenuController   menuController(&generalView, &menuModel);
+    MenuController   menuController(&mainWindow,
+                                    &controller,
+                                    &gameplayView,
+                                    &animationView);
     PlayerController playerController(&generalView);
     RewardController rewardController(&generalView, &randomGenerator);
-    ScoreController  scoreController(&scoreModel, &generalView, &randomGenerator);
+    ScoreController  scoreController(&mainWindow);
 
     //Connections MVC
     QObject::connect(&enemyController,  SIGNAL(enemyDestroyed(QPointF, int)),
@@ -76,7 +86,7 @@ int main(int argc, char *argv[])
     QObject::connect(&scoreController,  SIGNAL(updateScore(int)),
                      &menuController,   SLOT(updateScore(int)));
 
-    generalView.show();
+    mainWindow.show();
 	return a.exec();
 }
 

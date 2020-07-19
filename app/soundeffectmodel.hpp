@@ -11,6 +11,7 @@ class SoundEffectModel : public QObject
 public:
     SoundEffectModel(QString soundName);
     virtual ~SoundEffectModel();
+    void play();
 
 signals:
     void end();

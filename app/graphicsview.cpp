@@ -2,16 +2,11 @@
 #include "gameobject.hpp"
 #include <QGraphicsEffect>
 
-GraphicsView::GraphicsView()
+GraphicsView::GraphicsView(QWidget *displayWidget)
+                            : QGraphicsView(displayWidget),
+                              m_scene(displayWidget)
 {
-
-}
-
-GraphicsView::GraphicsView(QGraphicsScene* scene, QWidget* parent)
-                            : QGraphicsView(scene, parent)
-{
-    setMouseTracking(true);
-    setBackgroundBrush(QBrush(Qt::black));
+    QGraphicsView::setScene(&m_scene);
 }
 
 GraphicsView::~GraphicsView()
@@ -21,49 +16,10 @@ GraphicsView::~GraphicsView()
 
 void GraphicsView::setGraphicsEffects(qreal opacity, qreal blurRadius)
 {
-    QGraphicsOpacityEffect* op = new QGraphicsOpacityEffect();
-    op->setOpacity(opacity);
-    setGraphicsEffect(op);
-    QGraphicsBlurEffect* bl = new QGraphicsBlurEffect();
-    bl->setBlurRadius(blurRadius);
-    setGraphicsEffect(bl);
-}
-
-void GraphicsView::startAllItems()
-{
-    QGraphicsScene* scene = this->scene();
-    auto items = scene->items();
-
-    for (auto it = items.begin(); it != items.end(); it++)
-    {
-        GameObject* object = dynamic_cast<GameObject*>(*it);
-        object->start();
-    }
-}
-
-void GraphicsView::stopAllItems()
-{
-    QGraphicsScene* scene = this->scene();
-    auto items = scene->items();
-
-    for(auto i = 0; i != items.size(); i++)
-    {
-        GameObject* object = static_cast<GameObject*>(items[i]);
-        object->stop();
-    }
-}
-
-void GraphicsView::mousePressEvent(QMouseEvent* event)
-{
-    emit mousePressed(event);
-}
-
-void GraphicsView::mouseReleaseEvent(QMouseEvent* event)
-{
-    emit mouseReleased(event);
-}
-
-void GraphicsView::mouseMoveEvent(QMouseEvent* event)
-{
-    emit mouseMoved(event);
+    QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+    opacityEffect->setOpacity(opacity);
+    setGraphicsEffect(opacityEffect);
+    QGraphicsBlurEffect* blurEffect = new QGraphicsBlurEffect();
+    blurEffect->setBlurRadius(blurRadius);
+    setGraphicsEffect(blurEffect);
 }

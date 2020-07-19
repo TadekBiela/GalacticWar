@@ -9,8 +9,14 @@ find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 add_executable(${PROJECT_NAME} main.cpp
                                animationeffectmodel.hpp
                                animationeffectmodel.cpp
+                               animationplaneview.hpp
+                               animationplaneview.cpp
+                               barview.hpp
+                               barview.cpp
                                bulletmodel.hpp
                                bulletmodel.cpp
+                               controlplane.hpp
+                               controlplane.cpp
                                definitions.hpp
                                enemyconfiguration.hpp
                                enemycontroller.hpp
@@ -27,11 +33,19 @@ add_executable(${PROJECT_NAME} main.cpp
                                functions.cpp
                                gameobject.hpp
                                gameobject.cpp
+                               gameplayview.hpp
+                               gameplayview.cpp
                                generalview.hpp
                                generalview.cpp
                                graphicsview.hpp
                                graphicsview.cpp
+                               healthcontroller.hpp
+                               healthcontroller.cpp
+                               healthmodel.hpp
+                               healthmodel.cpp
                                ifilemanager.hpp
+                               iinterfaceview.hpp
+                               iinterfaceview.cpp
                                iimagestorage.hpp
                                iimagestorage.cpp
                                isoundstorage.hpp
@@ -39,6 +53,10 @@ add_executable(${PROJECT_NAME} main.cpp
                                imagestorage.hpp
                                imagestorage.cpp
                                irandomgenerator.hpp
+                               label.hpp
+                               label.cpp
+                               labelview.hpp
+                               labelview.cpp
                                levelcontroller.hpp
                                levelcontroller.cpp
                                levelmodel.hpp
@@ -47,6 +65,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                menucontroller.cpp
                                menumodel.hpp
                                menumodel.cpp
+                               menuview.hpp
+                               menuview.cpp
                                playercontroller.hpp
                                playercontroller.cpp
                                playermodel.hpp

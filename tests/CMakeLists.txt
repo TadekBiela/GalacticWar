@@ -17,6 +17,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(${PROJECT_NAME} main.cpp
                                ../app/animationeffectmodel.hpp
                                ../app/animationeffectmodel.cpp
+                               ../app/barview.hpp
+                               ../app/barview.cpp
                                ../app/bulletmodel.hpp
                                ../app/bulletmodel.cpp
                                ../app/definitions.hpp
@@ -29,22 +31,32 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/enemymodeltype1.cpp
                                ../app/firefunctions.hpp
                                ../app/firefunctions.cpp
+                               ../app/filemanager.hpp
+                               ../app/filemanager.cpp
                                ../app/functions.hpp
                                ../app/functions.cpp
                                ../app/gameobject.hpp
                                ../app/gameobject.cpp
-                               ../app/generalview.hpp
-                               ../app/generalview.cpp
                                ../app/graphicsview.hpp
                                ../app/graphicsview.cpp
+                               ../app/healthcontroller.hpp
+                               ../app/healthcontroller.cpp
+                               ../app/healthmodel.hpp
+                               ../app/healthmodel.cpp
                                ../app/ifilemanager.hpp
                                ../app/iimagestorage.hpp
                                ../app/iimagestorage.cpp
+                               ../app/iinterfaceview.hpp
+                               ../app/iinterfaceview.cpp
                                ../app/isoundstorage.hpp
                                ../app/isoundstorage.cpp
                                ../app/imagestorage.hpp
                                ../app/imagestorage.cpp
                                ../app/irandomgenerator.hpp
+                               ../app/label.hpp
+                               ../app/label.cpp
+                               ../app/labelview.hpp
+                               ../app/labelview.cpp
                                ../app/levelcontroller.hpp
                                ../app/levelcontroller.cpp
                                ../app/levelmodel.hpp
@@ -53,12 +65,16 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/menucontroller.cpp
                                ../app/menumodel.hpp
                                ../app/menumodel.cpp
+                               ../app/menuview.hpp
+                               ../app/menuview.cpp
                                ../app/playercontroller.hpp
                                ../app/playercontroller.cpp
                                ../app/playermodel.hpp
                                ../app/playermodel.cpp
                                ../app/pushbutton.hpp
                                ../app/pushbutton.cpp
+                               ../app/randomgenerator.hpp
+                               ../app/randomgenerator.cpp
                                ../app/rewardcontroller.hpp
                                ../app/rewardcontroller.cpp
                                ../app/rewardmodel.hpp
@@ -90,7 +106,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemycontrollertests.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
-                               generalviewtests.cpp
+                               healthcontrollertests.cpp
+                               healthmodeltests.cpp
                                levelcontrollertests.cpp
                                levelmodeltests.cpp
                                menucontrollertests.cpp

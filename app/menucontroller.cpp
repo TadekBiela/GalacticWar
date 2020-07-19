@@ -3,38 +3,44 @@
 #include "definitions.hpp"
 #include "soundeffectmodel.hpp"
 
-MenuController::MenuController(GeneralView* view,
-                               MenuModel*   model)
+MenuController::MenuController(QWidget*            displayWidget,
+                               ControlPlane*       controller,
+                               GameplayView*       gameplayView,
+                               AnimationPlaneView* animationView)
                                 : m_isGameStarted(false),
                                   m_isGamePaused(false),
-                                  m_view(view)
+                                  m_model(),
+                                  m_view(displayWidget)
 {
-    connect(view,  SIGNAL(save(PlayerScore)),
-            model, SLOT(addRecordToHighScore(PlayerScore)));
-    connect(model, SIGNAL(updateHighScore(PlayerScoreMapIterator, int)),
-            view,  SLOT(updateHighScoreList(PlayerScoreMapIterator, int)));
-    connect(this,  SIGNAL(saveHighScore()),
-            model, SLOT(saveHighScore()));
-    connect(this,  SIGNAL(loadHighScore()),
-            model, SLOT(loadHighScore()));
-    connect(this,  SIGNAL(playerDefeated(int)),
-            view,  SLOT(gameOver(int)));
-    connect(view,  SIGNAL(startGame()),
-            this,  SLOT(startGame()));
-    connect(view,  SIGNAL(mouseLeaveWindow()),
-            this,  SLOT(mouseLeaveWindow()));
-    connect(view,  SIGNAL(escPressed()),
-            this,  SLOT(escPressed()));
-    connect(this,  SIGNAL(pauseGame()),
-            view,  SLOT(pauseGame()));
-    connect(this,  SIGNAL(continueGame()),
-            view,  SLOT(continueGame()));
-    connect(view,  SIGNAL(abortGame()),
-            this,  SLOT(abortGame()));
-    connect(view,  SIGNAL(exitGame()),
-            this,  SLOT(exitGame()));
+    connect(&m_view, SIGNAL(startClicked()),
+            this,   SLOT(startGame()));
+    connect(&m_view, SIGNAL(continueClicked()),
+            this,   SLOT(continueGame()));
+    connect(&m_view, SIGNAL(abortClicked()),
+            this,   SLOT(abortGame()));
+    connect(&m_view, SIGNAL(quitClicked()),
+            this,   SLOT(exitGame()));
 
-    emit loadHighScore();
+    connect(controller, SIGNAL(mouseLeaveWindow()),
+            this,       SLOT(pauseGame()));
+    connect(controller, SIGNAL(escKeyPressed()),
+            this,       SLOT(pauseGame()));
+
+    connect(this,         SIGNAL(gamePaused()),
+            gameplayView, SLOT(deactivate()));
+    connect(this,         SIGNAL(gameContinued()),
+            gameplayView, SLOT(activate()));
+    connect(this,         SIGNAL(gameAborted()),
+            gameplayView, SLOT(removeAllGameObjects()));
+
+    connect(this,          SIGNAL(gamePaused()),
+            animationView, SLOT(deactivate()));
+    connect(this,          SIGNAL(gameContinued()),
+            animationView, SLOT(activate()));
+    connect(this,          SIGNAL(gameAborted()),
+            animationView, SLOT(activate()));
+
+    m_model.loadHighscoreFromFile();
 }
 
 MenuController::~MenuController()
@@ -44,103 +50,68 @@ MenuController::~MenuController()
 
 void MenuController::startGame()
 {
-    m_isGameStarted = false;
-    m_isGamePaused  = false;
+    m_isGameStarted = true;
+    emit gameStarted();
+}
 
-    emit resetLevel();
-    emit resetScore();
-    emit createNewPlayer();
+void MenuController::pauseGame()
+{
+    if(m_isGameStarted && (not m_isGamePaused))
+    {
+        m_isGamePaused = true;
+        emit gamePaused();
+    }
+}
 
-    QPointF position(def::halfSceneWight,
-                     def::halfSceneHeight - def::halfSceneHeight / 4);
-    AnimationEffectModel* gameOverAnim = new AnimationEffectModel(m_view->getScene(),
-                                                                  "start_game",
-                                                                  position,
-                                                                  def::animationBigFrameWight,
-                                                                  def::animationBigFrameHeight,
-                                                                  40);
-    SoundEffectModel* startGame = new SoundEffectModel("start_game");
-    connect(startGame, SIGNAL(end()), this, SLOT(startSpawningEnemies()));
+void MenuController::continueGame()
+{
+    m_isGamePaused = false;
+    emit gameContinued();
 }
 
 void MenuController::abortGame()
 {
-    emit abortPlayer();
     m_isGameStarted = false;
     m_isGamePaused  = false;
+    emit gameAborted();
 }
 
-void MenuController::startSpawningEnemies()
+void MenuController::updateScore(int totalScore)
 {
-    m_isGameStarted = true;
-    emit activateEnemySpawning();
+    m_view.setGameoverScoreLabel(totalScore);
 }
 
-void MenuController::showScore()
+void MenuController::saveScore()
 {
-    m_isGameStarted = false;
-    emit getScore();
+    QString     playerName = m_view.getPlayerNameFromField();
+    int         totalScore = m_view.getScoreFromLabel();
+    PlayerScore scoreRecordToSave(playerName, totalScore);
+
+    m_model.addRecordToHighscore(scoreRecordToSave);
+    m_model.saveHighscoreToFile();
+
+    m_view.updateHighscore(m_model.getHighscoreBeginIterator(),
+                           m_model.getHighscoreEndIterator());
 }
 
-void MenuController::mouseLeaveWindow()
+void MenuController::endGame()
 {
-    if(m_isGameStarted == true)
-    {
-        if(m_isGamePaused == false)
-        {
-            emit deactivateEnemySpawning();
-            emit pauseGame();
-            m_isGamePaused = true;
-        }
-    }
-}
-
-void MenuController::escPressed()
-{
-    if(m_isGameStarted == true)
-    {
-        if(m_isGamePaused == false)
-        {
-            emit deactivateEnemySpawning();
-            emit pauseGame();
-            m_isGamePaused = true;
-        }
-        else
-        {
-            emit activateEnemySpawning();
-            emit continueGame();
-            m_isGamePaused = false;
-        }
-    }
-}
-
-void MenuController::updateScore(int score)
-{
-    emit playerDefeated(score);
-}
-
-void MenuController::gameOver()
-{
-    emit deactivateEnemySpawning();
-
     QPointF position(def::halfSceneWight,
                      def::halfSceneHeight - def::halfSceneHeight / 4);
-    AnimationEffectModel* gameOverAnim = new AnimationEffectModel(m_view->getScene(),
-                                                                  "game_over",
-                                                                  position,
-                                                                  def::animationBigFrameWight,
-                                                                  def::animationBigFrameHeight,
-                                                                  20);
-    SoundEffectModel* gameOver = new SoundEffectModel("game_over");
-    connect(gameOver, SIGNAL(end()), this, SLOT(showScore()));
-    m_isGamePaused = false;
+//    AnimationEffectModel* gameOverAnim = new AnimationEffectModel("game_over",
+//                                                                  position,
+//                                                                  def::animationBigFrameWight,
+//                                                                  def::animationBigFrameHeight,
+//                                                                  20);
+//    gameOverAnim->play();
+    SoundEffectModel* gameOverSound = new SoundEffectModel("game_over");
+    connect(gameOverSound, SIGNAL(end()), this, SLOT(showScore()));
     m_isGameStarted = false;
+    emit gameOver();
 }
 
 void MenuController::exitGame()
 {
-    emit saveHighScore();
     delete g_soundStorage;
     delete g_imageStorage;
-    m_view->close();
 }

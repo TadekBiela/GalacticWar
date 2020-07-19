@@ -25,9 +25,11 @@ public:
     }
 };
 
-TEST_F(SoundEffectModelTestsClass, SoundEffectModel_CheckIfConstructorIsBuildModelCorrect_IsEqual)
+TEST_F(SoundEffectModelTestsClass, Play_CheckIfConstructorIsBuildModelCorrect_IsEqual)
 {
     SoundEffectModelTest* soundEffectModel = new SoundEffectModelTest("default_bullet");
+
+    soundEffectModel->play();
     const QSoundEffect* resultSound = soundEffectModel->getSound();
 
     EXPECT_EQ(resultSound->isPlaying(), true);

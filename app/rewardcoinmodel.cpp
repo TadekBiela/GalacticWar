@@ -42,10 +42,11 @@ void RewardCoinModel::collect()
     QPointF position = pos();
     position.setX(position.x() + def::animationSmallFrameWight  / 2);
     position.setY(position.y() + def::animationSmallFrameHeight / 2);
-    AnimationEffectModel* collectAnim = new AnimationEffectModel(this->scene(),
-                                                                 "collect_reward",
-                                                                 position,
-                                                                 def::animationSmallFrameWight,
-                                                                 def::animationSmallFrameHeight);
+//    AnimationEffectModel* collectAnim = new AnimationEffectModel("collect_reward",
+//                                                                 position,
+//                                                                 def::animationSmallFrameWight,
+//                                                                 def::animationSmallFrameHeight);
+    collect->play();
+//    collectAnim->play();
     destroy();
 }

@@ -1,47 +1,46 @@
 #ifndef MENUCONTROLLER_HPP
 #define MENUCONTROLLER_HPP
 
-#include "generalview.hpp"
+#include "animationplaneview.hpp"
+#include "controlplane.hpp"
 #include "menumodel.hpp"
+#include "menuview.hpp"
+#include "gameplayview.hpp"
 #include <QObject>
 
 class MenuController : public QObject
 {
     Q_OBJECT
 public:
-    MenuController(GeneralView* view,
-                   MenuModel*   model);
+    MenuController(QWidget*            displayWidget,
+                   ControlPlane*       controller,
+                   GameplayView*       gameplayView,
+                   AnimationPlaneView* animationView);
     virtual ~MenuController();
 
 signals:
-    void pauseGame();
-    void continueGame();
-    void saveHighScore();
-    void loadHighScore();
-    void resetLevel();
-    void resetScore();
-    void createNewPlayer();
-    void abortPlayer();
-    void activateEnemySpawning();
-    void deactivateEnemySpawning();
-    void getScore();
-    void playerDefeated(int score);
+    void gameStarted();
+    void gamePaused();
+    void gameContinued();
+    void gameAborted();
+    void gameOver();
+    void gameExit();
 
 public slots:
     void startGame();
-    void startSpawningEnemies();
-    void showScore();
-    void mouseLeaveWindow();
-    void escPressed();
-    void updateScore(int score);
+    void pauseGame();
+    void continueGame();
     void abortGame();
-    void gameOver();
+    void updateScore(int totalScore);
+    void saveScore();
+    void endGame();
     void exitGame();
 
 protected:
-    bool         m_isGameStarted;
-    bool         m_isGamePaused;
-    GeneralView* m_view;
+    bool      m_isGameStarted;
+    bool      m_isGamePaused;
+    MenuModel m_model;
+    MenuView  m_view;
 };
 
 #endif // MENUCONTROLLER_HPP

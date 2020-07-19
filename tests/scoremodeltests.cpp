@@ -22,137 +22,54 @@ class ScoreModelTestsClass : public testing::Test
 {
 };
 
-TEST_F(ScoreModelTestsClass, ScoreModelConstructor_CheckBuildModelCorrect_IsEqual)
+TEST_F(ScoreModelTestsClass, Add_CurrentScoreIs0Add10Points_CurrentAndTotalScoreShouldIncreaseBy10CurrentTreshold0AndScoreStatusCurrentLevel)
 {
     ScoreModelTests scoreModel;
-    int resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
+
+    Score_Per_Level resultStatus = scoreModel.add(10);
+    int resultCurrentScore       = scoreModel.getCurrentScore();
     int resultTotalScore         = scoreModel.getTotalScore();
+    int resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
 
-    EXPECT_EQ(resultCurrentTresholdIdx, 0);
-    EXPECT_EQ(resultTotalScore,         0);
+    EXPECT_EQ(10, resultCurrentScore);
+    EXPECT_EQ(10, resultTotalScore);
+    EXPECT_EQ(0, resultCurrentTresholdIdx);
+    EXPECT_EQ(Score_Per_Level_Current, resultStatus);
 }
 
-TEST_F(ScoreModelTestsClass, Reset_CheckIfSendUpdateSignalWithTotalScoreValue_IsEqual)
+TEST_F(ScoreModelTestsClass, Add_CurrentScoreIsLessThanFirstTresholdBy10Add50Points_CurrentScoreSouldBe40TotalScoreFirstTresholdPlus40CurrentTreshold1AndScoreStatusNextLevel)
 {
     ScoreModelTests scoreModel;
-    scoreModel.setTotalScore(100);
-    QSignalSpy signalUpdate(&scoreModel, ScoreModelTests::updateView);
-    signalUpdate.wait(utdef::minSignalTimeDelay);
+    int firstTresholdValue = scoreModel.getCurrentTreshold();
+    scoreModel.setCurrentScore(firstTresholdValue - 10);
+    scoreModel.setTotalScore(firstTresholdValue - 10);
 
-    scoreModel.reset();
-    int resultSignalUpdateCount = signalUpdate.count();
-    int resultScore = signalUpdate.takeFirst().at(0).toInt();
+    Score_Per_Level resultStatus = scoreModel.add(50);
+    int resultCurrentScore       = scoreModel.getCurrentScore();
+    int resultTotalScore         = scoreModel.getTotalScore();
+    int resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
 
-    EXPECT_EQ(resultSignalUpdateCount, 1);
-    EXPECT_EQ(resultScore,             0);
+    EXPECT_EQ(40,                      resultCurrentScore);
+    EXPECT_EQ(firstTresholdValue + 40, resultTotalScore);
+    EXPECT_EQ(1,                       resultCurrentTresholdIdx);
+    EXPECT_EQ(Score_Per_Level_Next,    resultStatus);
 }
 
-TEST_F(ScoreModelTestsClass, Get_CheckIfSendUpdateSignalWithTotalScoreValue_IsEqual)
+TEST_F(ScoreModelTestsClass, Add_CurrentScoreIsLessThanLastTresholdBy10Add50Points_CurrentAndTotalScoreSouldBeIncresaedBy40CurrentTresholdStillLastAndScoreStatusCurrentLevel)
 {
     ScoreModelTests scoreModel;
-    scoreModel.setTotalScore(100);
-    QSignalSpy signalUpdate(&scoreModel, ScoreModelTests::update);
-    signalUpdate.wait(utdef::minSignalTimeDelay);
+    scoreModel.setCurrentTresholdIdx(def::maxNumOfLevel - 1);
+    int lastTresholdValue = scoreModel.getCurrentTreshold();
+    scoreModel.setCurrentScore(lastTresholdValue - 10);
+    scoreModel.setTotalScore(lastTresholdValue - 10);
 
-    scoreModel.get();
-    int resultSignalUpdateCount = signalUpdate.count();
-    int resultScore = signalUpdate.takeFirst().at(0).toInt();
+    Score_Per_Level resultStatus = scoreModel.add(50);
+    int resultCurrentScore       = scoreModel.getCurrentScore();
+    int resultTotalScore         = scoreModel.getTotalScore();
+    int resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
 
-    EXPECT_EQ(resultSignalUpdateCount,   1);
-    EXPECT_EQ(resultScore,             100);
-}
-
-TEST_F(ScoreModelTestsClass, AddPoints_AddPointsLessThanFirstTresholdShouldOnlyEmitOneSignal_IsEqual)
-{
-    ScoreModelTests scoreModel;
-    QSignalSpy      signalUpdate(&scoreModel, ScoreModelTests::updateView);
-    signalUpdate.wait(utdef::minSignalTimeDelay);
-
-    scoreModel.addPoints(300);
-    int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
-    int  resultCurrentScore       = scoreModel.getCurrentScore();
-    int  resultTotalScore         = scoreModel.getTotalScore();
-    int  resultSignalUpdateCount  = signalUpdate.count();
-    auto resultSignalUpdate       = signalUpdate.takeFirst();
-
-    EXPECT_EQ(resultCurrentTresholdIdx,           0);
-    EXPECT_EQ(resultCurrentScore,               300);
-    EXPECT_EQ(resultTotalScore,                 300);
-    EXPECT_EQ(resultSignalUpdateCount,            1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),  30);
-}
-
-TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanFirstTresholdShouldEmitTwoSignals_IsEqual)
-{
-    ScoreModelTests scoreModel;
-    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateView);
-    QSignalSpy      signalAchieved(&scoreModel, ScoreModelTests::maxPerLevelAchieved);
-    signalUpdate.wait(utdef::minSignalTimeDelay);
-
-    scoreModel.addPoints(1300);
-    int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
-    int  resultCurrentScore       = scoreModel.getCurrentScore();
-    int  resultTotalScore         = scoreModel.getTotalScore();
-    int  resultSignalUpdateCount  = signalUpdate.count();
-    auto resultSignalUpdate       = signalUpdate.takeFirst();
-    int  resultSignalAchivedCount = signalAchieved.count();
-
-    EXPECT_EQ(resultCurrentTresholdIdx,            1);
-    EXPECT_EQ(resultCurrentScore,                300);
-    EXPECT_EQ(resultTotalScore,                 1300);
-    EXPECT_EQ(resultSignalUpdateCount,             1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),   10);
-    EXPECT_EQ(resultSignalAchivedCount,            1);
-}
-
-TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsEqualThanThirdTresholdShouldEmitTwoSignals_IsEqual)
-{
-    ScoreModelTests scoreModel;
-    scoreModel.setCurrentTresholdIdx(2);
-    scoreModel.setCurrentScore(6500);
-    scoreModel.setTotalScore(10500);
-    QSignalSpy signalUpdate(&scoreModel,   ScoreModelTests::updateView);
-    QSignalSpy signalAchieved(&scoreModel, ScoreModelTests::maxPerLevelAchieved);
-    signalUpdate.wait(utdef::minSignalTimeDelay);
-
-    scoreModel.addPoints(500);
-    int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
-    int  resultCurrentScore       = scoreModel.getCurrentScore();
-    int  resultTotalScore         = scoreModel.getTotalScore();
-    int  resultSignalUpdateCount  = signalUpdate.count();
-    auto resultSignalUpdate       = signalUpdate.takeFirst();
-    int  resultSignalAchivedCount = signalAchieved.count();
-
-    EXPECT_EQ(resultCurrentTresholdIdx,             3);
-    EXPECT_EQ(resultCurrentScore,                   0);
-    EXPECT_EQ(resultTotalScore,                 11000);
-    EXPECT_EQ(resultSignalUpdateCount,              1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),     0);
-    EXPECT_EQ(resultSignalAchivedCount,             1);
-}
-
-TEST_F(ScoreModelTestsClass, AddScorePoints_AddPointsMoreThanMaxTresholdShouldEmitOneSignal_IsEqual)
-{
-    ScoreModelTests scoreModel;
-    scoreModel.setCurrentTresholdIdx(9);
-    scoreModel.setCurrentScore(299900);
-    scoreModel.setTotalScore(500000);
-    QSignalSpy      signalUpdate(&scoreModel,  ScoreModelTests::updateView);
-    QSignalSpy      signalAchieved(&scoreModel, ScoreModelTests::maxPerLevelAchieved);
-    signalUpdate.wait(utdef::minSignalTimeDelay);
-
-    scoreModel.addPoints(500);
-    int  resultCurrentTresholdIdx = scoreModel.getCurrentTresholdIdx();
-    int  resultCurrentScore       = scoreModel.getCurrentScore();
-    int  resultTotalScore         = scoreModel.getTotalScore();
-    int  resultSignalUpdateCount  = signalUpdate.count();
-    auto resultSignalUpdate       = signalUpdate.takeFirst();
-    int  resultSignalAchivedCount = signalAchieved.count();
-
-    EXPECT_EQ(resultCurrentTresholdIdx,              9);
-    EXPECT_EQ(resultCurrentScore,               300400);
-    EXPECT_EQ(resultTotalScore,                 500500);
-    EXPECT_EQ(resultSignalUpdateCount,               1);
-    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),    100);
-    EXPECT_EQ(resultSignalAchivedCount,              0);
+    EXPECT_EQ(lastTresholdValue + 40,  resultCurrentScore);
+    EXPECT_EQ(lastTresholdValue + 40,  resultTotalScore);
+    EXPECT_EQ(def::maxNumOfLevel - 1,  resultCurrentTresholdIdx);
+    EXPECT_EQ(Score_Per_Level_Current, resultStatus);
 }

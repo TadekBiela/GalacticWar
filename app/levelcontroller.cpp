@@ -31,12 +31,13 @@ void LevelController::nextLevel()
 {
     QPointF position(def::halfSceneWight,
                      def::halfSceneHeight - def::halfSceneHeight / 4);
-    AnimationEffectModel* levelUpAnim = new AnimationEffectModel(m_view->getScene(),
-                                                                 "level_up",
-                                                                 position,
-                                                                 def::animationBigFrameWight,
-                                                                 def::animationBigFrameHeight);
+//    AnimationEffectModel* levelUpAnim = new AnimationEffectModel("level_up",
+//                                                                 position,
+//                                                                 def::animationBigFrameWight,
+//                                                                 def::animationBigFrameHeight);
     SoundEffectModel* levelUp = new SoundEffectModel("level_up");
+//    levelUpAnim->play();
+    levelUp->play();
     connect(levelUp, SIGNAL(end()), this, SLOT(changeLevel()));
 }
 
