@@ -13,6 +13,7 @@ find_package(Qt5Test REQUIRED)
 add_subdirectory("C:/GTest" ${CMAKE_BINARY_DIR}/gtest)
 enable_testing()
 include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(${GMOCK_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} main.cpp
                                ../app/animationeffectmodel.hpp
@@ -122,7 +123,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                scoremodeltests.cpp
                                soundeffectmodeltests.cpp)
 
-target_link_libraries(${PROJECT_NAME} gtest gtest_main Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia Qt5::Test)
+target_link_libraries(${PROJECT_NAME} gtest gtest_main gmock Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia Qt5::Test)
 add_test(NAME bulletmodeltests COMMAND ${PROJECT_NAME})
 
 file(COPY        ${STD_LIB}
