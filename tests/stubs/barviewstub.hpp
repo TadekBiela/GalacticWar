@@ -3,6 +3,7 @@
 
 #include <gmock/gmock.h>
 #include "../app/barview.hpp"
+#include "../app/definitions.hpp"
 
 using namespace testing;
 
