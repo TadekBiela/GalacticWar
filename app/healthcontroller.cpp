@@ -34,7 +34,9 @@ void HealthController::create()
 void HealthController::destroy()
 {
     delete m_model;
+    m_model = nullptr;
     delete m_view;
+    m_view = nullptr;
 }
 
 void HealthController::show()
