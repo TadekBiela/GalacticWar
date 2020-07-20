@@ -96,6 +96,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/weapons.hpp
                                ../app/weapons.cpp
                                ../app/weapontype.hpp
+                               stubs/barviewstub.hpp
                                stubs/filemanagerstub.hpp
                                stubs/imagestoragestub.hpp
                                stubs/randomgeneratorstub.hpp
