@@ -22,6 +22,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/barview.cpp
                                ../app/bulletmodel.hpp
                                ../app/bulletmodel.cpp
+                               ../app/controlplane.hpp
+                               ../app/controlplane.cpp
                                ../app/definitions.hpp
                                ../app/enemyconfiguration.hpp
                                ../app/enemycontroller.hpp
@@ -104,6 +106,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                mocks/filemanagermock.hpp
                                animationeffectmodeltests.cpp
                                bulletmodeltests.cpp
+                               controlplanetests.cpp
                                utdefinitions.hpp
                                enemycontrollertests.cpp
                                enemymodeltests.cpp
