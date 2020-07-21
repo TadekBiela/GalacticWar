@@ -2,23 +2,23 @@
 #include "../app/healthmodel.hpp"
 #include "../app/definitions.hpp"
 
-class HealthModelTests : public HealthModel
+class HealthModelTest : public HealthModel
 {
 public:
-    HealthModelTests() {}
-    virtual ~HealthModelTests() {}
+    HealthModelTest() {}
+    virtual ~HealthModelTest() {}
 
     int getCurrentHealth() const { return m_currentHealth; }
     void setCurrentHealth(int value) { m_currentHealth = value; }
 };
 
-class HealthModellTestsClass : public testing::Test
+class HealthModelTestsClass : public testing::Test
 {
 };
 
-TEST_F(HealthModellTestsClass, add_currentHealthIs0Add10Points_ShouldIncreaseHealthTo10)
+TEST_F(HealthModelTestsClass, Add_currentHealthIs0Add10Points_ShouldIncreaseHealthTo10)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(0);
 
     model.add(10);
@@ -27,9 +27,9 @@ TEST_F(HealthModellTestsClass, add_currentHealthIs0Add10Points_ShouldIncreaseHea
     EXPECT_EQ(10, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, add_currentHealthIs50Add0Points_HealthShouldNotChange)
+TEST_F(HealthModelTestsClass, Add_currentHealthIs50Add0Points_HealthShouldNotChange)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(50);
 
     model.add(0);
@@ -38,9 +38,9 @@ TEST_F(HealthModellTestsClass, add_currentHealthIs50Add0Points_HealthShouldNotCh
     EXPECT_EQ(50, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, add_currentHealthIsMaxAdd50Points_HealthShouldNotChange)
+TEST_F(HealthModelTestsClass, Add_currentHealthIsMaxAdd50Points_HealthShouldNotChange)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(def::maxPlayerHealth);
 
     model.add(50);
@@ -49,9 +49,9 @@ TEST_F(HealthModellTestsClass, add_currentHealthIsMaxAdd50Points_HealthShouldNot
     EXPECT_EQ(def::maxPlayerHealth, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, add_currentHealthIsMaxMinus10Add50Points_HealthShouldBeMax)
+TEST_F(HealthModelTestsClass, Add_currentHealthIsMaxMinus10Add50Points_HealthShouldBeMax)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(def::maxPlayerHealth - 10);
 
     model.add(50);
@@ -60,9 +60,9 @@ TEST_F(HealthModellTestsClass, add_currentHealthIsMaxMinus10Add50Points_HealthSh
     EXPECT_EQ(def::maxPlayerHealth, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, subtract_currentHealthIsMaxSubtract50Points_HealthShouldBeDecreasedBy50AndStatusShouldBeStillIs)
+TEST_F(HealthModelTestsClass, Subtract_currentHealthIsMaxSubtract50Points_HealthShouldBeDecreasedBy50AndStatusShouldBeStillIs)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(def::maxPlayerHealth);
 
     Health_Status resultStatus = model.subtract(50);
@@ -72,9 +72,9 @@ TEST_F(HealthModellTestsClass, subtract_currentHealthIsMaxSubtract50Points_Healt
     EXPECT_EQ(def::maxPlayerHealth - 50, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, subtract_currentHealthIs10Subtract9Points_HealthShouldBeDecreasedTo1AndStatusShouldBeStillIs)
+TEST_F(HealthModelTestsClass, Subtract_currentHealthIs10Subtract9Points_HealthShouldBeDecreasedTo1AndStatusShouldBeStillIs)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(10);
 
     Health_Status resultStatus = model.subtract(9);
@@ -84,9 +84,9 @@ TEST_F(HealthModellTestsClass, subtract_currentHealthIs10Subtract9Points_HealthS
     EXPECT_EQ(1, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, subtract_currentHealthIs10Subtract10Points_HealthShouldBeDecreasedTo0AndStatusShouldBeNoMore)
+TEST_F(HealthModelTestsClass, Subtract_currentHealthIs10Subtract10Points_HealthShouldBeDecreasedTo0AndStatusShouldBeNoMore)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(10);
 
     Health_Status resultStatus = model.subtract(10);
@@ -96,9 +96,9 @@ TEST_F(HealthModellTestsClass, subtract_currentHealthIs10Subtract10Points_Health
     EXPECT_EQ(0, resultCurrentHealth);
 }
 
-TEST_F(HealthModellTestsClass, subtract_currentHealthIs10Subtract50Points_HealthShouldBeDecreasedTo0AndStatusShouldBeNoMore)
+TEST_F(HealthModelTestsClass, Subtract_currentHealthIs10Subtract50Points_HealthShouldBeDecreasedTo0AndStatusShouldBeNoMore)
 {
-    HealthModelTests model;
+    HealthModelTest model;
     model.setCurrentHealth(10);
 
     Health_Status resultStatus = model.subtract(50);
