@@ -9,166 +9,68 @@
 #include "../app/scoremodel.hpp"
 #include <QSignalSpy>
 
-//class ScoreControllerTest : public ScoreController
-//{
-//public:
-//    ScoreControllerTest(ScoreModel*       model,
-//                        GeneralView*      view,
-//                        IRandomGenerator* generator)
-//                         : ScoreController(model,
-//                                           view,
-//                                           generator) {}
-//    virtual ~ScoreControllerTest() {}
-//};
+using namespace testing;
 
-//class ScoreControllerTestsClass : public testing::Test
-//{
-//public:
-//    void SetUp()
-//    {
-//        g_imageStorage = new ImageStorageStub;
-//        g_soundStorage = new SoundStorageStub;
-//    }
-//    void TearDown()
-//    {
-//        delete g_imageStorage;
-//        delete g_soundStorage;
-//    }
-//};
+class ScoreControllerTest : public ScoreController
+{
+public:
+    ScoreControllerTest(QWidget* displayWidget)
+                         : ScoreController(displayWidget)
+    {
+        create();
+    }
+    virtual ~ScoreControllerTest()
+    {
+        destroy();
+    }
+    void setGenerator(IRandomGenerator* generator)
+    {
+        delete m_generator;
+        m_generator = generator;
+    }
+};
 
-//TEST_F(ScoreControllerTestsClass, ResetScore_CheckIfWillSendGetSignal_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalReset(&scoreController, &ScoreControllerTest::reset);
-//    signalReset.wait(utdef::minSignalTimeDelay);
+class ScoreControllerTestsClass : public testing::Test
+{
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+    }
+};
 
-//    scoreController.resetScore();
-//    int resultSignalUpdateCount = signalReset.count();
+TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0BronzeCoinAdded10Points_ShouldNotSendSignalMaxScorePerLevelAchieved)
+{
+    QWidget displayWidget;
+    ScoreControllerTest scoreController(&displayWidget);
+    RandomGeneratorStub* generatorStub = new RandomGeneratorStub;
+    ON_CALL(*generatorStub, bounded).WillByDefault(Return(10));
+    scoreController.setGenerator(generatorStub);
+    QSignalSpy signalMaxScore(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
+    signalMaxScore.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalUpdateCount, 1);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
+    scoreController.addScorePointsBasedOnCoinType(coin_type::bronze);
+    int resultSignalMaxScore = signalMaxScore.count();
 
-//TEST_F(ScoreControllerTestsClass, GetScore_CheckIfWillSendGetSignal_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalUpdate(&scoreController, &ScoreControllerTest::get);
-//    signalUpdate.wait(utdef::minSignalTimeDelay);
+    EXPECT_EQ(0, resultSignalMaxScore);
+}
 
-//    scoreController.getScore();
-//    int resultSignalUpdateCount = signalUpdate.count();
+TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0GoldCoinAdded10000Points_ShouldSendSignalMaxScorePerLevelAchieved)
+{
+    QWidget displayWidget;
+    ScoreControllerTest scoreController(&displayWidget);
+    RandomGeneratorStub* generatorStub = new RandomGeneratorStub;
+    ON_CALL(*generatorStub, bounded(_, _)).WillByDefault(Return(10000));
+    scoreController.setGenerator(generatorStub);
+    QSignalSpy signalMaxScore(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
+    signalMaxScore.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalUpdateCount, 1);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
+    scoreController.addScorePointsBasedOnCoinType(coin_type::bronze);
+    int resultSignalMaxScore = signalMaxScore.count();
 
-//TEST_F(ScoreControllerTestsClass, Update_CheckIfWillSendUpdateScoreSignal_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalUpdate(&scoreController, &ScoreControllerTest::updateScore);
-//    signalUpdate.wait(utdef::minSignalTimeDelay);
-
-//    scoreController.update(200);
-//    int resultSignalUpdateCount = signalUpdate.count();
-//    int resultScore             = signalUpdate.takeFirst().at(0).toInt();
-
-//    EXPECT_EQ(resultSignalUpdateCount,   1);
-//    EXPECT_EQ(resultScore,             200);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
-
-//TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedBronzeCoinCheckIfWillSendSignalWithCorrectValue_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    randomGenerator->setRandomGeneratorFakeResult(def::minPointsForBronzeCoin);
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
-//    signalAdd.wait(utdef::minSignalTimeDelay);
-
-//    scoreController.addScorePoints(coin_type::bronze);
-//    int resultSignalAddCount = signalAdd.count();
-//    int resultPoints         = signalAdd.takeFirst().at(0).toInt();
-
-//    EXPECT_EQ(resultSignalAddCount, 1);
-//    EXPECT_EQ(resultPoints,         def::minPointsForBronzeCoin);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
-
-//TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedSilverCoinCheckIfWillSendSignalWithCorrectValue_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    randomGenerator->setRandomGeneratorFakeResult(def::minPointsForSilverCoin);
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
-//    signalAdd.wait(utdef::minSignalTimeDelay);
-
-//    scoreController.addScorePoints(coin_type::silver);
-//    int resultSignalAddCount = signalAdd.count();
-//    int resultPoints         = signalAdd.takeFirst().at(0).toInt();
-
-//    EXPECT_EQ(resultSignalAddCount, 1);
-//    EXPECT_EQ(resultPoints,         def::minPointsForSilverCoin);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
-
-//TEST_F(ScoreControllerTestsClass, AddScorePoints_ReceivedGoldCoinCheckIfWillSendSignalWithCorrectValue_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    randomGenerator->setRandomGeneratorFakeResult(def::minPointsForGoldCoin);
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalAdd(&scoreController, &ScoreControllerTest::addPoints);
-//    signalAdd.wait(utdef::minSignalTimeDelay);
-
-//    scoreController.addScorePoints(coin_type::gold);
-//    int resultSignalAddCount = signalAdd.count();
-//    int resultPoints         = signalAdd.takeFirst().at(0).toInt();
-
-//    EXPECT_EQ(resultSignalAddCount, 1);
-//    EXPECT_EQ(resultPoints,         def::minPointsForGoldCoin);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
-
-//TEST_F(ScoreControllerTestsClass, MaxPerLevelAchieved_CheckIfWillSendMaxScorePerLevelAchievedSignal_IsEqual)
-//{
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    ScoreModel*         model = new ScoreModel;
-//    GeneralView*        view  = new GeneralView;
-//    ScoreControllerTest scoreController(model, view, randomGenerator);
-//    QSignalSpy signalMax(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
-//    signalMax.wait(utdef::minSignalTimeDelay);
-
-//    scoreController.maxPerLevelAchieved();
-//    int resultSignalMaxCount = signalMax.count();
-
-//    EXPECT_EQ(resultSignalMaxCount, 1);
-//    delete model;
-//    delete view;
-//    delete randomGenerator;
-//}
+    EXPECT_EQ(1, resultSignalMaxScore);
+}
