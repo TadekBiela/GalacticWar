@@ -4,11 +4,11 @@
 #include "../app/scoremodel.hpp"
 #include <QSignalSpy>
 
-class ScoreModelTests : public ScoreModel
+class ScoreModelTest : public ScoreModel
 {
 public:
-    ScoreModelTests() {}
-    virtual ~ScoreModelTests() {}
+    ScoreModelTest() {}
+    virtual ~ScoreModelTest() {}
 
     int  getCurrentTresholdIdx() const  { return m_currentTresholdIdx; }
     int  getCurrentScore()       const  { return m_currentScore; }
@@ -24,7 +24,7 @@ class ScoreModelTestsClass : public testing::Test
 
 TEST_F(ScoreModelTestsClass, Add_CurrentScoreIs0Add10Points_CurrentAndTotalScoreShouldIncreaseBy10CurrentTreshold0AndScoreStatusCurrentLevel)
 {
-    ScoreModelTests scoreModel;
+    ScoreModelTest scoreModel;
 
     Score_Per_Level resultStatus = scoreModel.add(10);
     int resultCurrentScore       = scoreModel.getCurrentScore();
@@ -39,7 +39,7 @@ TEST_F(ScoreModelTestsClass, Add_CurrentScoreIs0Add10Points_CurrentAndTotalScore
 
 TEST_F(ScoreModelTestsClass, Add_CurrentScoreIsLessThanFirstTresholdBy10Add50Points_CurrentScoreSouldBe40TotalScoreFirstTresholdPlus40CurrentTreshold1AndScoreStatusNextLevel)
 {
-    ScoreModelTests scoreModel;
+    ScoreModelTest scoreModel;
     int firstTresholdValue = scoreModel.getCurrentTreshold();
     scoreModel.setCurrentScore(firstTresholdValue - 10);
     scoreModel.setTotalScore(firstTresholdValue - 10);
@@ -57,7 +57,7 @@ TEST_F(ScoreModelTestsClass, Add_CurrentScoreIsLessThanFirstTresholdBy10Add50Poi
 
 TEST_F(ScoreModelTestsClass, Add_CurrentScoreIsLessThanLastTresholdBy10Add50Points_CurrentAndTotalScoreSouldBeIncresaedBy40CurrentTresholdStillLastAndScoreStatusCurrentLevel)
 {
-    ScoreModelTests scoreModel;
+    ScoreModelTest scoreModel;
     scoreModel.setCurrentTresholdIdx(def::maxNumOfLevel - 1);
     int lastTresholdValue = scoreModel.getCurrentTreshold();
     scoreModel.setCurrentScore(lastTresholdValue - 10);
