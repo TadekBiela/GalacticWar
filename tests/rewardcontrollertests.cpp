@@ -4,170 +4,185 @@
 #include "stubs/randomgeneratorstub.hpp"
 #include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
-#include "../app/generalview.hpp"
 #include "../app/rewardcontroller.hpp"
 #include "../app/rewardcoinmodel.hpp"
 #include "../app/rewardspecialmodel.hpp"
 #include <QSignalSpy>
 
-//Q_DECLARE_METATYPE(coin_type)
-//Q_DECLARE_METATYPE(special_type)
+using namespace testing;
 
-//class RewardControllerTest : public RewardController
-//{
-//public:
-//    RewardControllerTest(GeneralView*      view,
-//                         IRandomGenerator* generator)
-//                          : RewardController(view,
-//                                             generator) {}
-//    virtual ~RewardControllerTest() {}
-//};
+Q_DECLARE_METATYPE(GameObject*)
+Q_DECLARE_METATYPE(coin_type)
+Q_DECLARE_METATYPE(special_type)
 
-//class RewardControllerTestsClass : public testing::Test
-//{
-//public:
-//    void SetUp()
-//    {
-//        g_imageStorage = new ImageStorageStub;
-//        g_soundStorage = new SoundStorageStub;
-//        dynamic_cast<ImageStorageStub*>(g_imageStorage)->setDummyImageSize(def::animationSmallFrameWight, def::animationSmallFrameWight);
-//    }
-//    void TearDown()
-//    {
-//        delete g_imageStorage;
-//        delete g_soundStorage;
-//    }
-//};
+class RewardControllerTest : public RewardController
+{
+public:
+    RewardControllerTest(GameplayView* view)
+        : RewardController(view) {}
+    virtual ~RewardControllerTest() {}
+    void setGenerator(IRandomGenerator* generator)
+    {
+        delete m_generator;
+        m_generator = generator;
+    }
+};
 
-//TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1OnlyOneBronzeCoinShouldBeSpawned_IsEqual)
-//{
-//    int sequance[] = { 1,      //coins
-//                       0,      //type for #1 coin
-//                       5, -10, //offsets to position for #1 coin
-//                       1 };    //specials probability (should be false)
-//    RandomSequanceGeneratorStub* randomGenerator = new RandomSequanceGeneratorStub(5, sequance);
-//    GeneralView* view = new GeneralView;
-//    RewardControllerTest rewardController(view, randomGenerator);
-//    QSignalSpy signalReward(&rewardController, &RewardControllerTest::addRewardToScene);
-//    signalReward.wait(utdef::minSignalTimeDelay);
+class RewardControllerTestsClass : public testing::Test
+{
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+        ImageStorageStub* imageStorageStub = dynamic_cast<ImageStorageStub*>(g_imageStorage);
+        imageStorageStub->setDummyImageSize(def::animationSmallFrameWight,
+                                            def::animationSmallFrameWight);
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
+};
 
-//    rewardController.spawnRewards(QPointF(50, 50), 1);
-//    int  resultSignalCoinCount = signalReward.count();
-//    auto resultCoinReward      = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.takeFirst().at(0)));
+TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1_OnlyOneBronzeCoinShouldBeSpawned)
+{
+    qRegisterMetaType<GameObject*>();
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    EXPECT_CALL(*generator, bounded(_,_))
+            .WillOnce(Return(1))    //num of coins
+            .WillOnce(Return(0))    //type for #1 coin
+            .WillOnce(Return(5))    //offsets to position for #1 coin
+            .WillOnce(Return(-10))
+            .WillOnce(Return(1));   //specials probability (should be false)
+    QWidget              displayWidget;
+    GameplayView         view(&displayWidget);
+    RewardControllerTest rewardController(&view);
+    rewardController.setGenerator(generator);
+    QSignalSpy signalReward(&rewardController, &RewardControllerTest::addRewardToScene);
+    signalReward.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalCoinCount,              1);
-//    EXPECT_FLOAT_EQ(resultCoinReward->pos().x(), 39);
-//    EXPECT_FLOAT_EQ(resultCoinReward->pos().y(), 24);
-//    EXPECT_EQ(resultCoinReward->getType(),       coin_type::bronze);
-//    delete view;
-//    delete randomGenerator;
-//}
+    rewardController.spawnRewards(QPointF(50, 50), 1);
+    int  resultSignalCoinCount = signalReward.count();
+    auto resultCoinReward      = dynamic_cast<RewardCoinModel*>(qvariant_cast<GameObject*>(signalReward.takeFirst().at(0)));
 
-//TEST_F(RewardControllerTestsClass, SpawnRewards_Tier2CoinsOneBronzeAndOneSilverShouldBeSpawned_IsEqual)
-//{
-//    int sequance[] = { 2,     //coins
-//                       7,     //type for #1 coin
-//                       -5, 0, //offsets to position for #1 coin
-//                       8,     //type for #2 coin
-//                       5, 8,  //offsets to position for #2 coin
-//                       3 };   //specials probability (should be false)
-//    RandomSequanceGeneratorStub* randomGenerator = new RandomSequanceGeneratorStub(8, sequance);
-//    GeneralView* view = new GeneralView;
-//    RewardControllerTest rewardController(view, randomGenerator);
-//    QSignalSpy signalReward(&rewardController, &RewardControllerTest::addRewardToScene);
-//    signalReward.wait(utdef::minSignalTimeDelay);
+    EXPECT_EQ(1, resultSignalCoinCount);
+    EXPECT_FLOAT_EQ(39, resultCoinReward->pos().x());
+    EXPECT_FLOAT_EQ(24, resultCoinReward->pos().y());
+    EXPECT_EQ(coin_type::bronze, resultCoinReward->getType());
+}
 
-//    rewardController.spawnRewards(QPointF(50, 50), 2);
-//    int  resultSignalsCount = signalReward.count();
-//    auto resultCoinReward1  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(0).at(0)));
-//    auto resultCoinReward2  = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(1).at(0)));
+TEST_F(RewardControllerTestsClass, SpawnRewards_Tier2_CoinsOneBronzeAndOneSilverShouldBeSpawned)
+{
+    qRegisterMetaType<GameObject*>();
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    EXPECT_CALL(*generator, bounded(_,_))
+            .WillOnce(Return(2))    //num of coins
+            .WillOnce(Return(7))    //type for #1 coin
+            .WillOnce(Return(-5))   //offsets to position for #1 coin
+            .WillOnce(Return(0))
+            .WillOnce(Return(8))    //type for #2 coin
+            .WillOnce(Return(5))    //offsets to position for #2 coin
+            .WillOnce(Return(8))
+            .WillOnce(Return(3));   //specials probability (should be false)
+    QWidget              displayWidget;
+    GameplayView         view(&displayWidget);
+    RewardControllerTest rewardController(&view);
+    rewardController.setGenerator(generator);
+    QSignalSpy signalReward(&rewardController, &RewardControllerTest::addRewardToScene);
+    signalReward.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalsCount,                  2);
-//    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(), 29);
-//    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(), 34);
-//    EXPECT_EQ(resultCoinReward1->getType(),       coin_type::bronze);
-//    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(), 39);
-//    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(), 42);
-//    EXPECT_EQ(resultCoinReward2->getType(),       coin_type::silver);
-//    delete view;
-//    delete randomGenerator;
-//}
+    rewardController.spawnRewards(QPointF(50, 50), 2);
+    int  resultSignalsCount = signalReward.count();
+    auto resultCoinReward1  = dynamic_cast<RewardCoinModel*>(qvariant_cast<GameObject*>(signalReward.at(0).at(0)));
+    auto resultCoinReward2  = dynamic_cast<RewardCoinModel*>(qvariant_cast<GameObject*>(signalReward.at(1).at(0)));
 
-//TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3AllTypesCoinsAndSpecialRewardsShouldBeSpawned_IsEqual)
-//{
-//    int sequance[] = { 3,      //coins
-//                       1,      //#1
-//                       5, 5,
-//                       6,      //#2
-//                       -10, 0,
-//                       9,      //#3
-//                       -2, -4,
-//                       1,      //specials probability (should be true)
-//                       1 };    //type for #1 special
-//    RandomSequanceGeneratorStub* randomGenerator = new RandomSequanceGeneratorStub(12, sequance);
-//    GeneralView* view = new GeneralView;
-//    RewardControllerTest rewardController(view, randomGenerator);
-//    QSignalSpy signalReward(&rewardController, &RewardControllerTest::addRewardToScene);
-//    signalReward.wait(utdef::minSignalTimeDelay);
+    EXPECT_EQ(2 ,resultSignalsCount);
+    EXPECT_FLOAT_EQ(29, resultCoinReward1->pos().x());
+    EXPECT_FLOAT_EQ(34, resultCoinReward1->pos().y());
+    EXPECT_EQ(coin_type::bronze, resultCoinReward1->getType());
+    EXPECT_FLOAT_EQ(39, resultCoinReward2->pos().x());
+    EXPECT_FLOAT_EQ(42, resultCoinReward2->pos().y());
+    EXPECT_EQ(coin_type::silver, resultCoinReward2->getType());
+}
 
-//    rewardController.spawnRewards(QPointF(50, 50), 3);
-//    int  resultSignalsCount  = signalReward.count();
-//    auto resultCoinReward1   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(0).at(0)));
-//    auto resultCoinReward2   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(1).at(0)));
-//    auto resultCoinReward3   = dynamic_cast<RewardCoinModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(2).at(0)));
-//    auto resultSpecialReward = dynamic_cast<RewardSpecialModel*>(qvariant_cast<QGraphicsItem*>(signalReward.at(3).at(0)));
+TEST_F(RewardControllerTestsClass, SpawnRewards_Tier3_AllTypesCoinsAndSpecialRewardsShouldBeSpawned)
+{
+    qRegisterMetaType<GameObject*>();
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    EXPECT_CALL(*generator, bounded(_,_))
+            .WillOnce(Return(3))    //num of coins
+            .WillOnce(Return(1))    //#1
+            .WillOnce(Return(5))
+            .WillOnce(Return(5))
+            .WillOnce(Return(6))    //#2
+            .WillOnce(Return(-10))
+            .WillOnce(Return(0))
+            .WillOnce(Return(9))    //#3
+            .WillOnce(Return(-2))
+            .WillOnce(Return(-4))
+            .WillOnce(Return(1))    //specials probability (should be true)
+            .WillOnce(Return(1));   //type for #1 special
+    QWidget              displayWidget;
+    GameplayView         view(&displayWidget);
+    RewardControllerTest rewardController(&view);
+    rewardController.setGenerator(generator);
+    QSignalSpy signalReward(&rewardController, &RewardControllerTest::addRewardToScene);
+    signalReward.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalsCount,                    4);
-//    EXPECT_FLOAT_EQ(resultCoinReward1->pos().x(),   39);
-//    EXPECT_FLOAT_EQ(resultCoinReward1->pos().y(),   39);
-//    EXPECT_EQ(resultCoinReward1->getType(),         coin_type::bronze);
-//    EXPECT_FLOAT_EQ(resultCoinReward2->pos().x(),   24);
-//    EXPECT_FLOAT_EQ(resultCoinReward2->pos().y(),   34);
-//    EXPECT_EQ(resultCoinReward2->getType(),         coin_type::silver);
-//    EXPECT_FLOAT_EQ(resultCoinReward3->pos().x(),   32);
-//    EXPECT_FLOAT_EQ(resultCoinReward3->pos().y(),   30);
-//    EXPECT_EQ(resultCoinReward3->getType(),         coin_type::gold);
-//    EXPECT_FLOAT_EQ(resultSpecialReward->pos().x(), 34);
-//    EXPECT_FLOAT_EQ(resultSpecialReward->pos().y(), 34);
-//    EXPECT_EQ(resultSpecialReward->getType(),       special_type::health);
-//    delete view;
-//    delete randomGenerator;
-//}
+    rewardController.spawnRewards(QPointF(50, 50), 3);
+    int  resultSignalsCount  = signalReward.count();
+    auto resultCoinReward1   = dynamic_cast<RewardCoinModel*>(qvariant_cast<GameObject*>(signalReward.at(0).at(0)));
+    auto resultCoinReward2   = dynamic_cast<RewardCoinModel*>(qvariant_cast<GameObject*>(signalReward.at(1).at(0)));
+    auto resultCoinReward3   = dynamic_cast<RewardCoinModel*>(qvariant_cast<GameObject*>(signalReward.at(2).at(0)));
+    auto resultSpecialReward = dynamic_cast<RewardSpecialModel*>(qvariant_cast<GameObject*>(signalReward.at(3).at(0)));
 
-//TEST_F(RewardControllerTestsClass, CoinCollected_BronzeCollectedCheckIfWillSendRewardCoinCollectedSignalWithCorrectType_IsEqual)
-//{
-//    qRegisterMetaType<coin_type>();
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    GeneralView*         view            = new GeneralView;
-//    RewardControllerTest rewardController(view, randomGenerator);
-//    QSignalSpy signalCoin(&rewardController, &RewardControllerTest::rewardCoinCollected);
-//    signalCoin.wait(utdef::minSignalTimeDelay);
+    EXPECT_EQ(4, resultSignalsCount);
+    EXPECT_FLOAT_EQ(39, resultCoinReward1->pos().x());
+    EXPECT_FLOAT_EQ(39, resultCoinReward1->pos().y());
+    EXPECT_EQ(coin_type::bronze, resultCoinReward1->getType());
+    EXPECT_FLOAT_EQ(24, resultCoinReward2->pos().x());
+    EXPECT_FLOAT_EQ(34, resultCoinReward2->pos().y());
+    EXPECT_EQ(coin_type::silver, resultCoinReward2->getType());
+    EXPECT_FLOAT_EQ(32, resultCoinReward3->pos().x());
+    EXPECT_FLOAT_EQ(30, resultCoinReward3->pos().y());
+    EXPECT_EQ(coin_type::gold, resultCoinReward3->getType());
+    EXPECT_FLOAT_EQ(34, resultSpecialReward->pos().x());
+    EXPECT_FLOAT_EQ(34, resultSpecialReward->pos().y());
+    EXPECT_EQ(special_type::health, resultSpecialReward->getType());
+}
 
-//    rewardController.coinCollected(coin_type::bronze);
-//    int  resultSignalCoinCount = signalCoin.count();
-//    auto resultCoinType        = qvariant_cast<coin_type>(signalCoin.takeFirst().at(0));
+TEST_F(RewardControllerTestsClass, CoinCollected_BronzeCollected_ShouldSendRewardCoinCollectedSignalWithCorrectType)
+{
+    qRegisterMetaType<coin_type>();
+    QWidget              displayWidget;
+    GameplayView         view(&displayWidget);
+    RewardControllerTest rewardController(&view);
+    QSignalSpy signalCoin(&rewardController, &RewardControllerTest::rewardCoinCollected);
+    signalCoin.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalCoinCount, 1);
-//    EXPECT_EQ(resultCoinType,        coin_type::bronze);
-//    delete view;
-//    delete randomGenerator;
-//}
+    rewardController.coinCollected(coin_type::bronze);
+    int  resultSignalCoinCount = signalCoin.count();
+    auto resultCoinType        = qvariant_cast<coin_type>(signalCoin.takeFirst().at(0));
 
-//TEST_F(RewardControllerTestsClass, SpecialCollected_WeaponRedCollectedCheckIfWillSendRewardSpecialCollectedSignalWithCorrectType_IsEqual)
-//{
-//    qRegisterMetaType<special_type>();
-//    RandomGeneratorStub* randomGenerator = new RandomGeneratorStub();
-//    GeneralView*         view            = new GeneralView;
-//    RewardControllerTest rewardController(view, randomGenerator);
-//    QSignalSpy signalSpecial(&rewardController, &RewardControllerTest::rewardSpecialCollected);
-//    signalSpecial.wait(utdef::minSignalTimeDelay);
+    EXPECT_EQ(1,                 resultSignalCoinCount);
+    EXPECT_EQ(coin_type::bronze, resultCoinType);
+}
 
-//    rewardController.specialCollected(special_type::weaponRed);
-//    int  resultSignalSpecialCount = signalSpecial.count();
-//    auto resultSpecialType        = qvariant_cast<special_type>(signalSpecial.takeFirst().at(0));
+TEST_F(RewardControllerTestsClass, SpecialCollected_WeaponRedCollected_ShouldSendRewardSpecialCollectedSignalWithCorrectType)
+{
+    qRegisterMetaType<special_type>();
+    QWidget              displayWidget;
+    GameplayView         view(&displayWidget);
+    RewardControllerTest rewardController(&view);
+    QSignalSpy signalSpecial(&rewardController, &RewardControllerTest::rewardSpecialCollected);
+    signalSpecial.wait(utdef::minSignalTimeDelay);
 
-//    EXPECT_EQ(resultSignalSpecialCount, 1);
-//    EXPECT_EQ(resultSpecialType,        special_type::weaponRed);
-//    delete view;
-//    delete randomGenerator;
-//}
+    rewardController.specialCollected(special_type::weaponRed);
+    int  resultSignalSpecialCount = signalSpecial.count();
+    auto resultSpecialType        = qvariant_cast<special_type>(signalSpecial.takeFirst().at(0));
+
+    EXPECT_EQ(1,                       resultSignalSpecialCount);
+    EXPECT_EQ(special_type::weaponRed, resultSpecialType);
+}

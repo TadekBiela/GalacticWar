@@ -1,3 +1,4 @@
+#include "randomgenerator.hpp"
 #include "rewardcontroller.hpp"
 #include "rewardcoinmodel.hpp"
 #include "rewardspecialmodel.hpp"
@@ -13,17 +14,16 @@ const int RewardController::s_coinTypeInTier[def::maxTier][10] =
     { 1, 1, 1, 2, 2, 2, 2, 2, 2, 2 } };
 const int RewardController::s_specialChanceInTier[def::maxTier] = { 0, 2, 3, 4, 6, 10 };
 
-RewardController::RewardController(GeneralView*      view,
-                                   IRandomGenerator* generator)
-                                    : m_generator(generator)
+RewardController::RewardController(GameplayView* view)
+                                    : m_generator(new RandomGenerator)
 {
-    connect(this, SIGNAL(addRewardToScene(QGraphicsItem*)),
-            view, SLOT(addGameObject(QGraphicsItem*)));
+    connect(this, SIGNAL(addRewardToScene(GameObject*)),
+            view, SLOT(addGameObjectToScene(GameObject*)));
 }
 
 RewardController::~RewardController()
 {
-
+    delete m_generator;
 }
 
 void RewardController::spawnRewards(QPointF position, int tier)

@@ -2,7 +2,8 @@
 #define REWARDCONTROLLER_HPP
 
 #include "definitions.hpp"
-#include "generalview.hpp"
+#include "gameobject.hpp"
+#include "gameplayview.hpp"
 #include "irandomgenerator.hpp"
 #include "rewardtypes.hpp"
 #include <QObject>
@@ -13,12 +14,11 @@ class RewardController : public QObject
 {
     Q_OBJECT
 public:
-    RewardController(GeneralView*      view,
-                     IRandomGenerator* generator);
+    RewardController(GameplayView* view);
     virtual ~RewardController();
 
 signals:
-    void addRewardToScene(QGraphicsItem* reward);
+    void addRewardToScene(GameObject* reward);
     void rewardCoinCollected(coin_type coin);
     void rewardSpecialCollected(special_type special);
 

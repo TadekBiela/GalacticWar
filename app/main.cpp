@@ -3,18 +3,13 @@
 #include "enemycontroller.hpp"
 #include "filemanager.hpp"
 #include "gameplayview.hpp"
-#include "generalview.hpp"
 #include "healthcontroller.hpp"
 #include "imagestorage.hpp"
 #include "levelcontroller.hpp"
-#include "levelmodel.hpp"
 #include "menucontroller.hpp"
-#include "menumodel.hpp"
 #include "playercontroller.hpp"
-#include "randomgenerator.hpp"
 #include "rewardcontroller.hpp"
 #include "scorecontroller.hpp"
-#include "scoremodel.hpp"
 #include "soundstorage.hpp"
 #include <QApplication>
 #include <QMainWindow>
@@ -32,14 +27,10 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(a.applicationDirPath() + "/fonts/joystix monospace.ttf");
     a.setFont(QFont("joystix monospace"));
 
-    RandomGenerator randomGenerator;
-
     //View
     AnimationPlaneView animationView(&mainWindow);
     ControlPlane       controller(&mainWindow);
     GameplayView       gameplayView(&mainWindow);
-    GeneralView generalView;
-
 
     //Controller
     EnemyController  enemyController(&gameplayView);
@@ -51,10 +42,10 @@ int main(int argc, char *argv[])
                                     &animationView);
     PlayerController playerController(&controller,
                                       &gameplayView);
-    RewardController rewardController(&generalView, &randomGenerator);
+    RewardController rewardController(&gameplayView);
     ScoreController  scoreController(&mainWindow);
 
-    //Connections MVC
+    //Controller connections
     QObject::connect(&enemyController,  SIGNAL(enemyDestroyed(QPointF, int)),
                      &rewardController, SLOT(spawnRewards(QPointF, int)));
     QObject::connect(&levelController,  SIGNAL(changeEnemyConfiguration(EnemyConfiguration)),
