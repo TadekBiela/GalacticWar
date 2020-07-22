@@ -17,7 +17,7 @@ public:
 signals:
     void mousePressed();
     void mouseReleased();
-    void mouseMoved(QPoint currentMousePosition);
+    void mouseMoved(QPointF currentMousePosition);
     void mouseLeaveWindow();
     void escKeyPressed();
 

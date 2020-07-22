@@ -49,7 +49,8 @@ int main(int argc, char *argv[])
                                     &controller,
                                     &gameplayView,
                                     &animationView);
-    PlayerController playerController(&generalView);
+    PlayerController playerController(&controller,
+                                      &gameplayView);
     RewardController rewardController(&generalView, &randomGenerator);
     ScoreController  scoreController(&mainWindow);
 

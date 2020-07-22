@@ -1,33 +1,37 @@
 #ifndef PLAYERCONTROLLER_HPP
 #define PLAYERCONTROLLER_HPP
 
-#include "generalview.hpp"
+#include "controlplane.hpp"
+#include "gameobject.hpp"
+#include "gameplayview.hpp"
 #include "playermodel.hpp"
 #include "rewardtypes.hpp"
 #include <QObject>
-#include <QGraphicsItem>
 
 class PlayerController : public QObject
 {
     Q_OBJECT
 public:
-    PlayerController(GeneralView* view);
+    PlayerController(ControlPlane* controller,
+                     GameplayView* view);
     virtual ~PlayerController();
 
 signals:
-    void addPlayerToScene(QGraphicsItem* player);
-    void changeAtribute(special_type reward);
-    void playerDefeated();
+    void addPlayerToScene(GameObject* player);
+    void addHealthPoints(int healthPoints);
+    void subtractHealthPoints(int healthPoints);
 
 public slots:
-    void abortPlayer();
-    void createNewPlayer();
-    void defeated();
+    void create();
+    void destroy();
     void changePlayerAtribute(special_type reward);
+    void addHealth(int healthPoints);
+    void subtractHealth(int healthPoints);
+    void defeat();
 
 protected:
-    GeneralView* m_view;
-    PlayerModel* m_player;
+    ControlPlane* m_controller;
+    PlayerModel*  m_model;
 };
 
 #endif // PLAYERCONTROLLER_HPP
