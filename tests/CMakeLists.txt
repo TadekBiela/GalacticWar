@@ -64,8 +64,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/label.cpp
                                ../app/labelview.hpp
                                ../app/labelview.cpp
-                               ../app/levelcontroller.hpp
-                               ../app/levelcontroller.cpp
                                ../app/levelmodel.hpp
                                ../app/levelmodel.cpp
                                ../app/menucontroller.hpp
@@ -117,7 +115,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype1tests.cpp
                                healthcontrollertests.cpp
                                healthmodeltests.cpp
-                               levelcontrollertests.cpp
                                levelmodeltests.cpp
                                menucontrollertests.cpp
                                menumodeltests.cpp

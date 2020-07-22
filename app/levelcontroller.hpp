@@ -2,31 +2,32 @@
 #define LEVELCONTROLLER_HPP
 
 #include "enemyconfiguration.hpp"
+#include "labelview.hpp"
 #include "levelmodel.hpp"
-#include "generalview.hpp"
 #include <QObject>
+#include <QWidget>
 
 class LevelController : public QObject
 {
     Q_OBJECT
 public:
-    LevelController(LevelModel*  model,
-                    GeneralView* view);
+    LevelController(QWidget* displayWidget);
     virtual ~LevelController();
 
 signals:
-    void reset();
-    void next();
-    void changeEnemyConfiguration(EnemyConfiguration newEnemyConfiguration);
+    void changeEnemyConfig(EnemyConfiguration enemyConfig);
 
 public slots:
-    void resetLevel();
-    void changeLevel();
+    void create();
+    void distroy();
+    void show();
+    void hide();
     void nextLevel();
-    void change(EnemyConfiguration newEnemyConfiguration);
 
 protected:
-    GeneralView* m_view;
+    QWidget*    m_displayWidget;
+    LevelModel* m_model;
+    LabelView*    m_view;
 };
 
 #endif // LEVELCONTROLLER_HPP

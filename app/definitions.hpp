@@ -99,9 +99,11 @@ namespace def
                                             + gameoverPlayerNameFieldHeight + 100;
     //Interface
     const int healthGraphicsPositionX = 10;
-    const int healthGraphicsPositionY = def::sceneHeight - 68;
-    const int scoreGraphicsPositionX  = def::sceneWight - 250;
+    const int healthGraphicsPositionY = sceneHeight - 68;
+    const int scoreGraphicsPositionX  = sceneWight  - 250;
     const int scoreGraphicsPositionY  = healthGraphicsPositionY;
+    const int levelGraphicsPositionX  = halfSceneWight - 32;
+    const int levelGraphicsPositionY  = sceneHeight    - 80;
 
     //Defalut directions
     const int up    = 0;

@@ -34,9 +34,6 @@ int main(int argc, char *argv[])
 
     RandomGenerator randomGenerator;
 
-    //Model
-    LevelModel levelModel;
-
     //View
     AnimationPlaneView animationView(&mainWindow);
     ControlPlane       controller(&mainWindow);
@@ -47,7 +44,7 @@ int main(int argc, char *argv[])
     //Controller
     EnemyController  enemyController(&generalView, &randomGenerator);
     HealthController healthController(&mainWindow);
-    LevelController  levelController(&levelModel, &generalView);
+    LevelController  levelController(&mainWindow);
     MenuController   menuController(&mainWindow,
                                     &controller,
                                     &gameplayView,
