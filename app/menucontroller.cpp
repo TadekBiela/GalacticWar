@@ -96,8 +96,8 @@ void MenuController::saveScore()
 
 void MenuController::endGame()
 {
-    QPointF position(def::halfSceneWight,
-                     def::halfSceneHeight - def::halfSceneHeight / 4);
+//    QPointF position(def::halfSceneWight,
+//                     def::halfSceneHeight - def::halfSceneHeight / 4);
 //    AnimationEffectModel* gameOverAnim = new AnimationEffectModel("game_over",
 //                                                                  position,
 //                                                                  def::animationBigFrameWight,

@@ -18,6 +18,8 @@ include_directories(${GMOCK_INCLUDE_DIRS})
 add_executable(${PROJECT_NAME} main.cpp
                                ../app/animationeffectmodel.hpp
                                ../app/animationeffectmodel.cpp
+                               ../app/animationplaneview.hpp
+                               ../app/animationplaneview.cpp
                                ../app/barview.hpp
                                ../app/barview.cpp
                                ../app/bulletmodel.hpp
@@ -40,6 +42,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/functions.cpp
                                ../app/gameobject.hpp
                                ../app/gameobject.cpp
+                               ../app/gameplayview.hpp
+                               ../app/gameplayview.cpp
                                ../app/graphicsview.hpp
                                ../app/graphicsview.cpp
                                ../app/healthcontroller.hpp
