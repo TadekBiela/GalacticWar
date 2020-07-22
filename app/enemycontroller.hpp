@@ -3,7 +3,8 @@
 
 #include "definitions.hpp"
 #include "enemyconfiguration.hpp"
-#include "generalview.hpp"
+#include "gameobject.hpp"
+#include "gameplayview.hpp"
 #include "irandomgenerator.hpp"
 #include <QObject>
 #include <QGraphicsItem>
@@ -14,16 +15,15 @@ class EnemyController : public QObject
 {
     Q_OBJECT
 public:
-    EnemyController(GeneralView*      view,
-                    IRandomGenerator* generator);
+    EnemyController(GameplayView* view);
     virtual ~EnemyController();
 
 signals:
-    void addEnemyToScene(QGraphicsItem* enemy);
+    void addEnemyToScene(GameObject* enemy);
     void enemyDestroyed(QPointF position, int enemyLevel);
 
 public slots:
-    void changeEnemyConfiguration(EnemyConfiguration newConfiguration);
+    void changeEnemyConfig(EnemyConfiguration newEnemyConfig);
     void destroyed(QPointF position, int enemyLevel);
     void startSpawning();
     void stopSpawning();
@@ -32,10 +32,10 @@ protected slots:
     void spawnEnemy();
 
 protected:
-    int                m_enemyPercentDistributionTab[def::percentDistTabSize];
-    QTimer             m_enemySpawnTimer;
-    int                m_remainigSpawnTime;
-    IRandomGenerator*  m_generator;
+    int               m_enemyPercentDistributionTab[def::percentDistTabSize];
+    QTimer            m_enemySpawnTimer;
+    int               m_remainigSpawnTime;
+    IRandomGenerator* m_generator;
 };
 
 #endif // ENEMYCONTROLLER_HPP

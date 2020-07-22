@@ -12,218 +12,217 @@
 #include <QGraphicsScene>
 #include <vector>
 
-//class EnemyControllerTest : public EnemyController
-//{
-//public:
-//    EnemyControllerTest(GeneralView*      view,
-//                        IRandomGenerator* generator)
-//                         : EnemyController(view,
-//                                           generator){}
-//    virtual ~EnemyControllerTest() {}
+using namespace testing;
 
-//    int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
-//    const QTimer& getEnemySpawnTimer()     { return m_enemySpawnTimer; }
-//    int           getRemainigSpawnTime()   { return m_remainigSpawnTime; }
-//    void          startEnemySpawnTimer()   { m_enemySpawnTimer.start(); }
+Q_DECLARE_METATYPE(GameObject*)
 
-//public slots:
-//    void spawnEnemyTest() { EnemyController::spawnEnemy(); }
-//};
+class EnemyControllerTest : public EnemyController
+{
+public:
+    EnemyControllerTest(GameplayView* view)
+        : EnemyController(view){}
+    virtual ~EnemyControllerTest() {}
+    void setGenerator(IRandomGenerator* generator)
+    {
+        delete m_generator;
+        m_generator = generator;
+    }
 
-//class GeneralViewMock : public GeneralView
-//{
-//public:
-//    GeneralViewMock() {}
-//    ~GeneralViewMock() {}
+    int*          getEnemyPercentDistTab() { return m_enemyPercentDistributionTab; }
+    const QTimer& getEnemySpawnTimer()     { return m_enemySpawnTimer; }
+    int           getRemainigSpawnTime()   { return m_remainigSpawnTime; }
+    void          startEnemySpawnTimer()   { m_enemySpawnTimer.start(); }
 
-//    const QGraphicsScene& getScene() { return m_scene; }
-//};
+public slots:
+    void spawnEnemy()
+    {
+        EnemyController::spawnEnemy();
+    }
+};
 
-//class EnemyControllerTestsClass : public testing::Test
-//{
-//public:
-//    void SetUp()
-//    {
-//        g_imageStorage = new ImageStorageStub;
-//        g_soundStorage = new SoundStorageStub;
-//    }
-//    void TearDown()
-//    {
-//        delete g_imageStorage;
-//        delete g_soundStorage;
-//    }
-//};
+class GameplayViewMock : public GameplayView
+{
+public:
+    GameplayViewMock(QWidget* displayWidget)
+        : GameplayView(displayWidget) {}
+    ~GameplayViewMock() {}
 
-//TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigShouldGenerateNewPercentDistributionTab_IsEqual)
-//{
-//    EnemyConfiguration inputConfig = { 10, 15, 20, 25, 30, 0 };
-//    std::vector<int>   expected    =
-//                       { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-//                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-//                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
-//                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-//                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
-//                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-//                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-//                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-//                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-//                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
-//    RandomGeneratorStub* generator   = new RandomGeneratorStub();
-//    GeneralView*         view        = new GeneralView;
-//    EnemyControllerTest  enemyController(view, generator);
+    const QGraphicsScene& getScene() { return m_scene; }
+};
 
-//    enemyController.changeEnemyConfiguration(inputConfig);
-//    std::vector<int> resultEnemyPercDistTab;
-//    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
-//                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
+class EnemyControllerTestsClass : public testing::Test
+{
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
+};
 
-//    ASSERT_EQ(resultEnemyPercDistTab, expected);
-//    delete view;
-//    delete generator;
-//}
+TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfig_ShouldGenerateNewPercentDistributionTab)
+{
+    EnemyConfiguration inputConfig = { 10, 15, 20, 25, 30, 0 };
+    std::vector<int>   expected    =
+                       { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
+    QWidget             displayWidget;
+    GameplayView        view(&displayWidget);
+    EnemyControllerTest enemyController(&view);
 
-//TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigNotContainFirstEnemyTypeShouldGenerateNewPercentDistributionTab_IsEqual)
-//{
-//    EnemyConfiguration inputConfig = { 0, 15, 20, 25, 30, 10 };
-//    std::vector<int>   expected    =
-//                       { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-//                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
-//                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-//                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
-//                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-//                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-//                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-//                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-//                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-//                         6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
-//    RandomGeneratorStub* generator   = new RandomGeneratorStub();
-//    GeneralView*         view        = new GeneralView;
-//    EnemyControllerTest  enemyController(view, generator);
+    enemyController.changeEnemyConfig(inputConfig);
+    std::vector<int> resultEnemyPercDistTab;
+    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
+                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
 
-//    enemyController.changeEnemyConfiguration(inputConfig);
-//    std::vector<int> resultEnemyPercDistTab;
-//    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
-//                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
+    ASSERT_EQ(expected, resultEnemyPercDistTab);
+}
 
-//    ASSERT_EQ(resultEnemyPercDistTab, expected);
-//    delete view;
-//    delete generator;
-//}
+TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigNotContainFirstEnemyType_ShouldGenerateNewPercentDistributionTab)
+{
+    EnemyConfiguration inputConfig = { 0, 15, 20, 25, 30, 10 };
+    std::vector<int>   expected    =
+                       { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+                         6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
+    QWidget             displayWidget;
+    GameplayView        view(&displayWidget);
+    EnemyControllerTest enemyController(&view);
 
-//TEST_F(EnemyControllerTestsClass, Destroyed_ShouldEmitEnemyDestroyedSignalWithSameParameters_IsEqual)
-//{
-//    RandomGeneratorStub* generator = new RandomGeneratorStub();
-//    GeneralView*         view      = new GeneralView;
-//    EnemyControllerTest  enemyController(view, generator);
-//    QSignalSpy           signalDestroyed(&enemyController, &EnemyControllerTest::enemyDestroyed);
-//    signalDestroyed.wait(utdef::minSignalTimeDelay);
+    enemyController.changeEnemyConfig(inputConfig);
+    std::vector<int> resultEnemyPercDistTab;
+    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
+                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
 
-//    enemyController.destroyed(QPointF(40, 130), 4);
-//    int             resultSignalDestroyedCount = signalDestroyed.count();
-//    QList<QVariant> resultSignalDestroyed      = signalDestroyed.takeFirst();
+    ASSERT_EQ(expected, resultEnemyPercDistTab);
+}
 
-//    EXPECT_EQ(resultSignalDestroyedCount,             1);
-//    EXPECT_EQ(resultSignalDestroyed.at(0).toPointF(), QPointF(40,130));
-//    EXPECT_EQ(resultSignalDestroyed.at(1).toInt(),    4);
-//    delete view;
-//    delete generator;
-//}
+TEST_F(EnemyControllerTestsClass, Destroyed_CheckCorrectWorking_ShouldEmitEnemyDestroyedSignalWithSameParameters)
+{
+    QWidget             displayWidget;
+    GameplayView        view(&displayWidget);
+    EnemyControllerTest enemyController(&view);
+    QSignalSpy          signalDestroyed(&enemyController, &EnemyControllerTest::enemyDestroyed);
+    signalDestroyed.wait(utdef::minSignalTimeDelay);
 
-//TEST_F(EnemyControllerTestsClass, StartSpawning_ShouldStartEnemySpawnTimer_IsEqual)
-//{
-//    RandomGeneratorStub* generator = new RandomGeneratorStub();
-//    GeneralView*         view      = new GeneralView;
-//    EnemyControllerTest  enemyController(view, generator);
-//    bool                 oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+    enemyController.destroyed(QPointF(40, 130), 4);
+    int             resultSignalDestroyedCount = signalDestroyed.count();
+    QList<QVariant> resultSignalDestroyed      = signalDestroyed.takeFirst();
 
-//    enemyController.startSpawning();
-//    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+    EXPECT_EQ(1,               resultSignalDestroyedCount);
+    EXPECT_EQ(QPointF(40,130), resultSignalDestroyed.at(0).toPointF());
+    EXPECT_EQ(4,               resultSignalDestroyed.at(1).toInt());
+}
 
-//    EXPECT_EQ(oldEnemySpawnTimerStatus,    false);
-//    EXPECT_EQ(resultEnemySpawnTimerStatus, true);
-//    delete view;
-//    delete generator;
-//}
+TEST_F(EnemyControllerTestsClass, StartSpawning_CheckCorrectWorking_ShouldStartEnemySpawnTimer)
+{
+    QWidget             displayWidget;
+    GameplayView        view(&displayWidget);
+    EnemyControllerTest enemyController(&view);
+    bool                oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
 
-//TEST_F(EnemyControllerTestsClass, StopSpawning_ShouldStopEnemySpawnTimer_IsEqual)
-//{
-//    RandomGeneratorStub* generator = new RandomGeneratorStub();
-//    GeneralView*         view      = new GeneralView;
-//    EnemyControllerTest  enemyController(view, generator);
-//    enemyController.startEnemySpawnTimer(); //manual activation timer
-//    bool                 oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+    enemyController.startSpawning();
+    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
 
-//    enemyController.stopSpawning();
-//    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+    EXPECT_FALSE(oldEnemySpawnTimerStatus);
+    EXPECT_TRUE(resultEnemySpawnTimerStatus);
+}
 
-//    EXPECT_EQ(oldEnemySpawnTimerStatus,    true);
-//    EXPECT_EQ(resultEnemySpawnTimerStatus, false);
-//    delete view;
-//    delete generator;
-//}
+TEST_F(EnemyControllerTestsClass, StopSpawning_CheckCorrectWorking_ShouldStopEnemySpawnTimer)
+{
+    QWidget             displayWidget;
+    GameplayView        view(&displayWidget);
+    EnemyControllerTest enemyController(&view);
+    enemyController.startEnemySpawnTimer(); //manual activation timer
+    bool                oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    enemyController.stopSpawning();
+    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+
+    EXPECT_TRUE(oldEnemySpawnTimerStatus);
+    EXPECT_FALSE(resultEnemySpawnTimerStatus);
+}
 
 
-//TEST_F(EnemyControllerTestsClass, StopSpawning_WhenGameIsntStartShouldSetRemainingTimeOnDefaultValue_IsEqual)
-//{
-//    RandomGeneratorStub* generator = new RandomGeneratorStub();
-//    GeneralView*         view      = new GeneralView;
-//    EnemyControllerTest  enemyController(view, generator);
-//    bool                 oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+TEST_F(EnemyControllerTestsClass, StopSpawning_GameIsntStart_ShouldSetRemainingTimeOnDefaultValue)
+{
+    QWidget             displayWidget;
+    GameplayView        view(&displayWidget);
+    EnemyControllerTest enemyController(&view);
+    bool                oldEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
 
-//    enemyController.stopSpawning();
-//    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
-//    int  resultRemainingSpawnTime    = enemyController.getRemainigSpawnTime();
+    enemyController.stopSpawning();
+    bool resultEnemySpawnTimerStatus = enemyController.getEnemySpawnTimer().isActive();
+    int  resultRemainingSpawnTime    = enemyController.getRemainigSpawnTime();
 
-//    EXPECT_FALSE(oldEnemySpawnTimerStatus);
-//    EXPECT_FALSE(resultEnemySpawnTimerStatus);
-//    EXPECT_EQ(resultRemainingSpawnTime, def::minEnemySpawnTimeDelay);
-//    delete view;
-//    delete generator;
-//}
+    EXPECT_FALSE(oldEnemySpawnTimerStatus);
+    EXPECT_FALSE(resultEnemySpawnTimerStatus);
+    EXPECT_EQ(def::minEnemySpawnTimeDelay, resultRemainingSpawnTime);
+}
 
-//TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndEmitSignalToView_IsEqual)
-//{
-//    int sequance[4] = { 1, 40, 0, 230 };
-//    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(4, sequance);
-//    GeneralView* view = new GeneralView;
-//    EnemyControllerTest enemyController(view, generator);
-//    QSignalSpy signalAdd(&enemyController, &EnemyControllerTest::addEnemyToScene);
-//    signalAdd.wait(utdef::minSignalTimeDelay);
+TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndEmitSignalToView_IsEqual)
+{
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    EXPECT_CALL(*generator, bounded(_,_)).WillOnce(Return(1)).WillOnce(Return(40)).WillOnce(Return(0)).WillOnce(Return(230));
+    QWidget              displayWidget;
+    GameplayView         view(&displayWidget);
+    EnemyControllerTest  enemyController(&view);
+    enemyController.setGenerator(generator);
+    QSignalSpy signalAdd(&enemyController, &EnemyControllerTest::addEnemyToScene);
+    signalAdd.wait(utdef::minSignalTimeDelay);
 
-//    enemyController.spawnEnemyTest();
-//    int  resultSignalAddCount  = signalAdd.count();
-//    auto resultEnemy           = qvariant_cast<QGraphicsItem*>(signalAdd.takeFirst().at(0));
-//    int  resultEnemyLevel      = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
-//    auto resultEnemyPosition   = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
-//    int  resultEnemySpawnDelay = enemyController.getEnemySpawnTimer().interval();
+    enemyController.spawnEnemy();
+    int  resultSignalAddCount  = signalAdd.count();
+    auto resultEnemy           = qvariant_cast<GameObject*>(signalAdd.takeFirst().at(0));
+    int  resultEnemyLevel      = dynamic_cast<EnemyModel*>(resultEnemy)->getLevel();
+    auto resultEnemyPosition   = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
+    int  resultEnemySpawnDelay = enemyController.getEnemySpawnTimer().interval();
 
-//    EXPECT_EQ(resultSignalAddCount,        1);
-//    EXPECT_EQ(resultEnemyLevel,            1);
-//    EXPECT_EQ(resultEnemyPosition.x(),     8);
-//    EXPECT_EQ(resultEnemyPosition.y(),     -63);
-//    EXPECT_FLOAT_EQ(resultEnemySpawnDelay, 230);
-//    delete resultEnemy;
-//    delete generator;
-//    delete view;
-//}
+    EXPECT_EQ(1,         resultSignalAddCount);
+    EXPECT_EQ(1,         resultEnemyLevel);
+    EXPECT_EQ(8,         resultEnemyPosition.x());
+    EXPECT_EQ(-63,       resultEnemyPosition.y());
+    EXPECT_FLOAT_EQ(230, resultEnemySpawnDelay);
+    delete resultEnemy;
+}
 
-//TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfEnemyWillBeAddedToView_IsEqual)
-//{
-//    int sequance[4] = { 1, 40, 0, 230 };
-//    RandomSequanceGeneratorStub* generator = new RandomSequanceGeneratorStub(4, sequance);
-//    GeneralViewMock* view = new GeneralViewMock;
-//    EnemyControllerTest enemyController(dynamic_cast<GeneralView*>(view), generator);
+TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfEnemyWillBeAddedToView_IsEqual)
+{
+    RandomGeneratorStub* generator = new RandomGeneratorStub();
+    EXPECT_CALL(*generator, bounded(_,_)).WillOnce(Return(1)).WillOnce(Return(40)).WillOnce(Return(0)).WillOnce(Return(230));
+    QWidget              displayWidget;
+    GameplayViewMock     view(&displayWidget);
+    EnemyControllerTest  enemyController(&view);
+    enemyController.setGenerator(generator);
 
-//    enemyController.spawnEnemyTest();
-//    const QGraphicsScene& resultScene     = view->getScene();
-//    QList<QGraphicsItem*> resultItemsList = resultScene.items();
-//    EnemyModel*           resultEnemy     = dynamic_cast<EnemyModel*>(resultItemsList.at(0));
+    enemyController.spawnEnemy();
+    const QGraphicsScene& resultScene     = view.getScene();
+    QList<QGraphicsItem*> resultItemsList = resultScene.items();
+    EnemyModel*           resultEnemy     = dynamic_cast<EnemyModel*>(resultItemsList.at(0));
 
-//    EXPECT_EQ(resultItemsList.size(),  1);
-//    EXPECT_EQ(resultEnemy->getLevel(), 1);
-//    EXPECT_EQ(resultEnemy->pos().x(),  8);
-//    EXPECT_EQ(resultEnemy->pos().y(),  -63);
-//    delete resultEnemy;
-//    delete generator;
-//    delete view;
-//}
+    EXPECT_EQ(1,   resultItemsList.size());
+    EXPECT_EQ(1,   resultEnemy->getLevel());
+    EXPECT_EQ(8,   resultEnemy->pos().x());
+    EXPECT_EQ(-63, resultEnemy->pos().y());
+    delete resultEnemy;
+}

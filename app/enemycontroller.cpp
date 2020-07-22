@@ -1,13 +1,14 @@
 #include "enemycontroller.hpp"
 #include "enemymodeltype1.hpp"
+#include "randomgenerator.hpp"
 
-EnemyController::EnemyController(GeneralView*      view,
-                                 IRandomGenerator* generator)
-                                  : m_remainigSpawnTime(def::minEnemySpawnTimeDelay),
-                                    m_generator(generator)
+EnemyController::EnemyController(GameplayView* view)
+    : m_enemySpawnTimer(),
+      m_remainigSpawnTime(def::minEnemySpawnTimeDelay),
+      m_generator(new RandomGenerator)
 {
-    connect(this,               SIGNAL(addEnemyToScene(QGraphicsItem*)),
-            view,               SLOT(addGameObject(QGraphicsItem*)));
+    connect(this,               SIGNAL(addEnemyToScene(GameObject*)),
+            view,               SLOT(addGameObjectToScene(GameObject*)));
     connect(&m_enemySpawnTimer, SIGNAL(timeout()),
             this,               SLOT(spawnEnemy()));
     m_enemySpawnTimer.setInterval(def::minEnemySpawnTimeDelay);
@@ -15,38 +16,38 @@ EnemyController::EnemyController(GeneralView*      view,
 
 EnemyController::~EnemyController()
 {
-
+    delete m_generator;
 }
 
-void EnemyController::changeEnemyConfiguration(EnemyConfiguration newConfiguration)
+void EnemyController::changeEnemyConfig(EnemyConfiguration newEnemyConfig)
 {
     int offset = 0;
-    for(int i = 0; i < newConfiguration.proportionOfEnemyType1; i++)
+    for(int i = 0; i < newEnemyConfig.proportionOfEnemyType1; i++)
     {
         m_enemyPercentDistributionTab[i + offset] = 1;
     }
-    offset += newConfiguration.proportionOfEnemyType1;
-    for(int i = 0; i < newConfiguration.proportionOfEnemyType2; i++)
+    offset += newEnemyConfig.proportionOfEnemyType1;
+    for(int i = 0; i < newEnemyConfig.proportionOfEnemyType2; i++)
     {
         m_enemyPercentDistributionTab[i + offset] = 2;
     }
-    offset += newConfiguration.proportionOfEnemyType2;
-    for(int i = 0; i < newConfiguration.proportionOfEnemyType3; i++)
+    offset += newEnemyConfig.proportionOfEnemyType2;
+    for(int i = 0; i < newEnemyConfig.proportionOfEnemyType3; i++)
     {
         m_enemyPercentDistributionTab[i + offset] = 3;
     }
-    offset += newConfiguration.proportionOfEnemyType3;
-    for(int i = 0; i < newConfiguration.proportionOfEnemyType4; i++)
+    offset += newEnemyConfig.proportionOfEnemyType3;
+    for(int i = 0; i < newEnemyConfig.proportionOfEnemyType4; i++)
     {
         m_enemyPercentDistributionTab[i + offset] = 4;
     }
-    offset += newConfiguration.proportionOfEnemyType4;
-    for(int i = 0; i < newConfiguration.proportionOfEnemyType5; i++)
+    offset += newEnemyConfig.proportionOfEnemyType4;
+    for(int i = 0; i < newEnemyConfig.proportionOfEnemyType5; i++)
     {
         m_enemyPercentDistributionTab[i + offset] = 5;
     }
-    offset += newConfiguration.proportionOfEnemyType5;
-    for(int i = 0; i < newConfiguration.proportionOfEnemyType6; i++)
+    offset += newEnemyConfig.proportionOfEnemyType5;
+    for(int i = 0; i < newEnemyConfig.proportionOfEnemyType6; i++)
     {
         m_enemyPercentDistributionTab[i + offset] = 6;
     }
@@ -80,7 +81,7 @@ void EnemyController::spawnEnemy()
     QPointF enemyPosition(m_generator->bounded(def::animationFrameWight / 2,
                                                def::sceneWight - def::animationFrameWight),
                           -def::animationFrameHeight / 2 + 1);
-    switch (enemyType)
+    switch(enemyType)
     {
         case 1:
         default:

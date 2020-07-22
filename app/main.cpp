@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
 
     //Controller
-    EnemyController  enemyController(&generalView, &randomGenerator);
+    EnemyController  enemyController(&gameplayView);
     HealthController healthController(&mainWindow);
     LevelController  levelController(&mainWindow);
     MenuController   menuController(&mainWindow,
