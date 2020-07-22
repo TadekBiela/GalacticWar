@@ -13,6 +13,7 @@ const EnemyConfiguration LevelModel::s_enemyLevelConfigurations[def::maxNumOfLev
       {  0,  0,  0,  0, 30, 70 } };
 
 LevelModel::LevelModel()
+    : m_currentLevel(1)
 {
 
 }
@@ -24,20 +25,18 @@ LevelModel::~LevelModel()
 
 void LevelModel::next()
 {
-    if(++m_currentLevel <= def::maxNumOfLevel)
+    if(m_currentLevel < def::maxNumOfLevel)
     {
-        emit update(m_currentLevel);
-        emit change(s_enemyLevelConfigurations[m_currentLevel - 1]);
-    }
-    else
-    {
-        m_currentLevel = def::maxNumOfLevel;
+        m_currentLevel++;
     }
 }
 
-void LevelModel::reset()
+int LevelModel::getCurrentLevel()
 {
-    m_currentLevel = 1;
-    emit update(m_currentLevel);
-    emit change(s_enemyLevelConfigurations[m_currentLevel - 1]);
+    return m_currentLevel;
+}
+
+EnemyConfiguration LevelModel::getCurrentConfig()
+{
+    return s_enemyLevelConfigurations[m_currentLevel - 1];
 }

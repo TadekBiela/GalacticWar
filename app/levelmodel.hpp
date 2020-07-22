@@ -3,25 +3,18 @@
 
 #include "definitions.hpp"
 #include "enemyconfiguration.hpp"
-#include <QObject>
 
-class LevelModel : public QObject
+class LevelModel
 {
-    Q_OBJECT
 public:
     LevelModel();
-    virtual ~LevelModel();
-
-signals:
-    void update(int value);
-    void change(EnemyConfiguration newEnemyConfiguration);
-
-public slots:
+    ~LevelModel();
     void next();
-    void reset();
+    int getCurrentLevel();
+    EnemyConfiguration getCurrentConfig();
 
 protected:
-    int m_currentLevel = 1;
+    int m_currentLevel;
 
     static const EnemyConfiguration s_enemyLevelConfigurations[def::maxNumOfLevel];
 };

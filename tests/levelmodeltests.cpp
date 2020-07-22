@@ -3,97 +3,37 @@
 #include "../app/definitions.hpp"
 #include "../app/enemyconfiguration.hpp"
 #include "../app/levelmodel.hpp"
-#include <QSignalSpy>
 
-//Q_DECLARE_METATYPE(EnemyConfiguration)
+class LevelModelTests : public LevelModel
+{
+public:
+    LevelModelTests() {}
+    virtual ~LevelModelTests() {}
 
-//class LevelModelTests : public LevelModel
-//{
-//public:
-//    LevelModelTests() {}
-//    virtual ~LevelModelTests() {}
+    void setCurrentLevel(int value) { m_currentLevel = value; }
+};
 
-//    int getCurrentLevel() const { return m_currentLevel; }
-//    void setCurrentLevel(int value) { m_currentLevel = value; }
-//};
+class LevelModelTestsClass : public testing::Test
+{
+};
 
-//class LevelModelTestsClass : public testing::Test
-//{
-//};
+TEST_F(LevelModelTestsClass, Next_CurrentLevelIs1_ShouldIncreaseCurrentLevelTo2)
+{
+    LevelModelTests levelModel;
 
-//TEST_F(LevelModelTestsClass, Next_CurrentLevelShouldIncreaseAndSentTwoDifferentSignals_IsEqual)
-//{
-//    EnemyConfiguration expectedEnemyLevelConfig = { 50, 40, 10,  0,  0,  0 };
-//    LevelModelTests    levelModel;
-//    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::update);
-//    qRegisterMetaType<EnemyConfiguration>();
-//    QSignalSpy         signalChange(&levelModel, &LevelModelTests::change);
-//    signalUpdate.wait(utdef::minSignalTimeDelay);
+    levelModel.next();
+    int resultCurrentLevel = levelModel.getCurrentLevel();
 
-//    levelModel.next();
-//    int                resultCurrentLevel      = levelModel.getCurrentLevel();
-//    int                resultSignalUpdateCount = signalUpdate.count();
-//    int                resultSignalChangeCount = signalChange.count();
-//    QList<QVariant>    resultSignalUpdate      = signalUpdate.takeFirst();
-//    QList<QVariant>    resultSignal2Change     = signalChange.takeFirst();
-//    EnemyConfiguration resultEnemyLevelConfig  = qvariant_cast<EnemyConfiguration>(resultSignal2Change.at(0));
+    EXPECT_EQ(2, resultCurrentLevel);
+}
 
-//    EXPECT_EQ(resultCurrentLevel,                            2);
-//    EXPECT_EQ(resultSignalUpdateCount,                       1);
-//    EXPECT_EQ(resultSignalChangeCount,                       1);
-//    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),              2);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType1, expectedEnemyLevelConfig.proportionOfEnemyType1);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType2, expectedEnemyLevelConfig.proportionOfEnemyType2);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType3, expectedEnemyLevelConfig.proportionOfEnemyType3);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType4, expectedEnemyLevelConfig.proportionOfEnemyType4);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType5, expectedEnemyLevelConfig.proportionOfEnemyType5);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType6, expectedEnemyLevelConfig.proportionOfEnemyType6);
-//}
+TEST_F(LevelModelTestsClass, Next_CurrentLevelIsMax_ShouldDoNothing)
+{
+    LevelModelTests levelModel;
+    levelModel.setCurrentLevel(def::maxNumOfLevel);
 
-//TEST_F(LevelModelTestsClass, Next_CurrentLevelIsMaxShouldDontIncreaseAndSentAnySignals_IsEqual)
-//{
-//    LevelModelTests levelModel;
-//    levelModel.setCurrentLevel(def::maxNumOfLevel);
-//    QSignalSpy      signalUpdate(&levelModel, &LevelModelTests::update);
-//    qRegisterMetaType<EnemyConfiguration>();
-//    QSignalSpy      signalChange(&levelModel, &LevelModelTests::change);
-//    signalUpdate.wait(utdef::minSignalTimeDelay);
+    levelModel.next();
+    int resultCurrentLevel = levelModel.getCurrentLevel();
 
-//    levelModel.next();
-//    int resultCurrentLevel      = levelModel.getCurrentLevel();
-//    int resultSignalUpdateCount = signalUpdate.count();
-//    int resultSignalChangeCount = signalChange.count();
-
-//    EXPECT_EQ(resultCurrentLevel,      10);
-//    EXPECT_EQ(resultSignalUpdateCount,  0);
-//    EXPECT_EQ(resultSignalChangeCount,  0);
-//}
-
-//TEST_F(LevelModelTestsClass, Reset_CurrentLevelShouldBe0AndSentTwoDifferentSignals_IsEqual)
-//{
-//    EnemyConfiguration expectedEnemyLevelConfig = { 75, 25,  0,  0,  0,  0 };
-//    LevelModelTests    levelModel;
-//    QSignalSpy         signalUpdate(&levelModel, &LevelModelTests::update);
-//    qRegisterMetaType<EnemyConfiguration>();
-//    QSignalSpy         signalChange(&levelModel, &LevelModelTests::change);
-//    signalUpdate.wait(utdef::minSignalTimeDelay);
-
-//    levelModel.reset();
-//    int                resultCurrentLevel      = levelModel.getCurrentLevel();
-//    int                resultSignalUpdateCount = signalUpdate.count();
-//    int                resultSignalChangeCount = signalChange.count();
-//    QList<QVariant>    resultSignalUpdate      = signalUpdate.takeFirst();
-//    QList<QVariant>    resultSignal2Change     = signalChange.takeFirst();
-//    EnemyConfiguration resultEnemyLevelConfig  = qvariant_cast<EnemyConfiguration>(resultSignal2Change.at(0));
-
-//    EXPECT_EQ(resultCurrentLevel,                            1);
-//    EXPECT_EQ(resultSignalUpdateCount,                       1);
-//    EXPECT_EQ(resultSignalChangeCount,                       1);
-//    EXPECT_EQ(resultSignalUpdate.at(0).toInt(),              1);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType1, expectedEnemyLevelConfig.proportionOfEnemyType1);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType2, expectedEnemyLevelConfig.proportionOfEnemyType2);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType3, expectedEnemyLevelConfig.proportionOfEnemyType3);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType4, expectedEnemyLevelConfig.proportionOfEnemyType4);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType5, expectedEnemyLevelConfig.proportionOfEnemyType5);
-//    EXPECT_EQ(resultEnemyLevelConfig.proportionOfEnemyType6, expectedEnemyLevelConfig.proportionOfEnemyType6);
-//}
+    EXPECT_EQ(def::maxNumOfLevel, resultCurrentLevel);
+}

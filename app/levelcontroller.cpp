@@ -6,10 +6,7 @@ LevelController::LevelController(LevelModel*  model,
                                  GeneralView* view)
                                   : m_view(view)
 {
-    connect(this,  SIGNAL(reset()),                    model, SLOT(reset()));
-    connect(this,  SIGNAL(next()),                     model, SLOT(next()));
-    connect(model, SIGNAL(update(int)),                view,  SLOT(updateLevel(int)));
-    connect(model, SIGNAL(change(EnemyConfiguration)), this,  SLOT(change(EnemyConfiguration)));
+
 }
 
 LevelController::~LevelController()
