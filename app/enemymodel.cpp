@@ -13,12 +13,13 @@ EnemyModel::EnemyModel(int     level,
                        int     damage,
                        int     moveTimeDelay,
                        int     fireTimeDelay)
-                        : m_level(level),
-                          m_health(health),
-                          m_damage(damage),
-                          m_direction(0),
-                          m_animationFrameXIdx(0),
-                          m_animationFrameYIdx(0)
+    : GameObject(game_object_type::enemy),
+      m_level(level),
+      m_health(health),
+      m_damage(damage),
+      m_direction(0),
+      m_animationFrameXIdx(0),
+      m_animationFrameYIdx(0)
 {
     setTransformOriginPoint(def::animationFrameWight  / 2,
                             def::animationFrameHeight / 2);
@@ -48,17 +49,15 @@ void EnemyModel::checkCollisions()
 
     for(auto i = 0; i != collidingItems.size(); i++)
     {
-        if(typeid(*collidingItems[i]) == typeid(BulletModel))
+        GameObject* collidingObject = dynamic_cast<GameObject*>(collidingItems[i]);
+        if(game_object_type::player_bullet == collidingObject->getType())
         {
             BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
-            if(bullet->getName() != "bullet_enemy")
-            {
-                sumDamage += bullet->getDamage();
-                SoundEffectModel* hit = new SoundEffectModel("hit_enemy");
-                hit->play();
-                scene->removeItem(collidingItems[i]);
-                delete collidingItems[i];
-            }
+            sumDamage += bullet->getDamage();
+            SoundEffectModel* hit = new SoundEffectModel("hit_enemy");
+            hit->play();
+            scene->removeItem(bullet);
+            delete bullet;
         }
     }
     hit(sumDamage);

@@ -3,7 +3,6 @@
 #include "stubs/imagestoragestub.hpp"
 #include "stubs/randomgeneratorstub.hpp"
 #include "stubs/soundstoragestub.hpp"
-#include "../app/animationeffectmodel.hpp"
 #include "../app/definitions.hpp"
 #include "../app/playermodel.hpp"
 #include "../app/enemymodeltype1.hpp"
@@ -14,550 +13,484 @@
 #include <tr1/tuple>
 #include <QGraphicsScene>
 
-//Q_DECLARE_METATYPE(coin_type)
-//Q_DECLARE_METATYPE(special_type)
-
-//class PlayerModelTest : public PlayerModel
-//{
-//public:
-//    PlayerModelTest() {}
-//    virtual ~PlayerModelTest() {}
-
-//    QPointF       getMovePosition()      const { return m_movePosition; }
-//    QPointF       getPosition()          const { return QGraphicsItem::pos(); }
-//    int           getDirection()         const { return m_direction; }
-//    int           getHealth()            const { return m_health; }
-//    weapon        getWeapon()            const { return m_weapon; }
-//    int           getWeaponTier()        const { return m_weaponTier; }
-//    int           getMoveTimeDelay()     const { return m_moveTimeDelay; }
-//    int           getFireTimeDelay()     const { return m_weapon.fireTimeDelay; }
-//    const QTimer& getMoveTimer()         const { return m_moveTimer; }
-//    const QTimer& getFireTimer()         const { return m_fireTimer; }
-//    const QTimer& getAnimationTimer()    const { return m_animationTimer; }
-//    int           getAnimationFrameIdx() const { return  m_animationFrameIdx; }
-//    void          setMovePosition(QPointF newPosition) { m_movePosition = newPosition; }
-//    void          setDirection(int newDirection)       { m_direction    = newDirection; }
-//    void          setHealth(int healthValue)           { m_health       = healthValue; }
-//    void          setWeapon(weapon newWeapon)          { m_weapon       = newWeapon; }
-//    void          setWeaponTier(int newWeaponTier)     { m_weaponTier   = newWeaponTier; }
-//    void          startFireTimer()                     { m_fireTimer.start(); }
-//};
-
-//class PlayerModelTestsClass : public testing::Test
-//{
-//public:
-//    void SetUp()
-//    {
-//        g_imageStorage = new ImageStorageStub;
-//        g_soundStorage = new SoundStorageStub;
-//    }
-//    void TearDown()
-//    {
-//        delete g_imageStorage;
-//        delete g_soundStorage;
-//    }
-//};
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithBulletPlayerShouldHitButDontBeDefeated_IsEqual)
-//{
-//    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    BulletModel*     bullet = new BulletModel("bullet_enemy", playerPosition, 50, 5, 50);
-//    PlayerModelTest* player = new PlayerModelTest; //default health is 1000
-//    QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
-//    const int        expectedPlayerHealth = def::maxPlayerHealth - 50;
-//    scene->addItem(bullet);
-//    scene->addItem(player);
-//    int startItemsOnScene = scene->items().size();
-//    signalDefeat.wait(utdef::minSignalTimeDelay);
-//    player->checkCollisions();
-//    int signalHealthCount  = signalHealth.count();
-//    int signalDefeatCount  = signalDefeat.count();
-//    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-//    int resultItemsOnScene = scene->items().size();
-//    int resultHealth       = player->getHealth();
-
-//    EXPECT_EQ(startItemsOnScene,  2);
-//    EXPECT_EQ(signalHealthCount,  1);
-//    EXPECT_EQ(signalDefeatCount,  0);
-//    EXPECT_EQ(signalHealthValue,  97);
-//    EXPECT_EQ(resultItemsOnScene, 1);
-//    EXPECT_EQ(resultHealth,       expectedPlayerHealth);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlayerShouldDoNothing_IsEqual)
-//{
-//    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    BulletModel*     bullet = new BulletModel("bullet_default", playerPosition, 50, 5, 50);
-//    PlayerModelTest* player = new PlayerModelTest;
-//    QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
-//    scene->addItem(bullet);
-//    scene->addItem(player);
-//    int startItemsOnScene = scene->items().size();
-//    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-//    player->checkCollisions();
-//    int signalHealthCount  = signalHealth.count();
-//    int signalDefeatCount  = signalDefeat.count();
-//    int resultItemsOnScene = scene->items().size();
-//    int resultHealth       = player->getHealth();
-
-//    EXPECT_EQ(startItemsOnScene,  2);
-//    EXPECT_EQ(signalHealthCount,  0);
-//    EXPECT_EQ(signalDefeatCount,  0);
-//    EXPECT_EQ(resultItemsOnScene, 2);
-//    EXPECT_EQ(resultHealth,       def::maxPlayerHealth);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinRewardAndRewardShouldBeCollected_IsEqual)
-//{
-//    qRegisterMetaType<coin_type>();
-//    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    RewardCoinModel* coin   = new RewardCoinModel(coin_type::bronze);
-//    PlayerModelTest* player = new PlayerModelTest;
-//    QSignalSpy       signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy       signalDefeat(player, &PlayerModelTest::defeated);
-//    QSignalSpy       signalCoin(coin, &RewardCoinModel::collected);
-//    coin->setPos(playerPosition);
-//    scene->addItem(coin);
-//    scene->addItem(player);
-//    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-//    player->checkCollisions();
-//    int signalHealthCount  = signalHealth.count();
-//    int signalDefeatCount  = signalDefeat.count();
-//    int signalCoinCount    = signalCoin.count();
-//    int resultHealth       = player->getHealth();
-
-//    EXPECT_EQ(signalHealthCount, 0);
-//    EXPECT_EQ(signalDefeatCount, 0);
-//    EXPECT_EQ(signalCoinCount,   1);
-//    EXPECT_EQ(resultHealth,      def::maxPlayerHealth);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialRewardAndRewardShouldBeCollected_IsEqual)
-//{
-//    qRegisterMetaType<special_type>();
-//    QPointF             playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*     scene   = new QGraphicsScene();
-//    RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponRed);
-//    PlayerModelTest*    player  = new PlayerModelTest;
-//    QSignalSpy          signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy          signalDefeat(player, &PlayerModelTest::defeated);
-//    QSignalSpy          signalSpecial(special, &RewardSpecialModel::collected);
-//    special->setPos(playerPosition);
-//    scene->addItem(special);
-//    scene->addItem(player);
-//    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-//    player->checkCollisions();
-//    int signalHealthCount  = signalHealth.count();
-//    int signalDefeatCount  = signalDefeat.count();
-//    int signalSpecialCount = signalSpecial.count();
-//    int resultHealth       = player->getHealth();
-
-//    EXPECT_EQ(signalHealthCount,  0);
-//    EXPECT_EQ(signalDefeatCount,  0);
-//    EXPECT_EQ(signalSpecialCount, 1);
-//    EXPECT_EQ(resultHealth,       def::maxPlayerHealth);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1PlayerShouldHitButDontBeDefeated_IsEqual)
-//{
-//    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*      scene     = new QGraphicsScene();
-//    RandomGeneratorStub* generator = new RandomGeneratorStub;
-//    EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
-//    PlayerModelTest*     player    = new PlayerModelTest; //default health is 2000
-//    QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
-//    const int            expectedPlayerHealth = def::maxPlayerHealth - def::collisionDamageFactor;
-//    enemy->setPos(playerPosition);
-//    scene->addItem(enemy);
-//    scene->addItem(player);
-//    int startItemsOnScene = scene->items().size();
-//    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-//    player->checkCollisions();
-//    int  signalHealthCount  = signalHealth.count();
-//    int  signalDefeatCount  = signalDefeat.count();
-//    int  signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-//    int  resultItemsOnScene = scene->items().size();
-//    auto resultPlayerModel  = scene->items().at(0);
-//    int  resultHealth       = player->getHealth();
-
-//    EXPECT_EQ(startItemsOnScene,          2);
-//    EXPECT_EQ(signalHealthCount,          1);
-//    EXPECT_EQ(signalDefeatCount,          0);
-//    EXPECT_EQ(signalHealthValue,          85);
-//    EXPECT_EQ(resultItemsOnScene,         1);
-//    EXPECT_EQ(typeid(*resultPlayerModel), typeid(PlayerModelTest));
-//    EXPECT_EQ(resultHealth,               expectedPlayerHealth);
-//    delete generator;
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1PlayerShouldBeDefeated_IsEqual)
-//{
-//    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*      scene     = new QGraphicsScene();
-//    RandomGeneratorStub* generator = new RandomGeneratorStub;
-//    EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
-//    PlayerModelTest*     player    = new PlayerModelTest;
-//    QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
-//    enemy->setPos(playerPosition);
-//    scene->addItem(enemy);
-//    scene->addItem(player);
-//    int startItemsOnScene = scene->items().size();
-//    player->setHealth(90);
-//    signalDefeat.wait(utdef::minSignalTimeDelay);
-
-//    player->checkCollisions();
-//    int  signalHealthCount  = signalHealth.count();
-//    int  signalDefeatCount  = signalDefeat.count();
-//    int  signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-//    int  resultItemsOnScene = scene->items().size();
-//    auto resultPlayerModel  = scene->items().at(0);
-
-//    EXPECT_EQ(startItemsOnScene,          2);
-//    EXPECT_EQ(signalHealthCount,          1);
-//    EXPECT_EQ(signalDefeatCount,          1);
-//    EXPECT_EQ(signalHealthValue,          0);
-//    EXPECT_EQ(resultItemsOnScene,         1);
-//    EXPECT_EQ(typeid(*resultPlayerModel), typeid(PlayerModelTest));
-//    delete generator;
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTypesPlayerShouldHitButDontBeDefeated_IsEqual)
-//{
-//    qRegisterMetaType<coin_type>();
-//    qRegisterMetaType<special_type>();
-//    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*      scene     = new QGraphicsScene();
-//    BulletModel*         bullet    = new BulletModel("bullet_enemy", playerPosition, 50, 5, 50);
-//    RewardCoinModel*     coin      = new RewardCoinModel(coin_type::bronze);
-//    RewardSpecialModel*  special   = new RewardSpecialModel(special_type::weaponRed);
-//    RandomGeneratorStub* generator = new RandomGeneratorStub;
-//    EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
-//    PlayerModelTest*     player    = new PlayerModelTest; //default health is 1000
-//    QSignalSpy           signalHealth(player, &PlayerModelTest::changeHealth);
-//    QSignalSpy           signalDefeat(player, &PlayerModelTest::defeated);
-//    QSignalSpy           signalCoin(coin, &RewardCoinModel::collected);
-//    QSignalSpy           signalSpecial(special, &RewardSpecialModel::collected);
-//    const int            expectedPlayerHealth = def::maxPlayerHealth - def::collisionDamageFactor - 50;
-//    coin->setPos(playerPosition);
-//    special->setPos(playerPosition);
-//    enemy->setPos(playerPosition);
-//    scene->addItem(bullet);
-//    scene->addItem(coin);
-//    scene->addItem(special);
-//    scene->addItem(enemy);
-//    scene->addItem(player);
-//    int startItemsOnScene = scene->items().size();
-//    signalSpecial.wait(utdef::minSignalTimeDelay);
-
-//    player->checkCollisions();
-//    int signalHealthCount  = signalHealth.count();
-//    int signalDefeatCount  = signalDefeat.count();
-//    int signalCoinCount    = signalCoin.count();
-//    int signalSpecialCount = signalSpecial.count();
-//    int signalHealthValue  = signalHealth.takeFirst().at(0).toInt();
-//    int resultItemsOnScene = scene->items().size();
-//    int resultHealth       = player->getHealth();
-
-//    EXPECT_EQ(startItemsOnScene,  5);
-//    EXPECT_EQ(signalHealthCount,  1);
-//    EXPECT_EQ(signalCoinCount,    1);
-//    EXPECT_EQ(signalSpecialCount, 1);
-//    EXPECT_EQ(signalDefeatCount,  0);
-//    EXPECT_EQ(signalHealthValue,  82);
-//    EXPECT_EQ(resultItemsOnScene, 4);
-//    EXPECT_EQ(resultHealth,       expectedPlayerHealth);
-//    delete generator;
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInCurrentPositionRangeAndDirectionShouldBe90_IsEqual)
-//{
-//    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    PlayerModelTest* player = new PlayerModelTest;
-//    scene->addItem(player);
-//    player->setMovePosition(movePosition);
-
-//    bool result = player->isOnMovePosition();
-//    int resultDirection = player->getDirection();
-
-//    EXPECT_TRUE(result);
-//    EXPECT_EQ(resultDirection, 90);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentButInRangeAndDirectionShouldBe315_IsEqual)
-//{
-//    QPointF          movePosition(def::halfSceneWight - 3, def::halfSceneHeight - 3);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    PlayerModelTest* player = new PlayerModelTest;
-//    scene->addItem(player);
-//    player->setMovePosition(movePosition);
-
-//    bool result = player->isOnMovePosition();
-//    int resultDirection = player->getDirection();
-
-//    EXPECT_TRUE(result);
-//    EXPECT_EQ(resultDirection, 315);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentAndOutOfRangeAndDirectionShouldBe78_IsEqual)
-//{
-//    QPointF          movePosition(def::halfSceneWight + 100, def::halfSceneHeight - 20);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    PlayerModelTest* player = new PlayerModelTest;
-//    scene->addItem(player);
-//    player->setMovePosition(movePosition);
-
-//    bool result = player->isOnMovePosition();
-//    int resultDirection = player->getDirection();
-
-//    EXPECT_FALSE(result);
-//    EXPECT_EQ(resultDirection, 78);
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, Start_CheckIfAllTimersWillBeActive_IsEqual)
-//{
-//    PlayerModelTest player;
-
-//    player.start();
-//    const QTimer& resultMoveTimer = player.getMoveTimer();
-//    const QTimer& resultAnimTimer = player.getAnimationTimer();
-
-//    EXPECT_EQ(resultMoveTimer.isActive(), true);
-//    EXPECT_EQ(resultAnimTimer.isActive(), true);
-//}
-
-//TEST_F(PlayerModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
-//{
-//    PlayerModelTest player;
-
-//    player.stop();
-//    const QTimer& resultFireTimer = player.getFireTimer();
-//    const QTimer& resultMoveTimer = player.getMoveTimer();
-//    const QTimer& resultAnimTimer = player.getAnimationTimer();
-
-//    EXPECT_EQ(resultFireTimer.isActive(), false);
-//    EXPECT_EQ(resultMoveTimer.isActive(), false);
-//    EXPECT_EQ(resultAnimTimer.isActive(), false);
-//}
-
-//TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTruePlayerShouldntMove_IsEqual)
-//{
-//    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
-//    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-//                                      def::halfSceneHeight - def::animationFrameWight  / 2);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    PlayerModelTest* player = new PlayerModelTest;
-//    scene->addItem(player);
-//    player->setMovePosition(movePosition);
-
-//    player->move();
-//    QPointF resultPosition = player->getPosition();
-
-//    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-//    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalsePlayerShouldMoveUpBy10Pixels_IsEqual)
-//{
-//    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight - 100);
-//    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-//                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
-//    QGraphicsScene*  scene  = new QGraphicsScene();
-//    PlayerModelTest* player = new PlayerModelTest;
-//    scene->addItem(player);
-//    player->setMovePosition(movePosition);
-
-//    player->move();
-//    QPointF resultPosition = player->getPosition();
-
-//    EXPECT_FLOAT_EQ(resultPosition.x(), expectedPosition.x());
-//    EXPECT_FLOAT_EQ(resultPosition.y(), expectedPosition.y());
-//    delete scene;
-//}
-
-//TEST_F(PlayerModelTestsClass, ChangeMovePosition_NewDirectionIsDiffrentThanCurrent_IsEqual)
-//{
-//    QPointF         expectedMovePosition(def::halfSceneWight + 50, def::halfSceneHeight + 50);
-//    PlayerModelTest playerModel;
-
-//    playerModel.changeMovePosition(QPointF(def::halfSceneWight + 50, def::halfSceneHeight + 50));
-//    QPointF resultMovePosition = playerModel.getMovePosition();
-
-//    EXPECT_FLOAT_EQ(resultMovePosition.x(), expectedMovePosition.x());
-//    EXPECT_FLOAT_EQ(resultMovePosition.y(), expectedMovePosition.y());
-//}
-
-//TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfiguration_IsEqual)
-//{
-//    PlayerModelTest playerModel;
-
-//    playerModel.startFire();
-//    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-//    EXPECT_EQ(resultFireTimer.isActive(),       true);
-//    EXPECT_FLOAT_EQ(resultFireTimer.interval(), 100);
-//}
-
-//TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
-//{
-//    PlayerModelTest playerModel;
-//    playerModel.startFireTimer();
-
-//    playerModel.stopFire();
-//    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-//    EXPECT_EQ(resultFireTimer.isActive(),       false);
-//    EXPECT_FLOAT_EQ(resultFireTimer.interval(), defaultWeapon.fireTimeDelay);
-//}
-
-//TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthShouldIncrease_IsEqual)
-//{
-//    PlayerModelTest playerModel;
-//    playerModel.setHealth(500);
-//    QSignalSpy signalChange(&playerModel, &PlayerModelTest::changeHealth);
-//    signalChange.wait(utdef::minSignalTimeDelay);
-
-//    playerModel.changeAtribute(special_type::health);
-//    int  resultHealth            = playerModel.getHealth();
-//    int  resultSignalChangeCount = signalChange.count();
-//    auto resultSignalChange      = signalChange.takeFirst();
-
-//    EXPECT_EQ(resultHealth,                     600);
-//    EXPECT_EQ(resultSignalChangeCount,          1);
-//    EXPECT_EQ(resultSignalChange.at(0).toInt(), 30);
-//}
-
-//TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsMax_IsEqual)
-//{
-//    PlayerModelTest playerModel; //Max health is default
-//    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::changeHealth);
-//    signalChange.wait(utdef::minSignalTimeDelay);
-
-//    playerModel.changeAtribute(special_type::health);
-//    int  resultHealth            = playerModel.getHealth();
-//    int  resultSignalChangeCount = signalChange.count();
-//    auto resultSignalChange      = signalChange.takeFirst();
-
-//    EXPECT_EQ(resultHealth,                     def::maxPlayerHealth);
-//    EXPECT_EQ(resultSignalChangeCount,          1);
-//    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
-//}
-
-//TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthRewardChangeHealthSignalShouldBeSendAndPlayerHealthIsNearMaxAndShouldBeMax_IsEqual)
-//{
-//    PlayerModelTest playerModel;
-//    playerModel.setHealth(def::maxPlayerHealth - 10);
-//    QSignalSpy      signalChange(&playerModel, &PlayerModelTest::changeHealth);
-//    signalChange.wait(utdef::minSignalTimeDelay);
-
-//    playerModel.changeAtribute(special_type::health);
-//    int  resultHealth            = playerModel.getHealth();
-//    int  resultSignalChangeCount = signalChange.count();
-//    auto resultSignalChange      = signalChange.takeFirst();
-
-//    EXPECT_EQ(resultHealth,                     def::maxPlayerHealth);
-//    EXPECT_EQ(resultSignalChangeCount,          1);
-//    EXPECT_EQ(resultSignalChange.at(0).toInt(), 100);
-//}
-
-//TEST_F(PlayerModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncreasedBy1_IsEqual)
-//{
-//    PlayerModelTest playerModel;
-
-//    playerModel.animation();
-//    int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
-
-//    EXPECT_EQ(resultAnimationFrameIdx, 1);
-//}
-
-//TEST_F(PlayerModelTestsClass, Animation_AnimationFrameIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
-//{
-//    PlayerModelTest playerModel;
-
-//    playerModel.animation();
-//    playerModel.animation();
-//    playerModel.animation();
-//    int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
-//    playerModel.animation();
-//    playerModel.animation();
-//    playerModel.animation();
-//    playerModel.animation();
-//    playerModel.animation();
-//    playerModel.animation();
-//    playerModel.animation();
-//    int resultAnimationFrameIdxReset = playerModel.getAnimationFrameIdx();
-
-//    EXPECT_EQ(resultAnimationFrameIdx,      3);
-//    EXPECT_EQ(resultAnimationFrameIdxReset, 0);
-//}
-
-//typedef std::tr1::tuple<weapon, int, special_type, weapon> input_params;
-
-//class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
-//{
-//public:
-//    void SetUp()
-//    {
-//        g_imageStorage = new ImageStorageStub;
-//        g_soundStorage = new SoundStorageStub;
-//    }
-//    void TearDown()
-//    {
-//        delete g_imageStorage;
-//        delete g_soundStorage;
-//    }
-//};
-
-//TEST_P(PlayerModelTestsParamClass, ChangeAtribute_CollectedWeapon_IsEqual)
-//{
-//    weapon          currentWeapon         = std::tr1::get<0>(GetParam());
-//    int             currentWeaponTier     = std::tr1::get<1>(GetParam());
-//    special_type    newWeaponRewardType   = std::tr1::get<2>(GetParam());
-//    weapon_type     expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
-//    int             expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
-//    PlayerModelTest playerModel;
-//    playerModel.setWeapon(currentWeapon);
-//    playerModel.setWeaponTier(currentWeaponTier);
-
-//    playerModel.changeAtribute(newWeaponRewardType);
-//    weapon        resultWeapon    = playerModel.getWeapon();
-//    const QTimer& resultFireTimer = playerModel.getFireTimer();
-
-//    EXPECT_EQ(resultWeapon.type,                expectedWeaponType);
-//    EXPECT_FLOAT_EQ(resultFireTimer.interval(), expectedFireTimeDelay);
-//}
-
-//INSTANTIATE_TEST_CASE_P(ChangeAtribute,
-//                        PlayerModelTestsParamClass,
-//                        testing::Values(std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponRed,    weapons[0]),
-//                                        std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponYellow, weapons[5]),
-//                                        std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponBlue,   weapons[10]),
-//                                        std::tr1::make_tuple(weapons[8],    3, special_type::weaponRed,    weapons[0]),
-//                                        std::tr1::make_tuple(weapons[0],    0, special_type::weaponRed,    weapons[1]),
-//                                        std::tr1::make_tuple(weapons[4],    4, special_type::weaponRed,    weapons[4]),
-//                                        std::tr1::make_tuple(weapons[4],    4, special_type::weaponBlue,   weapons[10])
-//                                        ));
-
-
+using namespace testing;
+
+Q_DECLARE_METATYPE(coin_type)
+Q_DECLARE_METATYPE(special_type)
+
+class PlayerModelTest : public PlayerModel
+{
+public:
+    PlayerModelTest() {}
+    virtual ~PlayerModelTest() {}
+    bool isOnMovePosition()
+    {
+        return PlayerModel::isOnMovePosition();
+    }
+    void checkCollisions()
+    {
+        PlayerModel::checkCollisions();
+    }
+    void move()
+    {
+        PlayerModel::move();
+    }
+    void animation()
+    {
+        PlayerModel::animation();
+    }
+
+    QPointF       getMovePosition()      const { return m_movePosition; }
+    QPointF       getPosition()          const { return QGraphicsItem::pos(); }
+    int           getDirection()         const { return m_direction; }
+    weapon        getWeapon()            const { return m_weapon; }
+    int           getWeaponTier()        const { return m_weaponTier; }
+    int           getMoveTimeDelay()     const { return m_moveTimeDelay; }
+    int           getFireTimeDelay()     const { return m_weapon.fireTimeDelay; }
+    const QTimer& getMoveTimer()         const { return m_moveTimer; }
+    const QTimer& getFireTimer()         const { return m_fireTimer; }
+    const QTimer& getAnimationTimer()    const { return m_animationTimer; }
+    int           getAnimationFrameIdx() const { return  m_animationFrameIdx; }
+    void          setMovePosition(QPointF newPosition) { m_movePosition = newPosition; }
+    void          setDirection(int newDirection)       { m_direction    = newDirection; }
+    void          setWeapon(weapon newWeapon)          { m_weapon       = newWeapon; }
+    void          setWeaponTier(int newWeaponTier)     { m_weaponTier   = newWeaponTier; }
+    void          startFireTimer()                     { m_fireTimer.start(); }
+};
+
+class PlayerModelTestsClass : public testing::Test
+{
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
+};
+
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyBulletPlayer_ShouldHitButDontBeDefeated)
+{
+    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    BulletModel*     bullet = new BulletModel("bullet_enemy",
+                                              game_object_type::enemy_bullet,
+                                              playerPosition,
+                                              50,
+                                              5,
+                                              50);
+    PlayerModelTest* player = new PlayerModelTest;
+    QSignalSpy       signalSubtractHealth(player, &PlayerModelTest::subtractHealthPoints);
+    scene->addItem(bullet);
+    scene->addItem(player);
+    int startNumOfItemsOnScene = scene->items().size();
+    signalSubtractHealth.wait(utdef::minSignalTimeDelay);
+
+    player->checkCollisions();
+    int signallSubtractHealthCount = signalSubtractHealth.count();
+    int resultNumOfItemsOnScene    = scene->items().size();
+
+    EXPECT_EQ(2, startNumOfItemsOnScene);
+    EXPECT_EQ(1, signallSubtractHealthCount);
+    EXPECT_EQ(1, resultNumOfItemsOnScene);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlayer_ShouldDoNothing)
+{
+    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    BulletModel*     bullet = new BulletModel("bullet_default",
+                                              game_object_type::player_bullet,
+                                              playerPosition,
+                                              50,
+                                              5,
+                                              50);
+    PlayerModelTest* player = new PlayerModelTest;
+    QSignalSpy       signalSubtractHealth(player, &PlayerModelTest::subtractHealthPoints);
+    scene->addItem(bullet);
+    scene->addItem(player);
+    int startNumOfItemsOnScene = scene->items().size();
+    signalSubtractHealth.wait(utdef::minSignalTimeDelay);
+
+    player->checkCollisions();
+    int signallSubtractHealthCount = signalSubtractHealth.count();
+    int resultNumOfItemsOnScene    = scene->items().size();
+
+    EXPECT_EQ(2, startNumOfItemsOnScene);
+    EXPECT_EQ(0, signallSubtractHealthCount);
+    EXPECT_EQ(2, resultNumOfItemsOnScene);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinReward_RewardShouldBeCollected)
+{
+    qRegisterMetaType<coin_type>();
+    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    RewardCoinModel* coin   = new RewardCoinModel(coin_type::bronze);
+    PlayerModelTest* player = new PlayerModelTest;
+    QSignalSpy       signalAddHealth(player, &PlayerModelTest::addHealthPoints);
+    QSignalSpy       signalSubtractHealth(player, &PlayerModelTest::subtractHealthPoints);
+    QSignalSpy       signalCoin(coin, &RewardCoinModel::collected);
+    coin->setPos(playerPosition);
+    scene->addItem(coin);
+    scene->addItem(player);
+    signalCoin.wait(utdef::minSignalTimeDelay);
+
+    player->checkCollisions();
+    int signalAddHealthCount      = signalAddHealth.count();
+    int signalSubtractHealthCount = signalSubtractHealth.count();
+    int signalCoinCount           = signalCoin.count();
+
+    EXPECT_EQ(0, signalAddHealthCount);
+    EXPECT_EQ(0, signalSubtractHealthCount);
+    EXPECT_EQ(1, signalCoinCount);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialReward_RewardShouldBeCollected)
+{
+    qRegisterMetaType<special_type>();
+    QPointF             playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*     scene   = new QGraphicsScene();
+    RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponRed);
+    PlayerModelTest*    player  = new PlayerModelTest;
+    QSignalSpy          signalAddHealth(player, &PlayerModelTest::addHealthPoints);
+    QSignalSpy          signalSubtractHealth(player, &PlayerModelTest::subtractHealthPoints);
+    QSignalSpy          signalSpecial(special, &RewardSpecialModel::collected);
+    special->setPos(playerPosition);
+    scene->addItem(special);
+    scene->addItem(player);
+    signalSpecial.wait(utdef::minSignalTimeDelay);
+
+    player->checkCollisions();
+    int signalAddHealthCount      = signalAddHealth.count();
+    int signalSubtractHealthCount = signalSubtractHealth.count();
+    int signalSpecialCount        = signalSpecial.count();
+
+    EXPECT_EQ(0, signalAddHealthCount);
+    EXPECT_EQ(0, signalSubtractHealthCount);
+    EXPECT_EQ(1, signalSpecialCount);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1_PlayerShouldHit)
+{
+    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*      scene     = new QGraphicsScene();
+    RandomGeneratorStub* generator = new RandomGeneratorStub;
+    ON_CALL(*generator, bounded(_,_)).WillByDefault(Return(0));
+    EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
+    PlayerModelTest*     player    = new PlayerModelTest;
+    QSignalSpy           signalAddHealth(player, &PlayerModelTest::addHealthPoints);
+    QSignalSpy           signalSubtractHealth(player, &PlayerModelTest::subtractHealthPoints);
+    enemy->setPos(playerPosition);
+    scene->addItem(enemy);
+    scene->addItem(player);
+    int startNumOfItemsOnScene = scene->items().size();
+    signalAddHealth.wait(utdef::minSignalTimeDelay);
+
+    player->checkCollisions();
+    int signalAddHealthCount      = signalAddHealth.count();
+    int signalSubtractHealthCount = signalSubtractHealth.count();
+    int resultNumOfItemsOnScene   = scene->items().size();
+
+    EXPECT_EQ(2, startNumOfItemsOnScene);
+    EXPECT_EQ(1, resultNumOfItemsOnScene);
+    EXPECT_EQ(0, signalAddHealthCount);
+    EXPECT_EQ(1, signalSubtractHealthCount);
+    delete generator;
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTypes_PlayerShouldHitAndRewardsShouldBeCollected)
+{
+    qRegisterMetaType<coin_type>();
+    qRegisterMetaType<special_type>();
+    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*      scene     = new QGraphicsScene();
+    BulletModel*         bullet    = new BulletModel("bullet_enemy",
+                                                     game_object_type::enemy_bullet,
+                                                     playerPosition,
+                                                     50,
+                                                     5,
+                                                     50);
+    RewardCoinModel*     coin      = new RewardCoinModel(coin_type::bronze);
+    RewardSpecialModel*  special   = new RewardSpecialModel(special_type::weaponRed);
+    RandomGeneratorStub* generator = new RandomGeneratorStub;
+    ON_CALL(*generator, bounded(_,_)).WillByDefault(Return(0));
+    EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
+    PlayerModelTest*     player    = new PlayerModelTest;
+    QSignalSpy           signalAddHealth(player, &PlayerModelTest::addHealthPoints);
+    QSignalSpy           signalSubtractHealth(player, &PlayerModelTest::subtractHealthPoints);
+    QSignalSpy           signalCoin(coin, &RewardCoinModel::collected);
+    QSignalSpy           signalSpecial(special, &RewardSpecialModel::collected);
+    coin->setPos(playerPosition);
+    special->setPos(playerPosition);
+    enemy->setPos(playerPosition);
+    scene->addItem(bullet);
+    scene->addItem(coin);
+    scene->addItem(special);
+    scene->addItem(enemy);
+    scene->addItem(player);
+    int startNumOfItemsOnScene = scene->items().size();
+    signalSpecial.wait(utdef::minSignalTimeDelay);
+
+    player->checkCollisions();
+    int resultNumOfItemsOnScene   = scene->items().size();
+    int signalAddHealthCount      = signalAddHealth.count();
+    int signalSubtractHealthCount = signalSubtractHealth.count();
+    int signalCoinCount           = signalCoin.count();
+    int signalSpecialCount        = signalSpecial.count();
+
+    EXPECT_EQ(5, startNumOfItemsOnScene);
+    EXPECT_EQ(1, resultNumOfItemsOnScene);
+    EXPECT_EQ(0, signalAddHealthCount);
+    EXPECT_EQ(2, signalSubtractHealthCount);
+    EXPECT_EQ(1, signalCoinCount);
+    EXPECT_EQ(1, signalSpecialCount);
+    delete generator;
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInCurrentPositionRange_ShouldReturnTrueAndDirectionShouldBe90)
+{
+    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    bool result = player->isOnMovePosition();
+    int resultDirection = player->getDirection();
+
+    EXPECT_TRUE(result);
+    EXPECT_EQ(90, resultDirection);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentButInRange_ShouldReturnTrueAndDirectionShouldBe315)
+{
+    QPointF          movePosition(def::halfSceneWight - 3, def::halfSceneHeight - 3);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    bool result = player->isOnMovePosition();
+    int resultDirection = player->getDirection();
+
+    EXPECT_TRUE(result);
+    EXPECT_EQ(315, resultDirection);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentAndOutOfRange_ShouldReturnFalseAndDirectionShouldBe78)
+{
+    QPointF          movePosition(def::halfSceneWight + 100, def::halfSceneHeight - 20);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    bool result = player->isOnMovePosition();
+    int resultDirection = player->getDirection();
+
+    EXPECT_FALSE(result);
+    EXPECT_EQ(78, resultDirection);
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, Start_CheckIfAllTimersWillBeActive_ShouldActivateMoveAndAnimationTimers)
+{
+    PlayerModelTest player;
+
+    player.start();
+    const QTimer& resultMoveTimer = player.getMoveTimer();
+    const QTimer& resultAnimTimer = player.getAnimationTimer();
+
+    EXPECT_TRUE(resultMoveTimer.isActive());
+    EXPECT_TRUE(resultAnimTimer.isActive());
+}
+
+TEST_F(PlayerModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_ShouldDeactivateAllTimers)
+{
+    PlayerModelTest player;
+
+    player.stop();
+    const QTimer& resultFireTimer = player.getFireTimer();
+    const QTimer& resultMoveTimer = player.getMoveTimer();
+    const QTimer& resultAnimTimer = player.getAnimationTimer();
+
+    EXPECT_FALSE(resultFireTimer.isActive());
+    EXPECT_FALSE(resultMoveTimer.isActive());
+    EXPECT_FALSE(resultAnimTimer.isActive());
+}
+
+TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTrue_PlayerShouldNotMove)
+{
+    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameWight  / 2);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    player->move();
+    QPointF resultPosition = player->getPosition();
+
+    EXPECT_FLOAT_EQ(expectedPosition.x(), resultPosition.x());
+    EXPECT_FLOAT_EQ(expectedPosition.y(), resultPosition.y());
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalse_PlayerShouldMoveUpBy10Pixels)
+{
+    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight - 100);
+    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+    QGraphicsScene*  scene  = new QGraphicsScene();
+    PlayerModelTest* player = new PlayerModelTest;
+    scene->addItem(player);
+    player->setMovePosition(movePosition);
+
+    player->move();
+    QPointF resultPosition = player->getPosition();
+
+    EXPECT_FLOAT_EQ(expectedPosition.x(), resultPosition.x());
+    EXPECT_FLOAT_EQ(expectedPosition.y(), resultPosition.y());
+    delete scene;
+}
+
+TEST_F(PlayerModelTestsClass, ChangeMovePosition_NewDirectionIsDiffrentThanCurrent_IsEqual)
+{
+    QPointF         expectedMovePosition(def::halfSceneWight + 50, def::halfSceneHeight + 50);
+    PlayerModelTest playerModel;
+
+    playerModel.changeMovePosition(QPointF(def::halfSceneWight + 50, def::halfSceneHeight + 50));
+    QPointF resultMovePosition = playerModel.getMovePosition();
+
+    EXPECT_FLOAT_EQ(expectedMovePosition.x(), resultMovePosition.x());
+    EXPECT_FLOAT_EQ(expectedMovePosition.y(), resultMovePosition.y());
+}
+
+TEST_F(PlayerModelTestsClass, StartFire_CheckCorrectWorkingWithDefaultConfiguration_IsEqual)
+{
+    PlayerModelTest playerModel;
+
+    playerModel.startFire();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_TRUE(resultFireTimer.isActive());
+    EXPECT_FLOAT_EQ(def::defaultPlayerFireTimeDelay, resultFireTimer.interval());
+}
+
+TEST_F(PlayerModelTestsClass, StopFire_CheckCorrectWorking_IsEqual)
+{
+    PlayerModelTest playerModel;
+    playerModel.startFireTimer();
+
+    playerModel.stopFire();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_FALSE(resultFireTimer.isActive());
+    EXPECT_FLOAT_EQ(defaultWeapon.fireTimeDelay, resultFireTimer.interval());
+}
+
+TEST_F(PlayerModelTestsClass, ChangeAtribute_CollectedHealthReward_ShouldSendAddHealthPoints)
+{
+    PlayerModelTest player;
+    QSignalSpy      signalAddHealth(&player, &PlayerModelTest::addHealthPoints);
+    signalAddHealth.wait(utdef::minSignalTimeDelay);
+
+    player.changeAtribute(special_type::health);
+    int  resutlSignalAddHealthCount = signalAddHealth.count();
+    auto resutlSignalAddHealth      = signalAddHealth.takeFirst();
+
+    EXPECT_EQ(1, resutlSignalAddHealthCount);
+    EXPECT_EQ(def::healthRewardValue, resutlSignalAddHealth.at(0).toInt());
+}
+
+TEST_F(PlayerModelTestsClass, Animation_RunOneTime_ShouldIncreaseAnimationFrameIdxBy1)
+{
+    PlayerModelTest playerModel;
+
+    playerModel.animation();
+    int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(1, resultAnimationFrameIdx);
+}
+
+TEST_F(PlayerModelTestsClass, Animation_RunManyTimes_ShouldResetIdxTo0)
+{
+    PlayerModelTest playerModel;
+
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    int resultAnimationFrameIdx = playerModel.getAnimationFrameIdx();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    playerModel.animation();
+    int resultAnimationFrameIdxReset = playerModel.getAnimationFrameIdx();
+
+    EXPECT_EQ(3, resultAnimationFrameIdx);
+    EXPECT_EQ(0, resultAnimationFrameIdxReset);
+}
+
+typedef std::tr1::tuple<weapon, int, special_type, weapon> input_params;
+
+class PlayerModelTestsParamClass : public testing::TestWithParam<input_params>
+{
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+        delete g_soundStorage;
+    }
+};
+
+TEST_P(PlayerModelTestsParamClass, ChangeAtribute_CollectedWeapon_IsEqual)
+{
+    weapon          currentWeapon         = std::tr1::get<0>(GetParam());
+    int             currentWeaponTier     = std::tr1::get<1>(GetParam());
+    special_type    newWeaponRewardType   = std::tr1::get<2>(GetParam());
+    weapon_type     expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
+    int             expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
+    PlayerModelTest playerModel;
+    playerModel.setWeapon(currentWeapon);
+    playerModel.setWeaponTier(currentWeaponTier);
+
+    playerModel.changeAtribute(newWeaponRewardType);
+    weapon        resultWeapon    = playerModel.getWeapon();
+    const QTimer& resultFireTimer = playerModel.getFireTimer();
+
+    EXPECT_EQ(expectedWeaponType, resultWeapon.type);
+    EXPECT_FLOAT_EQ(expectedFireTimeDelay, resultFireTimer.interval());
+}
+
+INSTANTIATE_TEST_SUITE_P(ChangeAtribute,
+                         PlayerModelTestsParamClass,
+                         testing::Values(std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponRed,    weapons[0]),
+                                         std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponYellow, weapons[5]),
+                                         std::tr1::make_tuple(defaultWeapon, 0, special_type::weaponBlue,   weapons[10]),
+                                         std::tr1::make_tuple(weapons[8],    3, special_type::weaponRed,    weapons[0]),
+                                         std::tr1::make_tuple(weapons[0],    0, special_type::weaponRed,    weapons[1]),
+                                         std::tr1::make_tuple(weapons[4],    4, special_type::weaponRed,    weapons[4]),
+                                         std::tr1::make_tuple(weapons[4],    4, special_type::weaponBlue,   weapons[10])
+                                         ));

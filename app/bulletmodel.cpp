@@ -4,21 +4,24 @@
 #include "imagestorage.hpp"
 #include "soundeffectmodel.hpp"
 
-BulletModel::BulletModel(QString name,
-                         QPointF position,
-                         int     damage,
-                         int     direction,
-                         int     moveTimeDelay,
-                         float   pixmapScaleFactor)
-                          : m_name(name),
-                            m_damage(damage)
+BulletModel::BulletModel(QString          graphicsName,
+                         game_object_type type,
+                         QPointF          position,
+                         int              damage,
+                         int              direction,
+                         int              moveTimeDelay,
+                         float            pixmapScaleFactor)
+    : GameObject(type),
+      m_damage(damage),
+      m_direction(0),
+      m_moveTimer()
 {
     int finiteDirection = direction % 360;
     m_direction = finiteDirection < 0 ? 360 + finiteDirection : finiteDirection;
 
     //Setup QPixmap
     QPixmap map;
-    map.convertFromImage(*g_imageStorage->getImage(m_name));
+    map.convertFromImage(*g_imageStorage->getImage(graphicsName));
     setPixmap(map.scaled(map.width()  * pixmapScaleFactor,
                          map.height() * pixmapScaleFactor));
 
@@ -35,17 +38,14 @@ BulletModel::BulletModel(QString name,
     m_moveTimer.setInterval(moveTimeDelay);
     m_moveTimer.start();
 
-    SoundEffectModel* bulletSound = new SoundEffectModel(m_name);
+    QString soundName = graphicsName;
+    SoundEffectModel* bulletSound = new SoundEffectModel(soundName);
+    bulletSound->play();
 }
 
 BulletModel::~BulletModel()
 {
 
-}
-
-QString BulletModel::getName() const
-{
-    return m_name;
 }
 
 int BulletModel::getDamage() const

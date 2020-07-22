@@ -7,10 +7,11 @@ AnimationEffectModel::AnimationEffectModel(QString animationName,
                                            int     animationFrameWidth,
                                            int     animationFrameHeight,
                                            int     numOfFrames)
-                                            : m_animationFrameIdx(0),
-                                              m_animationFrameWidth(animationFrameWidth),
-                                              m_animationFrameHeight(animationFrameHeight),
-                                              m_numOfFrames(numOfFrames)
+    : GameObject(game_object_type::animation),
+      m_animationFrameIdx(0),
+      m_animationFrameWidth(animationFrameWidth),
+      m_animationFrameHeight(animationFrameHeight),
+      m_numOfFrames(numOfFrames)
 {
     m_image = g_imageStorage->getImage(animationName);
     setPixmap(getAnimationFrame(m_image,

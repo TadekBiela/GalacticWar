@@ -13,13 +13,16 @@
 #include <typeinfo>
 
 PlayerModel::PlayerModel()
-                         : m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
-                           m_direction(0),
-                           m_health(def::maxPlayerHealth),
-                           m_weapon(defaultWeapon),
-                           m_weaponTier(0),
-                           m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
-                           m_animationFrameIdx(0)
+    : GameObject(game_object_type::player),
+      m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
+      m_direction(0),
+      m_weapon(defaultWeapon),
+      m_weaponTier(0),
+      m_moveTimeDelay(def::defaultPlayerMoveTimeDelay),
+      m_moveTimer(),
+      m_fireTimer(),
+      m_animationFrameIdx(0),
+      m_animationTimer()
 {
     m_image = g_imageStorage->getImage("player");
     setPixmap(getAnimationFrame(m_image,
@@ -45,17 +48,11 @@ PlayerModel::~PlayerModel()
 
 }
 
-void PlayerModel::start()
+void PlayerModel::hit(int damage)
 {
-    m_moveTimer.start();
-    m_animationTimer.start();
-}
-
-void PlayerModel::stop()
-{
-    m_moveTimer.stop();
-    m_fireTimer.stop();
-    m_animationTimer.stop();
+    emit subtractHealthPoints(damage);
+    SoundEffectModel* hitSound = new SoundEffectModel("hit_player");
+    hitSound->play();
 }
 
 bool PlayerModel::isOnMovePosition()
@@ -74,61 +71,65 @@ bool PlayerModel::isOnMovePosition()
 
 void PlayerModel::checkCollisions()
 {
-    auto scene           = QGraphicsItem::scene();
-    auto collidingItems  = scene->collidingItems(this);
-    int  numOfCollisions = collidingItems.size();
+    auto scene          = QGraphicsItem::scene();
+    auto collidingItems = scene->collidingItems(this);
     for(auto i = 0; i != collidingItems.size(); i++)
     {
-        if(typeid(*collidingItems[i]) == typeid(BulletModel))
+        GameObject* collidingObject = dynamic_cast<GameObject*>(collidingItems[i]);
+        switch(collidingObject->getType())
         {
-            BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
-            if(bullet->getName() == "bullet_enemy")
+            case game_object_type::enemy_bullet:
             {
-                m_health -= bullet->getDamage();
-                scene->removeItem(collidingItems[i]);
-                delete collidingItems[i];
+                BulletModel* bullet = dynamic_cast<BulletModel*>(collidingObject);
+                this->hit(bullet->getDamage());
+                scene->removeItem(bullet);
+                delete bullet;
+                break;
             }
-            else
+            case game_object_type::reward:
             {
-                numOfCollisions--;
+                RewardModel* reward = dynamic_cast<RewardModel*>(collidingObject);
+                reward->collect();
+                break;
+            }
+            case game_object_type::enemy:
+            {
+                EnemyModel* enemy = dynamic_cast<EnemyModel*>(collidingObject);
+                int damage = enemy->getLevel() * def::collisionDamageFactor;
+                this->hit(damage);
+                enemy->destroy();
+                break;
+            }
+            default:
+            {
+                break;
             }
         }
-        else if(typeid(*collidingItems[i]) == typeid(RewardCoinModel) ||
-                typeid(*collidingItems[i]) == typeid(RewardSpecialModel))
-        {
-            RewardModel* reward = static_cast<RewardModel*>(collidingItems[i]);
-            reward->collect();
-            numOfCollisions--;
-        }
-        else if(typeid(*collidingItems[i]) == typeid(AnimationEffectModel))
-        {
-            numOfCollisions--;
-        }
-        else //It should be Enemy
-        {
-            EnemyModel* enemy = static_cast<EnemyModel*>(collidingItems[i]);
-            m_health -= enemy->getLevel() * def::collisionDamageFactor;
-            enemy->destroy();
-        }
-    }
-
-    if(m_health <= 0)
-    {
-        m_health = 0;
-        emit changeHealth(0);
-        emit defeated();
-    }
-    else if(numOfCollisions > 0)
-    {
-        emit changeHealth(healthInPercents(m_health));
-        SoundEffectModel* hitSound = new SoundEffectModel("hit_player");
     }
     scene->update();
 }
 
+void PlayerModel::changeWeapon(weapon_type weapon)
+{
+    if(weapon != m_weapon.type)
+    {
+        m_weapon     = weapons[weapon * def::maxWeaponLevel];
+        m_weaponTier = 0;
+    }
+    else
+    {
+        if(m_weaponTier < 4)
+        {
+            m_weaponTier++;
+        }
+        m_weapon = weapons[(weapon * def::maxWeaponLevel) + m_weaponTier];
+    }
+    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
+}
+
 void PlayerModel::move()
 {
-    if(isOnMovePosition() == false)
+    if(not isOnMovePosition())
     {
         QPointF newPosition(moveForward(pos(), m_direction));
         int x = newPosition.x();
@@ -155,65 +156,6 @@ void PlayerModel::fire()
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 }
 
-void PlayerModel::startFire()
-{
-    m_fireTimer.setInterval(100);
-    m_fireTimer.start();
-}
-
-void PlayerModel::stopFire()
-{
-    m_fireTimer.stop();
-}
-
-void PlayerModel::changeMovePosition(QPointF newMovePosition)
-{
-    m_movePosition = newMovePosition;
-}
-
-void PlayerModel::changeAtribute(special_type specialReward)
-{
-    switch (specialReward)
-    {
-        case special_type::health:
-            m_health = m_health + 100 > def::maxPlayerHealth ? def::maxPlayerHealth : m_health + 100;
-            emit changeHealth(healthInPercents(m_health));
-            break;
-        case special_type::weaponRed:
-            changeWeapon(weapon_type::redWeapon);
-            break;
-        case special_type::weaponYellow:
-            changeWeapon(weapon_type::yellowWeapon);
-            break;
-        case special_type::weaponBlue:
-            changeWeapon(weapon_type::blueWeapon);
-            break;
-    }
-}
-
-void PlayerModel::changeWeapon(weapon_type weapon)
-{
-    if(weapon != m_weapon.type)
-    {
-        m_weapon     = weapons[weapon * def::maxWeaponLevel];
-        m_weaponTier = 0;
-    }
-    else
-    {
-        if(m_weaponTier < 4)
-        {
-            m_weaponTier++;
-        }
-        m_weapon = weapons[(weapon * def::maxWeaponLevel) + m_weaponTier];
-    }
-    m_fireTimer.setInterval(m_weapon.fireTimeDelay);
-}
-
-int PlayerModel::healthInPercents(int healthPoints)
-{
-    return (healthPoints * 100) / def::maxPlayerHealth;
-}
-
 void PlayerModel::animation()
 {
     if(++m_animationFrameIdx > def::maxAnimationFrameIdx)
@@ -221,7 +163,7 @@ void PlayerModel::animation()
         m_animationFrameIdx = 0;
     }
     int animYIdx = 0;
-    switch (m_direction / 30)
+    switch(m_direction / 30)
     {
         case 2:
         case 3:
@@ -238,4 +180,52 @@ void PlayerModel::animation()
                                 def::animationFrameHeight * animYIdx,
                                 def::animationFrameWight,
                                 def::animationFrameHeight));
+}
+
+void PlayerModel::start()
+{
+    m_moveTimer.start();
+    m_animationTimer.start();
+}
+
+void PlayerModel::stop()
+{
+    m_moveTimer.stop();
+    m_fireTimer.stop();
+    m_animationTimer.stop();
+}
+
+void PlayerModel::startFire()
+{
+    m_fireTimer.setInterval(def::defaultPlayerFireTimeDelay);
+    m_fireTimer.start();
+}
+
+void PlayerModel::stopFire()
+{
+    m_fireTimer.stop();
+}
+
+void PlayerModel::changeMovePosition(QPointF newMovePosition)
+{
+    m_movePosition = newMovePosition;
+}
+
+void PlayerModel::changeAtribute(special_type specialReward)
+{
+    switch(specialReward)
+    {
+        case special_type::health:
+            emit addHealthPoints(def::healthRewardValue);
+            break;
+        case special_type::weaponRed:
+            changeWeapon(weapon_type::redWeapon);
+            break;
+        case special_type::weaponYellow:
+            changeWeapon(weapon_type::yellowWeapon);
+            break;
+        case special_type::weaponBlue:
+            changeWeapon(weapon_type::blueWeapon);
+            break;
+    }
 }

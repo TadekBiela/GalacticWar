@@ -140,7 +140,7 @@ TEST_F(EnemyModelType1TestClass, Fire_CheckIfBulletIsAddedToScene_IsEqual)
     EXPECT_EQ(resultEnemyModel->getLevel(),       1);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().x(),  -30);
     EXPECT_FLOAT_EQ(resultEnemyModel->pos().y(),  -25);
-    EXPECT_EQ(resultBulletModel->getName(),       "bullet_enemy");
+    EXPECT_EQ(resultBulletModel->getType(),       game_object_type::enemy_bullet);
     EXPECT_FLOAT_EQ(resultBulletModel->pos().x(), 1);
     EXPECT_FLOAT_EQ(resultBulletModel->pos().y(), 27);
     EXPECT_EQ(resultBulletModel->getDamage(),     10);

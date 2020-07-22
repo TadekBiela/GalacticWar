@@ -1,12 +1,12 @@
 #ifndef PLAYERMODEL_HPP
 #define PLAYERMODEL_HPP
 
+#include "gameobject.hpp"
 #include "rewardtypes.hpp"
 #include "weapons.hpp"
-#include "gameobject.hpp"
+#include <QImage>
 #include <QPointF>
 #include <QTimer>
-#include <QImage>
 
 class PlayerModel : public GameObject
 {
@@ -14,34 +14,33 @@ class PlayerModel : public GameObject
 public:
     PlayerModel();
     virtual ~PlayerModel();
-    void setHealth(int health) { m_health = health; }
-    int  getHealth() const { return m_health; }
-    bool isOnMovePosition();
-    void checkCollisions();
 
 signals:
-    void changeHealth(int healthPoints);
-    void defeated();
+    void addHealthPoints(int healthPoints);
+    void subtractHealthPoints(int healthPoints);
 
 public slots:
     void start();
     void stop();
-    void move();
-    void fire();
     void startFire();
     void stopFire();
     void changeMovePosition(QPointF newMovePosition);
     void changeAtribute(special_type specialReward);
+
+protected slots:
+    void move();
+    void fire();
     void animation();
 
 protected:
-    void    changeWeapon(weapon_type weapon);
-    int     healthInPercents(int healthPoints);
+    void hit(int damage);
+    bool isOnMovePosition();
+    void checkCollisions();
+    void changeWeapon(weapon_type weapon);
 
     QImage* m_image;
     QPointF m_movePosition;
     int     m_direction;
-    int     m_health;
     weapon  m_weapon;
     int     m_weaponTier;
     int     m_moveTimeDelay;

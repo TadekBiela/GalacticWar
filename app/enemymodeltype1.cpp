@@ -47,6 +47,7 @@ void EnemyModelType1::fire()
     position.setX(position.x() + pixmap().size().width() / 2 + ((m_direction - 180) * -0.5));
     position.setY(position.y() + pixmap().size().height() - 5);
     BulletModel* bullet = new BulletModel("bullet_enemy",
+                                          game_object_type::enemy_bullet,
                                           position,
                                           m_damage,
                                           m_direction,

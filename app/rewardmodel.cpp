@@ -5,7 +5,8 @@
 #include <QGraphicsScene>
 
 RewardModel::RewardModel()
-                         : m_animationFrameIdx(0)
+    : GameObject(game_object_type::reward),
+      m_animationFrameIdx(0)
 {
     connect(&m_animationTimer, SIGNAL(timeout()), this, SLOT(animation()));
     connect(&m_destroyTimer,   SIGNAL(timeout()), this, SLOT(destroy()));
