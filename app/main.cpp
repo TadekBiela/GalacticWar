@@ -21,25 +21,27 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QMainWindow mainWindow;
-    g_imageStorage = new ImageStorage;
-    g_soundStorage = new SoundStorage;
+    g_imageStorage       = new ImageStorage;
+    g_soundStorage       = new SoundStorage;
+    g_animationPlaneView = new AnimationPlaneView(&mainWindow);
 
     QFontDatabase::addApplicationFont(a.applicationDirPath() + "/fonts/joystix monospace.ttf");
     a.setFont(QFont("joystix monospace"));
 
-    //View
-    AnimationPlaneView animationView(&mainWindow);
-    ControlPlane       controller(&mainWindow);
-    GameplayView       gameplayView(&mainWindow);
-
     //Controller
+    ControlPlane controller(&mainWindow);
+
+    //View
+    GameplayView gameplayView(&mainWindow);
+
+    //Controllers
     EnemyController  enemyController(&gameplayView);
     HealthController healthController(&mainWindow);
     LevelController  levelController(&mainWindow);
     MenuController   menuController(&mainWindow,
                                     &controller,
                                     &gameplayView,
-                                    &animationView);
+                                    g_animationPlaneView);
     PlayerController playerController(&controller,
                                       &gameplayView);
     RewardController rewardController(&gameplayView);

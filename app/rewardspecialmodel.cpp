@@ -45,15 +45,15 @@ RewardSpecialModel::~RewardSpecialModel()
 void RewardSpecialModel::collect()
 {
     emit collected(m_type);
-    SoundEffectModel* collect = new SoundEffectModel(m_soundName);
     QPointF position = pos();
     position.setX(position.x() + def::animationSmallFrameWight  / 2);
     position.setY(position.y() + def::animationSmallFrameHeight / 2);
-//    AnimationEffectModel* collectAnim = new AnimationEffectModel("collect_reward",
-//                                                                 position,
-//                                                                 def::animationSmallFrameWight,
-//                                                                 def::animationSmallFrameHeight);
-    collect->play();
-//    collectAnim->play();
+    AnimationEffectModel* collectAnim = new AnimationEffectModel("collect_reward",
+                                                                 position,
+                                                                 def::animationSmallFrameWight,
+                                                                 def::animationSmallFrameHeight);
+    collectAnim->play();
+    SoundEffectModel* collectSound = new SoundEffectModel(m_soundName);
+    collectSound->play();
     destroy();
 }

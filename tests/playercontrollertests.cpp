@@ -2,6 +2,7 @@
 #include "utdefinitions.hpp"
 #include "stubs/imagestoragestub.hpp"
 #include "stubs/soundstoragestub.hpp"
+#include "../app/animationplaneview.hpp"
 #include "../app/definitions.hpp"
 #include "../app/playercontroller.hpp"
 #include "../app/playermodel.hpp"
@@ -28,14 +29,21 @@ class PlayerControllerTestsClass : public testing::Test
 public:
     void SetUp()
     {
-        g_imageStorage = new ImageStorageStub;
-        g_soundStorage = new SoundStorageStub;
+        g_imageStorage       = new ImageStorageStub;
+        g_soundStorage       = new SoundStorageStub;
+        m_displayWidget      = new QWidget;
+        g_animationPlaneView = new AnimationPlaneView(m_displayWidget);
     }
     void TearDown()
     {
+        delete g_animationPlaneView;
+        delete m_displayWidget;
         delete g_imageStorage;
         delete g_soundStorage;
     }
+
+private:
+    QWidget* m_displayWidget;
 };
 
 TEST_F(PlayerControllerTestsClass, Create_CheckCorrectWorking_ShouldCreateNewPlayerModelAndSendSignalAddPlayerToScene)

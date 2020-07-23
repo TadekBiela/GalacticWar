@@ -96,16 +96,17 @@ void MenuController::saveScore()
 
 void MenuController::endGame()
 {
-//    QPointF position(def::halfSceneWight,
-//                     def::halfSceneHeight - def::halfSceneHeight / 4);
-//    AnimationEffectModel* gameOverAnim = new AnimationEffectModel("game_over",
-//                                                                  position,
-//                                                                  def::animationBigFrameWight,
-//                                                                  def::animationBigFrameHeight,
-//                                                                  20);
-//    gameOverAnim->play();
+    QPointF position(def::halfSceneWight,
+                     def::halfSceneHeight - def::halfSceneHeight / 4);
+    AnimationEffectModel* gameOverAnim = new AnimationEffectModel("game_over",
+                                                                  position,
+                                                                  def::animationBigFrameWight,
+                                                                  def::animationBigFrameHeight,
+                                                                  20);
+    gameOverAnim->play();
     SoundEffectModel* gameOverSound = new SoundEffectModel("game_over");
     connect(gameOverSound, SIGNAL(end()), this, SLOT(showScore()));
+    gameOverSound->play();
     m_isGameStarted = false;
     emit gameOver();
 }

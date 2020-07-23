@@ -1,7 +1,7 @@
 #include "animationplaneview.hpp"
 
 AnimationPlaneView::AnimationPlaneView(QWidget* displayWidget)
-                                        : GraphicsView(displayWidget)
+    : GraphicsView(displayWidget)
 {
 
 }
@@ -49,3 +49,5 @@ void AnimationPlaneView::addEffectToScene(AnimationEffectModel* object)
 {
     m_scene.addItem(dynamic_cast<QGraphicsItem*>(object));
 }
+
+AnimationPlaneView* g_animationPlaneView;

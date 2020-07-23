@@ -1,4 +1,5 @@
 #include "animationeffectmodel.hpp"
+#include "animationplaneview.hpp"
 #include "functions.hpp"
 #include <QGraphicsScene>
 
@@ -28,7 +29,8 @@ AnimationEffectModel::AnimationEffectModel(QString animationName,
 
     m_animationTimer.setInterval(def::animationFrameDuration);
 
-    QGraphicsItem::scene()->addItem(this); //TODO: change to global
+    QGraphicsScene* globalAnimationScene = g_animationPlaneView->scene();
+    globalAnimationScene->addItem(this);
 }
 
 AnimationEffectModel::~AnimationEffectModel()

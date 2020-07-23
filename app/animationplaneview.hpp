@@ -20,4 +20,6 @@ public slots:
     void addEffectToScene(AnimationEffectModel* object);
 };
 
+extern AnimationPlaneView* g_animationPlaneView;
+
 #endif // ANIMATIONPLANEVIEW_HPP

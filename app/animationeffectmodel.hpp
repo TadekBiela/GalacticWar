@@ -24,6 +24,8 @@ public:
 public slots:
     void start(){}
     void stop(){}
+
+protected slots:
     void animation();
     void destroy();
 

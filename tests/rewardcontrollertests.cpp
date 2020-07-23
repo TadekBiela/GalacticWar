@@ -3,6 +3,7 @@
 #include "stubs/imagestoragestub.hpp"
 #include "stubs/randomgeneratorstub.hpp"
 #include "stubs/soundstoragestub.hpp"
+#include "../app/animationplaneview.hpp"
 #include "../app/definitions.hpp"
 #include "../app/rewardcontroller.hpp"
 #include "../app/rewardcoinmodel.hpp"
@@ -38,12 +39,19 @@ public:
         ImageStorageStub* imageStorageStub = dynamic_cast<ImageStorageStub*>(g_imageStorage);
         imageStorageStub->setDummyImageSize(def::animationSmallFrameWight,
                                             def::animationSmallFrameWight);
+        m_displayWidget      = new QWidget;
+        g_animationPlaneView = new AnimationPlaneView(m_displayWidget);
     }
     void TearDown()
     {
+        delete g_animationPlaneView;
+        delete m_displayWidget;
         delete g_imageStorage;
         delete g_soundStorage;
     }
+
+private:
+    QWidget* m_displayWidget;
 };
 
 TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1_OnlyOneBronzeCoinShouldBeSpawned)

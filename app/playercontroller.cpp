@@ -57,14 +57,14 @@ void PlayerController::subtractHealth(int healthPoints)
 
 void PlayerController::defeat()
 {
-//    QPointF position;
-//    position.setX(m_model->pos().x() + m_model->pixmap().width()  / 2);
-//    position.setY(m_model->pos().y() + m_model->pixmap().height() / 2);
-//    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
-//                                                                   position,
-//                                                                   def::animationFrameWight,
-//                                                                   def::animationFrameHeight);
-//    explosionAnim->play();
+    QPointF position;
+    position.setX(m_model->pos().x() + m_model->pixmap().width()  / 2);
+    position.setY(m_model->pos().y() + m_model->pixmap().height() / 2);
+    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
+                                                                   position,
+                                                                   def::animationFrameWight,
+                                                                   def::animationFrameHeight);
+    explosionAnim->play();
     SoundEffectModel* explosionSound = new SoundEffectModel("explosion");
     explosionSound->play();
     destroy();

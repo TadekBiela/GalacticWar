@@ -71,13 +71,13 @@ void EnemyModel::destroy()
     position.setX(position.x() + def::animationFrameWight  / 2);
     position.setY(position.y() + def::animationFrameHeight / 2);
     emit this->destroyed(position, m_level);
-    SoundEffectModel*     explosion     = new SoundEffectModel("explosion");
-//    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
-//                                                                   position,
-//                                                                   def::animationFrameWight,
-//                                                                   def::animationFrameHeight);
-    explosion->play();
-//    explosionAnim->play();
+    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
+                                                                   position,
+                                                                   def::animationFrameWight,
+                                                                   def::animationFrameHeight);
+    explosionAnim->play();
+    SoundEffectModel* explosionSound = new SoundEffectModel("explosion");
+    explosionSound->play();
     delete this;
 }
 
