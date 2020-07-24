@@ -5,32 +5,34 @@
 
 namespace def
 {
-    const int    animationFrameDuration         = 100;
-    const int    animationFrameWight            = 64;
-    const int    animationFrameHeight           = 64;
-    const int    animationSmallFrameWight       = 32;
-    const int    animationSmallFrameHeight      = 32;
-    const int    animationBigFrameWight         = 200;
-    const int    animationBigFrameHeight        = 30;
-    const int    collisionDamageFactor          = 300;
-    const int    defaultBulletSpeed             = 20;
-    const int    defaultBackgroundAnimTimeDelay = 20;
-    const int    healthRewardValue              = 100;
-    const int    maxAnimationFrames             = 10;
-    const int    maxAnimationFrameIdx           = 9;
-    const int    maxNumOfLevel                  = 10;
-    const int    maxWeaponTypes                 = 3;
-    const int    maxWeaponLevel                 = 5;
-    const int    minEnemySpawnTimeDelay         = 1000;
-    const int    maxEnemySpawnTimeDelay         = 5000;
-    const int    moveVectorLength               = 10;
-    const int    percentDistTabSize             = 100;
-    const double pi                             = 3.14159265;
-    const double radianConversionFactor         = pi / 180;
-    const int    valueBarPositionOffset         = 15;
-    const int    valueBarSizeOffset             = 25;
-    const int    valueLabelPositionOffset       = 5;
-    const int    valueLabelSizeOffset           = 10;
+    const int    animationFrameDuration          = 100;
+    const int    animationFrameWight             = 64;
+    const int    animationFrameHeight            = 64;
+    const int    animationSmallFrameWight        = 32;
+    const int    animationSmallFrameHeight       = 32;
+    const int    animationBigFrameWight          = 200;
+    const int    animationBigFrameHeight         = 30;
+    const int    collisionDamageFactor           = 300;
+    const int    defaultBulletSpeed              = 20;
+    const int    defaultBackgroundAnimTimeDelay  = 20;
+    const int    healthRewardValue               = 100;
+    const int    maxAnimationFrames              = 10;
+    const int    maxAnimationFrameIdx            = 9;
+    const int    maxNumOfLevel                   = 10;
+    const int    maxWeaponTypes                  = 3;
+    const int    maxWeaponLevel                  = 5;
+    const int    minEnemySpawnTimeDelay          = 1000;
+    const int    maxEnemySpawnTimeDelay          = 5000;
+    const int    minBackgroundItemSpawnTimeDelay = 3000;
+    const int    maxBackgroundItemSpawnTimeDelay = 10000;
+    const int    moveVectorLength                = 10;
+    const int    percentDistTabSize              = 100;
+    const double pi                              = 3.14159265;
+    const double radianConversionFactor          = pi / 180;
+    const int    valueBarPositionOffset          = 15;
+    const int    valueBarSizeOffset              = 25;
+    const int    valueLabelPositionOffset        = 5;
+    const int    valueLabelSizeOffset            = 10;
 
     //Player default configuration
     const int maxPlayerHealth            = 2000;

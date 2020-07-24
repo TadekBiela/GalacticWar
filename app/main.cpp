@@ -1,4 +1,5 @@
 #include "animationplaneview.hpp"
+#include "backgroundcontroller.hpp"
 #include "controlplane.hpp"
 #include "enemycontroller.hpp"
 #include "filemanager.hpp"
@@ -46,6 +47,7 @@ int main(int argc, char *argv[])
                                       &gameplayView);
     RewardController rewardController(&gameplayView);
     ScoreController  scoreController(&mainWindow);
+    BackgroundView   backgroundController(&mainWindow);
 
     //Controller connections
     QObject::connect(&enemyController,  SIGNAL(enemyDestroyed(QPointF, int)),

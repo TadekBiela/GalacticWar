@@ -5,6 +5,7 @@
 
 enum background_effect
 {
+    first_element = 0,
     star = 0,
     last_element = 0
 };
