@@ -11,6 +11,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                animationeffectmodel.cpp
                                animationplaneview.hpp
                                animationplaneview.cpp
+                               backgroundeffectmodel.hpp
+                               backgroundeffectmodel.cpp
                                backgroundview.hpp
                                backgroundview.cpp
                                barview.hpp

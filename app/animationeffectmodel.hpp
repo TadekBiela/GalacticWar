@@ -19,7 +19,7 @@ public:
                          int     animationFrameHeight,
                          int     numOfFrames = def::maxAnimationFrames);
     virtual ~AnimationEffectModel();
-    void play();
+    virtual void play();
 
 public slots:
     void start(){}
