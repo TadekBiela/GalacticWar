@@ -27,6 +27,9 @@ public slots:
     void mouseMoveEvent(QMouseEvent* event);
     void leaveEvent(QEvent* event);
     void keyPressEvent(QKeyEvent* event);
+
+private:
+    QGraphicsScene m_scene;
 };
 
 #endif // CONTROLPLANE_HPP

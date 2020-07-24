@@ -53,8 +53,8 @@ namespace def
     const int maxPointsForGoldCoin           = 300;
 
     //Window size
-    const int windowWight     = 602;
-    const int windowHeight    = 802;
+    const int windowWight     = 604;
+    const int windowHeight    = 804;
 
     //Scene size
     const int sceneWight      = 600;

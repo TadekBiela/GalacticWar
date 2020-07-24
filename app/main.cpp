@@ -21,24 +21,38 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QMainWindow mainWindow;
-    g_imageStorage       = new ImageStorage;
-    g_soundStorage       = new SoundStorage;
-    g_animationPlaneView = new AnimationPlaneView(&mainWindow);
-
     QFontDatabase::addApplicationFont(a.applicationDirPath() + "/fonts/joystix monospace.ttf");
     a.setFont(QFont("joystix monospace"));
 
-    //Controller
-    ControlPlane controller(&mainWindow);
+    //Main window setup
+    QMainWindow mainWindow;
+    mainWindow.setFixedSize(QSize(def::windowWight, def::windowHeight));
+    mainWindow.show();
 
-    //View
+    //Media storages setup
+    g_imageStorage = new ImageStorage;
+    g_soundStorage = new SoundStorage;
+
+    //Create view layer in correct order
+    //Background layer
+    BackgroundView backgroundController(&mainWindow);
+
+    //Gameplay layer
     GameplayView gameplayView(&mainWindow);
 
-    //Controllers
-    EnemyController  enemyController(&gameplayView);
+    //Animation layer
+    g_animationPlaneView = new AnimationPlaneView(&mainWindow);
+
+    //HUD interface layer
     HealthController healthController(&mainWindow);
     LevelController  levelController(&mainWindow);
+    ScoreController  scoreController(&mainWindow);
+
+    //Controller layer
+    ControlPlane controller(&mainWindow);
+
+    //Rest of controllers
+    EnemyController  enemyController(&gameplayView);
     MenuController   menuController(&mainWindow,
                                     &controller,
                                     &gameplayView,
@@ -46,8 +60,6 @@ int main(int argc, char *argv[])
     PlayerController playerController(&controller,
                                       &gameplayView);
     RewardController rewardController(&gameplayView);
-    ScoreController  scoreController(&mainWindow);
-    BackgroundView   backgroundController(&mainWindow);
 
     //Controller connections
     QObject::connect(&enemyController,  SIGNAL(enemyDestroyed(QPointF, int)),
@@ -79,7 +91,7 @@ int main(int argc, char *argv[])
     QObject::connect(&scoreController,  SIGNAL(updateScore(int)),
                      &menuController,   SLOT(updateScore(int)));
 
-    mainWindow.show();
+    mainWindow.resize(QSize(def::windowWight, def::windowHeight));
 	return a.exec();
 }
 

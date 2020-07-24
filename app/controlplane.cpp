@@ -1,9 +1,18 @@
 #include "controlplane.hpp"
+#include "definitions.hpp"
 
 ControlPlane::ControlPlane(QWidget* displayWidget)
-                            : QGraphicsView(displayWidget)
+    : QGraphicsView(displayWidget),
+      m_scene(0, 0, def::sceneWight, def::sceneHeight, this)
 {
-    setMouseTracking(true);
+    m_scene.setBackgroundBrush(QBrush(Qt::transparent));
+    this->setScene(&m_scene);
+    this->setStyleSheet("background: transparent;");
+    this->setBackgroundBrush(QBrush(Qt::transparent));
+    this->setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
+    this->setMouseTracking(true);
+    this->setWindowFlags(Qt::WindowStaysOnTopHint);
+    this->show();
 }
 
 ControlPlane::~ControlPlane()
