@@ -2,12 +2,6 @@
 #include "definitions.hpp"
 #include <QtMath>
 
-//Changes false into -1 and true to 1
-int changeBoolToMinusOneOrOne(bool value)
-{
-    return (static_cast<int>(value) * 2 - 1);
-}
-
 QPointF calculateXYOffset(int direction)
 {
     int halfXaxisFactor = changeBoolToMinusOneOrOne(static_cast<bool>(direction / 180)) * -1;
@@ -39,7 +33,7 @@ bool isOutOfScene(QPointF pos, QPixmap pixmap)
     int maxX = def::sceneWight + pixmap.size().width();
     int minY = 0 - pixmap.size().height();
     int maxY = def::sceneHeight + pixmap.size().height();
-    if(x < minX || x > maxX || y < minY || y > maxY)
+    if(x <= minX || x >= maxX || y <= minY || y >= maxY)
     {
         return true;
     }

@@ -106,13 +106,14 @@ add_executable(${PROJECT_NAME} main.cpp
                                stubs/randomgeneratorstub.hpp
                                stubs/soundstoragestub.hpp
                                mocks/filemanagermock.hpp
+                               utdefinitions.hpp
                                animationeffectmodeltests.cpp
                                bulletmodeltests.cpp
                                controlplanetests.cpp
-                               utdefinitions.hpp
                                enemycontrollertests.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
+                               functionstests.cpp
                                healthcontrollertests.cpp
                                healthmodeltests.cpp
                                levelmodeltests.cpp
