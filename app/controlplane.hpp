@@ -37,8 +37,14 @@ public slots:
     void keyPressEvent(QKeyEvent* event);
 
 protected:
+    void changeCursorToArrow();
+    void changeCursorToCross();
+
+    QWidget*         m_displayWidget;
     QGraphicsScene   m_scene;
     controller_state m_state;
+    QPixmap          m_arrowCursorMap;
+    QPixmap          m_crossCursorMap;
 };
 
 #endif // CONTROLPLANE_HPP

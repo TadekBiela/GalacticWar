@@ -1,12 +1,20 @@
 #include "controlplane.hpp"
 #include "definitions.hpp"
+#include "imagestorage.hpp"
 
 ControlPlane::ControlPlane(QWidget* displayWidget)
     : QGraphicsView(displayWidget),
+      m_displayWidget(displayWidget),
       m_scene(0, 0, def::sceneWight, def::sceneHeight, this),
-      m_state(controller_state::deactivated)
+      m_state(controller_state::deactivated),
+      m_arrowCursorMap(),
+      m_crossCursorMap()
 {
     m_scene.setBackgroundBrush(QBrush(Qt::transparent));
+
+    m_arrowCursorMap.convertFromImage(*g_imageStorage->getImage("arrow_cursor"));
+    m_crossCursorMap.convertFromImage(*g_imageStorage->getImage("cross_cursor"));
+
     this->setScene(&m_scene);
     this->setStyleSheet("background: transparent;");
     this->setBackgroundBrush(QBrush(Qt::transparent));
@@ -14,6 +22,8 @@ ControlPlane::ControlPlane(QWidget* displayWidget)
     this->setMouseTracking(true);
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
     this->show();
+
+    changeCursorToArrow();
 }
 
 ControlPlane::~ControlPlane()
@@ -25,12 +35,14 @@ void ControlPlane::activate()
 {
     m_state = controller_state::activated;
     this->grabKeyboard();
+    changeCursorToCross();
 }
 
 void ControlPlane::deactivate()
 {
     m_state = controller_state::deactivated;
     this->releaseKeyboard();
+    changeCursorToArrow();
 }
 
 void ControlPlane::mousePressEvent(QMouseEvent* event)
@@ -75,4 +87,16 @@ void ControlPlane::keyPressEvent(QKeyEvent* event)
     {
         emit escKeyPressed();
     }
+}
+
+void ControlPlane::changeCursorToArrow()
+{
+    QCursor arrowCursor(m_arrowCursorMap, 0, 0);
+    m_displayWidget->setCursor(arrowCursor);
+}
+
+void ControlPlane::changeCursorToCross()
+{
+    QCursor crossCursor(m_crossCursorMap, 0, 0);
+    m_displayWidget->setCursor(crossCursor);
 }
