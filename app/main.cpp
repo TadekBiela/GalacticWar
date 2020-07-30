@@ -127,6 +127,8 @@ int main(int argc, char *argv[])
                      &scoreController,      SLOT(addScorePointsBasedOnCoinType(coin_type)));
     QObject::connect(&rewardController,     SIGNAL(rewardSpecialCollected(special_type)),
                      &playerController,     SLOT(changePlayerAtribute(special_type)));
+    QObject::connect(&scoreController,      SIGNAL(maxScorePerLevelAchieved()),     //Next level
+                     &levelController,      SLOT(nextLevel()));
     QObject::connect(&playerController,     SIGNAL(addHealthPoints(int)),           //Health points
                      &healthController,     SLOT(addHealthPoints(int)));
     QObject::connect(&playerController,     SIGNAL(subtractHealthPoints(int)),
