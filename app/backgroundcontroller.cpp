@@ -24,14 +24,30 @@ BackgroundController::~BackgroundController()
 
 void BackgroundController::activate()
 {
-    m_view.startAllItems();
+    m_view.activate();
     m_itemsSpawnTimer.start();
 }
 
 void BackgroundController::deactivate()
 {
-    m_view.stopAllItems();
+    m_view.deactivate();
     m_itemsSpawnTimer.stop();
+}
+
+void BackgroundController::increaseBackgroundSpeed()
+{
+    m_view.setBackgroundTimeDelay(def::shortBackgroundAnimTimeDelay);
+}
+
+void BackgroundController::decreaseBackgroundSpeed()
+{
+    m_view.setBackgroundTimeDelay(def::defaultBackgroundAnimTimeDelay);
+}
+
+void BackgroundController::resetToDefault()
+{
+    m_view.activate();
+    m_view.setBackgroundTimeDelay(def::defaultBackgroundAnimTimeDelay);
 }
 
 void BackgroundController::spawnItem()

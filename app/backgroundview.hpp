@@ -2,6 +2,7 @@
 #define BACKGROUNDVIEW_HPP
 
 #include "animationplaneview.hpp"
+#include <QLabel>
 #include <QPixmap>
 #include <QTimer>
 #include <QWidget>
@@ -12,17 +13,19 @@ class BackgroundView : public AnimationPlaneView
 public:
     BackgroundView(QWidget* displayWidget);
     virtual ~BackgroundView();
-    void activate() override;
+    void setGraphicsEffects(qreal opacity, qreal blurRadius) override;
+    void activate()   override;
     void deactivate() override;
+    void setBackgroundTimeDelay(int delay);
 
 private slots:
     void backgroundAnimation();
 
 private:
-    int                 m_backgroundAnimTimeDelay;
-    QTimer              m_backgroundAnimTimer;
-    QGraphicsPixmapItem m_backgroundGraphics;
-    int                 m_backgroundGraphicsPosOffset;
+    QTimer  m_backgroundAnimTimer;
+    QPixmap m_backgroundGraphics;
+    int     m_backgroundGraphicsPosOffset;
+    QLabel  m_backgroundLabelWindow;
 };
 
 #endif // BACKGROUNDVIEW_HPP

@@ -75,6 +75,8 @@ int main(int argc, char *argv[])
                      &playerController,     SLOT(create()));
     QObject::connect(&menuController,       SIGNAL(gameStarted()),
                      &enemyController,      SLOT(startSpawning()));
+    QObject::connect(&menuController,       SIGNAL(gameStarted()),
+                     &backgroundController, SLOT(increaseBackgroundSpeed()));
     QObject::connect(&menuController,       SIGNAL(gamePaused()),   //Game paused
                      &healthController,     SLOT(hide()));
     QObject::connect(&menuController,       SIGNAL(gamePaused()),
@@ -104,7 +106,7 @@ int main(int argc, char *argv[])
     QObject::connect(&menuController,       SIGNAL(gameAborted()),
                      &enemyController,      SLOT(stopSpawning()));
     QObject::connect(&menuController,       SIGNAL(gameAborted()),
-                     &backgroundController, SLOT(activate()));
+                     &backgroundController, SLOT(resetToDefault()));
     QObject::connect(&menuController,       SIGNAL(gameOver()),     //Game over
                      &healthController,     SLOT(destroy()));
     QObject::connect(&menuController,       SIGNAL(gameOver()),
@@ -115,6 +117,8 @@ int main(int argc, char *argv[])
                      &enemyController,      SLOT(stopSpawning()));
     QObject::connect(&menuController,       SIGNAL(gameOver()),
                      &playerController,     SLOT(destroy()));
+    QObject::connect(&menuController,       SIGNAL(gameOver()),
+                     &backgroundController, SLOT(decreaseBackgroundSpeed()));
     QObject::connect(&scoreController,      SIGNAL(totalScore(int)),                //Total score
                      &menuController,       SLOT(updateScore(int)));
     QObject::connect(&enemyController,      SIGNAL(enemyDestroyed(QPointF, int)),   //Spawn rewards

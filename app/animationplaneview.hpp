@@ -12,10 +12,10 @@ public:
     AnimationPlaneView(QWidget* displayWidget);
     virtual ~AnimationPlaneView();
     virtual void startAllItems() override;
-    virtual void stopAllItems() override;
+    virtual void stopAllItems()  override;
 
 public slots:
-    void activate() override;
+    void activate()   override;
     void deactivate() override;
     void addEffectToScene(AnimationEffectModel* object);
 };

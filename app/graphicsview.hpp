@@ -10,7 +10,7 @@ class GraphicsView : public QGraphicsView
 public:
     GraphicsView(QWidget* displayWidget);
     virtual ~GraphicsView();
-    void setGraphicsEffects(qreal opacity, qreal blurRadius);
+    virtual void setGraphicsEffects(qreal opacity, qreal blurRadius);
     virtual void startAllItems() = 0;
     virtual void stopAllItems() = 0;
 

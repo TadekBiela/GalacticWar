@@ -1,27 +1,30 @@
 #include "backgroundview.hpp"
 #include "definitions.hpp"
 #include "imagestorage.hpp"
+#include <QGraphicsEffect>
 
 BackgroundView::BackgroundView(QWidget* displayWidget)
     : AnimationPlaneView(displayWidget),
-      m_backgroundAnimTimeDelay(def::defaultBackgroundAnimTimeDelay),
       m_backgroundAnimTimer(),
       m_backgroundGraphics(),
-      m_backgroundGraphicsPosOffset(0)
+      m_backgroundGraphicsPosOffset(0),
+      m_backgroundLabelWindow(displayWidget)
 {
-    QImage* backgroundImage = g_imageStorage->getImage("background");
-    QPixmap backgroundPixmap;
-    backgroundPixmap.convertFromImage(*backgroundImage);
-    m_backgroundGraphics.setPixmap(backgroundPixmap);
-    m_backgroundGraphics.setPos(0, 0 - m_backgroundGraphics.pixmap().height() + def::sceneHeight);
+    this->setBackgroundBrush(QBrush(Qt::transparent));
+    m_scene.setBackgroundBrush(QBrush(Qt::transparent));
 
-    this->setBackgroundBrush(QBrush(Qt::black));
-    m_scene.setBackgroundBrush(QBrush(Qt::black));
-    m_scene.addItem(dynamic_cast<QGraphicsItem*>(&m_backgroundGraphics));
+    QImage* backgroundImage = g_imageStorage->getImage("background");
+    m_backgroundGraphics.convertFromImage(*backgroundImage);
+    m_backgroundLabelWindow.setGeometry(1,
+                                        1,
+                                        def::sceneWight,
+                                        def::sceneHeight);
+    m_backgroundLabelWindow.stackUnder(dynamic_cast<QWidget*>(&m_scene));
+    m_backgroundLabelWindow.show();
 
     connect(&m_backgroundAnimTimer, SIGNAL(timeout()),
             this, SLOT(backgroundAnimation()));
-    m_backgroundAnimTimer.setInterval(m_backgroundAnimTimeDelay);
+    m_backgroundAnimTimer.setInterval(def::defaultBackgroundAnimTimeDelay);
     m_backgroundAnimTimer.start();
 }
 
@@ -30,27 +33,50 @@ BackgroundView::~BackgroundView()
 
 }
 
+void BackgroundView::setGraphicsEffects(qreal opacity, qreal blurRadius)
+{
+    GraphicsView::setGraphicsEffects(opacity, blurRadius);
+
+    QGraphicsOpacityEffect* opacityEffect = new QGraphicsOpacityEffect();
+    opacityEffect->setOpacity(opacity);
+    m_backgroundLabelWindow.setGraphicsEffect(opacityEffect);
+    QGraphicsBlurEffect* blurEffect = new QGraphicsBlurEffect();
+    blurEffect->setBlurRadius(blurRadius);
+    m_backgroundLabelWindow.setGraphicsEffect(blurEffect);
+}
+
 void BackgroundView::activate()
 {
-//    AnimationPlaneView::activate();
+    startAllItems();
     m_backgroundAnimTimer.start();
+    setGraphicsEffects(0, 0);
 }
 
 void BackgroundView::deactivate()
 {
-//    AnimationPlaneView::deactivate();
+    stopAllItems();
     m_backgroundAnimTimer.stop();
+    setGraphicsEffects(0.6, 6);
+}
+
+void BackgroundView::setBackgroundTimeDelay(int delay)
+{
+    m_backgroundAnimTimer.setInterval(delay);
 }
 
 void BackgroundView::backgroundAnimation()
 {
-    int endBackgroundGraphicsPositionY = m_backgroundGraphics.pixmap().height() - def::sceneHeight;
-    if(endBackgroundGraphicsPositionY <= m_backgroundGraphicsPosOffset)
+    int endBackgroundPositionOffsetValue = m_backgroundGraphics.height() - def::sceneHeight;
+    if(endBackgroundPositionOffsetValue < m_backgroundGraphicsPosOffset)
     {
         m_backgroundGraphicsPosOffset = 0;
     }
 
-    int startBackgroundGraphicsPositionY = 0 - m_backgroundGraphics.pixmap().height() + def::sceneHeight;
-    m_backgroundGraphics.setPos(0, startBackgroundGraphicsPositionY + m_backgroundGraphicsPosOffset);
+    int startBackgroundGraphicsPositionY = m_backgroundGraphics.height() - def::sceneHeight;
+    m_backgroundLabelWindow.setPixmap(
+                m_backgroundGraphics.copy(0,
+                startBackgroundGraphicsPositionY - m_backgroundGraphicsPosOffset,
+                def::sceneWight,
+                def::sceneHeight));
     m_backgroundGraphicsPosOffset++;
 }

@@ -14,7 +14,8 @@ namespace def
     const int    animationBigFrameHeight         = 30;
     const int    collisionDamageFactor           = 300;
     const int    defaultBulletSpeed              = 20;
-    const int    defaultBackgroundAnimTimeDelay  = 20;
+    const int    shortBackgroundAnimTimeDelay    = 5;
+    const int    defaultBackgroundAnimTimeDelay  = 10;
     const int    healthRewardValue               = 100;
     const int    maxAnimationFrames              = 10;
     const int    maxAnimationFrameIdx            = 9;

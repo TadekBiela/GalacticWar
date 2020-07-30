@@ -15,12 +15,12 @@ public:
     BackgroundController(QWidget* displayWidget);
     virtual ~BackgroundController();
 
-signals:
-    void addEffectToScene(AnimationEffectModel* effect);
-
 public slots:
     void activate();
     void deactivate();
+    void increaseBackgroundSpeed();
+    void decreaseBackgroundSpeed();
+    void resetToDefault();
 
 private slots:
     void spawnItem();
