@@ -41,8 +41,6 @@ add_executable(${PROJECT_NAME} main.cpp
                                gameobject.cpp
                                gameplayview.hpp
                                gameplayview.cpp
-                               generalview.hpp
-                               generalview.cpp
                                graphicsview.hpp
                                graphicsview.cpp
                                healthcontroller.hpp
