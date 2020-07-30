@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/imagestoragestub.hpp"
 #include  "../app/controlplane.hpp"
 #include <QEvent>
 #include <QKeyEvent>
@@ -20,6 +21,15 @@ public:
 
 class ControlPlaneTestsClass : public testing::Test
 {
+public:
+    void SetUp()
+    {
+        g_imageStorage = new ImageStorageStub;
+    }
+    void TearDown()
+    {
+        delete g_imageStorage;
+    }
 };
 
 TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedMouseRightButtonPressed_ShouldNotSendSignalMousePressed)
