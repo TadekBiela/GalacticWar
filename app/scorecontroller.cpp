@@ -1,11 +1,13 @@
 #include "scorecontroller.hpp"
 #include "randomgenerator.hpp"
 
-ScoreController::ScoreController(QWidget* displayWidget)
-                                  : m_displayWidget(displayWidget),
-                                    m_generator(new RandomGenerator()),
-                                    m_model(nullptr),
-                                    m_view(nullptr)
+ScoreController::ScoreController(QWidget*      displayWidget,
+                                 ControlPlane* controller)
+    : m_displayWidget(displayWidget),
+      m_controller(controller),
+      m_generator(new RandomGenerator()),
+      m_model(nullptr),
+      m_view(nullptr)
 {
 
 }
@@ -27,10 +29,13 @@ void ScoreController::create()
 {
     m_model = new ScoreModel();
     m_view  = new BarView(m_displayWidget,
-                          "scoreBar",
+                          m_controller,
+                          "scoreView",
                           def::darkYellowHex);
-    m_view->setPosition(def::scoreGraphicsPositionX,
-                        def::scoreGraphicsPositionY);
+    m_view->setPosition(def::scoreGraphicsCenterPositionX,
+                        def::scoreGraphicsCenterPositionY);
+    m_view->invertAppearance();
+    m_view->show();
 }
 
 void ScoreController::destroy()

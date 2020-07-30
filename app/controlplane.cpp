@@ -3,7 +3,8 @@
 
 ControlPlane::ControlPlane(QWidget* displayWidget)
     : QGraphicsView(displayWidget),
-      m_scene(0, 0, def::sceneWight, def::sceneHeight, this)
+      m_scene(0, 0, def::sceneWight, def::sceneHeight, this),
+      m_state(controller_state::deactivated)
 {
     m_scene.setBackgroundBrush(QBrush(Qt::transparent));
     this->setScene(&m_scene);
@@ -11,7 +12,7 @@ ControlPlane::ControlPlane(QWidget* displayWidget)
     this->setBackgroundBrush(QBrush(Qt::transparent));
     this->setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
     this->setMouseTracking(true);
-    this->setWindowFlags(Qt::WindowStaysOnTopHint);
+    this->setWindowFlag(Qt::WindowStaysOnTopHint);
     this->show();
 }
 
@@ -20,9 +21,22 @@ ControlPlane::~ControlPlane()
 
 }
 
+void ControlPlane::activate()
+{
+    m_state = controller_state::activated;
+    this->grabKeyboard();
+}
+
+void ControlPlane::deactivate()
+{
+    m_state = controller_state::deactivated;
+    this->releaseKeyboard();
+}
+
 void ControlPlane::mousePressEvent(QMouseEvent* event)
 {
-    if(Qt::MouseButton::LeftButton == event->button())
+    if(Qt::MouseButton::LeftButton == event->button() &&
+       controller_state::activated == m_state)
     {
         emit mousePressed();
     }
@@ -30,7 +44,8 @@ void ControlPlane::mousePressEvent(QMouseEvent* event)
 
 void ControlPlane::mouseReleaseEvent(QMouseEvent* event)
 {
-    if(Qt::MouseButton::LeftButton == event->button())
+    if(Qt::MouseButton::LeftButton == event->button() &&
+       controller_state::activated == m_state)
     {
         emit mouseReleased();
     }
@@ -38,18 +53,25 @@ void ControlPlane::mouseReleaseEvent(QMouseEvent* event)
 
 void ControlPlane::mouseMoveEvent(QMouseEvent* event)
 {
-    emit mouseMoved(event->pos());
+    if(controller_state::activated == m_state)
+    {
+        emit mouseMoved(event->pos());
+    }
 }
 
 void ControlPlane::leaveEvent(QEvent* event)
 {
-    event->ignore();
-    emit mouseLeaveWindow();
+    if(controller_state::activated == m_state)
+    {
+        event->ignore();
+        emit mouseLeaveWindow();
+    }
 }
 
 void ControlPlane::keyPressEvent(QKeyEvent* event)
 {
-    if(Qt::Key_Escape == event->key())
+    if(Qt::Key_Escape == event->key() &&
+       controller_state::activated == m_state)
     {
         emit escKeyPressed();
     }

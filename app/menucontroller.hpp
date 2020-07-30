@@ -37,8 +37,6 @@ public slots:
     void exitGame();
 
 protected:
-    bool      m_isGameStarted;
-    bool      m_isGamePaused;
     MenuModel m_model;
     MenuView  m_view;
 };

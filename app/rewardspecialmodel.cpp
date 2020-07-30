@@ -6,7 +6,7 @@
 #include "imagestorage.hpp"
 
 RewardSpecialModel::RewardSpecialModel(special_type type)
-                                        : m_type(type)
+    : m_type(type)
 {
     QString animationName;
     switch (m_type)

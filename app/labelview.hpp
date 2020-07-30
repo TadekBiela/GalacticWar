@@ -1,6 +1,7 @@
 #ifndef LABELVIEW_HPP
 #define LABELVIEW_HPP
 
+#include "controlplane.hpp"
 #include "iinterfaceview.hpp"
 #include <QLabel>
 #include <QString>
@@ -9,8 +10,9 @@
 class LabelView : public IInterfaceView
 {
 public:
-    LabelView(QWidget* displayWidget,
-              QString  graphicsName);
+    LabelView(QWidget*      displayWidget,
+              ControlPlane* controller,
+              QString       graphicsName);
     virtual ~LabelView();
     void setPosition(int x, int y) override;
     void set(int value) override;

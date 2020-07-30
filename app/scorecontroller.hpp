@@ -2,6 +2,7 @@
 #define SCORECONTROLLER_HPP
 
 #include "barview.hpp"
+#include "controlplane.hpp"
 #include "irandomgenerator.hpp"
 #include "scoremodel.hpp"
 #include "rewardtypes.hpp"
@@ -11,7 +12,8 @@ class ScoreController : public QObject
 {
     Q_OBJECT
 public:
-    ScoreController(QWidget* displayWidget);
+    ScoreController(QWidget*      displayWidget,
+                    ControlPlane* controller);
     virtual ~ScoreController();
 
 signals:
@@ -28,6 +30,7 @@ public slots:
 
 protected:
     QWidget*          m_displayWidget;
+    ControlPlane*     m_controller;
     IRandomGenerator* m_generator;
     ScoreModel*       m_model;
     BarView*          m_view;

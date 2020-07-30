@@ -11,8 +11,8 @@ class AnimationPlaneView : public GraphicsView
 public:
     AnimationPlaneView(QWidget* displayWidget);
     virtual ~AnimationPlaneView();
-    void startAllItems() override;
-    void stopAllItems() override;
+    virtual void startAllItems() override;
+    virtual void stopAllItems() override;
 
 public slots:
     void activate() override;

@@ -6,7 +6,7 @@
 #include "soundeffectmodel.hpp"
 
 RewardCoinModel::RewardCoinModel(coin_type type)
-                                  : m_type(type)
+    : m_type(type)
 {
     QString animationName;
     switch (m_type)

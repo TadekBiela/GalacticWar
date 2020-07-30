@@ -3,7 +3,7 @@
 #include "definitions.hpp"
 
 PushButton::PushButton(const QString& text, QWidget* parent)
-                        : QPushButton (text, parent)
+    : QPushButton (text, parent)
 {
     QString style("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; font-size: 20px;");
     setStyleSheet(style);

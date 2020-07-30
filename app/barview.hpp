@@ -1,6 +1,7 @@
 #ifndef BARVIEW_HPP
 #define BARVIEW_HPP
 
+#include "controlplane.hpp"
 #include "iinterfaceview.hpp"
 #include <QProgressBar>
 #include <QString>
@@ -9,9 +10,10 @@
 class BarView : public IInterfaceView
 {
 public:
-    BarView(QWidget* displayWidget,
-            QString  graphicsName,
-            QString  barColorInHex);
+    BarView(QWidget*      displayWidget,
+            ControlPlane* controller,
+            QString       graphicsName,
+            QString       barColorInHex);
     virtual ~BarView();
     void setPosition(int x, int y) override;
     void set(int value) override;

@@ -6,7 +6,7 @@
 #include <QDebug>
 
 Label::Label(const QString& text, QWidget* parent)
-              : QLabel (text, parent)
+    : QLabel (text, parent)
 {
     QString style("border: 0px; color: #FFFFFF; font-size: 45px;");
     QLabel::setStyleSheet(style);

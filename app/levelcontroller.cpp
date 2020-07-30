@@ -3,10 +3,12 @@
 #include "definitions.hpp"
 #include "soundeffectmodel.hpp"
 
-LevelController::LevelController(QWidget* displayWidget)
-                                  : m_displayWidget(displayWidget),
-                                    m_model(nullptr),
-                                    m_view(nullptr)
+LevelController::LevelController(QWidget*      displayWidget,
+                                 ControlPlane* controller)
+    : m_displayWidget(displayWidget),
+      m_controller(controller),
+      m_model(nullptr),
+      m_view(nullptr)
 {
 
 }
@@ -27,12 +29,15 @@ void LevelController::create()
 {
     m_model = new LevelModel();
     m_view  = new LabelView(m_displayWidget,
+                            m_controller,
                            "levelView");
-    m_view->setPosition(def::levelGraphicsPositionX,
-                        def::levelGraphicsPositionY);
+    m_view->setPosition(def::levelGraphicsCenterPositionX,
+                        def::levelGraphicsCenterPositionY);
+    m_view->set(1);
+    m_view->show();
 }
 
-void LevelController::distroy()
+void LevelController::destroy()
 {
     delete m_model;
     m_model = nullptr;

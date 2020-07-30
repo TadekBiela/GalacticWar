@@ -29,8 +29,10 @@ namespace def
     const int    percentDistTabSize              = 100;
     const double pi                              = 3.14159265;
     const double radianConversionFactor          = pi / 180;
-    const int    valueBarPositionOffset          = 15;
-    const int    valueBarSizeOffset              = 25;
+    const int    valueBarPositionOffsetX         = 15;
+    const int    valueBarPositionOffsetY         = 5;
+    const int    valueBarSizeOffsetX             = 30;
+    const int    valueBarSizeOffsetY             = 14;
     const int    valueLabelPositionOffset        = 5;
     const int    valueLabelSizeOffset            = 10;
 
@@ -103,12 +105,12 @@ namespace def
     const int gameoverBottomButtonPositionY = gameoverPlayerNameFieldPositionY
                                             + gameoverPlayerNameFieldHeight + 100;
     //Interface
-    const int healthGraphicsPositionX = 10;
-    const int healthGraphicsPositionY = sceneHeight - 68;
-    const int scoreGraphicsPositionX  = sceneWight  - 250;
-    const int scoreGraphicsPositionY  = healthGraphicsPositionY;
-    const int levelGraphicsPositionX  = halfSceneWight - 32;
-    const int levelGraphicsPositionY  = sceneHeight    - 80;
+    const int healthGraphicsCenterPositionX = 130;
+    const int healthGraphicsCenterPositionY = sceneHeight - 45;
+    const int scoreGraphicsCenterPositionX  = sceneWight  - 130;
+    const int scoreGraphicsCenterPositionY  = healthGraphicsCenterPositionY;
+    const int levelGraphicsCenterPositionX  = halfSceneWight;
+    const int levelGraphicsCenterPositionY  = sceneHeight - 45;
 
     //Defalut directions
     const int up    = 0;

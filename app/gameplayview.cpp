@@ -1,7 +1,7 @@
 #include "gameplayview.hpp"
 
 GameplayView::GameplayView(QWidget* displayWidget)
-                            : GraphicsView(displayWidget)
+    : GraphicsView(displayWidget)
 {
 
 }
@@ -53,4 +53,5 @@ void GameplayView::addGameObjectToScene(GameObject* object)
 void GameplayView::removeAllGameObjects()
 {
     m_scene.clear();
+    setGraphicsEffects(0, 0);
 }

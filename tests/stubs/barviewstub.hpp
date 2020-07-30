@@ -3,6 +3,7 @@
 
 #include <gmock/gmock.h>
 #include "../app/barview.hpp"
+#include "../app/controlplane.hpp"
 #include "../app/definitions.hpp"
 
 using namespace testing;
@@ -10,8 +11,10 @@ using namespace testing;
 class BarViewStub : public BarView
 {
 public:
-    BarViewStub(QWidget* displayWidget)
+    BarViewStub(QWidget*       displayWidget,
+                ControlPlane * controller)
         : BarView(displayWidget,
+                  controller,
                   QString("healthView"),
                   QString(def::darkRedHex)){}
     virtual ~BarViewStub() {}

@@ -11,7 +11,7 @@ struct BackgroundEffect
 };
 
 const BackgroundEffect BackgroundEffectModel::s_backgroundEffectsConfig[background_effect::last_element + 1] =
-    { { "star", 10, 10, 5, 20 } };
+    { { "star", 10, 10, 10, 20 } };
 
 BackgroundEffectModel::BackgroundEffectModel(background_effect type,
                                              QPointF           startPosition,

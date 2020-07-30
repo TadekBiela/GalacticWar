@@ -4,7 +4,7 @@
 #include "stubs/randomgeneratorstub.hpp"
 #include "stubs/soundstoragestub.hpp"
 #include "../app/definitions.hpp"
-#include "../app/generalview.hpp"
+#include "../app/controlplane.hpp"
 #include "../app/scorecontroller.hpp"
 #include "../app/scoremodel.hpp"
 #include <QSignalSpy>
@@ -14,8 +14,10 @@ using namespace testing;
 class ScoreControllerTest : public ScoreController
 {
 public:
-    ScoreControllerTest(QWidget* displayWidget)
-                         : ScoreController(displayWidget)
+    ScoreControllerTest(QWidget*      displayWidget,
+                        ControlPlane* controller)
+                         : ScoreController(displayWidget,
+                                           controller)
     {
         create();
     }
@@ -45,8 +47,9 @@ public:
 
 TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0BronzeCoinAdded10Points_ShouldNotSendSignalMaxScorePerLevelAchieved)
 {
-    QWidget displayWidget;
-    ScoreControllerTest scoreController(&displayWidget);
+    QWidget              displayWidget;
+    ControlPlane         controlPlane(&displayWidget);
+    ScoreControllerTest  scoreController(&displayWidget, &controlPlane);
     RandomGeneratorStub* generatorStub = new RandomGeneratorStub;
     ON_CALL(*generatorStub, bounded).WillByDefault(Return(10));
     scoreController.setGenerator(generatorStub);
@@ -61,8 +64,9 @@ TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0B
 
 TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0GoldCoinAdded10000Points_ShouldSendSignalMaxScorePerLevelAchieved)
 {
-    QWidget displayWidget;
-    ScoreControllerTest scoreController(&displayWidget);
+    QWidget              displayWidget;
+    ControlPlane         controlPlane(&displayWidget);
+    ScoreControllerTest  scoreController(&displayWidget, &controlPlane);
     RandomGeneratorStub* generatorStub = new RandomGeneratorStub;
     ON_CALL(*generatorStub, bounded(_, _)).WillByDefault(Return(10000));
     scoreController.setGenerator(generatorStub);

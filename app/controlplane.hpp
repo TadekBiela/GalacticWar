@@ -7,6 +7,12 @@
 #include <QMouseEvent>
 #include <QPoint>
 
+enum controller_state
+{
+    activated = 0,
+    deactivated = 1
+};
+
 class ControlPlane : public QGraphicsView
 {
     Q_OBJECT
@@ -22,14 +28,17 @@ signals:
     void escKeyPressed();
 
 public slots:
+    void activate();
+    void deactivate();
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
     void leaveEvent(QEvent* event);
     void keyPressEvent(QKeyEvent* event);
 
-private:
-    QGraphicsScene m_scene;
+protected:
+    QGraphicsScene   m_scene;
+    controller_state m_state;
 };
 
 #endif // CONTROLPLANE_HPP

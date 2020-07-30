@@ -21,11 +21,6 @@ public:
                                          gameplayView,
                                          animationView) {}
     virtual ~MenuControllerTest() {}
-
-    bool getIsGameStarted() const { return m_isGameStarted; }
-    bool getIsGamePaused()  const { return m_isGamePaused; }
-    void setIsGameStarted(bool value) { m_isGameStarted = value; }
-    void setIsGamePaused(bool value)  { m_isGamePaused  = value; }
 };
 
 class MenuControllerTestsClass : public testing::Test
@@ -43,7 +38,7 @@ public:
     }
 };
 
-TEST_F(MenuControllerTestsClass, PauseGame_GameNotStarted_ShouldDoNothing)
+TEST_F(MenuControllerTestsClass, PauseGame_CheckCorrectWorking_ShouldSendGamePauseSignal)
 {
     QWidget            displayWidget;
     ControlPlane       controller(&displayWidget);
@@ -57,54 +52,7 @@ TEST_F(MenuControllerTestsClass, PauseGame_GameNotStarted_ShouldDoNothing)
     signalGamePaused.wait(utdef::minSignalTimeDelay);
 
     menuController.pauseGame();
-    int  resultSignalGamePaused = signalGamePaused.count();
-    bool resultIsGamePaused     = menuController.getIsGamePaused();
-
-    EXPECT_EQ(0, resultSignalGamePaused);
-    EXPECT_FALSE(resultIsGamePaused);
-}
-
-TEST_F(MenuControllerTestsClass, PauseGame_GameStartedAndNotPaused_ShouldSendSignalGamePausedAndSetIsGamePausedAsTrue)
-{
-    QWidget            displayWidget;
-    ControlPlane       controller(&displayWidget);
-    GameplayView       gameplayView(&displayWidget);
-    AnimationPlaneView animationView(&displayWidget);
-    MenuControllerTest menuController(&displayWidget,
-                                      &controller,
-                                      &gameplayView,
-                                      &animationView);
-    menuController.setIsGameStarted(true);
-    QSignalSpy signalGamePaused(&menuController, &MenuControllerTest::gamePaused);
-    signalGamePaused.wait(utdef::minSignalTimeDelay);
-
-    menuController.pauseGame();
-    int  resultSignalGamePaused = signalGamePaused.count();
-    bool resultIsGamePaused     = menuController.getIsGamePaused();
+    int resultSignalGamePaused = signalGamePaused.count();
 
     EXPECT_EQ(1, resultSignalGamePaused);
-    EXPECT_TRUE(resultIsGamePaused);
-}
-
-TEST_F(MenuControllerTestsClass, PauseGame_GameStartedAndPaused_ShouldDoNothing)
-{
-    QWidget            displayWidget;
-    ControlPlane       controller(&displayWidget);
-    GameplayView       gameplayView(&displayWidget);
-    AnimationPlaneView animationView(&displayWidget);
-    MenuControllerTest menuController(&displayWidget,
-                                      &controller,
-                                      &gameplayView,
-                                      &animationView);
-    menuController.setIsGameStarted(true);
-    menuController.setIsGamePaused(true);
-    QSignalSpy signalGamePaused(&menuController, &MenuControllerTest::gamePaused);
-    signalGamePaused.wait(utdef::minSignalTimeDelay);
-
-    menuController.pauseGame();
-    int  resultSignalGamePaused = signalGamePaused.count();
-    bool resultIsGamePaused     = menuController.getIsGamePaused();
-
-    EXPECT_EQ(0, resultSignalGamePaused);
-    EXPECT_TRUE(resultIsGamePaused);
 }

@@ -1,8 +1,10 @@
 #include "healthcontroller.hpp"
 #include "definitions.hpp"
 
-HealthController::HealthController(QWidget* displayWidget)
+HealthController::HealthController(QWidget*      displayWidget,
+                                   ControlPlane* controller)
     : m_displayWidget(displayWidget),
+      m_controller(controller),
       m_model(nullptr),
       m_view(nullptr)
 {
@@ -25,10 +27,13 @@ void HealthController::create()
 {
     m_model = new HealthModel();
     m_view  = new BarView(m_displayWidget,
-                          "healthBar",
+                          m_controller,
+                          "healthView",
                           def::darkRedHex);
-    m_view->setPosition(def::healthGraphicsPositionX,
-                        def::healthGraphicsPositionY);
+    m_view->setPosition(def::healthGraphicsCenterPositionX,
+                        def::healthGraphicsCenterPositionY);
+    m_view->set(m_model->getCurrentHealthInPercent());
+    m_view->show();
 }
 
 void HealthController::destroy()
@@ -60,7 +65,9 @@ void HealthController::subtractHealthPoints(int healthPoints)
     Health_Status status = m_model->subtract(healthPoints);
     if(Health_Status_No_More == status)
     {
+        m_view->set(0);
         emit noHealth();
+        return;
     }
     m_view->set(m_model->getCurrentHealthInPercent());
 }

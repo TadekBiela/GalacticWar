@@ -32,13 +32,13 @@ BackgroundView::~BackgroundView()
 
 void BackgroundView::activate()
 {
-    AnimationPlaneView::activate();
+//    AnimationPlaneView::activate();
     m_backgroundAnimTimer.start();
 }
 
 void BackgroundView::deactivate()
 {
-    AnimationPlaneView::deactivate();
+//    AnimationPlaneView::deactivate();
     m_backgroundAnimTimer.stop();
 }
 

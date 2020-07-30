@@ -15,7 +15,7 @@ const int RewardController::s_coinTypeInTier[def::maxTier][10] =
 const int RewardController::s_specialChanceInTier[def::maxTier] = { 0, 2, 3, 4, 6, 10 };
 
 RewardController::RewardController(GameplayView* view)
-                                    : m_generator(new RandomGenerator)
+    : m_generator(new RandomGenerator)
 {
     connect(this, SIGNAL(addRewardToScene(GameObject*)),
             view, SLOT(addGameObjectToScene(GameObject*)));

@@ -4,6 +4,7 @@
 #include "stubs/barviewstub.hpp"
 #include "stubs/imagestoragestub.hpp"
 #include "stubs/soundstoragestub.hpp"
+#include "../app/controlplane.hpp"
 #include "../app/healthcontroller.hpp"
 #include "../app/definitions.hpp"
 #include <QSignalSpy>
@@ -23,9 +24,11 @@ class HealthControllerTest : public HealthController
 {
 public:
     HealthControllerTest(QWidget*         displayWidget,
+                         ControlPlane*    controller,
                          HealthModelMock* modelMock,
                          BarViewStub*     viewMock)
-        : HealthController(displayWidget)
+        : HealthController(displayWidget,
+                           controller)
     {
         m_model = modelMock;
         m_view  = viewMock;
@@ -53,9 +56,14 @@ public:
 TEST_F(HealthControllerTestsClass, SubtractHealthPoints_currentHealthIsMaxSubtract10Points_ShouldNotSendSignalNoHealth)
 {
     QWidget              displayWidget;
+    ControlPlane         controlPlane(&displayWidget);
     HealthModelMock      modelMock;
-    BarViewStub          viewMock(&displayWidget);
-    HealthControllerTest controller(&displayWidget, &modelMock, &viewMock);
+    BarViewStub          viewMock(&displayWidget,
+                                  &controlPlane);
+    HealthControllerTest controller(&displayWidget,
+                                    &controlPlane,
+                                    &modelMock,
+                                    &viewMock);
     ON_CALL(modelMock, subtract(_)).WillByDefault(Return(Health_Status_Still_Is));
     QSignalSpy signalNoHealth(&controller, &HealthControllerTest::noHealth);
     signalNoHealth.wait(utdef::minSignalTimeDelay);
@@ -69,9 +77,14 @@ TEST_F(HealthControllerTestsClass, SubtractHealthPoints_currentHealthIsMaxSubtra
 TEST_F(HealthControllerTestsClass, SubtractHealthPoints_currentHealthIsMaxSubtractMaxPoints_ShouldSendSignalNoHealth)
 {
     QWidget              displayWidget;
+    ControlPlane         controlPlane(&displayWidget);
     HealthModelMock      modelMock;
-    BarViewStub          viewMock(&displayWidget);
-    HealthControllerTest controller(&displayWidget, &modelMock, &viewMock);
+    BarViewStub          viewMock(&displayWidget,
+                                  &controlPlane);
+    HealthControllerTest controller(&displayWidget,
+                                    &controlPlane,
+                                    &modelMock,
+                                    &viewMock);
     ON_CALL(modelMock, subtract(def::maxPlayerHealth)).WillByDefault(Return(Health_Status_No_More));
     QSignalSpy signalNoHealth(&controller, &HealthControllerTest::noHealth);
     signalNoHealth.wait(utdef::minSignalTimeDelay);

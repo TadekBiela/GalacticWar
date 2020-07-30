@@ -7,9 +7,9 @@ const int ScoreModel::s_scoreTresholds[def::maxNumOfLevel] =
 };
 
 ScoreModel::ScoreModel()
-                       : m_currentTresholdIdx(0),
-                         m_currentScore(0),
-                         m_totalScore(0)
+    : m_currentTresholdIdx(0),
+      m_currentScore(0),
+      m_totalScore(0)
 {
 
 }

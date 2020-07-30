@@ -1,6 +1,7 @@
 #ifndef IINTERFACEVIEW_HPP
 #define IINTERFACEVIEW_HPP
 
+#include "controlplane.hpp"
 #include <QLabel>
 #include <QString>
 #include <QWidget>
@@ -8,8 +9,9 @@
 class IInterfaceView
 {
 public:
-    IInterfaceView(QWidget* displayWidget,
-                   QString  graphicsName);
+    IInterfaceView(QWidget*      displayWidget,
+                   ControlPlane* controller,
+                   QString       graphicsName);
     ~IInterfaceView();
     virtual void setPosition(int x, int y);
     virtual void set(int value) = 0;

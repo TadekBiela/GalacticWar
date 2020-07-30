@@ -12,10 +12,7 @@ PlayerController::PlayerController(ControlPlane* controller,
 
 PlayerController::~PlayerController()
 {
-    if(m_model)
-    {
-        delete m_model;
-    }
+
 }
 
 void PlayerController::create()
@@ -35,9 +32,22 @@ void PlayerController::create()
 
 void PlayerController::destroy()
 {
-    m_model->scene()->removeItem(m_model);
-    delete m_model;
-    m_model = nullptr;
+    QPointF position;
+    position.setX(m_model->pos().x() + m_model->pixmap().width()  / 2);
+    position.setY(m_model->pos().y() + m_model->pixmap().height() / 2);
+    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
+                                                                   position,
+                                                                   def::animationFrameWight,
+                                                                   def::animationFrameHeight);
+    explosionAnim->play();
+    SoundEffectModel* explosionSound = new SoundEffectModel("explosion");
+    explosionSound->play();
+
+    if(m_model)
+    {
+        delete m_model;
+        m_model = nullptr;
+    }
 }
 
 void PlayerController::changePlayerAtribute(special_type reward)
@@ -53,19 +63,4 @@ void PlayerController::addHealth(int healthPoints)
 void PlayerController::subtractHealth(int healthPoints)
 {
     emit subtractHealthPoints(healthPoints);
-}
-
-void PlayerController::defeat()
-{
-    QPointF position;
-    position.setX(m_model->pos().x() + m_model->pixmap().width()  / 2);
-    position.setY(m_model->pos().y() + m_model->pixmap().height() / 2);
-    AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
-                                                                   position,
-                                                                   def::animationFrameWight,
-                                                                   def::animationFrameHeight);
-    explosionAnim->play();
-    SoundEffectModel* explosionSound = new SoundEffectModel("explosion");
-    explosionSound->play();
-    destroy();
 }

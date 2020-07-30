@@ -43,6 +43,16 @@ void AnimationEffectModel::play()
     m_animationTimer.start();
 }
 
+void AnimationEffectModel::start()
+{
+    m_animationTimer.start();
+}
+
+void AnimationEffectModel::stop()
+{
+    m_animationTimer.stop();
+}
+
 void AnimationEffectModel::animation()
 {
     if(++m_animationFrameIdx >= m_numOfFrames - 1)

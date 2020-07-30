@@ -22,8 +22,8 @@ public:
     virtual void play();
 
 public slots:
-    void start(){}
-    void stop(){}
+    void start();
+    void stop();
 
 protected slots:
     void animation();

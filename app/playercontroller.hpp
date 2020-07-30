@@ -27,7 +27,6 @@ public slots:
     void changePlayerAtribute(special_type reward);
     void addHealth(int healthPoints);
     void subtractHealth(int healthPoints);
-    void defeat();
 
 protected:
     ControlPlane* m_controller;

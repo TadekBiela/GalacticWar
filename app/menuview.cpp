@@ -67,6 +67,7 @@ MenuView::MenuView(QWidget* displayWidget)
                                           def::gameoverPlayerNameFieldPositionY,
                                           def::gameoverPlayerNameFieldWidth,
                                           def::gameoverPlayerNameFieldHeight);
+    m_gameoverPlayerNameField.setAlignment(Qt::AlignCenter);
     m_gameoverSaveScoreButton.setPosition(def::gameoverSaveButtonPositionX,
                                           def::gameoverBottomButtonPositionY);
     m_gameoverBackToMenuButton.setPosition(def::gameoverBackButtonPositionX,
@@ -252,30 +253,25 @@ void MenuView::showGameoverMenu()
 
 void MenuView::startGame()
 {
-    hideAllMenu();
     emit startClicked();
 }
 
 void MenuView::continueGame()
 {
-    hideAllMenu();
     emit continueClicked();
 }
 
 void MenuView::abortGame()
 {
-    showMainMenu();
     emit abortClicked();
 }
 
 void MenuView::quitGame()
 {
-    hideAllMenu();
     emit quitClicked();
 }
 
 void MenuView::saveScore()
 {
-    showMainMenu();
     emit saveClicked();
 }

@@ -1,6 +1,7 @@
 #ifndef LEVELCONTROLLER_HPP
 #define LEVELCONTROLLER_HPP
 
+#include "controlplane.hpp"
 #include "enemyconfiguration.hpp"
 #include "labelview.hpp"
 #include "levelmodel.hpp"
@@ -11,7 +12,8 @@ class LevelController : public QObject
 {
     Q_OBJECT
 public:
-    LevelController(QWidget* displayWidget);
+    LevelController(QWidget*      displayWidget,
+                    ControlPlane* controller);
     virtual ~LevelController();
 
 signals:
@@ -19,14 +21,15 @@ signals:
 
 public slots:
     void create();
-    void distroy();
+    void destroy();
     void show();
     void hide();
     void nextLevel();
 
 protected:
-    QWidget*    m_displayWidget;
-    LevelModel* m_model;
+    QWidget*      m_displayWidget;
+    ControlPlane* m_controller;
+    LevelModel*   m_model;
     LabelView*    m_view;
 };
 

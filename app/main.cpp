@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     //Create view layer in correct order
     //Background layer
-    BackgroundView backgroundController(&mainWindow);
+    BackgroundController backgroundController(&mainWindow);
 
     //Gameplay layer
     GameplayView gameplayView(&mainWindow);
@@ -43,13 +43,16 @@ int main(int argc, char *argv[])
     //Animation layer
     g_animationPlaneView = new AnimationPlaneView(&mainWindow);
 
-    //HUD interface layer
-    HealthController healthController(&mainWindow);
-    LevelController  levelController(&mainWindow);
-    ScoreController  scoreController(&mainWindow);
-
     //Controller layer
     ControlPlane controller(&mainWindow);
+
+    //HUD interface layer
+    HealthController healthController(&mainWindow,
+                                      &controller);
+    LevelController  levelController(&mainWindow,
+                                     &controller);
+    ScoreController  scoreController(&mainWindow,
+                                     &controller);
 
     //Rest of controllers
     EnemyController  enemyController(&gameplayView);
@@ -62,34 +65,72 @@ int main(int argc, char *argv[])
     RewardController rewardController(&gameplayView);
 
     //Controller connections
-    QObject::connect(&enemyController,  SIGNAL(enemyDestroyed(QPointF, int)),
-                     &rewardController, SLOT(spawnRewards(QPointF, int)));
-    QObject::connect(&levelController,  SIGNAL(changeEnemyConfiguration(EnemyConfiguration)),
-                     &enemyController,  SLOT(changeEnemyConfiguration(EnemyConfiguration)));
-    QObject::connect(&menuController,   SIGNAL(resetLevel()),
-                     &levelController,  SLOT(resetLevel()));
-    QObject::connect(&menuController,   SIGNAL(resetScore()),
-                     &scoreController,  SLOT(resetScore()));
-    QObject::connect(&menuController,   SIGNAL(createNewPlayer()),
-                     &playerController, SLOT(createNewPlayer()));
-    QObject::connect(&menuController,   SIGNAL(activateEnemySpawning()),
-                     &enemyController,  SLOT(startSpawning()));
-    QObject::connect(&menuController,   SIGNAL(deactivateEnemySpawning()),
-                     &enemyController,  SLOT(stopSpawning()));
-    QObject::connect(&menuController,   SIGNAL(getScore()),
-                     &scoreController,  SLOT(getScore()));
-    QObject::connect(&menuController,   SIGNAL(abortPlayer()),
-                     &playerController, SLOT(abortPlayer()));
-    QObject::connect(&playerController, SIGNAL(playerDefeated()),
-                     &menuController,   SLOT(gameOver()));
-    QObject::connect(&rewardController, SIGNAL(rewardCoinCollected(coin_type)),
-                     &scoreController,  SLOT(addScorePoints(coin_type)));
-    QObject::connect(&rewardController, SIGNAL(rewardSpecialCollected(special_type)),
-                     &playerController, SLOT(changePlayerAtribute(special_type)));
-    QObject::connect(&scoreController,  SIGNAL(maxScorePerLevelAchieved()),
-                     &levelController,  SLOT(nextLevel()));
-    QObject::connect(&scoreController,  SIGNAL(updateScore(int)),
-                     &menuController,   SLOT(updateScore(int)));
+    QObject::connect(&menuController,       SIGNAL(gameStarted()),  //Game started
+                     &healthController,     SLOT(create()));
+    QObject::connect(&menuController,       SIGNAL(gameStarted()),
+                     &levelController,      SLOT(create()));
+    QObject::connect(&menuController,       SIGNAL(gameStarted()),
+                     &scoreController,      SLOT(create()));
+    QObject::connect(&menuController,       SIGNAL(gameStarted()),
+                     &playerController,     SLOT(create()));
+    QObject::connect(&menuController,       SIGNAL(gameStarted()),
+                     &enemyController,      SLOT(startSpawning()));
+    QObject::connect(&menuController,       SIGNAL(gamePaused()),   //Game paused
+                     &healthController,     SLOT(hide()));
+    QObject::connect(&menuController,       SIGNAL(gamePaused()),
+                     &levelController,      SLOT(hide()));
+    QObject::connect(&menuController,       SIGNAL(gamePaused()),
+                     &scoreController,      SLOT(hide()));
+    QObject::connect(&menuController,       SIGNAL(gamePaused()),
+                     &enemyController,      SLOT(stopSpawning()));
+    QObject::connect(&menuController,       SIGNAL(gamePaused()),
+                     &backgroundController, SLOT(deactivate()));
+    QObject::connect(&menuController,       SIGNAL(gameContinued()), //Game continued
+                     &healthController,     SLOT(show()));
+    QObject::connect(&menuController,       SIGNAL(gameContinued()),
+                     &levelController,      SLOT(show()));
+    QObject::connect(&menuController,       SIGNAL(gameContinued()),
+                     &scoreController,      SLOT(show()));
+    QObject::connect(&menuController,       SIGNAL(gameContinued()),
+                     &enemyController,      SLOT(startSpawning()));
+    QObject::connect(&menuController,       SIGNAL(gameContinued()),
+                     &backgroundController, SLOT(activate()));
+    QObject::connect(&menuController,       SIGNAL(gameAborted()),  //Game aborted
+                     &healthController,     SLOT(destroy()));
+    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+                     &levelController,      SLOT(destroy()));
+    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+                     &scoreController,      SLOT(destroy()));
+    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+                     &enemyController,      SLOT(stopSpawning()));
+    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+                     &backgroundController, SLOT(activate()));
+    QObject::connect(&menuController,       SIGNAL(gameOver()),     //Game over
+                     &healthController,     SLOT(destroy()));
+    QObject::connect(&menuController,       SIGNAL(gameOver()),
+                     &levelController,      SLOT(destroy()));
+    QObject::connect(&menuController,       SIGNAL(gameOver()),
+                     &scoreController,      SLOT(emitTotalScoreAndDestroy()));
+    QObject::connect(&menuController,       SIGNAL(gameOver()),
+                     &enemyController,      SLOT(stopSpawning()));
+    QObject::connect(&menuController,       SIGNAL(gameOver()),
+                     &playerController,     SLOT(destroy()));
+    QObject::connect(&scoreController,      SIGNAL(totalScore(int)),                //Total score
+                     &menuController,       SLOT(updateScore(int)));
+    QObject::connect(&enemyController,      SIGNAL(enemyDestroyed(QPointF, int)),   //Spawn rewards
+                     &rewardController,     SLOT(spawnRewards(QPointF, int)));
+    QObject::connect(&rewardController,     SIGNAL(rewardCoinCollected(coin_type)), //Collect rewards
+                     &scoreController,      SLOT(addScorePointsBasedOnCoinType(coin_type)));
+    QObject::connect(&rewardController,     SIGNAL(rewardSpecialCollected(special_type)),
+                     &playerController,     SLOT(changePlayerAtribute(special_type)));
+    QObject::connect(&playerController,     SIGNAL(addHealthPoints(int)),           //Health points
+                     &healthController,     SLOT(addHealthPoints(int)));
+    QObject::connect(&playerController,     SIGNAL(subtractHealthPoints(int)),
+                     &healthController,     SLOT(subtractHealthPoints(int)));
+    QObject::connect(&healthController,     SIGNAL(noHealth()),
+                     &menuController,       SLOT(endGame()));
+    QObject::connect(&menuController,       SIGNAL(gameExit()),                     //Exit game
+                     &mainWindow,           SLOT(close()));
 
     mainWindow.resize(QSize(def::windowWight, def::windowHeight));
 	return a.exec();

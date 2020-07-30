@@ -8,8 +8,6 @@ BackgroundController::BackgroundController(QWidget* displayWidget)
       m_view(displayWidget),
       m_itemsSpawnTimer()
 {
-    connect(this,    SIGNAL(addEffectToScene(AnimationEffectModel*)),
-            &m_view, SLOT(addEffectToScene(AnimationEffectModel* effect)));
     connect(&m_itemsSpawnTimer, SIGNAL(timeout()),
             this,               SLOT(spawnItem()));
 
@@ -52,5 +50,5 @@ void BackgroundController::spawnItem()
                                                                    startPosition,
                                                                    moveDirection);
     newBgEffect->play();
-    emit addEffectToScene(newBgEffect);
+    m_view.addEffectToScene(newBgEffect);
 }
