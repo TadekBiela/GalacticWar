@@ -6,8 +6,10 @@
 enum background_effect
 {
     first_element = 0,
-    star = 0,
-    last_element = 0
+    star          = 0,
+    star2         = 1,
+    star3         = 2,
+    last_element  = 2
 };
 
 struct BackgroundEffect;
@@ -18,7 +20,8 @@ class BackgroundEffectModel : public AnimationEffectModel
 public:
     BackgroundEffectModel(background_effect type,
                           QPointF           startPosition,
-                          int               moveDirection);
+                          int               moveDirection,
+                          QGraphicsScene*   targetScene);
     virtual ~BackgroundEffectModel();
     void play() override;
 

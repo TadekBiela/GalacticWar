@@ -11,16 +11,20 @@ struct BackgroundEffect
 };
 
 const BackgroundEffect BackgroundEffectModel::s_backgroundEffectsConfig[background_effect::last_element + 1] =
-    { { "star", 10, 10, 10, 20 } };
+    { { "star",  32, 32, 20, 20 },
+      { "star2", 32, 32, 10, 20 },
+      { "star3", 32, 32,  5, 15 }};
 
 BackgroundEffectModel::BackgroundEffectModel(background_effect type,
                                              QPointF           startPosition,
-                                             int               moveDirection)
+                                             int               moveDirection,
+                                             QGraphicsScene*   targetScene)
     : AnimationEffectModel(s_backgroundEffectsConfig[type].name,
                            startPosition,
                            s_backgroundEffectsConfig[type].animationFrameWidth,
                            s_backgroundEffectsConfig[type].animationFrameHeight,
-                           s_backgroundEffectsConfig[type].numOfFrames),
+                           s_backgroundEffectsConfig[type].numOfFrames,
+                           targetScene),
       m_moveDirection(moveDirection),
       m_moveTimer()
 {

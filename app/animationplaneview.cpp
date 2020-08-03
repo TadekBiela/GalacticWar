@@ -1,4 +1,5 @@
 #include "animationplaneview.hpp"
+#include "animationeffectmodel.hpp"
 
 AnimationPlaneView::AnimationPlaneView(QWidget* displayWidget)
     : GraphicsView(displayWidget)

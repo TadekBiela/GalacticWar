@@ -19,6 +19,8 @@ namespace def
     const int    healthRewardValue               = 100;
     const int    maxAnimationFrames              = 10;
     const int    maxAnimationFrameIdx            = 9;
+    const int    minBackgroundDirectionRange     = 135;
+    const int    maxBackgroundDirectionRange     = 225;
     const int    maxNumOfLevel                   = 10;
     const int    maxWeaponTypes                  = 3;
     const int    maxWeaponLevel                  = 5;

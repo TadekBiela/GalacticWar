@@ -10,8 +10,7 @@ enum game_object_type
     player_bullet = 1,
     enemy         = 2,
     enemy_bullet  = 3,
-    reward        = 4,
-    animation     = 5
+    reward        = 4
 };
 
 class GameObject : public QObject, public QGraphicsPixmapItem

@@ -19,7 +19,7 @@ BackgroundView::BackgroundView(QWidget* displayWidget)
                                         1,
                                         def::sceneWight,
                                         def::sceneHeight);
-    m_backgroundLabelWindow.stackUnder(dynamic_cast<QWidget*>(&m_scene));
+    m_backgroundLabelWindow.stackUnder(this);
     m_backgroundLabelWindow.show();
 
     connect(&m_backgroundAnimTimer, SIGNAL(timeout()),

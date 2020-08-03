@@ -61,10 +61,11 @@ void BackgroundController::spawnItem()
     int startPositionY = m_generator->bounded(sceneBorderOffset,
                                               def::sceneHeight - sceneBorderOffset);
     QPointF startPosition(startPositionX, startPositionY);
-    int moveDirection = m_generator->bounded(0, 359);
+    int moveDirection = m_generator->bounded(def::minBackgroundDirectionRange,
+                                             def::maxBackgroundDirectionRange);
     BackgroundEffectModel* newBgEffect = new BackgroundEffectModel(type,
                                                                    startPosition,
-                                                                   moveDirection);
+                                                                   moveDirection,
+                                                                   m_view.scene());
     newBgEffect->play();
-    m_view.addEffectToScene(newBgEffect);
 }

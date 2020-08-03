@@ -1,9 +1,10 @@
 #ifndef ANIMATIONPLANEVIEW_HPP
 #define ANIMATIONPLANEVIEW_HPP
 
-#include "animationeffectmodel.hpp"
 #include "graphicsview.hpp"
 #include <QWidget>
+
+class AnimationEffectModel;
 
 class AnimationPlaneView : public GraphicsView
 {

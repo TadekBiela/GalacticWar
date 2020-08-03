@@ -1,23 +1,27 @@
 #ifndef ANIMATIONEFFECTMODEL_HPP
 #define ANIMATIONEFFECTMODEL_HPP
 
+#include "animationplaneview.hpp"
 #include "definitions.hpp"
-#include "gameobject.hpp"
 #include "imagestorage.hpp"
+#include <QObject>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 #include <QString>
 #include <QPointF>
 #include <QImage>
 #include <QTimer>
 
-class AnimationEffectModel : public GameObject
+class AnimationEffectModel : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    AnimationEffectModel(QString animationName,
-                         QPointF position,
-                         int     animationFrameWidth,
-                         int     animationFrameHeight,
-                         int     numOfFrames = def::maxAnimationFrames);
+    AnimationEffectModel(QString         animationName,
+                         QPointF         position,
+                         int             animationFrameWidth,
+                         int             animationFrameHeight,
+                         int             numOfFrames = def::maxAnimationFrames,
+                         QGraphicsScene* targetScene = g_animationPlaneView->scene());
     virtual ~AnimationEffectModel();
     virtual void play();
 

@@ -1,15 +1,13 @@
 #include "animationeffectmodel.hpp"
-#include "animationplaneview.hpp"
 #include "functions.hpp"
-#include <QGraphicsScene>
 
-AnimationEffectModel::AnimationEffectModel(QString animationName,
-                                           QPointF position,
-                                           int     animationFrameWidth,
-                                           int     animationFrameHeight,
-                                           int     numOfFrames)
-    : GameObject(game_object_type::animation),
-      m_animationFrameIdx(0),
+AnimationEffectModel::AnimationEffectModel(QString         animationName,
+                                           QPointF         position,
+                                           int             animationFrameWidth,
+                                           int             animationFrameHeight,
+                                           int             numOfFrames,
+                                           QGraphicsScene* targetScene)
+    : m_animationFrameIdx(0),
       m_animationFrameWidth(animationFrameWidth),
       m_animationFrameHeight(animationFrameHeight),
       m_numOfFrames(numOfFrames)
@@ -29,8 +27,7 @@ AnimationEffectModel::AnimationEffectModel(QString animationName,
 
     m_animationTimer.setInterval(def::animationFrameDuration);
 
-    QGraphicsScene* globalAnimationScene = g_animationPlaneView->scene();
-    globalAnimationScene->addItem(this);
+    targetScene->addItem(this);
 }
 
 AnimationEffectModel::~AnimationEffectModel()
@@ -55,11 +52,14 @@ void AnimationEffectModel::stop()
 
 void AnimationEffectModel::animation()
 {
-    if(++m_animationFrameIdx >= m_numOfFrames - 1)
+    m_animationFrameIdx++;
+
+    if(m_numOfFrames - 1 < m_animationFrameIdx)
     {
         destroy();
         return;
     }
+
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
                                 0,
