@@ -10,8 +10,9 @@ namespace def
     const int    animationFrameHeight            = 64;
     const int    animationSmallFrameWight        = 32;
     const int    animationSmallFrameHeight       = 32;
-    const int    animationBigFrameWight          = 200;
-    const int    animationBigFrameHeight         = 30;
+    const int    animationLevelUpFrameWight      = 200;
+    const int    animationLevelUpFrameHeight     = 27;
+    const int    animationLevelUpNumOfFrames     = 11;
     const int    collisionDamageFactor           = 300;
     const int    defaultBulletSpeed              = 20;
     const int    shortBackgroundAnimTimeDelay    = 5;

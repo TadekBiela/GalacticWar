@@ -61,8 +61,9 @@ void LevelController::nextLevel()
                      def::halfSceneHeight - def::halfSceneHeight / 4);
     AnimationEffectModel* levelUpAnim = new AnimationEffectModel("level_up",
                                                                  position,
-                                                                 def::animationBigFrameWight,
-                                                                 def::animationBigFrameHeight);
+                                                                 def::animationLevelUpFrameWight,
+                                                                 def::animationLevelUpFrameHeight,
+                                                                 def::animationLevelUpNumOfFrames);
     levelUpAnim->play();
     SoundEffectModel* levelUp = new SoundEffectModel("level_up");
     levelUp->play();
