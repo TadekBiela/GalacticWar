@@ -35,6 +35,7 @@ void LevelController::create()
                         def::levelGraphicsCenterPositionY);
     m_view->set(1);
     m_view->show();
+    emit changeEnemyConfig(m_model->getCurrentConfig());
 }
 
 void LevelController::destroy()

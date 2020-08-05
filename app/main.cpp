@@ -129,6 +129,8 @@ int main(int argc, char *argv[])
                      &playerController,     SLOT(changePlayerAtribute(special_type)));
     QObject::connect(&scoreController,      SIGNAL(maxScorePerLevelAchieved()),     //Next level
                      &levelController,      SLOT(nextLevel()));
+    QObject::connect(&levelController,      SIGNAL(changeEnemyConfig(EnemyConfiguration)),
+                     &enemyController,      SLOT(changeEnemyConfig(EnemyConfiguration)));
     QObject::connect(&playerController,     SIGNAL(addHealthPoints(int)),           //Health points
                      &healthController,     SLOT(addHealthPoints(int)));
     QObject::connect(&playerController,     SIGNAL(subtractHealthPoints(int)),
