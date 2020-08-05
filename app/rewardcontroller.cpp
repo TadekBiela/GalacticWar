@@ -12,7 +12,7 @@ const int RewardController::s_coinTypeInTier[def::maxTier][10] =
     { 0, 0, 1, 1, 1, 1, 1, 2, 2, 2 },
     { 1, 1, 1, 1, 1, 2, 2, 2, 2, 2 },
     { 1, 1, 1, 2, 2, 2, 2, 2, 2, 2 } };
-const int RewardController::s_specialChanceInTier[def::maxTier] = { 0, 2, 3, 4, 6, 10 };
+const int RewardController::s_specialChanceInTier[def::maxTier] = { 5, 10, 12, 15, 18, 22 };
 
 RewardController::RewardController(GameplayView* view)
     : m_generator(new RandomGenerator)

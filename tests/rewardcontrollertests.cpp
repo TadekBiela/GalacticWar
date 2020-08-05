@@ -63,7 +63,7 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier1_OnlyOneBronzeCoinShouldBeS
             .WillOnce(Return(0))    //type for #1 coin
             .WillOnce(Return(5))    //offsets to position for #1 coin
             .WillOnce(Return(-10))
-            .WillOnce(Return(1));   //specials probability (should be false)
+            .WillOnce(Return(100));   //specials probability (should be false)
     QWidget              displayWidget;
     GameplayView         view(&displayWidget);
     RewardControllerTest rewardController(&view);
@@ -93,7 +93,7 @@ TEST_F(RewardControllerTestsClass, SpawnRewards_Tier2_CoinsOneBronzeAndOneSilver
             .WillOnce(Return(8))    //type for #2 coin
             .WillOnce(Return(5))    //offsets to position for #2 coin
             .WillOnce(Return(8))
-            .WillOnce(Return(3));   //specials probability (should be false)
+            .WillOnce(Return(100));   //specials probability (should be false)
     QWidget              displayWidget;
     GameplayView         view(&displayWidget);
     RewardControllerTest rewardController(&view);
