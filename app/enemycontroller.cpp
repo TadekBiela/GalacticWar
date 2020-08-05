@@ -1,5 +1,6 @@
 #include "enemycontroller.hpp"
 #include "enemymodeltype1.hpp"
+#include "enemymodeltype2.hpp"
 #include "randomgenerator.hpp"
 
 EnemyController::EnemyController(GameplayView* view)
@@ -84,13 +85,18 @@ void EnemyController::spawnEnemy()
     switch(enemyType)
     {
         case 1:
+            enemy = new EnemyModelType1(enemyPosition, m_generator);
+            break;
+        case 2:
+            enemy = new EnemyModelType2(enemyPosition);
+            break;
         default:
             enemy = new EnemyModelType1(enemyPosition, m_generator);
-            connect(enemy, SIGNAL(destroyed(QPointF, int)),
-                    this,  SLOT(destroyed(QPointF, int)));
-            enemy->start();
-            break;
     }
+    connect(enemy, SIGNAL(destroyed(QPointF, int)),
+            this,  SLOT(destroyed(QPointF, int)));
+    enemy->start();
+
     emit addEnemyToScene(enemy);
     int newEnemySPawnDelay = m_generator->bounded(def::minEnemySpawnTimeDelay,
                                                   def::maxEnemySpawnTimeDelay);
