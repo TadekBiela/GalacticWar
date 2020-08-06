@@ -1,6 +1,7 @@
 #include "enemycontroller.hpp"
 #include "enemymodeltype1.hpp"
 #include "enemymodeltype2.hpp"
+#include "enemymodeltype3.hpp"
 #include "randomgenerator.hpp"
 
 EnemyController::EnemyController(GameplayView* view)
@@ -79,8 +80,8 @@ void EnemyController::spawnEnemy()
     EnemyModel* enemy;
     int enemyTypeIdx = m_generator->bounded(0, def::percentDistTabSize - 1);
     int enemyType    = m_enemyPercentDistributionTab[enemyTypeIdx];
-    QPointF enemyPosition(m_generator->bounded(def::animationFrameWight / 2,
-                                               def::sceneWight - def::animationFrameWight),
+    QPointF enemyPosition(m_generator->bounded(def::animationFrameWight,
+                                               def::sceneWight - (def::animationFrameWight * 2)),
                           -def::animationFrameHeight / 2 + 1);
     switch(enemyType)
     {
@@ -89,6 +90,9 @@ void EnemyController::spawnEnemy()
             break;
         case 2:
             enemy = new EnemyModelType2(enemyPosition);
+            break;
+        case 3:
+            enemy = new EnemyModelType3(enemyPosition);
             break;
         default:
             enemy = new EnemyModelType1(enemyPosition, m_generator);

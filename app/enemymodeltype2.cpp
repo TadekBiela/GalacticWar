@@ -10,7 +10,7 @@ EnemyModelType2::EnemyModelType2(QPointF position)
                  position,
                  40,
                  5,
-                 60,
+                 30,
                  300),
       m_changeDirectionTime(0),
       m_changeDirectionFactor(false)
@@ -61,7 +61,7 @@ void EnemyModelType2::move()
 
 void EnemyModelType2::changeDirection()
 {
-    const int changeDirectionStartBorder = 5;
+    const int changeDirectionStartBorder = 15;
     const int changeDirectionStopBorder  = changeDirectionStartBorder + 18;
 
     m_changeDirectionTime++;

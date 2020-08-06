@@ -358,11 +358,11 @@ TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTrue_PlayerShouldNotMove)
     delete scene;
 }
 
-TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalse_PlayerShouldMoveUpBy10Pixels)
+TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalse_PlayerShouldMoveUpBy5Pixels)
 {
     QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight - 100);
     QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameHeight / 2 - 10);
+                                      def::halfSceneHeight - def::animationFrameHeight / 2 - def::moveVectorLength);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);

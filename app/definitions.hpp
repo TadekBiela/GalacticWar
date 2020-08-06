@@ -14,7 +14,7 @@ namespace def
     const int    animationLevelUpFrameHeight     = 27;
     const int    animationLevelUpNumOfFrames     = 11;
     const int    collisionDamageFactor           = 300;
-    const int    defaultBulletSpeed              = 20;
+    const int    defaultBulletSpeed              = 15;
     const int    shortBackgroundAnimTimeDelay    = 5;
     const int    defaultBackgroundAnimTimeDelay  = 10;
     const int    healthRewardValue               = 100;
@@ -29,7 +29,7 @@ namespace def
     const int    maxEnemySpawnTimeDelay          = 5000;
     const int    minBackgroundItemSpawnTimeDelay = 3000;
     const int    maxBackgroundItemSpawnTimeDelay = 10000;
-    const int    moveVectorLength                = 10;
+    const int    moveVectorLength                = 5;
     const int    percentDistTabSize              = 100;
     const double pi                              = 3.14159265;
     const double radianConversionFactor          = pi / 180;
@@ -42,7 +42,7 @@ namespace def
 
     //Player default configuration
     const int maxPlayerHealth            = 2000;
-    const int defaultPlayerMoveTimeDelay = 20;
+    const int defaultPlayerMoveTimeDelay = 15;
     const int defaultPlayerFireTimeDelay = 100;
 
     //Reward default configuration

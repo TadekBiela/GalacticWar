@@ -26,6 +26,62 @@ TEST(FunctionsTests, CalculateXYOffset_UpDirection_ShouldReturnPositionX0Yminus1
     EXPECT_EQ(expectedOffset.y(), resultOffset.y());
 }
 
+TEST(FunctionsTests, RotatePointBasedOnCenterPoint_RotatedPointIsRightSideOfCenterPointRotate90ToRight_ShouldChangeRotatedPointToDownOfCenterPoint)
+{
+    QPointF centerPoint(0, 0);
+    QPointF rotatedPoint(10, 0);
+    QPointF expectedPoint(0, -10);
+
+    rotatePointBasedOnCenterPoint(centerPoint,
+                                  90,
+                                  rotatedPoint);
+
+    EXPECT_NEAR(expectedPoint.x(), rotatedPoint.x(), 0.01);
+    EXPECT_NEAR(expectedPoint.y(), rotatedPoint.y(), 0.01);
+}
+
+TEST(FunctionsTests, RotatePointBasedOnCenterPoint_RotatedPointIsRightSideOfCenterPointRotate90ToLeft_ShouldChangeRotatedPointToUpOfCenterPoint)
+{
+    QPointF centerPoint(0, 0);
+    QPointF rotatedPoint(10, 0);
+    QPointF expectedPoint(0, 10);
+
+    rotatePointBasedOnCenterPoint(centerPoint,
+                                  -90,
+                                  rotatedPoint);
+
+    EXPECT_NEAR(expectedPoint.x(), rotatedPoint.x(), 0.01);
+    EXPECT_NEAR(expectedPoint.y(), rotatedPoint.y(), 0.01);
+}
+
+TEST(FunctionsTests, RotatePointBasedOnCenterPoint_RotatedPointIsUpOnCenterPointRotate90ToLeft_ShouldChangeRotatedPointToLeftSideOfCenterPoint)
+{
+    QPointF centerPoint(0, 0);
+    QPointF rotatedPoint(0, 10);
+    QPointF expectedPoint(-10, 0);
+
+    rotatePointBasedOnCenterPoint(centerPoint,
+                                  -90,
+                                  rotatedPoint);
+
+    EXPECT_NEAR(expectedPoint.x(), rotatedPoint.x(), 0.01);
+    EXPECT_NEAR(expectedPoint.y(), rotatedPoint.y(), 0.01);
+}
+
+TEST(FunctionsTests, RotatePointBasedOnCenterPoint_RotatedPointIsUpOnCenterPointRotate90ToRight_ShouldChangeRotatedPointToRightSideOfCenterPoint)
+{
+    QPointF centerPoint(0, 0);
+    QPointF rotatedPoint(0, 10);
+    QPointF expectedPoint(10, 0);
+
+    rotatePointBasedOnCenterPoint(centerPoint,
+                                  90,
+                                  rotatedPoint);
+
+    EXPECT_NEAR(expectedPoint.x(), rotatedPoint.x(), 0.01);
+    EXPECT_NEAR(expectedPoint.y(), rotatedPoint.y(), 0.01);
+}
+
 class FunctionsTestsParamClass : public testing::TestWithParam<std::pair<int, QPointF>>
 {
 };
@@ -44,13 +100,13 @@ TEST_P(FunctionsTestsParamClass, Move_CheckChangingPositionDependenceOfDirection
 
 INSTANTIATE_TEST_SUITE_P(Move,
                          FunctionsTestsParamClass,
-                         testing::Values(std::make_pair(   def::up, QPointF(  0.00l, -10.00l)),   //Direction: up
-                                         std::make_pair( def::down, QPointF(  0.00l,  10.00l)),   //Direction: down
-                                         std::make_pair( def::left, QPointF(-10.00l,   0.00l)),   //Direction: left
-                                         std::make_pair(def::right, QPointF( 10.00l,   0.00l)),   //Direction: right
-                                         std::make_pair(        45, QPointF(  7.07l,  -7.07l)),   //Direction: up-rigth 45 deg
-                                         std::make_pair(       212, QPointF( -5.30l,   8.48l)),   //Direction: down-left 32 deg
-                                         std::make_pair(       359, QPointF( -0.17l, -10.00l))    //Direction: up-rigth with 390 deg (should be equal as 30 deg)
+                         testing::Values(std::make_pair(   def::up, QPointF( 0.00l, -5.00l)),   //Direction: up
+                                         std::make_pair( def::down, QPointF( 0.00l,  5.00l)),   //Direction: down
+                                         std::make_pair( def::left, QPointF(-5.00l,  0.00l)),   //Direction: left
+                                         std::make_pair(def::right, QPointF( 5.00l,  0.00l)),   //Direction: right
+                                         std::make_pair(        45, QPointF( 3.54l, -3.54l)),   //Direction: up-rigth 45 deg
+                                         std::make_pair(       212, QPointF(-2.65l,  4.24l)),   //Direction: down-left 32 deg
+                                         std::make_pair(       359, QPointF(-0.09l, -5.00l))    //Direction: up-rigth with 390 deg (should be equal as 30 deg)
                                         ));
 
 class FunctionsOutOfSceneTestsParamClass : public testing::TestWithParam<std::pair<QPointF, bool>>

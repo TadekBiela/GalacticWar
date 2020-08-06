@@ -11,7 +11,7 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
                  position,
                  50,
                  10,
-                 80,
+                 40,
                  1000)
 {
     m_image = g_imageStorage->getImage("enemy1");

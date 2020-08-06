@@ -25,6 +25,19 @@ QPointF moveForward(const QPointF startPosition, int direction)
     return endPosition;
 }
 
+void rotatePointBasedOnCenterPoint(const QPointF centerPoint,
+                                   const int     rotation,
+                                   QPointF&      rotatedPoint)
+{
+    QLineF staticBaseLine(0, 0, 10, 0);
+    QLineF rotatedLine(centerPoint, rotatedPoint);
+    qreal  rationOffset = staticBaseLine.angleTo(rotatedLine);
+
+    rotatedLine.setAngle(rotation + rationOffset);
+
+    rotatedPoint = rotatedLine.p2();
+}
+
 bool isOutOfScene(QPointF pos, QPixmap pixmap)
 {
     int x = pos.x();

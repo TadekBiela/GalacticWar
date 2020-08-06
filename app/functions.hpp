@@ -16,6 +16,10 @@ QPointF calculateXYOffset(int direction);
 
 QPointF moveForward(const QPointF startPosition, int direction);
 
+void rotatePointBasedOnCenterPoint(const QPointF centerPoint,
+                                   const int     rotation,
+                                   QPointF&      rotatedPoint);
+
 bool isOutOfScene(QPointF pos, QPixmap pixmap);
 
 QPixmap getAnimationFrame(QImage* image,
