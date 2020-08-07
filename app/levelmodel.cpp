@@ -1,16 +1,16 @@
 #include "levelmodel.hpp"
 
 const EnemyConfiguration LevelModel::s_enemyLevelConfigurations[def::maxNumOfLevel] =
-    { { 75, 25,  0,  0,  0,  0 }, //Each EnemyConfig members sum should be equal 100
-      { 50, 40, 10,  0,  0,  0 },
-      { 25, 25, 40, 10,  0,  0 },
+    { { 73, 25,  2,  0,  0,  0 }, //Each EnemyConfig members sum should be equal 100
+      { 47, 38, 15,  0,  0,  0 },
+      { 25, 25, 35, 15,  0,  0 },
       { 10, 15, 60, 15,  0,  0 },
-      {  0, 10, 40, 35, 10,  0 },
-      {  0,  5, 20, 40, 20, 10 },
-      {  0,  0, 10, 30, 50, 10 },
-      {  0,  0,  5, 20, 55, 20 },
-      {  0,  0,  0, 10, 50, 40 },
-      {  0,  0,  0,  0, 30, 70 } };
+      {  5, 10, 40, 35, 10,  0 },
+      {  5, 10, 20, 35, 20, 10 },
+      {  5, 10, 10, 25, 40, 10 },
+      {  5,  7,  8, 15, 45, 20 },
+      {  2,  5,  8, 10, 45, 30 },
+      {  2,  5,  5,  8, 30, 50 } };
 
 LevelModel::LevelModel()
     : m_currentLevel(1)

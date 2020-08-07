@@ -45,6 +45,15 @@ namespace def
     const int defaultPlayerMoveTimeDelay = 15;
     const int defaultPlayerFireTimeDelay = 100;
 
+    //Enemies
+    const int defaultEnemy4MoveTimeDelay = 50;
+    const int defaultEnemy4FireTimeDelay = 500;
+    const int speedupEnemy4FireTimeDelay = 250;
+    const int defaultEnemyJumpTimeDelay  = (def::animationFrameDuration
+                                            * def::maxAnimationFrames)
+                                            / def::defaultEnemy4MoveTimeDelay;
+
+
     //Reward default configuration
     const int maxNumOfSpecialRewards         = 4;
     const int maxTier                        = 6;
