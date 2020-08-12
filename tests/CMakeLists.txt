@@ -40,6 +40,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/enemymodeltype3.cpp
                                ../app/enemymodeltype4.hpp
                                ../app/enemymodeltype4.cpp
+                               ../app/enemymodeltype5.hpp
+                               ../app/enemymodeltype5.cpp
                                ../app/firefunctions.hpp
                                ../app/firefunctions.cpp
                                ../app/filemanager.hpp

@@ -3,6 +3,7 @@
 #include "enemymodeltype2.hpp"
 #include "enemymodeltype3.hpp"
 #include "enemymodeltype4.hpp"
+#include "enemymodeltype5.hpp"
 #include "randomgenerator.hpp"
 
 EnemyController::EnemyController(GameplayView* view)
@@ -83,23 +84,26 @@ void EnemyController::spawnEnemy()
     int enemyType    = m_enemyPercentDistributionTab[enemyTypeIdx];
     QPointF enemyPosition(m_generator->bounded(def::animationFrameWight,
                                                def::sceneWight - (def::animationFrameWight * 2)),
-                          -def::animationFrameHeight / 2 + 1);
+                          -def::animationFrameHeight / 2);
     switch(enemyType)
     {
-        case 1:
-            enemy = new EnemyModelType1(enemyPosition, m_generator);
-            break;
-        case 2:
-            enemy = new EnemyModelType2(enemyPosition);
-            break;
-        case 3:
-            enemy = new EnemyModelType3(enemyPosition);
-            break;
-        case 4:
-            enemy = new EnemyModelType4(enemyPosition);
-            break;
+//        case 1:
+//            enemy = new EnemyModelType1(enemyPosition, m_generator);
+//            break;
+//        case 2:
+//            enemy = new EnemyModelType2(enemyPosition);
+//            break;
+//        case 3:
+//            enemy = new EnemyModelType3(enemyPosition);
+//            break;
+//        case 4:
+//            enemy = new EnemyModelType4(enemyPosition);
+//            break;
+//        case 5:
+//            enemy = new EnemyModelType5(enemyPosition);
+//            break;
         default:
-            enemy = new EnemyModelType1(enemyPosition, m_generator);
+            enemy = new EnemyModelType5(enemyPosition);
     }
     connect(enemy, SIGNAL(destroyed(QPointF, int)),
             this,  SLOT(destroyed(QPointF, int)));

@@ -49,9 +49,16 @@ namespace def
     const int defaultEnemy4MoveTimeDelay = 50;
     const int defaultEnemy4FireTimeDelay = 500;
     const int speedupEnemy4FireTimeDelay = 250;
-    const int defaultEnemyJumpTimeDelay  = (def::animationFrameDuration
-                                            * def::maxAnimationFrames)
-                                            / def::defaultEnemy4MoveTimeDelay;
+    const int defaultEnemyJumpTimeDelay  = (animationFrameDuration
+                                            * maxAnimationFrames)
+                                            / defaultEnemy4MoveTimeDelay;
+    const int enemy5AnimationFrameWight      = (animationFrameWight * 2);
+    const int enemy5AnimationFrameHeight     = animationFrameHeight;
+    const int enemy5StartYCoordinate         = -enemy5AnimationFrameHeight + 5;
+    const int enemy5ChangeDirectionTimeDelay = 70;
+    const int enemy5SmallWeaponDamage        = 30;
+    const int enemy5MediumWeaponDamage       = 40;
+    const int enemy5BigWeaponDamage          = 60;
 
 
     //Reward default configuration
