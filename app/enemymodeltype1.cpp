@@ -9,13 +9,11 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
                                  IRandomGenerator* generator)
     : EnemyModel(1,
                  position,
-                 50,
+                 30,
                  10,
                  40,
                  1000)
 {
-    m_image = g_imageStorage->getImage("enemy1");
-
     //If position is on left side of scene enemy fly to down or right, if right side, fly down or left
     int destinationLeftRightFactor = (((def::sceneWight - static_cast<int>(position.x())) / (def::sceneWight / 2)) * 2) - 1; // Can only be -1 or 1
     m_direction = 180 + ((-10 * destinationLeftRightFactor) * generator->bounded(0, 1));//Can only be 190, 180, or 170
@@ -28,11 +26,6 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
         case 190:
             m_animationFrameYIdx = 2;
     }
-    setPixmap(getAnimationFrame(m_image,
-                                m_animationFrameXIdx,
-                                def::animationFrameHeight * m_animationFrameYIdx,
-                                def::animationFrameWight,
-                                def::animationFrameHeight));
     setRotation(m_direction);
 }
 

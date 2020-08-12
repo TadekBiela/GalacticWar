@@ -1,5 +1,4 @@
 #include "enemymodel.hpp"
-#include "definitions.hpp"
 #include "bulletmodel.hpp"
 #include "functions.hpp"
 #include "soundeffectmodel.hpp"
@@ -12,7 +11,9 @@ EnemyModel::EnemyModel(int     level,
                        int     health,
                        int     damage,
                        int     moveTimeDelay,
-                       int     fireTimeDelay)
+                       int     fireTimeDelay,
+                       int     animationFrameWidth,
+                       int     animationFrameHeight)
     : GameObject(game_object_type::enemy),
       m_level(level),
       m_health(health),
@@ -21,11 +22,19 @@ EnemyModel::EnemyModel(int     level,
       m_animationFrameXIdx(0),
       m_animationFrameYIdx(0)
 {
-    setTransformOriginPoint(def::animationFrameWight  / 2,
-                            def::animationFrameHeight / 2);
+    m_image = g_imageStorage->getImage("enemy" + QString::number(level));
 
-    position.setX(position.x() - def::animationFrameWight  / 2);
-    position.setY(position.y() - def::animationFrameHeight / 2);
+    setPixmap(getAnimationFrame(m_image,
+                                m_animationFrameXIdx,
+                                animationFrameHeight * m_animationFrameYIdx,
+                                animationFrameWidth,
+                                animationFrameHeight));
+
+    setTransformOriginPoint(pixmap().width()  / 2,
+                            pixmap().height() / 2);
+
+    position.setX(position.x() - pixmap().width()  / 2);
+    position.setY(position.y() - pixmap().height() / 2);
     setPos(position);
 
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
@@ -68,8 +77,8 @@ void EnemyModel::destroy()
     auto scene = QGraphicsItem::scene();
     scene->removeItem(this);
     QPointF position = pos();
-    position.setX(position.x() + def::animationFrameWight  / 2);
-    position.setY(position.y() + def::animationFrameHeight / 2);
+    position.setX(position.x() + pixmap().width()  / 2);
+    position.setY(position.y() + pixmap().height() / 2);
     emit this->destroyed(position, m_level);
     AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
                                                                    position,
@@ -114,7 +123,7 @@ void EnemyModel::animation()
 
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameXIdx,
-                                def::animationFrameHeight * m_animationFrameYIdx,
-                                def::animationFrameWight,
-                                def::animationFrameHeight));
+                                pixmap().height() * m_animationFrameYIdx,
+                                pixmap().width(),
+                                pixmap().height()));
 }

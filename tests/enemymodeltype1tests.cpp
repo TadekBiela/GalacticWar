@@ -60,7 +60,7 @@ TEST_F(EnemyModelType1TestClass, EnemyModelType1Constructor_CheckBuildModelCorre
     const QTimer& resultAnimTimer          = enemyModel.getAnimationTimer();
 
     EXPECT_EQ(resultLevel,                      1);
-    EXPECT_EQ(resultHealth,                     50);
+    EXPECT_EQ(resultHealth,                     30);
     EXPECT_EQ(resultDamage,                     10);
     EXPECT_EQ(resultDirection,                  180);
     EXPECT_EQ(resultAnimationFrameXIdx,         0);

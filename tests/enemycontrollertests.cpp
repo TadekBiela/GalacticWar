@@ -198,10 +198,10 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfWillGenerateCorrectEnemyAndE
     auto resultEnemyPosition   = dynamic_cast<EnemyModel*>(resultEnemy)->pos();
     int  resultEnemySpawnDelay = enemyController.getEnemySpawnTimer().interval();
 
-    EXPECT_EQ(1,         resultSignalAddCount);
-    EXPECT_EQ(1,         resultEnemyLevel);
-    EXPECT_EQ(8,         resultEnemyPosition.x());
-    EXPECT_EQ(-63,       resultEnemyPosition.y());
+    EXPECT_EQ(1,                          resultSignalAddCount);
+    EXPECT_EQ(1,                          resultEnemyLevel);
+    EXPECT_EQ(8,                          resultEnemyPosition.x());
+    EXPECT_EQ(-def::animationFrameHeight, resultEnemyPosition.y());
     EXPECT_FLOAT_EQ(230, resultEnemySpawnDelay);
     delete resultEnemy;
 }
@@ -220,9 +220,9 @@ TEST_F(EnemyControllerTestsClass, SpawnEnemy_CheckIfEnemyWillBeAddedToView_IsEqu
     QList<QGraphicsItem*> resultItemsList = resultScene.items();
     EnemyModel*           resultEnemy     = dynamic_cast<EnemyModel*>(resultItemsList.at(0));
 
-    EXPECT_EQ(1,   resultItemsList.size());
-    EXPECT_EQ(1,   resultEnemy->getLevel());
-    EXPECT_EQ(8,   resultEnemy->pos().x());
-    EXPECT_EQ(-63, resultEnemy->pos().y());
+    EXPECT_EQ(1,                          resultItemsList.size());
+    EXPECT_EQ(1,                          resultEnemy->getLevel());
+    EXPECT_EQ(8,                          resultEnemy->pos().x());
+    EXPECT_EQ(-def::animationFrameHeight, resultEnemy->pos().y());
     delete resultEnemy;
 }

@@ -1,6 +1,7 @@
 #ifndef ENEMYMODEL_HPP
 #define ENEMYMODEL_HPP
 
+#include "definitions.hpp"
 #include "gameobject.hpp"
 #include <QPointF>
 #include <QTimer>
@@ -16,7 +17,9 @@ public:
                int     health,
                int     damage,
                int     moveTimeDelay,
-               int     fireTimeDelay);
+               int     fireTimeDelay,
+               int     animationFrameWidth  = def::animationFrameWight,
+               int     animationFrameHeight = def::animationFrameHeight);
     virtual ~EnemyModel();
     void checkCollisions();
     void hit(int damage);

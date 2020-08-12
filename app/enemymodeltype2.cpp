@@ -15,16 +15,7 @@ EnemyModelType2::EnemyModelType2(QPointF position)
       m_changeDirectionTime(0),
       m_changeDirectionFactor(false)
 {
-    m_image = g_imageStorage->getImage("enemy2");
-
-    m_direction          = def::down + 45;
-    m_animationFrameXIdx = 0;
-    m_animationFrameYIdx = 0;
-    setPixmap(getAnimationFrame(m_image,
-                                m_animationFrameXIdx,
-                                def::animationFrameHeight * m_animationFrameYIdx,
-                                def::animationFrameWight,
-                                def::animationFrameHeight));
+    m_direction = def::down + 45;
     setRotation(m_direction);
 }
 

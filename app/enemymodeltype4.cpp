@@ -31,13 +31,7 @@ EnemyModelType4::EnemyModelType4(QPointF position)
     {
         m_jumpSide = true;
     }
-    m_image = g_imageStorage->getImage("enemy4");
 
-    setPixmap(getAnimationFrame(m_image,
-                                m_animationFrameXIdx,
-                                def::animationFrameHeight * m_animationFrameYIdx,
-                                def::animationFrameWight,
-                                def::animationFrameHeight));
     m_direction = def::down;
     setRotation(m_direction);
 }

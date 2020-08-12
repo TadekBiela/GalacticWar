@@ -14,13 +14,6 @@ EnemyModelType3::EnemyModelType3(QPointF position)
                  200),
       m_moveSlowFactor(25)
 {
-    m_image = g_imageStorage->getImage("enemy3");
-    setPixmap(getAnimationFrame(m_image,
-                                m_animationFrameXIdx,
-                                def::animationFrameHeight * m_animationFrameYIdx,
-                                def::animationFrameWight,
-                                def::animationFrameHeight));
-
     int positionSideOffset = 30;
     int rotateBorderOffset = 60;
 
@@ -41,9 +34,6 @@ EnemyModelType3::EnemyModelType3(QPointF position)
         m_rotateMaxBorder    = 360 - rotateBorderOffset;
         m_changeRotateFactor = true;
     }
-
-    setTransformOriginPoint(pixmap().width()  / 2,
-                            pixmap().height() / 2);
 
     m_direction = def::down;
     setRotation(m_direction);
