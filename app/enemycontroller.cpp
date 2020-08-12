@@ -87,23 +87,23 @@ void EnemyController::spawnEnemy()
                           -def::animationFrameHeight / 2);
     switch(enemyType)
     {
-//        case 1:
-//            enemy = new EnemyModelType1(enemyPosition, m_generator);
-//            break;
-//        case 2:
-//            enemy = new EnemyModelType2(enemyPosition);
-//            break;
-//        case 3:
-//            enemy = new EnemyModelType3(enemyPosition);
-//            break;
-//        case 4:
-//            enemy = new EnemyModelType4(enemyPosition);
-//            break;
-//        case 5:
-//            enemy = new EnemyModelType5(enemyPosition);
-//            break;
-        default:
+        case 1:
+            enemy = new EnemyModelType1(enemyPosition, m_generator);
+            break;
+        case 2:
+            enemy = new EnemyModelType2(enemyPosition);
+            break;
+        case 3:
+            enemy = new EnemyModelType3(enemyPosition);
+            break;
+        case 4:
+            enemy = new EnemyModelType4(enemyPosition);
+            break;
+        case 5:
             enemy = new EnemyModelType5(enemyPosition);
+            break;
+        default:
+            enemy = new EnemyModelType1(enemyPosition, m_generator);
     }
     connect(enemy, SIGNAL(destroyed(QPointF, int)),
             this,  SLOT(destroyed(QPointF, int)));
