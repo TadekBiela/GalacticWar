@@ -15,7 +15,6 @@ static QPointF jumpMove(QPointF currentPosition, bool jumpSide)
 
 EnemyModelType4::EnemyModelType4(QPointF position)
     : EnemyModel(4,
-                 position,
                  120,
                  20,
                  def::defaultEnemy4MoveTimeDelay,
@@ -34,6 +33,7 @@ EnemyModelType4::EnemyModelType4(QPointF position)
 
     m_direction = def::down;
     setRotation(m_direction);
+    setStartPosition(position);
 }
 
 EnemyModelType4::~EnemyModelType4()

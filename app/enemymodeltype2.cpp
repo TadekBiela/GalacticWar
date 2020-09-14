@@ -7,7 +7,6 @@
 
 EnemyModelType2::EnemyModelType2(QPointF position)
     : EnemyModel(2,
-                 position,
                  40,
                  5,
                  30,
@@ -17,6 +16,7 @@ EnemyModelType2::EnemyModelType2(QPointF position)
 {
     m_direction = def::down + 45;
     setRotation(m_direction);
+    setStartPosition(position);
 }
 
 EnemyModelType2::~EnemyModelType2()

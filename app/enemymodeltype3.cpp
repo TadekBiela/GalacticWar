@@ -7,7 +7,6 @@
 
 EnemyModelType3::EnemyModelType3(QPointF position)
     : EnemyModel(3,
-                 position,
                  100,
                  8,
                  20,

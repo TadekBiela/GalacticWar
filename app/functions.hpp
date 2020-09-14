@@ -1,6 +1,7 @@
 #ifndef FUNCTIONS_HPP
 #define FUNCTIONS_HPP
 
+#include "definitions.hpp"
 #include <QPointF>
 #include <QPixmap>
 #include <QImage>
@@ -12,9 +13,13 @@ inline int changeBoolToMinusOneOrOne(bool value)
 }
 
 // direction should by in rane 0-359
-QPointF calculateXYOffset(int direction);
+QPointF calculateXYOffset(int direction, int distance);
 
-QPointF moveForward(const QPointF startPosition, int direction);
+QPointF moveForward(
+    const QPointF startPosition,
+    int direction,
+    int distance = def::moveVectorLength
+);
 
 void rotatePointBasedOnCenterPoint(const QPointF centerPoint,
                                    const int     rotation,

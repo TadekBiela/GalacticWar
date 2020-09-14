@@ -14,35 +14,36 @@
 class EnemyModelTest : public EnemyModel
 {
 public:
-    EnemyModelTest(int     level,
-                   QPointF position,
-                   int     health,
-                   int     damage,
-                   int     moveTimeDelay,
-                   int     fireTimeDelay)
-                    : EnemyModel(level,
-                                 position,
-                                 health,
-                                 damage,
-                                 moveTimeDelay,
-                                 fireTimeDelay)
+    EnemyModelTest(int level,
+                   int health,
+                   int damage,
+                   int moveTimeDelay,
+                   int fireTimeDelay)
+    : EnemyModel(level,
+                 health,
+                 damage,
+                 moveTimeDelay,
+                 fireTimeDelay)
     {
         //Simple graphic needed to tests
         QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
         map.fill(Qt::red);
         setPixmap(map);
+        setPos(QPointF(100, 100));
     }
     virtual ~EnemyModelTest() {}
+    void animation() { EnemyModel::animation(); }
+    void checkCollisions() { EnemyModel::checkCollisions(); }
+    void hit(int points) { EnemyModel::hit(points); }
 
-    int           getLevel()              const { return m_level; }
-    QPointF       getPosition()           const { return pos(); }
-    int           getHealth()             const { return m_health; }
-    int           getDamage()             const { return m_damage; }
-    int           getDirection()          const { return m_direction; }
-    int           getAnimationFrameXIdx() const { return m_animationFrameXIdx; }
-    const QTimer& getFireTimer()          const { return m_fireTimer; }
-    const QTimer& getMoveTimer()          const { return m_moveTimer; }
-    const QTimer& getAnimationTimer()     const { return m_animationTimer; }
+    int getLevel() const { return m_level; }
+    int getHealth() const { return m_health; }
+    int getDamage() const { return m_damage; }
+    int getDirection() const { return m_direction; }
+    int getAnimationFrameXIdx() const { return m_animationFrameXIdx; }
+    const QTimer& getFireTimer() const { return m_fireTimer; }
+    const QTimer& getMoveTimer() const { return m_moveTimer; }
+    const QTimer& getAnimationTimer() const { return m_animationTimer; }
     void setImage(QImage* image) { m_image = image; }
 
 public slots: //dummy implementation - slots not tested in this class
@@ -74,427 +75,424 @@ private:
 
 TEST_F(EnemyModelTestsClass, EnemyModelConstructor_CheckBuildModelCorrect_IsEqual)
 {
-    EnemyModelTest enemyModel(1, QPointF(2, 7), 30, 15, 20, 10);
-    int           resultLevel              = enemyModel.getLevel();
-    QPointF       resultPosition           = enemyModel.getPosition();
-    int           resultHealth             = enemyModel.getHealth();
-    int           resultDamage             = enemyModel.getDamage();
-    int           resultDirection          = enemyModel.getDirection();
-    int           resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
-    const QTimer& resultMoveTimer          = enemyModel.getMoveTimer();
-    const QTimer& resultFireTimer          = enemyModel.getFireTimer();
-    const QTimer& resultAnimTimer          = enemyModel.getAnimationTimer();
+    EnemyModelTest enemy(1, 30, 15, 20, 10);
+    int resultLevel = enemy.getLevel();
+    int resultHealth = enemy.getHealth();
+    int resultDamage = enemy.getDamage();
+    int resultDirection = enemy.getDirection();
+    int resultAnimationFrameXIdx = enemy.getAnimationFrameXIdx();
+    const QTimer& resultMoveTimer = enemy.getMoveTimer();
+    const QTimer& resultFireTimer = enemy.getFireTimer();
+    const QTimer& resultAnimTimer = enemy.getAnimationTimer();
 
-    EXPECT_EQ(resultLevel,                      1);
-    EXPECT_EQ(resultHealth,                     30);
-    EXPECT_EQ(resultDamage,                     15);
-    EXPECT_EQ(resultDirection,                  0);
-    EXPECT_EQ(resultAnimationFrameXIdx,         0);
-    EXPECT_EQ(resultMoveTimer.isActive(),       false);
-    EXPECT_EQ(resultFireTimer.isActive(),       false);
-    EXPECT_EQ(resultAnimTimer.isActive(),       false);
-    EXPECT_FLOAT_EQ(resultMoveTimer.interval(), 20);
-    EXPECT_FLOAT_EQ(resultFireTimer.interval(), 10);
-    EXPECT_FLOAT_EQ(resultAnimTimer.interval(), 100);
-    EXPECT_FLOAT_EQ(resultPosition.x(),         -30);
-    EXPECT_FLOAT_EQ(resultPosition.y(),         -25);
+    EXPECT_EQ(1, resultLevel);
+    EXPECT_EQ(30, resultHealth);
+    EXPECT_EQ(15, resultDamage);
+    EXPECT_EQ(0, resultDirection);
+    EXPECT_EQ(0, resultAnimationFrameXIdx);
+    EXPECT_FALSE(resultMoveTimer.isActive());
+    EXPECT_FALSE(resultFireTimer.isActive());
+    EXPECT_FALSE(resultAnimTimer.isActive());
+    EXPECT_FLOAT_EQ(20, resultMoveTimer.interval());
+    EXPECT_FLOAT_EQ(10, resultFireTimer.interval());
+    EXPECT_FLOAT_EQ(100, resultAnimTimer.interval());
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitButNotDestroy_IsEqual)
 {
-    QGraphicsScene* scene  = new QGraphicsScene;
-    BulletModel*    bullet = new BulletModel("bullet_default",
-                                             game_object_type::player_bullet,
-                                             QPointF(100, 100),
-                                             50,
-                                             5,
-                                             50);
-    EnemyModelTest* enemy  = new EnemyModelTest(1,
-                                                QPointF(100, 100),
-                                                300,
-                                                15,
-                                                20,
-                                                10);
-    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
-    scene->addItem(bullet);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               300,
+                                               15,
+                                               20,
+                                               10);
+    BulletModel* bullet = new BulletModel("bullet_default",
+                                          game_object_type::player_bullet,
+                                          enemy->pos(),
+                                          50,
+                                          5,
+                                          50);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(enemy);
+    scene->addItem(bullet);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemy->checkCollisions();
-    int resultHealth          = enemy->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
     int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,          250);
-    EXPECT_EQ(resultSignalCount,       0);
-    EXPECT_EQ(startNumOfSceneItems,    2);
-    EXPECT_EQ(resultNumOfSceneItems,   1);
+    EXPECT_EQ(250, resultHealth);
+    EXPECT_EQ(0, resultSignalCount);
+    EXPECT_EQ(2, startNumOfSceneItems);
+    EXPECT_EQ(1, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShouldHitAndDestroy_IsEqual)
 {
-    QGraphicsScene* scene  = new QGraphicsScene;
-    BulletModel*    bullet = new BulletModel("bullet_default",
-                                             game_object_type::player_bullet,
-                                             QPointF(100, 100),
-                                             50,
-                                             5,
-                                             50);
-    EnemyModelTest* enemy  = new EnemyModelTest(1,
-                                                QPointF(100, 100),
-                                                30,
-                                                15,
-                                                20,
-                                                10);
-    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
-    scene->addItem(bullet);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               30,
+                                               15,
+                                               20,
+                                               10);
+    BulletModel* bullet = new BulletModel("bullet_default",
+                                          game_object_type::player_bullet,
+                                          enemy->pos(),
+                                          50,
+                                          5,
+                                          50);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(enemy);
+    scene->addItem(bullet);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
+    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
+                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
 
     enemy->checkCollisions();
-    int  resultHealth          = enemy->getHealth();
-    int  resultSignalCount     = signalDestroy.count();
-    auto resultSignal          = signalDestroy.takeFirst();
-    int  resultNumOfSceneItems = scene->items().size();
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
+    auto resultSignal = signalDestroy.takeFirst();
+    int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,                  0);
-    EXPECT_EQ(resultSignalCount,             1);
-    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
-    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
-    EXPECT_EQ(startNumOfSceneItems,          2);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(0, resultHealth);
+    EXPECT_EQ(1, resultSignalCount);
+    EXPECT_EQ(expectedEnemyDestroyedPosition.x(), resultSignal.at(0).toPointF().x());
+    EXPECT_EQ(expectedEnemyDestroyedPosition.y(), resultSignal.at(0).toPointF().y());
+    EXPECT_EQ(1, resultSignal.at(1).toInt());
+    EXPECT_EQ(2, startNumOfSceneItems);
+    EXPECT_EQ(0, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShouldHitDestroyAndHaveOneMoreCollision_IsEqual)
 {
-    QGraphicsScene* scene   = new QGraphicsScene;
-    BulletModel*    bullet1 = new BulletModel("bullet_default",
-                                              game_object_type::player_bullet,
-                                              QPointF(100, 100),
-                                              100,
-                                              5,
-                                              50);
-    BulletModel*    bullet2 = new BulletModel("bullet_default",
-                                              game_object_type::player_bullet,
-                                              QPointF(100, 100),
-                                              100,
-                                              5,
-                                              50);
-    BulletModel*    bullet3 = new BulletModel("bullet_default",
-                                              game_object_type::player_bullet,
-                                              QPointF(100, 100),
-                                              100,
-                                              5,
-                                              50);
-    EnemyModelTest* enemy   = new EnemyModelTest(1,
-                                                 QPointF(100, 100),
-                                                 200,
-                                                 15,
-                                                 20,
-                                                 10);
-    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               200,
+                                               15,
+                                               20,
+                                               10);
+    BulletModel* bullet1 = new BulletModel("bullet_default",
+                                           game_object_type::player_bullet,
+                                           enemy->pos(),
+                                           100,
+                                           5,
+                                           50);
+    BulletModel* bullet2 = new BulletModel("bullet_default",
+                                           game_object_type::player_bullet,
+                                           enemy->pos(),
+                                           100,
+                                           5,
+                                           50);
+    BulletModel* bullet3 = new BulletModel("bullet_default",
+                                           game_object_type::player_bullet,
+                                           enemy->pos(),
+                                           100,
+                                           5,
+                                           50);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(bullet1);
     scene->addItem(bullet2);
     scene->addItem(bullet3);
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
+    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
+                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
 
     enemy->checkCollisions();
-    int  resultSignalCount     = signalDestroy.count();
-    auto resultSignal          = signalDestroy.takeFirst();
-    int  resultNumOfSceneItems = scene->items().size();
+    int resultSignalCount = signalDestroy.count();
+    auto resultSignal = signalDestroy.takeFirst();
+    int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultSignalCount,             1);
-    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(100, 100));
-    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
-    EXPECT_EQ(startNumOfSceneItems,          4);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(1, resultSignalCount);
+    EXPECT_EQ(expectedEnemyDestroyedPosition.x(), resultSignal.at(0).toPointF().x());
+    EXPECT_EQ(expectedEnemyDestroyedPosition.y(), resultSignal.at(0).toPointF().y());
+    EXPECT_EQ(1, resultSignal.at(1).toInt());
+    EXPECT_EQ(4, startNumOfSceneItems);
+    EXPECT_EQ(0, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithEnemyBulletEnemyDoNothing_IsEqual)
 {
-    QGraphicsScene* scene  = new QGraphicsScene;
-    BulletModel*    bullet = new BulletModel("bullet_enemy",
-                                             game_object_type::enemy_bullet,
-                                             QPointF(100, 100),
-                                             50,
-                                             5,
-                                             50);
-    EnemyModelTest* enemy  = new EnemyModelTest(1,
-                                                QPointF(100, 100),
-                                                300,
-                                                15,
-                                                20,
-                                                10);
-    QSignalSpy      signalDestroy(enemy, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               300,
+                                               15,
+                                               20,
+                                               10);
+    BulletModel* bullet = new BulletModel("bullet_enemy",
+                                          game_object_type::enemy_bullet,
+                                          enemy->pos(),
+                                          50,
+                                          5,
+                                          50);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(bullet);
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemy->checkCollisions();
-    int resultHealth          = enemy->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
     int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,          300);
-    EXPECT_EQ(resultSignalCount,       0);
-    EXPECT_EQ(startNumOfSceneItems,    2);
-    EXPECT_EQ(resultNumOfSceneItems,   2);
+    EXPECT_EQ(300, resultHealth);
+    EXPECT_EQ(0, resultSignalCount);
+    EXPECT_EQ(2, startNumOfSceneItems);
+    EXPECT_EQ(2, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithCoinRewardEnemyDoNothing_IsEqual)
 {
-    QGraphicsScene*  scene = new QGraphicsScene;
-    RewardCoinModel* coin  = new RewardCoinModel(coin_type::bronze);
-    EnemyModelTest*  enemy = new EnemyModelTest(1,
-                                                QPointF(100, 100),
-                                                300,
-                                                15,
-                                                20,
-                                                10);
-    QSignalSpy       signalDestroy(enemy, &EnemyModelTest::destroyed);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               300,
+                                               15,
+                                               20,
+                                               10);
+    RewardCoinModel* coin = new RewardCoinModel(coin_type::bronze);
+    coin->setPos(enemy->pos());
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(coin);
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemy->checkCollisions();
-    int resultHealth          = enemy->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
     int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,          300);
-    EXPECT_EQ(resultSignalCount,       0);
-    EXPECT_EQ(startNumOfSceneItems,    2);
-    EXPECT_EQ(resultNumOfSceneItems,   2);
+    EXPECT_EQ(300, resultHealth);
+    EXPECT_EQ(0, resultSignalCount);
+    EXPECT_EQ(2, startNumOfSceneItems);
+    EXPECT_EQ(2, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithSpecialRewardEnemyDoNothing_IsEqual)
 {
-    QGraphicsScene*     scene   = new QGraphicsScene;
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               300,
+                                               15,
+                                               20,
+                                               10);
     RewardSpecialModel* special = new RewardSpecialModel(special_type::health);
-    EnemyModelTest*     enemy   = new EnemyModelTest(1,
-                                                     QPointF(100, 100),
-                                                     300,
-                                                     15,
-                                                     20,
-                                                     10);
-    QSignalSpy          signalDestroy(enemy, &EnemyModelTest::destroyed);
+    special->setPos(enemy->pos());
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
     scene->addItem(special);
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
     enemy->checkCollisions();
-    int resultHealth          = enemy->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
     int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,          300);
-    EXPECT_EQ(resultSignalCount,       0);
-    EXPECT_EQ(startNumOfSceneItems,    2);
-    EXPECT_EQ(resultNumOfSceneItems,   2);
+    EXPECT_EQ(300, resultHealth);
+    EXPECT_EQ(0, resultSignalCount);
+    EXPECT_EQ(2, startNumOfSceneItems);
+    EXPECT_EQ(2, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsLessThanHealth_IsEqual)
 {
-    QGraphicsScene* scene      = new QGraphicsScene;
-    EnemyModelTest* enemyModel = new EnemyModelTest(1,
-                                                    QPointF(2, 7),
-                                                    30,
-                                                    15,
-                                                    20,
-                                                    10);
-    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
-    scene->addItem(enemyModel);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               30,
+                                               15,
+                                               20,
+                                               10);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
-    enemyModel->hit(13);
-    int resultHealth          = enemyModel->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    enemy->hit(13);
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
     int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,          17);
-    EXPECT_EQ(resultSignalCount,      0);
-    EXPECT_EQ(startNumOfSceneItems,   1);
-    EXPECT_EQ(resultNumOfSceneItems,  1);
+    EXPECT_EQ(17, resultHealth);
+    EXPECT_EQ(0, resultSignalCount);
+    EXPECT_EQ(1, startNumOfSceneItems);
+    EXPECT_EQ(1, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsEqual)
 {
-    QGraphicsScene* scene      = new QGraphicsScene;
-    EnemyModelTest* enemyModel = new EnemyModelTest(1,
-                                                    QPointF(2, 7),
-                                                    30,
-                                                    15,
-                                                    20,
-                                                    10);
-    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
-    scene->addItem(enemyModel);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               30,
+                                               15,
+                                               20,
+                                               10);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
+    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
+                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
 
-    enemyModel->hit(30);
-    int  resultHealth          = enemyModel->getHealth();
-    int  resultSignalCount     = signalDestroy.count();
-    auto resultSignal          = signalDestroy.takeFirst();
-    int  resultNumOfSceneItems = scene->items().size();
+    enemy->hit(30);
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
+    auto resultSignal = signalDestroy.takeFirst();
+    int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,                  0);
-    EXPECT_EQ(resultSignalCount,             1);
-    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
-    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
-    EXPECT_EQ(startNumOfSceneItems,          1);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(0, resultHealth);
+    EXPECT_EQ(1, resultSignalCount);
+    EXPECT_EQ(expectedEnemyDestroyedPosition.x(), resultSignal.at(0).toPointF().x());
+    EXPECT_EQ(expectedEnemyDestroyedPosition.y(), resultSignal.at(0).toPointF().y());
+    EXPECT_EQ(1, resultSignal.at(1).toInt());
+    EXPECT_EQ(1, startNumOfSceneItems);
+    EXPECT_EQ(0, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsEqual)
 {
-    QGraphicsScene* scene      = new QGraphicsScene;
-    EnemyModelTest* enemyModel = new EnemyModelTest(1,
-                                                    QPointF(2, 7),
-                                                    30,
-                                                    15,
-                                                    20,
-                                                    10);
-    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
-    scene->addItem(enemyModel);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               30,
+                                               15,
+                                               20,
+                                               10);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
+    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
+                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
 
-    enemyModel->hit(43);
-    int  resultHealth          = enemyModel->getHealth();
-    int  resultSignalCount     = signalDestroy.count();
-    auto resultSignal          = signalDestroy.takeFirst();
-    int  resultNumOfSceneItems = scene->items().size();
+    enemy->hit(43);
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
+    auto resultSignal = signalDestroy.takeFirst();
+    int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,                  0);
-    EXPECT_EQ(resultSignalCount,             1);
-    EXPECT_EQ(resultSignal.at(0).toPointF(), QPointF(2, 7));
-    EXPECT_EQ(resultSignal.at(1).toInt(),    1);
-    EXPECT_EQ(startNumOfSceneItems,          1);
-    EXPECT_EQ(resultNumOfSceneItems,         0);
+    EXPECT_EQ(0, resultHealth);
+    EXPECT_EQ(1, resultSignalCount);
+    EXPECT_EQ(expectedEnemyDestroyedPosition.x(), resultSignal.at(0).toPointF().x());
+    EXPECT_EQ(expectedEnemyDestroyedPosition.y(), resultSignal.at(0).toPointF().y());
+    EXPECT_EQ(1, resultSignal.at(1).toInt());
+    EXPECT_EQ(1, startNumOfSceneItems);
+    EXPECT_EQ(0, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsZeroThanHealth_IsEqual)
 {
-    QGraphicsScene* scene      = new QGraphicsScene;
-    EnemyModelTest* enemyModel = new EnemyModelTest(1,
-                                                    QPointF(2, 7),
-                                                    30,
-                                                    15,
-                                                    20,
-                                                    10);
-    QSignalSpy      signalDestroy(enemyModel, &EnemyModelTest::destroyed);
-    scene->addItem(enemyModel);
+    QGraphicsScene* scene = new QGraphicsScene;
+    EnemyModelTest* enemy = new EnemyModelTest(1,
+                                               30,
+                                               15,
+                                               20,
+                                               10);
+    QSignalSpy signalDestroy(enemy, &EnemyModelTest::destroyed);
+    scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
 
-    enemyModel->hit(0);
-    int resultHealth          = enemyModel->getHealth();
-    int resultSignalCount     = signalDestroy.count();
+    enemy->hit(0);
+    int resultHealth = enemy->getHealth();
+    int resultSignalCount = signalDestroy.count();
     int resultNumOfSceneItems = scene->items().size();
 
-    EXPECT_EQ(resultHealth,          30);
-    EXPECT_EQ(resultSignalCount,      0);
-    EXPECT_EQ(startNumOfSceneItems,   1);
-    EXPECT_EQ(resultNumOfSceneItems,  1);
+    EXPECT_EQ(30, resultHealth);
+    EXPECT_EQ(0, resultSignalCount);
+    EXPECT_EQ(1, startNumOfSceneItems);
+    EXPECT_EQ(1, resultNumOfSceneItems);
     delete scene;
 }
 
 TEST_F(EnemyModelTestsClass, Start_CheckIfAllTimersWillBeActive_IsEqual)
 {
-    EnemyModelTest enemyModel(1,
-                              QPointF(2, 7),
-                              30,
-                              15,
-                              20,
-                              10);
+    EnemyModelTest enemy(1,
+                         30,
+                         15,
+                         20,
+                         10);
 
-    enemyModel.start();
-    const QTimer& resultFireTimer = enemyModel.getFireTimer();
-    const QTimer& resultMoveTimer = enemyModel.getMoveTimer();
-    const QTimer& resultAnimTimer = enemyModel.getAnimationTimer();
+    enemy.start();
+    const QTimer& resultFireTimer = enemy.getFireTimer();
+    const QTimer& resultMoveTimer = enemy.getMoveTimer();
+    const QTimer& resultAnimTimer = enemy.getAnimationTimer();
 
-    EXPECT_EQ(resultFireTimer.isActive(), true);
-    EXPECT_EQ(resultMoveTimer.isActive(), true);
-    EXPECT_EQ(resultAnimTimer.isActive(), true);
+    EXPECT_TRUE(resultFireTimer.isActive());
+    EXPECT_TRUE(resultMoveTimer.isActive());
+    EXPECT_TRUE(resultAnimTimer.isActive());
 }
 
 TEST_F(EnemyModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_IsEqual)
 {
-    EnemyModelTest enemyModel(1,
-                              QPointF(2, 7),
-                              30,
-                              15,
-                              20,
-                              10);
+    EnemyModelTest enemy(1,
+                         30,
+                         15,
+                         20,
+                         10);
 
-    enemyModel.stop();
-    const QTimer& resultFireTimer = enemyModel.getFireTimer();
-    const QTimer& resultMoveTimer = enemyModel.getMoveTimer();
-    const QTimer& resultAnimTimer = enemyModel.getAnimationTimer();
+    enemy.stop();
+    const QTimer& resultFireTimer = enemy.getFireTimer();
+    const QTimer& resultMoveTimer = enemy.getMoveTimer();
+    const QTimer& resultAnimTimer = enemy.getAnimationTimer();
 
-    EXPECT_EQ(resultFireTimer.isActive(), false);
-    EXPECT_EQ(resultMoveTimer.isActive(), false);
-    EXPECT_EQ(resultAnimTimer.isActive(), false);
+    EXPECT_FALSE(resultFireTimer.isActive());
+    EXPECT_FALSE(resultMoveTimer.isActive());
+    EXPECT_FALSE(resultAnimTimer.isActive());
 }
 
 TEST_F(EnemyModelTestsClass, Animation_CheckIfAnimationFrameXIdxWasIncreasedBy1_IsEqual)
 {
     QImage dumpImage;
-    EnemyModelTest enemyModel(1,
-                              QPointF(2, 7),
-                              30,
-                              15,
-                              20,
-                              10);
-    enemyModel.setImage(&dumpImage);
+    EnemyModelTest enemy(1,
+                         30,
+                         15,
+                         20,
+                         10);
+    enemy.setImage(&dumpImage);
 
-    enemyModel.animation();
-    int resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
+    enemy.animation();
+    int resultAnimationFrameXIdx = enemy.getAnimationFrameXIdx();
 
-    EXPECT_EQ(resultAnimationFrameXIdx, 1);
+    EXPECT_EQ(1, resultAnimationFrameXIdx);
 }
 
 TEST_F(EnemyModelTestsClass, Animation_AnimationFrameXIdxPointsToLastFrameCheckIfResetTo0_IsEqual)
 {
     QImage dumpImage;
-    EnemyModelTest enemyModel(1,
-                              QPointF(2, 7),
-                              30,
-                              15,
-                              20,
-                              10);
-    enemyModel.setImage(&dumpImage);
+    EnemyModelTest enemy(1,
+                         30,
+                         15,
+                         20,
+                         10);
+    enemy.setImage(&dumpImage);
 
-    enemyModel.animation();
-    enemyModel.animation();
-    enemyModel.animation();
-    int resultAnimationFrameXIdx = enemyModel.getAnimationFrameXIdx();
-    enemyModel.animation();
-    enemyModel.animation();
-    enemyModel.animation();
-    enemyModel.animation();
-    enemyModel.animation();
-    enemyModel.animation();
-    enemyModel.animation();
-    int resultAnimationFrameXIdxReset = enemyModel.getAnimationFrameXIdx();
+    enemy.animation();
+    enemy.animation();
+    enemy.animation();
+    int resultAnimationFrameXIdx = enemy.getAnimationFrameXIdx();
+    enemy.animation();
+    enemy.animation();
+    enemy.animation();
+    enemy.animation();
+    enemy.animation();
+    enemy.animation();
+    enemy.animation();
+    int resultAnimationFrameXIdxReset = enemy.getAnimationFrameXIdx();
 
-    EXPECT_EQ(resultAnimationFrameXIdx,      3);
-    EXPECT_EQ(resultAnimationFrameXIdxReset, 0);
+    EXPECT_EQ(3, resultAnimationFrameXIdx);
+    EXPECT_EQ(0, resultAnimationFrameXIdxReset);
 }

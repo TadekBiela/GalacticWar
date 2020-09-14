@@ -6,14 +6,13 @@
 #include <QGraphicsScene>
 #include <typeinfo>
 
-EnemyModel::EnemyModel(int     level,
-                       QPointF position,
-                       int     health,
-                       int     damage,
-                       int     moveTimeDelay,
-                       int     fireTimeDelay,
-                       int     animationFrameWidth,
-                       int     animationFrameHeight)
+EnemyModel::EnemyModel(int level,
+                       int health,
+                       int damage,
+                       int moveTimeDelay,
+                       int fireTimeDelay,
+                       int animationFrameWidth,
+                       int animationFrameHeight)
     : GameObject(game_object_type::enemy),
       m_level(level),
       m_health(health),
@@ -33,10 +32,6 @@ EnemyModel::EnemyModel(int     level,
     setTransformOriginPoint(pixmap().width()  / 2,
                             pixmap().height() / 2);
 
-    position.setX(position.x() - pixmap().width()  / 2);
-    position.setY(position.y() - pixmap().height() / 2);
-    setPos(position);
-
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer,      SIGNAL(timeout()), this, SLOT(fire()));
     connect(&m_animationTimer, SIGNAL(timeout()), this, SLOT(animation()));
@@ -48,28 +43,6 @@ EnemyModel::EnemyModel(int     level,
 EnemyModel::~EnemyModel()
 {
 
-}
-
-void EnemyModel::checkCollisions()
-{
-    auto scene          = QGraphicsItem::scene();
-    auto collidingItems = scene->collidingItems(this);
-    int  sumDamage      = 0;
-
-    for(auto i = 0; i != collidingItems.size(); i++)
-    {
-        GameObject* collidingObject = dynamic_cast<GameObject*>(collidingItems[i]);
-        if(game_object_type::player_bullet == collidingObject->getType())
-        {
-            BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
-            sumDamage += bullet->getDamage();
-            SoundEffectModel* hit = new SoundEffectModel("hit_enemy");
-            hit->play();
-            scene->removeItem(bullet);
-            delete bullet;
-        }
-    }
-    hit(sumDamage);
 }
 
 void EnemyModel::destroy()
@@ -88,16 +61,6 @@ void EnemyModel::destroy()
     SoundEffectModel* explosionSound = new SoundEffectModel("explosion");
     explosionSound->play();
     delete this;
-}
-
-void EnemyModel::hit(int damage)
-{
-    m_health -= damage;
-    if(m_health <= 0)
-    {
-        m_health = 0;
-        destroy();
-    }
 }
 
 void EnemyModel::start()
@@ -126,4 +89,43 @@ void EnemyModel::animation()
                                 pixmap().height() * m_animationFrameYIdx,
                                 pixmap().width(),
                                 pixmap().height()));
+}
+
+void EnemyModel::checkCollisions()
+{
+    auto scene          = QGraphicsItem::scene();
+    auto collidingItems = scene->collidingItems(this);
+    int  sumDamage      = 0;
+
+    for(auto i = 0; i != collidingItems.size(); i++)
+    {
+        GameObject* collidingObject = dynamic_cast<GameObject*>(collidingItems[i]);
+        if(game_object_type::player_bullet == collidingObject->getType())
+        {
+            BulletModel* bullet = static_cast<BulletModel*>(collidingItems[i]);
+            sumDamage += bullet->getDamage();
+            SoundEffectModel* hit = new SoundEffectModel("hit_enemy");
+            hit->play();
+            scene->removeItem(bullet);
+            delete bullet;
+        }
+    }
+    hit(sumDamage);
+}
+
+void EnemyModel::hit(int damage)
+{
+    m_health -= damage;
+    if(m_health <= 0)
+    {
+        m_health = 0;
+        destroy();
+    }
+}
+
+void EnemyModel::setStartPosition(QPointF position)
+{
+    position.setX(position.x() - (pixmap().width() / 2));
+    position.setY(position.y() - (pixmap().height() / 2));
+    setPos(position);
 }

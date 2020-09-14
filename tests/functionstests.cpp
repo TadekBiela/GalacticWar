@@ -20,7 +20,7 @@ TEST(FunctionsTests, CalculateXYOffset_UpDirection_ShouldReturnPositionX0Yminus1
 {
     QPointF expectedOffset(0, -def::moveVectorLength);
 
-    QPointF resultOffset = calculateXYOffset(def::up);
+    QPointF resultOffset = calculateXYOffset(def::up, def::moveVectorLength);
 
     EXPECT_EQ(expectedOffset.x(), resultOffset.x());
     EXPECT_EQ(expectedOffset.y(), resultOffset.y());
@@ -86,19 +86,19 @@ class FunctionsTestsParamClass : public testing::TestWithParam<std::pair<int, QP
 {
 };
 
-TEST_P(FunctionsTestsParamClass, Move_CheckChangingPositionDependenceOfDirection_IsEqual)
+TEST_P(FunctionsTestsParamClass, CalculateXYOffset_CheckChangingPositionDependenceOfDirection_IsEqual)
 {
     std::pair<int, QPointF> inputParams    = GetParam();
     int                     direction      = inputParams.first;
     QPointF                 expectedOffset = inputParams.second;
 
-    QPointF resultOffset = calculateXYOffset(direction);
+    QPointF resultOffset = calculateXYOffset(direction, def::moveVectorLength);
 
     EXPECT_NEAR(expectedOffset.x(), resultOffset.x(), 0.01);
     EXPECT_NEAR(expectedOffset.y(), resultOffset.y(), 0.01);
 }
 
-INSTANTIATE_TEST_SUITE_P(Move,
+INSTANTIATE_TEST_SUITE_P(CalculateXYOffset,
                          FunctionsTestsParamClass,
                          testing::Values(std::make_pair(   def::up, QPointF( 0.00l, -5.00l)),   //Direction: up
                                          std::make_pair( def::down, QPointF( 0.00l,  5.00l)),   //Direction: down
@@ -133,7 +133,7 @@ INSTANTIATE_TEST_SUITE_P(OutOfScene,
                                          std::make_pair(QPointF(                 -10,                    20), true),
                                          std::make_pair(QPointF(                  20,                   -10), true),
                                          std::make_pair(QPointF(def::sceneWight + 10,                    10), true),
-                                         std::make_pair(QPointF(def::sceneWight + 10,                    9),  true),
+                                         std::make_pair(QPointF(def::sceneWight + 10,                     9), true),
                                          std::make_pair(QPointF(     def::sceneWight,      def::sceneHeight), false),
                                          std::make_pair(QPointF(                  10, def::sceneHeight + 10), true),
                                          std::make_pair(QPointF(                   9, def::sceneHeight + 10), true),

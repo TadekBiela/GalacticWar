@@ -8,7 +8,6 @@
 EnemyModelType1::EnemyModelType1(QPointF           position,
                                  IRandomGenerator* generator)
     : EnemyModel(1,
-                 position,
                  30,
                  10,
                  40,
@@ -27,6 +26,7 @@ EnemyModelType1::EnemyModelType1(QPointF           position,
             m_animationFrameYIdx = 2;
     }
     setRotation(m_direction);
+    setStartPosition(position);
 }
 
 EnemyModelType1::~EnemyModelType1()

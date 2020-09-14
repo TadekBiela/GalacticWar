@@ -1,24 +1,27 @@
 #include "functions.hpp"
-#include "definitions.hpp"
 #include <QtMath>
+#include <algorithm>
 
-QPointF calculateXYOffset(int direction)
+QPointF calculateXYOffset(int direction, int distance)
 {
     int halfXaxisFactor = changeBoolToMinusOneOrOne(static_cast<bool>(direction / 180)) * -1;
     int halfYaxisFactor = changeBoolToMinusOneOrOne(static_cast<bool>(((direction / 90) % 3)));
     qreal sinDirectionAngle = qFabs(qSin(direction * def::radianConversionFactor));
     qreal cosDirectionAngle = qFabs(qCos(direction * def::radianConversionFactor));
-    qreal xOffset = sinDirectionAngle * def::moveVectorLength * halfXaxisFactor;
-    qreal yOffset = cosDirectionAngle * def::moveVectorLength * halfYaxisFactor;
+    qreal xOffset = sinDirectionAngle * distance * halfXaxisFactor;
+    qreal yOffset = cosDirectionAngle * distance * halfYaxisFactor;
 
     QPointF offset(xOffset, yOffset);
     return offset;
 }
 
-QPointF moveForward(const QPointF startPosition, int direction)
+QPointF moveForward(
+    const QPointF startPosition,
+    int direction,
+    int distance)
 {
     QPointF endPosition;
-    QPointF offset = calculateXYOffset(direction);
+    QPointF offset = calculateXYOffset(direction, distance);
     endPosition.setX(startPosition.x() + offset.x());
     endPosition.setY(startPosition.y() + offset.y());
 
@@ -42,11 +45,12 @@ bool isOutOfScene(QPointF pos, QPixmap pixmap)
 {
     int x = pos.x();
     int y = pos.y();
-    int minX = 0 - pixmap.size().width();
-    int maxX = def::sceneWight + pixmap.size().width();
-    int minY = 0 - pixmap.size().height();
-    int maxY = def::sceneHeight + pixmap.size().height();
-    if(x <= minX || x >= maxX || y <= minY || y >= maxY)
+    int maxPixmapDimension = std::max(pixmap.width(), pixmap.height());
+    int minX = 0 - maxPixmapDimension;
+    int maxX = def::sceneWight + maxPixmapDimension;
+    int minY = 0 - maxPixmapDimension;
+    int maxY = def::sceneHeight + maxPixmapDimension;
+    if(x <= minX || maxX <= x || y <= minY || maxY <= y)
     {
         return true;
     }

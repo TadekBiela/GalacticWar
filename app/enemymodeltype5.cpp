@@ -19,7 +19,6 @@ const fireEnemy EnemyModelType5::s_weapons[enemy_weapon::mode_last_element + 1] 
 
 EnemyModelType5::EnemyModelType5(QPointF position)
     : EnemyModel(5,
-                 position,
                  500,
                  10,
                  70,

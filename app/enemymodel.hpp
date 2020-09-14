@@ -12,17 +12,14 @@ class EnemyModel : public GameObject
 {
     Q_OBJECT
 public:
-    EnemyModel(int     level,
-               QPointF position,
-               int     health,
-               int     damage,
-               int     moveTimeDelay,
-               int     fireTimeDelay,
-               int     animationFrameWidth  = def::animationFrameWight,
-               int     animationFrameHeight = def::animationFrameHeight);
+    EnemyModel(int level,
+               int health,
+               int damage,
+               int moveTimeDelay,
+               int fireTimeDelay,
+               int animationFrameWidth  = def::animationFrameWight,
+               int animationFrameHeight = def::animationFrameHeight);
     virtual ~EnemyModel();
-    void checkCollisions();
-    void hit(int damage);
     void destroy();
     int getLevel() const { return m_level; }
 
@@ -32,21 +29,27 @@ signals:
 public slots:
     virtual void start();
     virtual void stop();
+
+protected slots:
     virtual void fire() = 0;
     virtual void move() = 0;
     virtual void animation();
 
 protected:
+    void checkCollisions();
+    void hit(int damage);
+    void setStartPosition(QPointF position);
+
     QImage* m_image;
-    int     m_level;
-    int     m_health;
-    int     m_damage;
-    int     m_direction;
-    int     m_animationFrameXIdx;
-    int     m_animationFrameYIdx;
-    QTimer  m_fireTimer;
-    QTimer  m_moveTimer;
-    QTimer  m_animationTimer;
+    int m_level;
+    int m_health;
+    int m_damage;
+    int m_direction;
+    int m_animationFrameXIdx;
+    int m_animationFrameYIdx;
+    QTimer m_fireTimer;
+    QTimer m_moveTimer;
+    QTimer m_animationTimer;
 };
 
 #endif // ENEMYMODEL_HPP

@@ -4,6 +4,7 @@
 #include "enemymodeltype3.hpp"
 #include "enemymodeltype4.hpp"
 #include "enemymodeltype5.hpp"
+#include "enemymodeltype6.hpp"
 #include "randomgenerator.hpp"
 
 EnemyController::EnemyController(GameplayView* view)
@@ -101,6 +102,9 @@ void EnemyController::spawnEnemy()
             break;
         case 5:
             enemy = new EnemyModelType5(enemyPosition);
+            break;
+        case 6:
+            enemy = new EnemyModelType6(enemyPosition, m_generator);
             break;
         default:
             enemy = new EnemyModelType1(enemyPosition, m_generator);

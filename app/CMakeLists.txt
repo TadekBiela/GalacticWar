@@ -39,6 +39,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype4.cpp
                                enemymodeltype5.hpp
                                enemymodeltype5.cpp
+                               enemymodeltype6.hpp
+                               enemymodeltype6.cpp
                                filemanager.hpp
                                filemanager.cpp
                                firefunctions.hpp
