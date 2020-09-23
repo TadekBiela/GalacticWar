@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QPointF>
 
 enum game_object_type
 {
@@ -20,6 +21,9 @@ public:
     GameObject(game_object_type type);
     virtual ~GameObject() {}
     game_object_type getType() const;
+    void setCenterPosition(int x, int y);
+    void setCenterPosition(QPointF position);
+    QPointF getCenterPosition() const;
 
 public slots:
     virtual void start() = 0;

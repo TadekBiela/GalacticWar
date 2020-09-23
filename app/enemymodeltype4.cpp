@@ -33,7 +33,8 @@ EnemyModelType4::EnemyModelType4(QPointF position)
 
     m_direction = def::down;
     setRotation(m_direction);
-    setStartPosition(position);
+
+    setCenterPosition(position);
 }
 
 EnemyModelType4::~EnemyModelType4()
@@ -43,15 +44,16 @@ EnemyModelType4::~EnemyModelType4()
 
 void EnemyModelType4::fire()
 {
-    QPointF position = pos();
-    position.setX(position.x() + pixmap().size().width() / 2);
-    position.setY(position.y() + pixmap().size().height() - 20);
+    QPointF position = getCenterPosition();
+    const int bulletYCoordinateOffsetInPx = 12;
+    position.setY(position.y() + bulletYCoordinateOffsetInPx);
+    const int bulletEnemy4Speed = def::defaultBulletSpeed - 6;
     BulletModel* bullet = new BulletModel("bullet_enemy4",
                                           game_object_type::enemy_bullet,
                                           position,
                                           m_damage,
                                           def::down,
-                                          def::defaultBulletSpeed - 6);
+                                          bulletEnemy4Speed);
     QGraphicsItem::scene()->addItem(bullet);
 }
 

@@ -38,7 +38,6 @@ protected slots:
 protected:
     void checkCollisions();
     void hit(int damage);
-    void setStartPosition(QPointF position);
 
     QImage* m_image;
     int m_level;

@@ -45,11 +45,9 @@ RewardSpecialModel::~RewardSpecialModel()
 void RewardSpecialModel::collect()
 {
     emit collected(m_type);
-    QPointF position = pos();
-    position.setX(position.x() + def::animationSmallFrameWight  / 2);
-    position.setY(position.y() + def::animationSmallFrameHeight / 2);
+    QPointF collectedRewardPosition = getCenterPosition();
     AnimationEffectModel* collectAnim = new AnimationEffectModel("collect_reward",
-                                                                 position,
+                                                                 collectedRewardPosition,
                                                                  def::animationSmallFrameWight,
                                                                  def::animationSmallFrameHeight);
     collectAnim->play();

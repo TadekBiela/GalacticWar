@@ -16,7 +16,12 @@ EnemyModelType2::EnemyModelType2(QPointF position)
 {
     m_direction = def::down + 45;
     setRotation(m_direction);
-    setStartPosition(position);
+
+    const int xCoordinateOffset = (position.x() <= def::halfSceneWight) ?
+                50 :
+                -50;
+    position.setX(position.x() + xCoordinateOffset);
+    setCenterPosition(position);
 }
 
 EnemyModelType2::~EnemyModelType2()
@@ -26,9 +31,11 @@ EnemyModelType2::~EnemyModelType2()
 
 void EnemyModelType2::fire()
 {
-    QPointF position = pos();
-    position.setX(position.x() + pixmap().size().width() / 2 + ((m_direction - 180) * -0.5));
-    position.setY(position.y() + pixmap().size().height() - 5);
+    QPointF position = getCenterPosition();
+    const int bulletXCoordinateOffsetInPxBasedOnDirection = ((m_direction - 180) * -0.5);
+    position.setX(position.x() + bulletXCoordinateOffsetInPxBasedOnDirection);
+    const int bulletYCoordinateOffsetInPx = 28;
+    position.setY(position.y() + bulletYCoordinateOffsetInPx);
     BulletModel* bullet = new BulletModel("bullet_enemy2",
                                           game_object_type::enemy_bullet,
                                           position,

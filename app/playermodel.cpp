@@ -31,8 +31,7 @@ PlayerModel::PlayerModel()
                                 def::animationFrameWight,
                                 def::animationFrameHeight));
 
-    setPos(def::halfSceneWight  - def::animationFrameWight  / 2,
-           def::halfSceneHeight - def::animationFrameHeight / 2);
+    setCenterPosition(def::halfSceneWight, def::halfSceneHeight);
 
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer,      SIGNAL(timeout()), this, SLOT(fire()));
@@ -57,15 +56,14 @@ void PlayerModel::hit(int damage)
 
 bool PlayerModel::isOnMovePosition()
 {
-    QPointF currentPosition = QGraphicsItem::pos();
-    currentPosition.setX(currentPosition.x() + def::animationFrameWight  / 2);
-    currentPosition.setY(currentPosition.y() + def::animationFrameHeight / 2);
+    QPointF currentPosition = getCenterPosition();
 
     QLineF vector(currentPosition, m_movePosition);
-    m_direction = static_cast<int>(360 + (vector.angle() - 90) * -1) % 360;
+    const int maxDegreeValue = 360;
+    m_direction = static_cast<int>(maxDegreeValue + ((vector.angle() - 90) * -1)) % maxDegreeValue;
 
-    int  length      = static_cast<int>(vector.length());
-    bool isOnMovePos = length <= def::moveVectorLength;
+    int length = static_cast<int>(vector.length());
+    bool isOnMovePos = (length <= def::moveVectorLength);
     return isOnMovePos;
 }
 
@@ -150,8 +148,8 @@ void PlayerModel::move()
 
 void PlayerModel::fire()
 {
-    QPointF position = QGraphicsItem::pos();
-    position.setX(position.x() + def::animationFrameWight / 2);
+    QPointF position = getCenterPosition();
+    position.setY(position.y() + def::animationFrameHeight / 2);
     m_weapon.fireFuncPtr(QGraphicsItem::scene(), position, m_weapon.damage);
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 }

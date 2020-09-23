@@ -49,12 +49,10 @@ void EnemyModel::destroy()
 {
     auto scene = QGraphicsItem::scene();
     scene->removeItem(this);
-    QPointF position = pos();
-    position.setX(position.x() + pixmap().width()  / 2);
-    position.setY(position.y() + pixmap().height() / 2);
-    emit this->destroyed(position, m_level);
+    QPointF positionOfDestroyedEnemy = getCenterPosition();
+    emit this->destroyed(positionOfDestroyedEnemy, m_level);
     AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
-                                                                   position,
+                                                                   positionOfDestroyedEnemy,
                                                                    def::animationFrameWight,
                                                                    def::animationFrameHeight);
     explosionAnim->play();
@@ -121,11 +119,4 @@ void EnemyModel::hit(int damage)
         m_health = 0;
         destroy();
     }
-}
-
-void EnemyModel::setStartPosition(QPointF position)
-{
-    position.setX(position.x() - (pixmap().width() / 2));
-    position.setY(position.y() - (pixmap().height() / 2));
-    setPos(position);
 }

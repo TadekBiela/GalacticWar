@@ -56,9 +56,9 @@ class EnemyModelTestsClass : public testing::Test
 public:
     void SetUp()
     {
-        g_imageStorage       = new ImageStorageStub;
-        g_soundStorage       = new SoundStorageStub;
-        m_displayWidget      = new QWidget;
+        g_imageStorage = new ImageStorageStub;
+        g_soundStorage = new SoundStorageStub;
+        m_displayWidget = new QWidget;
         g_animationPlaneView = new AnimationPlaneView(m_displayWidget);
     }
     void TearDown()
@@ -149,8 +149,7 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletEnemyShoul
     scene->addItem(bullet);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
-    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
-                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
+    QPointF expectedEnemyDestroyedPosition(enemy->getCenterPosition());
 
     enemy->checkCollisions();
     int resultHealth = enemy->getHealth();
@@ -201,8 +200,7 @@ TEST_F(EnemyModelTestsClass, CheckCollisions_CollisionWithPlayerBulletsEnemyShou
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
-    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
-                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
+    QPointF expectedEnemyDestroyedPosition(enemy->getCenterPosition());
 
     enemy->checkCollisions();
     int resultSignalCount = signalDestroy.count();
@@ -343,8 +341,7 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsEqualThanHealth_IsEqual)
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
-    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
-                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
+    QPointF expectedEnemyDestroyedPosition(enemy->getCenterPosition());
 
     enemy->hit(30);
     int resultHealth = enemy->getHealth();
@@ -374,8 +371,7 @@ TEST_F(EnemyModelTestsClass, Hit_CheckIfDamageValueIsMoreThanHealth_IsEqual)
     scene->addItem(enemy);
     int startNumOfSceneItems = scene->items().size();
     signalDestroy.wait(utdef::minSignalTimeDelay);
-    QPointF expectedEnemyDestroyedPosition(enemy->pos().x() + (enemy->pixmap().width() / 2),
-                                           enemy->pos().y() + (enemy->pixmap().height() / 2));
+    QPointF expectedEnemyDestroyedPosition(enemy->getCenterPosition());
 
     enemy->hit(43);
     int resultHealth = enemy->getHealth();

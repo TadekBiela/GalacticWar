@@ -32,22 +32,17 @@ void PlayerController::create()
 
 void PlayerController::destroy()
 {
-    QPointF position;
-    position.setX(m_model->pos().x() + m_model->pixmap().width()  / 2);
-    position.setY(m_model->pos().y() + m_model->pixmap().height() / 2);
+    QPointF destroyedPlayerPosition = m_model->getCenterPosition();
     AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
-                                                                   position,
+                                                                   destroyedPlayerPosition,
                                                                    def::animationFrameWight,
                                                                    def::animationFrameHeight);
     explosionAnim->play();
     SoundEffectModel* explosionSound = new SoundEffectModel("explosion");
     explosionSound->play();
 
-    if(m_model)
-    {
-        delete m_model;
-        m_model = nullptr;
-    }
+    delete m_model;
+    m_model = nullptr;
 }
 
 void PlayerController::changePlayerAtribute(special_type reward)

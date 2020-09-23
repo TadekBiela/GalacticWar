@@ -13,12 +13,12 @@ EnemyModelType3::EnemyModelType3(QPointF position)
                  200),
       m_moveSlowFactor(25)
 {
-    int positionSideOffset = 30;
+    int positionSideOffset = def::animationFrameWight;
     int rotateBorderOffset = 60;
 
     if(position.x() < def::halfSceneWight)
     {
-        setPos(QPointF(positionSideOffset, position.y()));
+        setCenterPosition(positionSideOffset, position.y());
         m_moveRotationSide   = enemy_side::side_left;
         m_rotateMinBorder    = def::up + rotateBorderOffset;
         m_rotateMaxBorder    = def::down;
@@ -26,8 +26,7 @@ EnemyModelType3::EnemyModelType3(QPointF position)
     }
     else
     {
-        setPos(QPointF((def::sceneWight - pixmap().width() - positionSideOffset),
-                       position.y()));
+        setCenterPosition((def::sceneWight - positionSideOffset), position.y());
         m_moveRotationSide   = enemy_side::side_right;
         m_rotateMinBorder    = def::down;
         m_rotateMaxBorder    = 360 - rotateBorderOffset;
@@ -45,11 +44,7 @@ EnemyModelType3::~EnemyModelType3()
 
 void EnemyModelType3::fire()
 {
-    QPointF centerPoint = pos();
-    centerPoint.setX(centerPoint.x()
-                    + (pixmap().size().width() / 2));
-    centerPoint.setY(centerPoint.y()
-                    + (pixmap().size().height() / 2));
+    QPointF centerPoint = getCenterPosition();
     int     fireSideOffset = 14 * m_fireSide;
     QPointF sidePoint      = centerPoint;
     sidePoint.setX(sidePoint.x()

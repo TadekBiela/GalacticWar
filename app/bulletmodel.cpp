@@ -28,9 +28,7 @@ BulletModel::BulletModel(QString          graphicsName,
     setTransformOriginPoint(pixmap().size().width()  / 2,
                             pixmap().size().height() / 2);
 
-    position.setX(position.x() - pixmap().size().width()  / 2);
-    position.setY(position.y() - pixmap().size().height() / 2);
-    setPos(position);
+    setCenterPosition(position);
     setRotation(m_direction);
 
     //Setup move timer

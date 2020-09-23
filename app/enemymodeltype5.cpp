@@ -28,18 +28,16 @@ EnemyModelType5::EnemyModelType5(QPointF position)
       m_weaponMode(mode_first_element),
       m_changeDirectionTime(def::enemy5ChangeDirectionTimeDelay)
 {
-    const int positionSideOffset = 40;
+    const int positionSideOffset = def::animationFrameWight + 10;
 
     if(position.x() < def::halfSceneWight)
     {
-        setPos(QPointF(positionSideOffset,
-                       def::enemy5StartYCoordinate));
+        setCenterPosition(positionSideOffset, def::enemy5StartYCoordinate);
         m_changeDirectionFactor = true;
     }
     else
     {
-        setPos(QPointF((def::sceneWight - pixmap().width() - positionSideOffset),
-                       def::enemy5StartYCoordinate));
+        setCenterPosition((def::sceneWight - positionSideOffset), def::enemy5StartYCoordinate);
         m_changeDirectionFactor = false;
     }
 

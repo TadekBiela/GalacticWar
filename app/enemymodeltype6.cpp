@@ -62,7 +62,7 @@ EnemyModelType6::EnemyModelType6(QPointF startPosition,
                                               def::enemy6MaxStartYCoordinate);
     startPosition.setX(startXCoordinate);
     startPosition.setY(startYCoordinate);
-    setStartPosition(startPosition);
+    setCenterPosition(startPosition);
 
     connect(&m_maneuverTimer, SIGNAL(timeout()), this, SLOT(startManeuver()));
     m_remainigManeuverTime = generator->bounded(def::enemy6MinRotationManeuverTime,
