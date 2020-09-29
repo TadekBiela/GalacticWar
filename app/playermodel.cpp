@@ -149,7 +149,7 @@ void PlayerModel::move()
 void PlayerModel::fire()
 {
     QPointF position = getCenterPosition();
-    position.setY(position.y() + def::animationFrameHeight / 2);
+    position.setY(position.y() - def::animationFrameHeight / 2);
     m_weapon.fireFuncPtr(QGraphicsItem::scene(), position, m_weapon.damage);
     m_fireTimer.setInterval(m_weapon.fireTimeDelay);
 }
