@@ -2,6 +2,7 @@
 #define ENEMYMODELTYPE6_HPP
 
 #include "enemymodel.hpp"
+#include "enemyturret.hpp"
 #include "irandomgenerator.hpp"
 #include <QPointF>
 
@@ -22,6 +23,8 @@ public:
 public slots:
     void start() override;
     void stop() override;
+
+private slots:
     void fire();
     void move();
     void startManeuver();
@@ -29,6 +32,7 @@ public slots:
 
 private:
     void stopManeuver();
+    QPointF getFrontTurretStartPosition();
 
     int m_remainigManeuverTime;
     QTimer m_maneuverTimer;
@@ -36,6 +40,7 @@ private:
     int m_rotationCounter;
     QTimer m_rotateTimer;
     enemy_rotation_direction m_rotationDirection;
+    EnemyTurret* m_frontTurret;
 };
 
 #endif // ENEMYMODELTYPE6_HPP

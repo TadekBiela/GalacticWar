@@ -11,7 +11,7 @@ game_object_type GameObject::getType() const
     return m_type;
 }
 
-void GameObject::setCenterPosition(int x, int y)
+void GameObject::setCenterPosition(qreal x, qreal y)
 {
     QPointF centerPosition(x - (pixmap().width() / 2),
                            y - (pixmap().height() / 2));

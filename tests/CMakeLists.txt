@@ -44,6 +44,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/enemymodeltype5.cpp
                                ../app/enemymodeltype6.hpp
                                ../app/enemymodeltype6.cpp
+                               ../app/enemyturret.hpp
+                               ../app/enemyturret.cpp
                                ../app/firefunctions.hpp
                                ../app/firefunctions.cpp
                                ../app/filemanager.hpp
@@ -123,6 +125,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemycontrollertests.cpp
                                enemymodeltests.cpp
                                enemymodeltype1tests.cpp
+                               enemyturrettests.cpp
                                functionstests.cpp
                                healthcontrollertests.cpp
                                healthmodeltests.cpp

@@ -1,4 +1,5 @@
 #include "firefunctions.hpp"
+#include "functions.hpp"
 #include "bulletmodel.hpp"
 #include "definitions.hpp"
 
@@ -562,4 +563,55 @@ void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
                                            def::defaultBulletSpeed);
     scene->addItem(bullet4);
     fireLeft *= -1;
+}
+
+void doubleCannonTurretFireFunc(
+    QGraphicsScene* scene,
+    QPointF centerPoint,
+    QPixmap pixmap,
+    int bulletMoveDirection,
+    int baseDamage
+) {
+    const int pixmapHalfWidth = (pixmap.width() / 2);
+    const int pixmapCannonPositionXCoordinateOffsetInPx = 7;
+    const int bulletPositionOffsetVector = (bulletMoveDirection + 90) % def::maxDegree;
+    QPointF leftCannonPosition = moveForward(
+        centerPoint,
+        bulletPositionOffsetVector,
+        (pixmapHalfWidth - pixmapCannonPositionXCoordinateOffsetInPx)
+    );
+    BulletModel* bullet = new BulletModel(
+        "bullet_enemy3",
+        game_object_type::enemy_bullet,
+        leftCannonPosition,
+        baseDamage,
+        bulletMoveDirection,
+        def::defaultBulletSpeed
+    );
+    scene->addItem(bullet);
+
+    QPointF rightCannonPosition = moveForward(
+        centerPoint,
+        bulletPositionOffsetVector,
+        (pixmapHalfWidth + pixmapCannonPositionXCoordinateOffsetInPx)
+    );
+    BulletModel* bullet2 = new BulletModel(
+        "bullet_enemy3",
+        game_object_type::enemy_bullet,
+        rightCannonPosition,
+        baseDamage,
+        bulletMoveDirection,
+        def::defaultBulletSpeed
+    );
+    scene->addItem(bullet2);
+}
+
+void tripleCannonTurretFireFunc(
+    QGraphicsScene* scene,
+    QPointF centerPoint,
+    QPixmap pixmap,
+    int bulletMoveDirection,
+    int baseDamage
+) {
+
 }

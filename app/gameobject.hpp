@@ -11,7 +11,8 @@ enum game_object_type
     player_bullet = 1,
     enemy         = 2,
     enemy_bullet  = 3,
-    reward        = 4
+    enemy_turret  = 4,
+    reward        = 5
 };
 
 class GameObject : public QObject, public QGraphicsPixmapItem
@@ -21,7 +22,7 @@ public:
     GameObject(game_object_type type);
     virtual ~GameObject() {}
     game_object_type getType() const;
-    void setCenterPosition(int x, int y);
+    void setCenterPosition(qreal x, qreal y);
     void setCenterPosition(QPointF position);
     QPointF getCenterPosition() const;
 

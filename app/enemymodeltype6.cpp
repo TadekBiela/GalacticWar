@@ -44,17 +44,35 @@ EnemyModelType6::EnemyModelType6(QPointF startPosition,
     m_rotationCounter = generator->bounded(def::enemy6MinRotationManeuverDegrees,
                                            def::enemy6MaxRotationManeuverDegrees);
     const int directionOffset = def::right - m_rotationCounter;
-    if(startPosition.x() <= def::halfSceneWight)
-    {
+    if(startPosition.x() <= def::halfSceneWight) {
         startXCoordinate = 0 - startXCoordinateOffset;
         m_direction = def::right + directionOffset;
         m_rotationDirection = enemy_rotation_direction::right;
+        m_frontTurret = new EnemyTurret(
+            this,
+            enemy_turret_type::double_cannons,
+            getFrontTurretStartPosition(),
+            20,
+            1000,
+            45,
+            enemy_turret_rotate_direction::right,
+            100
+        );
     }
-    else
-    {
+    else {
         startXCoordinate = (def::sceneWight) + startXCoordinateOffset;
         m_direction = def::left - directionOffset;
         m_rotationDirection = enemy_rotation_direction::left;
+        m_frontTurret = new EnemyTurret(
+            this,
+            enemy_turret_type::double_cannons,
+            getFrontTurretStartPosition(),
+            20,
+            1000,
+            45,
+            enemy_turret_rotate_direction::left,
+            100
+        );
     }
 
     setRotation(m_direction);
@@ -75,13 +93,14 @@ EnemyModelType6::EnemyModelType6(QPointF startPosition,
 
 EnemyModelType6::~EnemyModelType6()
 {
-
+    delete m_frontTurret;
 }
 
 void EnemyModelType6::start()
 {
     EnemyModel::start();
     m_maneuverTimer.start(m_remainigManeuverTime);
+    m_frontTurret->start();
     if(m_isCarryOutRotationManeuver)
     {
         m_rotateTimer.start();
@@ -93,7 +112,7 @@ void EnemyModelType6::stop()
     EnemyModel::stop();
     m_remainigManeuverTime = m_maneuverTimer.remainingTime();
     m_maneuverTimer.stop();
-
+    m_frontTurret->stop();
     if(m_isCarryOutRotationManeuver)
     {
         m_rotateTimer.stop();
@@ -151,4 +170,18 @@ void EnemyModelType6::rotate()
         m_direction--;
     }
     setRotation(m_direction);
+}
+
+QPointF EnemyModelType6::getFrontTurretStartPosition() {
+    QPointF frontTurretStartPosition;
+    const int frontTurretStartXCoordinateOffsetInPx = 90;
+    frontTurretStartPosition.setX(
+        pos().x() +
+        (pixmap().width() / 2)
+    );
+    frontTurretStartPosition.setY(
+        pos().y() +
+        frontTurretStartXCoordinateOffsetInPx
+    );
+    return frontTurretStartPosition;
 }

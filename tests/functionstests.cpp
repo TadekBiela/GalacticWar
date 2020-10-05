@@ -82,6 +82,22 @@ TEST(FunctionsTests, RotatePointBasedOnCenterPoint_RotatedPointIsUpOnCenterPoint
     EXPECT_NEAR(expectedPoint.y(), rotatedPoint.y(), 0.01);
 }
 
+TEST(FunctionsTests, RotatePointBasedOnCenterPoint_RotatedPointIsUpOnCenterPointRotate0_ShouldNotChangeRotatedPoint)
+{
+    QPointF centerPoint(0, 0);
+    QPointF rotatedPoint(-7, -16);
+    QPointF expectedPoint(-7, -16);
+
+    rotatePointBasedOnCenterPoint(
+        centerPoint,
+        0,
+        rotatedPoint
+    );
+
+    EXPECT_NEAR(expectedPoint.x(), rotatedPoint.x(), 0.01);
+    EXPECT_NEAR(expectedPoint.y(), rotatedPoint.y(), 0.01);
+}
+
 class FunctionsTestsParamClass : public testing::TestWithParam<std::pair<int, QPointF>>
 {
 };

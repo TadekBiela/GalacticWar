@@ -138,6 +138,8 @@ namespace def
     const int right = 90;
     const int left  = 270;
 
+    const int maxDegree = 360;
+
     //Texts
     const QString authorTitle = "Created by TED";
     const QString backText = "BACK";
