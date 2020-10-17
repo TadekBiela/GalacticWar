@@ -59,6 +59,20 @@ namespace def
     const int enemy5SmallWeaponDamage        = 30;
     const int enemy5MediumWeaponDamage       = 40;
     const int enemy5BigWeaponDamage          = 60;
+    const int enemy6Level = 6;
+    const int enemy6MaxHealthPoints = 2000;
+    const int enemy6BaseDamage = 0;
+    const int enemy6MoveTimeDelay = 100;
+    const int enemy6FireTimeDelay = 1000;
+    const int enemy6AnimationFrameWidth = 64;
+    const int enemy6AnimationFrameHeight = 256;
+    const int enemy6StartXCoordinateOffset = 112;
+    const int enemy6MinStartYCoordinate = -48;
+    const int enemy6MaxStartYCoordinate = 68;
+    const int enemy6MinRotationDegrees = 65;
+    const int enemy6MaxRotationDegrees = 80;
+    const int enemy6MinRotationTimeDelay = 250;
+    const int enemy6MaxRotationTimeDelay = 290;
 
 
     //Reward default configuration
