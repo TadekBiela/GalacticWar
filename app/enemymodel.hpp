@@ -8,6 +8,11 @@
 #include <QImage>
 #include <QPixmap>
 
+enum class enemy_rotation_direction {
+    left,
+    right
+};
+
 class EnemyModel : public GameObject
 {
     Q_OBJECT

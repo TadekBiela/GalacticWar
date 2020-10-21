@@ -6,11 +6,6 @@
 #include "irandomgenerator.hpp"
 #include <QPointF>
 
-enum class enemy_rotation_direction {
-    left,
-    right
-};
-
 class EnemyModelType6 : public EnemyModel
 {
     Q_OBJECT
