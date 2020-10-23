@@ -55,12 +55,29 @@ namespace def
     const int enemy2MaxDirectionRange = 225;
     const int enemy2XCoordinateOffset = 50;
     const int enemy2FireBulletOffset = 28;
+
+    const int enemy3Level = 3;
+    const int enemy3MaxHealthPoints = 100;
+    const int enemy3BaseDamage = 8;
+    const int enemy3MoveTimeDelay = 20;
+    const int enemy3FireTimeDelay = 200;
+    const int enemy3MoveSlowFactor = 25;
+    const int enemy3RotateLeftSideMinBorder = 60;
+    const int enemy3RotateLeftSideMaxBorder = 180;
+    const int enemy3RotateRightSideMinBorder = 180;
+    const int enemy3RotateRightSideMaxBorder = 300;
+    const int enemy3FireSideOffset = 14;
+    const int enemy3BulletSpeed = (def::defaultBulletSpeed - 5);
+    const int enemy3RotateAngle = 3;
+    const int enemy3MinMoveSlowFactor = 3;
+
     const int defaultEnemy4MoveTimeDelay = 50;
     const int defaultEnemy4FireTimeDelay = 500;
     const int speedupEnemy4FireTimeDelay = 250;
     const int defaultEnemyJumpTimeDelay  = (animationFrameDuration
                                             * maxAnimationFrames)
                                             / defaultEnemy4MoveTimeDelay;
+
     const int enemy5AnimationFrameWight      = (animationFrameWight * 2);
     const int enemy5AnimationFrameHeight     = animationFrameHeight;
     const int enemy5StartYCoordinate         = -enemy5AnimationFrameHeight + 5;
@@ -68,6 +85,7 @@ namespace def
     const int enemy5SmallWeaponDamage        = 30;
     const int enemy5MediumWeaponDamage       = 40;
     const int enemy5BigWeaponDamage          = 60;
+
     const int enemy6Level = 6;
     const int enemy6MaxHealthPoints = 2000;
     const int enemy6BaseDamage = 0;
