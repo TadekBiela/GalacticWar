@@ -5,30 +5,25 @@
 #include "imagestorage.hpp"
 #include <QGraphicsScene>
 
-static QPointF jumpMove(QPointF currentPosition, bool jumpSide)
-{
-    currentPosition.setX(currentPosition.x()
-                         + (5 * changeBoolToMinusOneOrOne(jumpSide)));
-    currentPosition.setY(currentPosition.y() + 1);
-    return currentPosition;
-}
 
-EnemyModelType4::EnemyModelType4(QPointF position)
-    : EnemyModel(4,
-                 120,
-                 20,
-                 def::defaultEnemy4MoveTimeDelay,
-                 def::defaultEnemy4FireTimeDelay),
-      m_jumpMoveTimeDelay(def::defaultEnemyJumpTimeDelay),
-      m_isJumpMove(false)
+EnemyModelType4::EnemyModelType4(
+    QPointF position
+) :
+    EnemyModel(
+        def::enemy4Level,
+        def::enemy4MaxHealthPoints,
+        def::enemy4BaseDamage,
+        def::enemy4MoveTimeDelay,
+        def::enemy4FireTimeDelay
+    ),
+    m_jumpMoveTimeDelay(def::enemy4JumpTimeDelay),
+    m_isJumpMove(false)
 {
-    if(position.x() < def::halfSceneWight)
-    {
-        m_jumpSide = false;
+    if(position.x() <= def::halfSceneWight) {
+        m_jumpSide = enemy_jump_side::left;
     }
-    else
-    {
-        m_jumpSide = true;
+    else {
+        m_jumpSide = enemy_jump_side::right;
     }
 
     m_direction = def::down;
@@ -37,59 +32,73 @@ EnemyModelType4::EnemyModelType4(QPointF position)
     setCenterPosition(position);
 }
 
-EnemyModelType4::~EnemyModelType4()
-{
+EnemyModelType4::~EnemyModelType4() {
 
 }
 
-void EnemyModelType4::fire()
-{
+void EnemyModelType4::fire() {
     QPointF position = getCenterPosition();
-    const int bulletYCoordinateOffsetInPx = 12;
-    position.setY(position.y() + bulletYCoordinateOffsetInPx);
-    const int bulletEnemy4Speed = def::defaultBulletSpeed - 6;
-    BulletModel* bullet = new BulletModel("bullet_enemy4",
-                                          game_object_type::enemy_bullet,
-                                          position,
-                                          m_damage,
-                                          def::down,
-                                          bulletEnemy4Speed);
+    position.setY(position.y() + def::enemy4BulletYCoordinateOffsetInPx);
+    BulletModel* bullet = new BulletModel(
+        "bullet_enemy4",
+        game_object_type::enemy_bullet,
+        position,
+        m_damage,
+        def::down,
+        def::enemy4BulletSpeed
+    );
     QGraphicsItem::scene()->addItem(bullet);
 }
 
-void EnemyModelType4::move()
-{
-    m_jumpMoveTimeDelay--;
-    if(m_jumpMoveTimeDelay <= 0)
-    {
-        m_jumpMoveTimeDelay = def::defaultEnemyJumpTimeDelay;
-        m_isJumpMove        = !m_isJumpMove;
+void EnemyModelType4::move() {
+    if(m_jumpMoveTimeDelay <= 0) {
+        m_jumpMoveTimeDelay = def::enemy4JumpTimeDelay;
+        m_isJumpMove = !m_isJumpMove;
 
-        if(m_isJumpMove)
-        {
-            m_jumpSide = !m_jumpSide;
-            m_animationFrameYIdx = 1 + (1 * static_cast<int>(m_jumpSide));
-            m_fireTimer.setInterval(def::speedupEnemy4FireTimeDelay);
+        if(m_isJumpMove) {
+            if(enemy_jump_side::right == m_jumpSide) {
+                m_jumpSide = enemy_jump_side::left;
+                m_animationFrameYIdx = 1;
+            }
+            else {
+                m_jumpSide = enemy_jump_side::right;
+                m_animationFrameYIdx = 2;
+            }
+
+            m_fireTimer.setInterval(def::enemy4SpeedupFireTimeDelay);
         }
-        else
-        {
+        else {
             m_animationFrameYIdx = 0;
-            m_fireTimer.setInterval(def::defaultEnemy4FireTimeDelay);
+            m_fireTimer.setInterval(def::enemy4FireTimeDelay);
         }
     }
-    if(not m_isJumpMove)
-    {
+
+    if(m_isJumpMove) {
+        jumpMove();
+    }
+    else {
         setPos(moveForward(pos(), m_direction));
     }
-    else
-    {
-        setPos(jumpMove(pos(), m_jumpSide));
-    }
 
-    if(isOutOfScene(pos(), pixmap()))
-    {
+    if(isOutOfScene(pos(), pixmap())) {
         delete this;
         return;
     }
+
     checkCollisions();
+
+    m_jumpMoveTimeDelay--;
 }
+
+void EnemyModelType4::jumpMove() {
+    QPointF currentPosition = getCenterPosition();
+    if(enemy_jump_side::right == m_jumpSide) {
+        currentPosition.setX(currentPosition.x() + def::enemy4JumpMoveOffsetInPx);
+    }
+    else {
+        currentPosition.setX(currentPosition.x() - def::enemy4JumpMoveOffsetInPx);
+    }
+    currentPosition.setY(currentPosition.y() + 1);
+    setCenterPosition(currentPosition);
+}
+

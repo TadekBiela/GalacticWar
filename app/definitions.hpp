@@ -71,12 +71,18 @@ namespace def
     const int enemy3RotateAngle = 3;
     const int enemy3MinMoveSlowFactor = 3;
 
-    const int defaultEnemy4MoveTimeDelay = 50;
-    const int defaultEnemy4FireTimeDelay = 500;
-    const int speedupEnemy4FireTimeDelay = 250;
-    const int defaultEnemyJumpTimeDelay  = (animationFrameDuration
-                                            * maxAnimationFrames)
-                                            / defaultEnemy4MoveTimeDelay;
+    const int enemy4Level = 4;
+    const int enemy4MaxHealthPoints = 120;
+    const int enemy4BaseDamage = 20;
+    const int enemy4MoveTimeDelay = 50;
+    const int enemy4FireTimeDelay = 500;
+    const int enemy4SpeedupFireTimeDelay = 250;
+    const int enemy4BulletSpeed = def::defaultBulletSpeed - 6;
+    const int enemy4BulletYCoordinateOffsetInPx = 12;
+    const int enemy4JumpTimeDelay =
+        (animationFrameDuration * maxAnimationFrames)
+        / enemy4MoveTimeDelay;
+    const int enemy4JumpMoveOffsetInPx = 5;
 
     const int enemy5AnimationFrameWight      = (animationFrameWight * 2);
     const int enemy5AnimationFrameHeight     = animationFrameHeight;
