@@ -128,6 +128,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype2tests.cpp
                                enemymodeltype3tests.cpp
                                enemymodeltype4tests.cpp
+                               enemymodeltype5tests.cpp
                                enemymodeltype6tests.cpp
                                enemyturrettests.cpp
                                functionstests.cpp
