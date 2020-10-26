@@ -5,154 +5,182 @@
 #include "imagestorage.hpp"
 #include <QGraphicsScene>
 
-void fireEnemySmallWeapon(QPointF          position,
-                           QGraphicsScene* scene);
-void fireEnemyMediumWeapon(QPointF         position,
-                           QGraphicsScene* scene);
-void fireEnemyBigWeapon(QPointF         position,
-                        QGraphicsScene* scene);
+void fireEnemySmallWeapon(
+    QPointF position,
+    QGraphicsScene* scene
+);
+void fireEnemyMediumWeapon(
+    QPointF position,
+    QGraphicsScene* scene
+);
+void fireEnemyBigWeapon(
+    QPointF position,
+    QGraphicsScene* scene
+);
 
-const fireEnemy EnemyModelType5::s_weapons[enemy_weapon::mode_last_element + 1] =
-    { &fireEnemySmallWeapon,
-      &fireEnemyMediumWeapon,
-      &fireEnemyBigWeapon };
+const fireEnemy EnemyModelType5::s_weapons[enemy_weapon::mode_last_element + 1] = {
+    &fireEnemySmallWeapon,
+    &fireEnemyMediumWeapon,
+    &fireEnemyBigWeapon
+};
 
-EnemyModelType5::EnemyModelType5(QPointF position)
-    : EnemyModel(5,
-                 500,
-                 10,
-                 70,
-                 1500,
-                 def::enemy5AnimationFrameWight,
-                 def::enemy5AnimationFrameHeight),
-      m_weaponMode(mode_first_element),
-      m_changeDirectionTime(def::enemy5ChangeDirectionTimeDelay)
+EnemyModelType5::EnemyModelType5(
+QPointF position
+) : 
+    EnemyModel(
+        def::enemy5Level,
+        def::enemy5MaxHealthPoints,
+        def::enemy5BaseDamage,
+        def::enemy5MoveTimeDelay,
+        def::enemy5FireTimeDelay,
+        def::enemy5AnimationFrameWight,
+        def::enemy5AnimationFrameHeight
+    ),
+    m_weaponMode(mode_first_element),
+    m_changeMoveSideTimeDelay(def::enemy5ChangeMoveSideTimeDelay)
 {
-    const int positionSideOffset = def::animationFrameWight + 10;
-
-    if(position.x() < def::halfSceneWight)
-    {
-        setCenterPosition(positionSideOffset, def::enemy5StartYCoordinate);
-        m_changeDirectionFactor = true;
+    if(position.x() <= def::halfSceneWight) {
+        setCenterPosition(
+            def::enemy5StartXCoordinate,
+            def::enemy5StartYCoordinate
+        );
+        m_moveSide = enemy_move_side::right;
     }
-    else
-    {
-        setCenterPosition((def::sceneWight - positionSideOffset), def::enemy5StartYCoordinate);
-        m_changeDirectionFactor = false;
+    else {
+        setCenterPosition(
+            def::sceneWight - def::enemy5StartXCoordinate,
+            def::enemy5StartYCoordinate
+        );
+        m_moveSide = enemy_move_side::left;
     }
 
     m_direction = def::down;
     setRotation(m_direction);
 }
 
-EnemyModelType5::~EnemyModelType5()
-{
+EnemyModelType5::~EnemyModelType5() {
 
 }
 
-void EnemyModelType5::fire()
-{
-    s_weapons[m_weaponMode](pos(), QGraphicsItem::scene());
+void EnemyModelType5::fire() {
+    s_weapons[m_weaponMode](
+        getCenterPosition(),
+        QGraphicsItem::scene()
+    );
 
     m_weaponMode = static_cast<enemy_weapon>(m_weaponMode + 1);
 
-    if(enemy_weapon::mode_last_element < m_weaponMode)
-    {
+    if(enemy_weapon::mode_last_element < m_weaponMode){
         m_weaponMode = enemy_weapon::mode_first_element;
     }
 }
 
-void EnemyModelType5::move()
-{
-    QPointF nextPosition = pos();
-    nextPosition.setX(nextPosition.x() +
-                      (2 * (changeBoolToMinusOneOrOne(m_changeDirectionFactor))));
-    nextPosition.setY(nextPosition.y() + 1);
-    setPos(nextPosition);
+void EnemyModelType5::move() {
+    QPointF nextPosition = getCenterPosition();
+    if(enemy_move_side::right == m_moveSide) {
+        nextPosition.rx() += def::enemy5XCoordinateOffsetInPx;
+    }
+    else {
+        nextPosition.rx() -= def::enemy5XCoordinateOffsetInPx;
+    }
+    nextPosition.ry() += def::enemy5YCoordinateOffsetInPx;
+    setCenterPosition(nextPosition);
 
-    if(isOutOfScene(pos(), pixmap()))
-    {
+    if(isOutOfScene(pos(), pixmap())) {
         delete this;
         return;
     }
 
-    m_changeDirectionTime--;
-    if(m_changeDirectionTime <= 0)
-    {
-        m_changeDirectionTime   = def::enemy5ChangeDirectionTimeDelay;
-        m_changeDirectionFactor = !m_changeDirectionFactor;
-    }
+    changeMoveSide();
 
     checkCollisions();
 }
 
-void fireEnemySmallWeapon(QPointF         position,
-                          QGraphicsScene* scene)
-{
-    int     weaponXOffset = 22;
-    int     weaponYOffset = 32;
-    QPointF leftPoint     = position;
-    leftPoint.setX(position.x() + weaponXOffset);
-    leftPoint.setY(position.y() + def::enemy5AnimationFrameHeight - weaponYOffset);
-    BulletModel* bulletLeft = new BulletModel("bullet_enemy5",
-                                              game_object_type::enemy_bullet,
-                                              leftPoint,
-                                              def::enemy5SmallWeaponDamage,
-                                              def::down,
-                                              def::defaultBulletSpeed + 5);
+void EnemyModelType5::changeMoveSide() {
+    m_changeMoveSideTimeDelay--;
+    if(m_changeMoveSideTimeDelay <= 0) {
+        m_changeMoveSideTimeDelay = def::enemy5ChangeMoveSideTimeDelay;
+
+        if(enemy_move_side::right == m_moveSide) {
+            m_moveSide = enemy_move_side::left;
+        }
+        else {
+            m_moveSide = enemy_move_side::right;
+        }
+    }
+}
+
+void fireEnemySmallWeapon(
+    QPointF position,
+    QGraphicsScene* scene
+) {
+    QPointF leftPosition = position;
+    leftPosition.rx() -= def::enemy5SmallWeaponXOffset;
+    BulletModel* bulletLeft = new BulletModel(
+        "bullet_enemy5",
+        game_object_type::enemy_bullet,
+        leftPosition,
+        def::enemy5SmallWeaponDamage,
+        def::down,
+        def::enemy5SmallWeaponBulletMoveTimeDelay
+    );
     scene->addItem(bulletLeft);
 
-    QPointF rightPoint = position;
-    rightPoint.setX(position.x() + def::enemy5AnimationFrameWight  - weaponXOffset);
-    rightPoint.setY(position.y() + def::enemy5AnimationFrameHeight - weaponYOffset);
-    BulletModel* bulletRight = new BulletModel("bullet_enemy5",
-                                               game_object_type::enemy_bullet,
-                                               rightPoint,
-                                               def::enemy5SmallWeaponDamage,
-                                               def::down,
-                                               def::defaultBulletSpeed + 5);
+    QPointF rightPosition = position;
+    rightPosition.rx() += def::enemy5SmallWeaponXOffset;
+    BulletModel* bulletRight = new BulletModel(
+        "bullet_enemy5",
+        game_object_type::enemy_bullet,
+        rightPosition,
+        def::enemy5SmallWeaponDamage,
+        def::down,
+        def::enemy5SmallWeaponBulletMoveTimeDelay
+    );
     scene->addItem(bulletRight);
 }
 
-void fireEnemyMediumWeapon(QPointF         position,
-                           QGraphicsScene* scene)
-{
-    int     weaponXOffset = 34;
-    int     weaponYOffset = 25;
-    QPointF leftPoint     = position;
-    leftPoint.setX(position.x() + weaponXOffset);
-    leftPoint.setY(position.y() + def::enemy5AnimationFrameHeight - weaponYOffset);
-    BulletModel* bulletLeft = new BulletModel("bullet_enemy6",
-                                              game_object_type::enemy_bullet,
-                                              leftPoint,
-                                              def::enemy5MediumWeaponDamage,
-                                              def::down,
-                                              def::defaultBulletSpeed + 8);
+void fireEnemyMediumWeapon(
+    QPointF position,
+    QGraphicsScene* scene
+) {
+    QPointF leftPosition = position;
+    leftPosition.rx() -= def::enemy5MediumWeaponXOffset;
+    BulletModel* bulletLeft = new BulletModel(
+         "bullet_enemy6",
+         game_object_type::enemy_bullet,
+         leftPosition,
+         def::enemy5MediumWeaponDamage,
+         def::down,
+         def::enemy5MediumWeaponBulletMoveTimeDelay
+    );
     scene->addItem(bulletLeft);
 
-    QPointF rightPoint = position;
-    rightPoint.setX(position.x() + def::enemy5AnimationFrameWight  - weaponXOffset);
-    rightPoint.setY(position.y() + def::enemy5AnimationFrameHeight - weaponYOffset);
-    BulletModel* bulletRight = new BulletModel("bullet_enemy6",
-                                               game_object_type::enemy_bullet,
-                                               rightPoint,
-                                               def::enemy5MediumWeaponDamage,
-                                               def::down,
-                                               def::defaultBulletSpeed + 8);
+    QPointF rightPosition = position;
+    rightPosition.rx() += def::enemy5MediumWeaponXOffset;
+    BulletModel* bulletRight = new BulletModel(
+        "bullet_enemy6",
+        game_object_type::enemy_bullet,
+        rightPosition,
+        def::enemy5MediumWeaponDamage,
+        def::down,
+        def::enemy5MediumWeaponBulletMoveTimeDelay
+    );
     scene->addItem(bulletRight);
 }
 
-void fireEnemyBigWeapon(QPointF         position,
-                        QGraphicsScene* scene)
-{
-    int weaponYOffset = 4;
-    position.setX(position.x() + def::enemy5AnimationFrameWight  / 2);
-    position.setY(position.y() + def::enemy5AnimationFrameHeight - weaponYOffset);
-    BulletModel* bullet = new BulletModel("bullet_enemy7",
-                                          game_object_type::enemy_bullet,
-                                          position,
-                                          def::enemy5BigWeaponDamage,
-                                          def::down,
-                                          def::defaultBulletSpeed + 12);
+void fireEnemyBigWeapon(
+    QPointF position,
+    QGraphicsScene* scene
+) {
+    QPointF bulletPosition = position;
+    bulletPosition.ry() += def::enemy5BigWeaponYOffset;
+    BulletModel* bullet = new BulletModel(
+        "bullet_enemy7",
+        game_object_type::enemy_bullet,
+        bulletPosition,
+        def::enemy5BigWeaponDamage,
+        def::down,
+        def::enemy5BigWeaponBulletMoveTimeDelay
+    );
     scene->addItem(bullet);
 }
