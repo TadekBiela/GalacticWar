@@ -24,11 +24,11 @@ EnemyModelType1::EnemyModelType1(
     }
     else if(position.x() <= def::halfSceneWight) {
         m_direction = def::enemy1RightMoveDirection;
-        m_animationFrameYIdx = 2;
+        m_animationFrameYIdx = 1;
     }
     else {
         m_direction = def::enemy1LeftMoveDirection;
-        m_animationFrameYIdx = 1;
+        m_animationFrameYIdx = 2;
     }
 
     setRotation(m_direction);

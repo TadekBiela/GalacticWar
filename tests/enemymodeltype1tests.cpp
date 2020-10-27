@@ -117,7 +117,7 @@ TEST_F(EnemyModelType1TestClass, Constructor_SpawnPositionIsOnLeftSideOfSceneDir
     EXPECT_EQ(def::enemy1BaseDamage, enemy.getDamage());
     EXPECT_EQ(def::enemy1RightMoveDirection, enemy.getDirection());
     EXPECT_EQ(0, enemy.getAnimationFrameXIdx());
-    EXPECT_EQ(2, enemy.getAnimationFrameYIdx());
+    EXPECT_EQ(1, enemy.getAnimationFrameYIdx());
     const QTimer& resultMoveTimer = enemy.getMoveTimer();
     EXPECT_FALSE(resultMoveTimer.isActive());
     EXPECT_FLOAT_EQ(def::enemy1MoveTimeDelay, resultMoveTimer.interval());
@@ -179,7 +179,7 @@ TEST_F(EnemyModelType1TestClass, Constructor_SpawnPositionIsOnRightSideOfSceneDi
     EXPECT_EQ(def::enemy1BaseDamage, enemy.getDamage());
     EXPECT_EQ(def::enemy1LeftMoveDirection, enemy.getDirection());
     EXPECT_EQ(0, enemy.getAnimationFrameXIdx());
-    EXPECT_EQ(1, enemy.getAnimationFrameYIdx());
+    EXPECT_EQ(2, enemy.getAnimationFrameYIdx());
     const QTimer& resultMoveTimer = enemy.getMoveTimer();
     EXPECT_FALSE(resultMoveTimer.isActive());
     EXPECT_FLOAT_EQ(def::enemy1MoveTimeDelay, resultMoveTimer.interval());
