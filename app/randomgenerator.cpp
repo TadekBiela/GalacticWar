@@ -2,7 +2,7 @@
 
 RandomGenerator::RandomGenerator()
 {
-
+    generator = QRandomGenerator::system();
 }
 
 RandomGenerator::~RandomGenerator()
@@ -12,5 +12,5 @@ RandomGenerator::~RandomGenerator()
 
 int RandomGenerator::bounded(int lowest, int highest)
 {
-    return generator.bounded(lowest, highest + 1);
+    return generator->bounded(lowest, highest + 1);
 }

@@ -12,7 +12,7 @@ public:
     int bounded(int lowest, int highest);
 
 protected:
-    QRandomGenerator generator;
+    QRandomGenerator* generator;
 };
 
 #endif // RANDOMGENERATOR_HPP
