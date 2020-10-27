@@ -27,6 +27,8 @@ namespace def
     const int    maxWeaponLevel                  = 5;
     const int    minEnemySpawnTimeDelay          = 1000;
     const int    maxEnemySpawnTimeDelay          = 5000;
+    const int minEnemySpawnTimeDelayDecreaseFactor = 100;
+    const int maxEnemySpawnTimeDelayDecreaseFactor = 300;
     const int    minBackgroundItemSpawnTimeDelay = 3000;
     const int    maxBackgroundItemSpawnTimeDelay = 10000;
     const int    moveVectorLength                = 5;
