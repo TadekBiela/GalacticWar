@@ -9,8 +9,10 @@ class EnemyModelType1 : public EnemyModel
 {
     Q_OBJECT
 public:
-    EnemyModelType1(QPointF           position,
-                    IRandomGenerator* generator);
+    EnemyModelType1(
+        QPointF position,
+        IRandomGenerator* generator
+    );
     virtual ~EnemyModelType1();
 
 public slots:

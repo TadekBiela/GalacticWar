@@ -46,6 +46,16 @@ namespace def
     const int defaultPlayerFireTimeDelay = 100;
 
     //Enemies
+    const int enemy1Level = 1;
+    const int enemy1MaxHealthPoints = 30;
+    const int enemy1BaseDamage = 10;
+    const int enemy1MoveTimeDelay = 40;
+    const int enemy1FireTimeDelay = 1000;
+    const int enemy1RightMoveDirection = 170;
+    const int enemy1DownMoveDirection = 180;
+    const int enemy1LeftMoveDirection = 190;
+    const int enemy1FireBulletOffset = 28;
+
     const int enemy2Level = 2;
     const int enemy2MaxHealthPoints = 40;
     const int enemy2BaseDamage = 5;
