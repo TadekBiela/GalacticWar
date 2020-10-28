@@ -67,53 +67,59 @@ public:
 
 TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfig_ShouldGenerateNewPercentDistributionTab)
 {
-    EnemyConfiguration inputConfig = { 10, 15, 20, 25, 30, 0 };
-    std::vector<int>   expected    =
-                       { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
-                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
-                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
-    QWidget             displayWidget;
-    GameplayView        view(&displayWidget);
+    EnemyConfiguration inputConfig = { 1000, 2000, 10, 15, 20, 25, 30, 0 };
+    std::vector<int> expected = {
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
+      3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+      3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+      4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+      4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+      5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+      5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+      5, 5, 5, 5, 5, 5, 5, 5, 5, 5
+    };
+    QWidget displayWidget;
+    GameplayView view(&displayWidget);
     EnemyControllerTest enemyController(&view);
 
     enemyController.changeEnemyConfig(inputConfig);
-    std::vector<int> resultEnemyPercDistTab;
-    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
-                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
 
+    std::vector<int> resultEnemyPercDistTab;
+    resultEnemyPercDistTab.assign(
+        enemyController.getEnemyPercentDistTab(),
+        enemyController.getEnemyPercentDistTab() + def::percentDistTabSize
+    );
     ASSERT_EQ(expected, resultEnemyPercDistTab);
 }
 
 TEST_F(EnemyControllerTestsClass, ChangeEnemyConfiguration_NewConfigNotContainFirstEnemyType_ShouldGenerateNewPercentDistributionTab)
 {
-    EnemyConfiguration inputConfig = { 0, 15, 20, 25, 30, 10 };
-    std::vector<int>   expected    =
-                       { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-                         2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
-                         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                         3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
-                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-                         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-                         6, 6, 6, 6, 6, 6, 6, 6, 6, 6 };
-    QWidget             displayWidget;
-    GameplayView        view(&displayWidget);
+    EnemyConfiguration inputConfig = { 1000, 2000, 0, 15, 20, 25, 30, 10 };
+    std::vector<int> expected = {
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 3, 3, 3, 3, 3,
+        3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+        3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        6, 6, 6, 6, 6, 6, 6, 6, 6, 6
+    };
+    QWidget displayWidget;
+    GameplayView view(&displayWidget);
     EnemyControllerTest enemyController(&view);
 
     enemyController.changeEnemyConfig(inputConfig);
-    std::vector<int> resultEnemyPercDistTab;
-    resultEnemyPercDistTab.assign(enemyController.getEnemyPercentDistTab(),
-                                  enemyController.getEnemyPercentDistTab() + def::percentDistTabSize);
 
+    std::vector<int> resultEnemyPercDistTab;
+    resultEnemyPercDistTab.assign(
+        enemyController.getEnemyPercentDistTab(),
+        enemyController.getEnemyPercentDistTab() + def::percentDistTabSize
+    );
     ASSERT_EQ(expected, resultEnemyPercDistTab);
 }
 
