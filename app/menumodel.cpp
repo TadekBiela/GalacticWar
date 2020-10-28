@@ -1,5 +1,6 @@
-#include "menumodel.hpp"
+#include "definitions.hpp"
 #include "filemanager.hpp"
+#include "menumodel.hpp"
 #include <algorithm>
 
 MenuModel::MenuModel()
@@ -34,6 +35,9 @@ void MenuModel::addRecordToHighscore(PlayerScore newPlayerScore)
                     }
                 }
     );
+    while(def::maxNumOfHighScoreRecords < m_highscore.size()) {
+        m_highscore.pop_back();
+    }
 }
 
 void MenuModel::saveHighscoreToFile()

@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../app/definitions.hpp"
 #include "../app/menumodel.hpp"
 #include "../app/ifilemanager.hpp"
 #include "utdefinitions.hpp"
@@ -106,6 +107,126 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_AddThreeNewRecordsWithTheSameSc
     auto resultHighscore = menuModel.getHighscore();
 
     EXPECT_EQ(resultHighscore, expectedHighscore);
+}
+
+TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfRecordsMinus1_ShouldAddNewRecord)
+{
+    PlayerScore newRecord("testNew", 101);
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTest menuModel;
+    menuModel.changeFileManager(fileManager);
+    PlayerScoreTable filledHighScore;
+    for(int i = 0; i < (def::maxNumOfHighScoreRecords - 1); i++) {
+        filledHighScore.push_back(
+            PlayerScore(
+                "test",
+                (10 * i)
+            )
+        );
+    }
+    menuModel.setHighscore(filledHighScore);
+
+    menuModel.addRecordToHighscore(newRecord);
+
+    auto resultHighscore = menuModel.getHighscore();
+    EXPECT_EQ(def::maxNumOfHighScoreRecords, resultHighscore.size()); 
+    EXPECT_EQ(8, resultHighscore.indexOf(newRecord));
+}
+
+TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfRecordsAndNewRecordHasScoreHigherThanLastInHightscore_ShouldAddNewRecordAndRemoveLast)
+{
+    PlayerScore newRecord("testNew", 101);
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTest menuModel;
+    menuModel.changeFileManager(fileManager);
+    PlayerScoreTable filledHighScore;
+    for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
+        filledHighScore.push_back(
+            PlayerScore(
+                "test",
+                (10 * i)
+            )
+        );
+    }
+    menuModel.setHighscore(filledHighScore);
+
+    menuModel.addRecordToHighscore(newRecord);
+
+    auto resultHighscore = menuModel.getHighscore();
+    EXPECT_EQ(def::maxNumOfHighScoreRecords, resultHighscore.size()); 
+    EXPECT_EQ(9, resultHighscore.indexOf(newRecord));
+}
+
+TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfRecordsAndNewRecordHasScoreLowerThanLastInHightscore_ShouldNotAddNewRecord)
+{
+    PlayerScore newRecord("testNew", 0);
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTest menuModel;
+    menuModel.changeFileManager(fileManager);
+    PlayerScoreTable filledHighScore;
+    for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
+        filledHighScore.push_back(
+            PlayerScore(
+                "test",
+                (10 + (10 * i))
+            )
+        );
+    }
+    menuModel.setHighscore(filledHighScore);
+
+    menuModel.addRecordToHighscore(newRecord);
+
+    auto resultHighscore = menuModel.getHighscore();
+    EXPECT_EQ(def::maxNumOfHighScoreRecords, resultHighscore.size()); 
+    EXPECT_EQ(-1, resultHighscore.indexOf(newRecord));
+}
+
+TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfRecordsAndNewRecordHasScoreSameAsLastInHightscoreButNameIsFurtherInAlphabet_ShouldNotAddNewRecord)
+{
+    PlayerScore newRecord("testNew", 0);
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTest menuModel;
+    menuModel.changeFileManager(fileManager);
+    PlayerScoreTable filledHighScore;
+    for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
+        filledHighScore.push_back(
+            PlayerScore(
+                "test",
+                (10 * i)
+            )
+        );
+    }
+    menuModel.setHighscore(filledHighScore);
+
+    menuModel.addRecordToHighscore(newRecord);
+
+    auto resultHighscore = menuModel.getHighscore();
+    EXPECT_EQ(def::maxNumOfHighScoreRecords, resultHighscore.size()); 
+    EXPECT_EQ(-1, resultHighscore.indexOf(newRecord));
+}
+
+TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfRecordsAndNewRecordHasScoreSameAsLastInHightscoreButNameIsPriorInAlphabet_ShouldAddNewRecordAndRemoveLastOld)
+{
+    PlayerScore newRecord("testNew", 0);
+    FileManagerStub* fileManager = new FileManagerStub();
+    MenuModelTest menuModel;
+    menuModel.changeFileManager(fileManager);
+    PlayerScoreTable filledHighScore;
+    for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
+        filledHighScore.push_back(
+            PlayerScore(
+                "testVintage:D",
+                (10 * i)
+            )
+        );
+    }
+    menuModel.setHighscore(filledHighScore);
+
+    menuModel.addRecordToHighscore(newRecord);
+
+    auto resultHighscore = menuModel.getHighscore();
+    EXPECT_EQ(def::maxNumOfHighScoreRecords, resultHighscore.size()); 
+    EXPECT_EQ(19, resultHighscore.indexOf(newRecord));
 }
 
 TEST_F(MenuModelTestsClass, SaveHighscoreToFile_CheckCorrectWorking_IsEqual)
