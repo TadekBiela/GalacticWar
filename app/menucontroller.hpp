@@ -12,10 +12,13 @@ class MenuController : public QObject
 {
     Q_OBJECT
 public:
-    MenuController(QWidget*            displayWidget,
-                   ControlPlane*       controller,
-                   GameplayView*       gameplayView,
-                   AnimationPlaneView* animationView);
+    MenuController(
+        QWidget* displayWidget,
+        ControlPlane* controller,
+        GameplayView* gameplayView,
+        AnimationPlaneView* animationView,
+        IFileManager* fileManager = nullptr
+    );
     virtual ~MenuController();
 
 signals:
@@ -38,7 +41,7 @@ public slots:
 
 protected:
     MenuModel m_model;
-    MenuView  m_view;
+    MenuView m_view;
 };
 
 #endif // MENUCONTROLLER_HPP

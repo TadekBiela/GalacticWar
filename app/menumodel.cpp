@@ -3,38 +3,46 @@
 #include "menumodel.hpp"
 #include <algorithm>
 
-MenuModel::MenuModel()
-    : m_highscore(),
-      m_fileManager(new FileManager)
+MenuModel::MenuModel(
+    IFileManager* fileManager
+) :
+    m_highscore()
 {
-
+    if(nullptr == fileManager) {
+        m_fileManager = new FileManager();
+    }
+    else {
+        m_fileManager = fileManager;
+    }
 }
 
-MenuModel::~MenuModel()
-{
+MenuModel::~MenuModel() {
     delete m_fileManager;
 }
 
-void MenuModel::addRecordToHighscore(PlayerScore newPlayerScore)
-{
-    m_highscore.push_back(newPlayerScore);
-    std::sort(m_highscore.begin(), m_highscore.end(),
-              [](const PlayerScore& a, const PlayerScore& b)->bool
-                {
-                    if(a.second > b.second) //If score a is higher return true
-                    {
-                        return true;
-                    }
-                    else if (a.second == b.second)
-                    {
-                        return (a.first < b.first); //If score is equal check player name alphabetical order
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
+void MenuModel::addRecordToHighscore(
+    PlayerScore newPlayerScore
+) {
+    m_highscore.push_back(
+        newPlayerScore
     );
+
+    std::sort(
+        m_highscore.begin(),
+        m_highscore.end(),
+        [](const PlayerScore& a, const PlayerScore& b)->bool {
+            if(a.second > b.second) {
+                return true;
+            }
+            else if (a.second == b.second) {
+                return (a.first < b.first);
+            }
+            else {
+                return false;
+            }
+        }
+    );
+
     while(def::maxNumOfHighScoreRecords < m_highscore.size()) {
         m_highscore.pop_back();
     }
@@ -69,4 +77,8 @@ PlayerScoreIterator MenuModel::getHighscoreBeginIterator()
 PlayerScoreIterator MenuModel::getHighscoreEndIterator()
 {
     return m_highscore.end();
+}
+
+int MenuModel::getHighscoreSize() const {
+    return m_highscore.size();
 }

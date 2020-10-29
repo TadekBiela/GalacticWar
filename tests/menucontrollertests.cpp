@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/filemanagerstub.hpp"
 #include "stubs/imagestoragestub.hpp"
 #include "stubs/soundstoragestub.hpp"
 #include "../app/menucontroller.hpp"
@@ -12,27 +13,37 @@
 class MenuControllerTest : public MenuController
 {
 public:
-    MenuControllerTest(QWidget*            displayWidget,
-                       ControlPlane*       controller,
-                       GameplayView*       gameplayView,
-                       AnimationPlaneView* animationView)
-                        : MenuController(displayWidget,
-                                         controller,
-                                         gameplayView,
-                                         animationView) {}
+    MenuControllerTest(
+        QWidget* displayWidget,
+        ControlPlane* controller,
+        GameplayView* gameplayView,
+        AnimationPlaneView* animationView
+    ) :
+        MenuController(
+            displayWidget,
+            controller,
+            gameplayView,
+            animationView,
+            new FileManagerStub()
+        )
+    {}
     virtual ~MenuControllerTest() {}
+    int getHighscoreSize() {
+        return m_model.getHighscoreSize();
+    }
+    void setPlayerNameFieldInView(QString playerName) {
+        m_view.setPlayerNameField(playerName);
+    }
 };
 
 class MenuControllerTestsClass : public testing::Test
 {
 public:
-    void SetUp()
-    {
+    void SetUp() {
         g_imageStorage = new ImageStorageStub;
         g_soundStorage = new SoundStorageStub;
     }
-    void TearDown()
-    {
+    void TearDown() {
         delete g_imageStorage;
         delete g_soundStorage;
     }
@@ -40,19 +51,61 @@ public:
 
 TEST_F(MenuControllerTestsClass, PauseGame_CheckCorrectWorking_ShouldSendGamePauseSignal)
 {
-    QWidget            displayWidget;
-    ControlPlane       controller(&displayWidget);
-    GameplayView       gameplayView(&displayWidget);
+    QWidget displayWidget;
+    ControlPlane controller(&displayWidget);
+    GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
-    MenuControllerTest menuController(&displayWidget,
-                                      &controller,
-                                      &gameplayView,
-                                      &animationView);
-    QSignalSpy signalGamePaused(&menuController, &MenuControllerTest::gamePaused);
+    MenuControllerTest menuController(
+        &displayWidget,
+        &controller,
+        &gameplayView,
+        &animationView
+    );
+    QSignalSpy signalGamePaused(
+        &menuController,
+        &MenuControllerTest::gamePaused
+    );
     signalGamePaused.wait(utdef::minSignalTimeDelay);
 
     menuController.pauseGame();
-    int resultSignalGamePaused = signalGamePaused.count();
 
-    EXPECT_EQ(1, resultSignalGamePaused);
+    EXPECT_EQ(1, signalGamePaused.count());
+}
+
+TEST_F(MenuControllerTestsClass, SaveScore_PlayerNameIsFilled_ShouldSavePlayerScore)
+{
+    QWidget displayWidget;
+    ControlPlane controller(&displayWidget);
+    GameplayView gameplayView(&displayWidget);
+    AnimationPlaneView animationView(&displayWidget);
+    MenuControllerTest menuController(
+        &displayWidget,
+        &controller,
+        &gameplayView,
+        &animationView
+    );
+    menuController.setPlayerNameFieldInView("test");
+
+    menuController.saveScore();
+
+    EXPECT_EQ(1, menuController.getHighscoreSize());
+}
+
+TEST_F(MenuControllerTestsClass, SaveScore_PlayerNameIsEmpty_ShouldDontSavePlayerScore)
+{
+    QWidget displayWidget;
+    ControlPlane controller(&displayWidget);
+    GameplayView gameplayView(&displayWidget);
+    AnimationPlaneView animationView(&displayWidget);
+    MenuControllerTest menuController(
+        &displayWidget,
+        &controller,
+        &gameplayView,
+        &animationView
+    );
+    menuController.setPlayerNameFieldInView("");
+
+    menuController.saveScore();
+
+    EXPECT_EQ(0, menuController.getHighscoreSize());
 }

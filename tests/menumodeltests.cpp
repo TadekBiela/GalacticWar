@@ -9,16 +9,13 @@
 class MenuModelTest : public MenuModel
 {
 public:
-    MenuModelTest() {}
+    MenuModelTest(IFileManager* fileManager)
+        : MenuModel(fileManager)
+    {}
     virtual ~MenuModelTest() {}
 
     const PlayerScoreTable& getHighscore() const { return m_highscore; }
     void setHighscore(const PlayerScoreTable& newHighscore) { m_highscore = newHighscore; }
-    void changeFileManager(IFileManager* fileManager)
-    {
-        delete m_fileManager;
-        m_fileManager = fileManager;
-    }
 };
 
 class MenuModelTestsClass : public testing::Test
@@ -30,8 +27,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_AddOneNewRecordCheckIfHighScore
     PlayerScoreTable expectedHighscore = { {"Bob", 1000} };
     PlayerScore      newRecord("Bob", 1000);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.addRecordToHighscore(newRecord);
     auto resultHighscore = menuModel.getHighscore();
@@ -45,8 +41,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_AddTwoNewRecordsCheckOrderBySco
     PlayerScore      newRecord1("Bob", 1000);
     PlayerScore      newRecord2("Andy", 900);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.addRecordToHighscore(newRecord1);
     menuModel.addRecordToHighscore(newRecord2);
@@ -62,8 +57,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_AddThreeNewRecordsCheckOrderByS
     PlayerScore      newRecord2("Andy", 900);
     PlayerScore      newRecord3("Ed", 1200);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.addRecordToHighscore(newRecord1);
     menuModel.addRecordToHighscore(newRecord2);
@@ -80,9 +74,8 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_AddThreeNewRecordsWithTheSamePl
     PlayerScore      newRecord2("Bob", 900);
     PlayerScore      newRecord3("Bob", 1200);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
-
+    MenuModelTest    menuModel(fileManager);
+ 
     menuModel.addRecordToHighscore(newRecord1);
     menuModel.addRecordToHighscore(newRecord2);
     menuModel.addRecordToHighscore(newRecord3);
@@ -98,8 +91,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_AddThreeNewRecordsWithTheSameSc
     PlayerScore      newRecord2("Andy", 1000);
     PlayerScore      newRecord3("Ed", 1000);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.addRecordToHighscore(newRecord1);
     menuModel.addRecordToHighscore(newRecord2);
@@ -113,8 +105,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfR
 {
     PlayerScore newRecord("testNew", 101);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest menuModel(fileManager);
     PlayerScoreTable filledHighScore;
     for(int i = 0; i < (def::maxNumOfHighScoreRecords - 1); i++) {
         filledHighScore.push_back(
@@ -137,8 +128,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfR
 {
     PlayerScore newRecord("testNew", 101);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest menuModel(fileManager);
     PlayerScoreTable filledHighScore;
     for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
         filledHighScore.push_back(
@@ -161,8 +151,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfR
 {
     PlayerScore newRecord("testNew", 0);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest menuModel(fileManager);
     PlayerScoreTable filledHighScore;
     for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
         filledHighScore.push_back(
@@ -185,8 +174,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfR
 {
     PlayerScore newRecord("testNew", 0);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest menuModel(fileManager);
     PlayerScoreTable filledHighScore;
     for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
         filledHighScore.push_back(
@@ -209,8 +197,7 @@ TEST_F(MenuModelTestsClass, AddRecordToHighscore_CurrentHighscoreSizeIsMaxNumOfR
 {
     PlayerScore newRecord("testNew", 0);
     FileManagerStub* fileManager = new FileManagerStub();
-    MenuModelTest menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest menuModel(fileManager);
     PlayerScoreTable filledHighScore;
     for(int i = 0; i < (def::maxNumOfHighScoreRecords); i++) {
         filledHighScore.push_back(
@@ -234,8 +221,7 @@ TEST_F(MenuModelTestsClass, SaveHighscoreToFile_CheckCorrectWorking_IsEqual)
     PlayerScoreTable highScore           = { {"Andy", 1000},{"Bob", 1000}, {"Ed", 1000} };
     QString          expectedFileContent = "Andy\n1000\nBob\n1000\nEd\n1000\n";
     FileManagerMock* fileManager = new FileManagerMock();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
     menuModel.setHighscore(highScore);
 
     menuModel.saveHighscoreToFile();
@@ -249,8 +235,7 @@ TEST_F(MenuModelTestsClass, SaveHighscoreToFile_OnlyOneRecordCheckCorrectWorking
     PlayerScoreTable highScore           = { {"Andy", 1000} };
     QString          expectedFileContent = "Andy\n1000\n";
     FileManagerMock* fileManager = new FileManagerMock();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
     menuModel.setHighscore(highScore);
 
     menuModel.saveHighscoreToFile();
@@ -264,8 +249,7 @@ TEST_F(MenuModelTestsClass, SaveHighscoreToFile_ZeroRecordsCheckCorrectWorking_I
     PlayerScoreTable highScore           = { };
     QString          expectedFileContent = "";
     FileManagerMock* fileManager = new FileManagerMock();
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
     menuModel.setHighscore(highScore);
 
     menuModel.saveHighscoreToFile();
@@ -279,8 +263,7 @@ TEST_F(MenuModelTestsClass, LoadHighscoreFromFile_CheckCorrectWorking_IsEqual)
     PlayerScoreTable expectedHighscore = { {"Andy", 1300}, {"Ed", 1000}, {"Bob", 1000}, {"Andy", 1000}, {"Fred", 300}};
     FileManagerMock* fileManager       = new FileManagerMock();
     fileManager->setFileContent(QString("Andy\n1300\nEd\n1000\nBob\n1000\nAndy\n1000\nFred\n300\n"));
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.loadHighscoreFromFile();
     auto resultHighscore = menuModel.getHighscore();
@@ -293,8 +276,7 @@ TEST_F(MenuModelTestsClass, LoadHighscoreFromFile_OneRecordInFileCheckCorrectWor
     PlayerScoreTable expectedHighscore = { {"Fred", 1300} };
     FileManagerMock* fileManager       = new FileManagerMock();
     fileManager->setFileContent(QString("Fred\n1300\n"));
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.loadHighscoreFromFile();
     auto resultHighscore = menuModel.getHighscore();
@@ -307,8 +289,7 @@ TEST_F(MenuModelTestsClass, LoadHighscoreFromFile_ZeroRecordsInFileCheckCorrectW
     PlayerScoreTable expectedHighscore = {};
     FileManagerMock* fileManager       = new FileManagerMock();
     fileManager->setFileContent(QString(""));
-    MenuModelTest    menuModel;
-    menuModel.changeFileManager(fileManager);
+    MenuModelTest    menuModel(fileManager);
 
     menuModel.loadHighscoreFromFile();
     auto resultHighscore = menuModel.getHighscore();

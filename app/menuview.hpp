@@ -20,6 +20,7 @@ public:
                             PlayerScoreIterator highscoreEnd);
     QString getPlayerNameFromField();
     int     getScoreFromLabel();
+    void setPlayerNameField(QString);
     void    setGameoverScoreLabel(int scoreValue);
 
 signals:

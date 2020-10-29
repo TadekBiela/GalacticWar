@@ -124,6 +124,10 @@ QString MenuView::getPlayerNameFromField()
     return m_gameoverPlayerNameField.text();
 }
 
+void MenuView::setPlayerNameField(QString playerName) {
+    m_gameoverPlayerNameField.setText(playerName);
+}
+
 void MenuView::setGameoverScoreLabel(int scoreValue)
 {
     m_gameoverScoreLabel.setText(QString::number(scoreValue));

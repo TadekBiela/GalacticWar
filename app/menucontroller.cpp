@@ -5,12 +5,15 @@
 #include "soundeffectmodel.hpp"
 #include <QMainWindow>
 
-MenuController::MenuController(QWidget*            displayWidget,
-                               ControlPlane*       controller,
-                               GameplayView*       gameplayView,
-                               AnimationPlaneView* animationView)
-    : m_model(),
-      m_view(displayWidget)
+MenuController::MenuController(
+    QWidget* displayWidget,
+    ControlPlane* controller,
+    GameplayView* gameplayView,
+    AnimationPlaneView* animationView,
+    IFileManager* fileManager
+) :
+    m_model(fileManager),
+    m_view(displayWidget)
 {
     connect(&m_view, SIGNAL(startClicked()),
             this,    SLOT(startGame()));
@@ -91,15 +94,24 @@ void MenuController::updateScore(int totalScore)
 
 void MenuController::saveScore()
 {
-    QString     playerName = m_view.getPlayerNameFromField();
-    int         totalScore = m_view.getScoreFromLabel();
-    PlayerScore scoreRecordToSave(playerName, totalScore);
+    QString playerName = m_view.getPlayerNameFromField();
+    if(not playerName.isEmpty()) {
+        int totalScore = m_view.getScoreFromLabel();
+        PlayerScore scoreRecordToSave(
+            playerName,
+            totalScore);
+        m_model.addRecordToHighscore(
+            scoreRecordToSave
+        );
 
-    m_model.addRecordToHighscore(scoreRecordToSave);
-    m_model.saveHighscoreToFile();
+        m_model.saveHighscoreToFile();
 
-    m_view.updateHighscore(m_model.getHighscoreBeginIterator(),
-                           m_model.getHighscoreEndIterator());
+        m_view.updateHighscore(
+            m_model.getHighscoreBeginIterator(),
+            m_model.getHighscoreEndIterator()
+        );
+    }
+
     m_view.showMainMenu();
 }
 
