@@ -6,11 +6,6 @@
 #include <QGraphicsScene>
 #include <QPixmap>
 
-namespace def {
-const int rotationDegreeRange = 90;
-const int pixmapCenterPointHeightOffsetInPx = 3;
-}
-
 EnemyTurret::EnemyTurret(
     QGraphicsItem* parent,
     enemy_turret_type type,
@@ -27,7 +22,7 @@ EnemyTurret::EnemyTurret(
     m_rotationDegree(startRotationDegree * static_cast<int>(m_rotationDirection)),
     m_maxRotationDegree(
         m_rotationDegree +
-        (def::rotationDegreeRange * static_cast<int>(m_rotationDirection))
+        (def::enemyTurretRotationDegreeRange * static_cast<int>(m_rotationDirection))
     )
 {
     setParentItem(parent);
@@ -44,7 +39,7 @@ EnemyTurret::EnemyTurret(
 
     setTransformOriginPoint(
         (pixmap().width() / 2),
-         (pixmap().height() / 2) + def::pixmapCenterPointHeightOffsetInPx
+         (pixmap().height() / 2) + def::enemyTurretPixmapCenterPointHightOffset
     );
 
     setCenterPosition(position);
@@ -102,7 +97,7 @@ void EnemyTurret::rotate() {
         else {
             m_rotationDirection = enemy_turret_rotate_direction::left;
         }
-        m_maxRotationDegree += (def::rotationDegreeRange * static_cast<int>(m_rotationDirection));
+        m_maxRotationDegree += (def::enemyTurretRotationDegreeRange * static_cast<int>(m_rotationDirection));
     }
     setRotation(m_rotationDegree);
 }

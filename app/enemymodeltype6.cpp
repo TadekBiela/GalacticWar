@@ -34,11 +34,21 @@ EnemyModelType6::EnemyModelType6(
             this,
             enemy_turret_type::double_cannons,
             getFrontTurretStartPosition(),
-            20,
-            1000,
-            45,
+            def::enemyTurretDoubleCannonDamage,
+            def::enemyTurretDoubleCannonFireTimeDelay,
+            def::enemyTurretDoubleCannonFrontStartDirection,
             enemy_turret_rotate_direction::right,
-            100
+            def::enemyTurretDoubleCannonRotateTimeDelay
+        );
+        m_backTurret = new EnemyTurret (
+            this,
+            enemy_turret_type::double_cannons,
+            getBackTurretStartPosition(),
+            def::enemyTurretDoubleCannonDamage,
+            def::enemyTurretDoubleCannonFireTimeDelay,
+            def::enemyTurretDoubleCannonBackStartDirection,
+            enemy_turret_rotate_direction::left,
+            def::enemyTurretDoubleCannonRotateTimeDelay
         );
     }
     else {
@@ -49,11 +59,21 @@ EnemyModelType6::EnemyModelType6(
             this,
             enemy_turret_type::double_cannons,
             getFrontTurretStartPosition(),
-            20,
-            1000,
-            45,
+            def::enemyTurretDoubleCannonDamage,
+            def::enemyTurretDoubleCannonFireTimeDelay,
+            def::enemyTurretDoubleCannonFrontStartDirection,
             enemy_turret_rotate_direction::left,
-            100
+            def::enemyTurretDoubleCannonRotateTimeDelay
+        );
+        m_backTurret = new EnemyTurret (
+            this,
+            enemy_turret_type::double_cannons,
+            getBackTurretStartPosition(),
+            def::enemyTurretDoubleCannonDamage,
+            def::enemyTurretDoubleCannonFireTimeDelay,
+            def::enemyTurretDoubleCannonBackStartDirection,
+            enemy_turret_rotate_direction::right,
+            def::enemyTurretDoubleCannonRotateTimeDelay
         );
     }
 
@@ -81,11 +101,13 @@ EnemyModelType6::~EnemyModelType6() {
 void EnemyModelType6::start() {
     EnemyModel::start();
     m_frontTurret->start();
+    m_backTurret->start();
 }
 
 void EnemyModelType6::stop() {
     EnemyModel::stop();
     m_frontTurret->stop();
+    m_backTurret->stop();
 }
 
 void EnemyModelType6::fire() {
@@ -94,7 +116,11 @@ void EnemyModelType6::fire() {
 
 void EnemyModelType6::move() {
     const int movePositionOffset = 2;
-    setPos(moveForward(pos(), m_direction, movePositionOffset));
+    setPos(moveForward(
+        pos(),
+        m_direction,
+        movePositionOffset
+    ));
 
     if(isOutOfScene(pos(), pixmap())) {
         delete this;
@@ -124,15 +150,13 @@ void EnemyModelType6::rotate() {
 }
 
 QPointF EnemyModelType6::getFrontTurretStartPosition() {
-    QPointF frontTurretStartPosition;
-    const int frontTurretenemy6startXCoordinateOffsetInPx = 90;
-    frontTurretStartPosition.setX(
-        pos().x() +
-        (pixmap().width() / 2)
-    );
-    frontTurretStartPosition.setY(
-        pos().y() +
-        frontTurretenemy6startXCoordinateOffsetInPx
-    );
+    QPointF frontTurretStartPosition = getCenterPosition();
+    frontTurretStartPosition.ry() -= def::enemyTurretFrontYCoordinateOffset;
+    return frontTurretStartPosition;
+}
+
+QPointF EnemyModelType6::getBackTurretStartPosition() {
+    QPointF frontTurretStartPosition = getCenterPosition();
+    frontTurretStartPosition.ry() += def::enemyTurretBackYCoordinateOffset;
     return frontTurretStartPosition;
 }

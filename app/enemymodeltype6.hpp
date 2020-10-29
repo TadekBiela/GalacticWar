@@ -26,6 +26,7 @@ protected slots:
 
 private:
     QPointF getFrontTurretStartPosition();
+    QPointF getBackTurretStartPosition();
     void rotate();
 
 protected:
@@ -33,6 +34,7 @@ protected:
     int m_rotationCounter;
     enemy_rotation_direction m_rotationDirection;
     EnemyTurret* m_frontTurret;
+    EnemyTurret* m_backTurret;
 };
 
 #endif // ENEMYMODELTYPE6_HPP
