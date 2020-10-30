@@ -53,3 +53,14 @@ void BackgroundEffectModel::move()
         delete this;
     }
 }
+
+void BackgroundEffectModel::start() {
+    AnimationEffectModel::start();
+    m_moveTimer.start();
+}
+
+void BackgroundEffectModel::stop() {
+    AnimationEffectModel::stop();
+    m_moveTimer.stop();
+}
+

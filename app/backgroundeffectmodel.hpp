@@ -27,6 +27,8 @@ public:
 
 private slots:
     void move();
+    void start() override;
+    void stop() override;
 
 private:
     int    m_moveDirection;
