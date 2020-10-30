@@ -43,6 +43,10 @@ add_executable(${PROJECT_NAME} main.cpp
                                enemymodeltype6.cpp
                                enemyturret.hpp
                                enemyturret.cpp
+                               enemyturretdoublecannon.hpp
+                               enemyturretdoublecannon.cpp
+                               enemyturrettriplecannon.hpp
+                               enemyturrettriplecannon.cpp
                                filemanager.hpp
                                filemanager.cpp
                                firefunctions.hpp

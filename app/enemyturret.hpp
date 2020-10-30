@@ -1,15 +1,10 @@
 #ifndef ENEMYTURRET_HPP
 #define ENEMYTURRET_HPP
 
-#include "firefunctions.hpp"
 #include "gameobject.hpp"
 #include <QPointF>
+#include <QString>
 #include <QTimer>
-
-enum class enemy_turret_type {
-    double_cannons = 1,
-    triple_cannons = 2
-};
 
 enum class enemy_turret_rotate_direction {
     left = -1,
@@ -22,7 +17,7 @@ class EnemyTurret : public GameObject
 public:
     EnemyTurret(
         QGraphicsItem* parent,
-        enemy_turret_type type,
+        QString graphicsName,
         QPointF position,
         int damage,
         int fireTimeDelay,
@@ -37,12 +32,11 @@ public slots:
     void stop() override;
 
 protected slots:
-    void fire();
+    virtual void fire() = 0;
     void rotate();
 
 protected:
     int m_damage;
-    fireEnemyTurret fireTurret;
     QTimer m_fireTimer;
     enemy_turret_rotate_direction m_rotationDirection;
     int m_rotationDegree;

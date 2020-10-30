@@ -26,6 +26,7 @@ protected slots:
 
 private:
     QPointF getFrontTurretStartPosition();
+    QPointF getMiddleTurretStartPosition();
     QPointF getBackTurretStartPosition();
     void rotate();
 
@@ -34,6 +35,7 @@ protected:
     int m_rotationCounter;
     enemy_rotation_direction m_rotationDirection;
     EnemyTurret* m_frontTurret;
+    EnemyTurret* m_middleTurret;
     EnemyTurret* m_backTurret;
 };
 

@@ -46,6 +46,10 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/enemymodeltype6.cpp
                                ../app/enemyturret.hpp
                                ../app/enemyturret.cpp
+                               ../app/enemyturretdoublecannon.hpp
+                               ../app/enemyturretdoublecannon.cpp
+                               ../app/enemyturrettriplecannon.hpp
+                               ../app/enemyturrettriplecannon.cpp
                                ../app/firefunctions.hpp
                                ../app/firefunctions.cpp
                                ../app/filemanager.hpp

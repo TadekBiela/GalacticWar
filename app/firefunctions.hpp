@@ -26,29 +26,4 @@ void blueLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
 void blueLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 
-
-typedef void (*fireEnemyTurret)(
-    QGraphicsScene* scene,
-    QPointF centerPoint,
-    QPixmap pixmap,
-    int bulletMoveDirection,
-    int baseDamage
-);
-
-void doubleCannonTurretFireFunc(
-    QGraphicsScene* scene,
-    QPointF centerPoint,
-    QPixmap pixmap,
-    int bulletMoveDirection,
-    int baseDamage
-);
-
-void tripleCannonTurretFireFunc(
-    QGraphicsScene* scene,
-    QPointF centerPoint,
-    QPixmap pixmap,
-    int bulletMoveDirection,
-    int baseDamage
-);
-
 #endif // FIREFUNCTIONS_HPP

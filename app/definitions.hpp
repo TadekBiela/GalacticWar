@@ -134,14 +134,20 @@ namespace def
     const int enemy6MinRotationTimeDelay = 250;
     const int enemy6MaxRotationTimeDelay = 290;
     const int enemyTurretDoubleCannonDamage = 20;
-    const int enemyTurretDoubleCannonFrontStartDirection = 45;
-    const int enemyTurretDoubleCannonBackStartDirection = 225;
-    const int enemyTurretDoubleCannonFireTimeDelay = 1000;
+    const int enemyTurretDoubleCannonFrontStartDirection = 0;
+    const int enemyTurretDoubleCannonBackStartDirection = 180;
+    const int enemyTurretDoubleCannonFireTimeDelay = 500;
     const int enemyTurretDoubleCannonRotateTimeDelay = 100;
+    const int enemyTurretTripleCannonDamage = 30;
+    const int enemyTurretTripleCannonMiddleStartDirection = 45;
+    const int enemyTurretTripleCannonFireTimeDelay = 300;
+    const int enemyTurretTripleCannonRotateTimeDelay = 80;
     const int enemyTurretFrontYCoordinateOffset = 34;
+    const int enemyTurretMiddleYCoordinateOffset = 18;
     const int enemyTurretBackYCoordinateOffset = 60;
     const int enemyTurretRotationDegreeRange = 90;
     const int enemyTurretPixmapCenterPointHightOffset = 3;
+    const int enemyTurretTripleCannonMaxFireCannonOffsets = 3;
 
     //Reward default configuration
     const int maxNumOfSpecialRewards         = 4;

@@ -1,14 +1,12 @@
-#include "bulletmodel.hpp"
 #include "definitions.hpp"
 #include "enemyturret.hpp"
 #include "functions.hpp"
 #include "imagestorage.hpp"
-#include <QGraphicsScene>
 #include <QPixmap>
 
 EnemyTurret::EnemyTurret(
     QGraphicsItem* parent,
-    enemy_turret_type type,
+    QString graphicsName,
     QPointF position,
     int damage,
     int fireTimeDelay,
@@ -27,19 +25,12 @@ EnemyTurret::EnemyTurret(
 {
     setParentItem(parent);
     QPixmap map;
-    if(enemy_turret_type::double_cannons == type) {
-        map.convertFromImage(*g_imageStorage->getImage("enemy_turret"));
-        fireTurret = doubleCannonTurretFireFunc;
-    }
-    else {
-        map.convertFromImage(*g_imageStorage->getImage("enemy_turret2"));
-        fireTurret = tripleCannonTurretFireFunc;
-    }
+    map.convertFromImage(*g_imageStorage->getImage(graphicsName));
     setPixmap(map);
 
     setTransformOriginPoint(
         (pixmap().width() / 2),
-         (pixmap().height() / 2) + def::enemyTurretPixmapCenterPointHightOffset
+        (pixmap().height() / 2) + def::enemyTurretPixmapCenterPointHightOffset
     );
 
     setCenterPosition(position);
@@ -77,17 +68,6 @@ void EnemyTurret::stop() {
     m_rotateTimer.stop();
 }
 
-void EnemyTurret::fire() {
-    const int bulletMoveDirection = (m_rotationDegree + parentItem()->rotation());
-    fireTurret(
-        QGraphicsItem::scene(),
-        scenePos(),
-        pixmap(),
-        bulletMoveDirection,
-        m_damage
-    );
-}
-
 void EnemyTurret::rotate() {
     m_rotationDegree += static_cast<int>(m_rotationDirection);
     if(m_rotationDegree == m_maxRotationDegree) {
@@ -101,3 +81,4 @@ void EnemyTurret::rotate() {
     }
     setRotation(m_rotationDegree);
 }
+
