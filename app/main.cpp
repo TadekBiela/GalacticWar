@@ -1,5 +1,6 @@
 #include "animationplaneview.hpp"
 #include "backgroundcontroller.hpp"
+#include "backgroundmusicplayer.hpp"
 #include "controlplane.hpp"
 #include "enemycontroller.hpp"
 #include "filemanager.hpp"
@@ -46,6 +47,9 @@ int main(int argc, char *argv[])
     //Controller layer
     ControlPlane controller(&mainWindow);
 
+    //Background music
+    BackgroundMusicPlayer backgroundMusicPlayer;
+
     //HUD interface layer
     HealthController healthController(&mainWindow,
                                       &controller);
@@ -56,10 +60,13 @@ int main(int argc, char *argv[])
 
     //Rest of controllers
     EnemyController  enemyController(&gameplayView);
-    MenuController   menuController(&mainWindow,
-                                    &controller,
-                                    &gameplayView,
-                                    g_animationPlaneView);
+    MenuController menuController(
+        &mainWindow,
+        &controller,
+        &gameplayView,
+        g_animationPlaneView,
+        &backgroundMusicPlayer
+    );
     PlayerController playerController(&controller,
                                       &gameplayView);
     RewardController rewardController(&gameplayView);

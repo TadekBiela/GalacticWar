@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "stubs/backgroundmusicplayerstub.hpp"
 #include "stubs/filemanagerstub.hpp"
 #include "stubs/imagestoragestub.hpp"
 #include "stubs/soundstoragestub.hpp"
+#include "../app/backgroundmusicplayer.hpp"
 #include "../app/menucontroller.hpp"
 #include "../app/animationplaneview.hpp"
 #include "../app/controlplane.hpp"
@@ -17,13 +19,15 @@ public:
         QWidget* displayWidget,
         ControlPlane* controller,
         GameplayView* gameplayView,
-        AnimationPlaneView* animationView
+        AnimationPlaneView* animationView,
+        BackgroundMusicPlayerStub* backgroundMusicPlayerStub
     ) :
         MenuController(
             displayWidget,
             controller,
             gameplayView,
             animationView,
+            backgroundMusicPlayerStub,
             new FileManagerStub()
         )
     {}
@@ -55,11 +59,13 @@ TEST_F(MenuControllerTestsClass, PauseGame_CheckCorrectWorking_ShouldSendGamePau
     ControlPlane controller(&displayWidget);
     GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
+    BackgroundMusicPlayerStub backgroundMusicPlayerStub;
     MenuControllerTest menuController(
         &displayWidget,
         &controller,
         &gameplayView,
-        &animationView
+        &animationView,
+        &backgroundMusicPlayerStub
     );
     QSignalSpy signalGamePaused(
         &menuController,
@@ -78,11 +84,13 @@ TEST_F(MenuControllerTestsClass, SaveScore_PlayerNameIsFilled_ShouldSavePlayerSc
     ControlPlane controller(&displayWidget);
     GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
+    BackgroundMusicPlayerStub backgroundMusicPlayerStub;
     MenuControllerTest menuController(
         &displayWidget,
         &controller,
         &gameplayView,
-        &animationView
+        &animationView,
+        &backgroundMusicPlayerStub
     );
     menuController.setPlayerNameFieldInView("test");
 
@@ -97,11 +105,13 @@ TEST_F(MenuControllerTestsClass, SaveScore_PlayerNameIsEmpty_ShouldDontSavePlaye
     ControlPlane controller(&displayWidget);
     GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
+    BackgroundMusicPlayerStub backgroundMusicPlayerStub;
     MenuControllerTest menuController(
         &displayWidget,
         &controller,
         &gameplayView,
-        &animationView
+        &animationView,
+        &backgroundMusicPlayerStub
     );
     menuController.setPlayerNameFieldInView("");
 

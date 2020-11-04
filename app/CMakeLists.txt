@@ -15,6 +15,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                backgroundcontroller.cpp
                                backgroundeffectmodel.hpp
                                backgroundeffectmodel.cpp
+                               backgroundmusicplayer.hpp
+                               backgroundmusicplayer.cpp
                                backgroundview.hpp
                                backgroundview.cpp
                                barview.hpp
@@ -63,6 +65,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                healthcontroller.cpp
                                healthmodel.hpp
                                healthmodel.cpp
+                               ibackgroundmusicplayer.hpp
                                ifilemanager.hpp
                                iinterfaceview.hpp
                                iinterfaceview.cpp

@@ -6,6 +6,7 @@
 #include "menumodel.hpp"
 #include "menuview.hpp"
 #include "gameplayview.hpp"
+#include "ibackgroundmusicplayer.hpp"
 #include <QObject>
 
 class MenuController : public QObject
@@ -17,6 +18,7 @@ public:
         ControlPlane* controller,
         GameplayView* gameplayView,
         AnimationPlaneView* animationView,
+        IBackgroundMusicPlayer* backgroundMusicPlayer,
         IFileManager* fileManager = nullptr
     );
     virtual ~MenuController();

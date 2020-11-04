@@ -20,6 +20,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/animationeffectmodel.cpp
                                ../app/animationplaneview.hpp
                                ../app/animationplaneview.cpp
+                               ../app/backgroundmusicplayer.hpp
+                               ../app/backgroundmusicplayer.cpp
                                ../app/barview.hpp
                                ../app/barview.cpp
                                ../app/bulletmodel.hpp
@@ -66,6 +68,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/healthcontroller.cpp
                                ../app/healthmodel.hpp
                                ../app/healthmodel.cpp
+                               ../app/ibackgroundmusicplayer.hpp
                                ../app/ifilemanager.hpp
                                ../app/iimagestorage.hpp
                                ../app/iimagestorage.cpp
@@ -116,6 +119,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/weapons.hpp
                                ../app/weapons.cpp
                                ../app/weapontype.hpp
+                               stubs/backgroundmusicplayerstub.hpp
                                stubs/barviewstub.hpp
                                stubs/filemanagerstub.hpp
                                stubs/imagestoragestub.hpp
@@ -124,6 +128,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                mocks/filemanagermock.hpp
                                utdefinitions.hpp
                                animationeffectmodeltests.cpp
+                               backgroundmusicplayertests.cpp
                                bulletmodeltests.cpp
                                controlplanetests.cpp
                                enemycontrollertests.cpp

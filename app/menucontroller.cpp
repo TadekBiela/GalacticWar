@@ -10,6 +10,7 @@ MenuController::MenuController(
     ControlPlane* controller,
     GameplayView* gameplayView,
     AnimationPlaneView* animationView,
+    IBackgroundMusicPlayer* backgroundMusicPlayer,
     IFileManager* fileManager
 ) :
     m_model(fileManager),
@@ -52,6 +53,27 @@ MenuController::MenuController(
             animationView, SLOT(activate()));
     connect(this,          SIGNAL(gameAborted()),
             animationView, SLOT(activate()));
+
+    connect(
+        this, SIGNAL(gameStarted()),
+        backgroundMusicPlayer, SLOT(switchToGameMusic())
+    );
+    connect(
+        this, SIGNAL(gamePaused()),
+        backgroundMusicPlayer, SLOT(pause())
+    );
+    connect(
+        this, SIGNAL(gameContinued()),
+        backgroundMusicPlayer, SLOT(play())
+    );
+    connect(
+        this, SIGNAL(gameAborted()),
+        backgroundMusicPlayer, SLOT(switchToMenuMusic())
+    );
+    connect(
+        this, SIGNAL(gameOver()),
+        backgroundMusicPlayer, SLOT(switchToMenuMusic())
+    );
 
     m_model.loadHighscoreFromFile();
     m_view.updateHighscore(m_model.getHighscoreBeginIterator(),
