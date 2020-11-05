@@ -27,7 +27,7 @@ signals:
     void gameStarted();
     void gamePaused();
     void gameContinued();
-    void gameAborted();
+    void gameCanceled();
     void gameOver();
     void gameExit();
 
@@ -35,7 +35,7 @@ public slots:
     void startGame();
     void pauseGame();
     void continueGame();
-    void abortGame();
+    void cancelGame();
     void updateScore(int totalScore);
     void saveScore();
     void endGame();

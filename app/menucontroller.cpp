@@ -20,8 +20,8 @@ MenuController::MenuController(
             this,    SLOT(startGame()));
     connect(&m_view, SIGNAL(continueClicked()),
             this,    SLOT(continueGame()));
-    connect(&m_view, SIGNAL(abortClicked()),
-            this,    SLOT(abortGame()));
+    connect(&m_view, SIGNAL(cancelClicked()),
+            this,    SLOT(cancelGame()));
     connect(&m_view, SIGNAL(quitClicked()),
             this,    SLOT(exitGame()));
     connect(&m_view, SIGNAL(saveClicked()),
@@ -44,14 +44,14 @@ MenuController::MenuController(
             gameplayView, SLOT(deactivate()));
     connect(this,         SIGNAL(gameContinued()),
             gameplayView, SLOT(activate()));
-    connect(this,         SIGNAL(gameAborted()),
+    connect(this,         SIGNAL(gameCanceled()),
             gameplayView, SLOT(removeAllGameObjects()));
 
     connect(this,          SIGNAL(gamePaused()),
             animationView, SLOT(deactivate()));
     connect(this,          SIGNAL(gameContinued()),
             animationView, SLOT(activate()));
-    connect(this,          SIGNAL(gameAborted()),
+    connect(this,          SIGNAL(gameCanceled()),
             animationView, SLOT(activate()));
 
     connect(
@@ -67,7 +67,7 @@ MenuController::MenuController(
         backgroundMusicPlayer, SLOT(play())
     );
     connect(
-        this, SIGNAL(gameAborted()),
+        this, SIGNAL(gameCanceled()),
         backgroundMusicPlayer, SLOT(switchToMenuMusic())
     );
     connect(
@@ -103,9 +103,9 @@ void MenuController::continueGame()
     m_view.hideAllMenu();
 }
 
-void MenuController::abortGame()
+void MenuController::cancelGame()
 {
-    emit gameAborted();
+    emit gameCanceled();
     m_view.showMainMenu();
 }
 

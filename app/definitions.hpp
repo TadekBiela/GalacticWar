@@ -205,11 +205,11 @@ namespace def
     const int highscoreButtonPositionY      = startButtonPositionY     + buttonHeight + 25;
     const int quitButtonPositionY           = highscoreButtonPositionY + buttonHeight + 25;
     const int highscoreBackButtonPositionY  = highscoreTablePositionY  + highscoreTableHeight + 25;
-    const int pauseAbortButtonPositionX     = halfSceneWight + 25;
-    const int pauseContinueButtonPositionX  = halfSceneWight - buttonWight - 25;
+    const int pauseCancelButtonPositionX = halfSceneWight - buttonWight - 25;
+    const int pauseContinueButtonPositionX  = halfSceneWight + 25; 
     const int pauseBottomButtonPositionY    = halfSceneHeight;
-    const int gameoverSaveButtonPositionX   = pauseAbortButtonPositionX;
-    const int gameoverBackButtonPositionX   = pauseContinueButtonPositionX;
+    const int gameoverSaveButtonPositionX   = pauseContinueButtonPositionX;
+    const int gameoverBackButtonPositionX   = pauseCancelButtonPositionX;
     const int gameoverBottomButtonPositionY = gameoverPlayerNameFieldPositionY
                                             + gameoverPlayerNameFieldHeight + 100;
     //Interface
@@ -231,6 +231,7 @@ namespace def
     //Texts
     const QString authorTitle = "Created by TED";
     const QString backText = "BACK";
+    const QString cancelText = "CANCEL";
     const QString continueText = "CONTINUE";
     const QString gameTitle = "GALACTIC WAR";
     const QString gameoverText = "GAME OVER";

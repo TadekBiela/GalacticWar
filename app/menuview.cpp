@@ -12,7 +12,7 @@ MenuView::MenuView(QWidget* displayWidget)
       m_highscoreTable(displayWidget),
       m_highscoreBackToMenu(def::backText, displayWidget),
       m_pauseTitleLabel(def::pauseText, displayWidget),
-      m_pauseAbortButton(def::backText, displayWidget),
+      m_pauseCancelButton(def::cancelText, displayWidget),
       m_pauseContinueButton(def::continueText, displayWidget),
       m_gameoverTitleLabel(def::gameoverText, displayWidget),
       m_gameoverScoreLabel("", displayWidget),
@@ -46,7 +46,7 @@ MenuView::MenuView(QWidget* displayWidget)
     //Init pause menu
     m_pauseTitleLabel.setPosition(def::labelPositionX,
                                   def::labelPositionY);
-    m_pauseAbortButton.setPosition(def::pauseAbortButtonPositionX,
+    m_pauseCancelButton.setPosition(def::pauseCancelButtonPositionX,
                                    def::pauseBottomButtonPositionY);
     m_pauseContinueButton.setPosition(def::pauseContinueButtonPositionX,
                                       def::pauseBottomButtonPositionY);
@@ -87,7 +87,7 @@ MenuView::MenuView(QWidget* displayWidget)
     connect(&m_mainQuitButton,           SIGNAL(clicked()), this, SLOT(quitGame()));
     connect(&m_highscoreBackToMenu,      SIGNAL(clicked()), this, SLOT(showMainMenu()));
     connect(&m_pauseContinueButton,      SIGNAL(clicked()), this, SLOT(continueGame()));
-    connect(&m_pauseAbortButton,         SIGNAL(clicked()), this, SLOT(abortGame()));
+    connect(&m_pauseCancelButton,        SIGNAL(clicked()), this, SLOT(cancelGame()));
     connect(&m_gameoverSaveScoreButton,  SIGNAL(clicked()), this, SLOT(saveScore()));
     connect(&m_gameoverBackToMenuButton, SIGNAL(clicked()), this, SLOT(showMainMenu()));
 
@@ -206,7 +206,7 @@ void MenuView::hideAllMenu()
     m_highscoreTable.hide();
     m_highscoreBackToMenu.hide();
     m_pauseTitleLabel.hide();
-    m_pauseAbortButton.hide();
+    m_pauseCancelButton.hide();
     m_pauseContinueButton.hide();
     m_gameoverTitleLabel.hide();
     m_gameoverScoreLabel.hide();
@@ -239,7 +239,7 @@ void MenuView::showPauseMenu()
 {
     hideAllMenu();
     m_pauseTitleLabel.show();
-    m_pauseAbortButton.show();
+    m_pauseCancelButton.show();
     m_pauseContinueButton.show();
     m_authorLabel.show();
 }
@@ -265,9 +265,9 @@ void MenuView::continueGame()
     emit continueClicked();
 }
 
-void MenuView::abortGame()
+void MenuView::cancelGame()
 {
-    emit abortClicked();
+    emit cancelClicked();
 }
 
 void MenuView::quitGame()

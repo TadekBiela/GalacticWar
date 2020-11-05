@@ -26,7 +26,7 @@ public:
 signals:
     void startClicked();
     void continueClicked();
-    void abortClicked();
+    void cancelClicked();
     void quitClicked();
     void saveClicked();
 
@@ -38,7 +38,7 @@ public slots:
     void showGameoverMenu();
     void startGame();
     void continueGame();
-    void abortGame();
+    void cancelGame();
     void quitGame();
     void saveScore();
 
@@ -51,7 +51,7 @@ protected:
     QTableWidget m_highscoreTable;
     PushButton   m_highscoreBackToMenu;
     Label        m_pauseTitleLabel;
-    PushButton   m_pauseAbortButton;
+    PushButton   m_pauseCancelButton;
     PushButton   m_pauseContinueButton;
     Label        m_gameoverTitleLabel;
     Label        m_gameoverScoreLabel;

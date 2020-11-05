@@ -104,15 +104,15 @@ int main(int argc, char *argv[])
                      &enemyController,      SLOT(startSpawning()));
     QObject::connect(&menuController,       SIGNAL(gameContinued()),
                      &backgroundController, SLOT(activate()));
-    QObject::connect(&menuController,       SIGNAL(gameAborted()),  //Game aborted
+    QObject::connect(&menuController,       SIGNAL(gameCanceled()),  //Game canceled
                      &healthController,     SLOT(destroy()));
-    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+    QObject::connect(&menuController,       SIGNAL(gameCanceled()),
                      &levelController,      SLOT(destroy()));
-    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+    QObject::connect(&menuController,       SIGNAL(gameCanceled()),
                      &scoreController,      SLOT(destroy()));
-    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+    QObject::connect(&menuController,       SIGNAL(gameCanceled()),
                      &enemyController,      SLOT(stopSpawning()));
-    QObject::connect(&menuController,       SIGNAL(gameAborted()),
+    QObject::connect(&menuController,       SIGNAL(gameCanceled()),
                      &backgroundController, SLOT(resetToDefault()));
     QObject::connect(&menuController,       SIGNAL(gameOver()),     //Game over
                      &healthController,     SLOT(destroy()));
