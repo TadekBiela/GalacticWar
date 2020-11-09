@@ -196,22 +196,59 @@ namespace def
     const int gameoverPlayerNameFieldPositionX = halfSceneWight - (gameoverPlayerNameFieldWidth / 2);
     const int gameoverPlayerNameFieldPositionY = gameoverScoreLabelPositionY
                                                + labelHeight + 25;
+    //Checkbox
+    const int settingsMusicOnOffWidth = 50;
+    const int settingsMusicOnOffHeight = 200;
+    const int settingsMusicOnOffPoxitionX = halfSceneWight;
+    const int settingsMusicOnOffPoxitionY = labelPositionY + 100;
 
     //Buttons
     const int buttonWight  = 200;
     const int buttonHeight = 50;
-    const int centerButtonPositionX         = halfSceneWight - (buttonWight / 2);
-    const int startButtonPositionY          = labelPositionY + labelHeight + 100;
-    const int highscoreButtonPositionY      = startButtonPositionY     + buttonHeight + 25;
-    const int quitButtonPositionY           = highscoreButtonPositionY + buttonHeight + 25;
-    const int highscoreBackButtonPositionY  = highscoreTablePositionY  + highscoreTableHeight + 25;
-    const int pauseCancelButtonPositionX = halfSceneWight - buttonWight - 25;
-    const int pauseContinueButtonPositionX  = halfSceneWight + 25; 
+    const int buttonBetweenDistance = 25;
+    const int centerButtonPositionX = halfSceneWight - (buttonWight / 2);
+    const int startButtonPositionY = labelPositionY + labelHeight + 100;
+    const int highscoreButtonPositionY = startButtonPositionY     + buttonHeight + buttonBetweenDistance;
+    const int settingsButtonPositionY = highscoreButtonPositionY + buttonHeight + buttonBetweenDistance;
+    const int quitButtonPositionY = settingsButtonPositionY + buttonHeight + buttonBetweenDistance;
+    const int highscoreBackButtonPositionY = highscoreTablePositionY  + highscoreTableHeight + buttonBetweenDistance;
+    const int settingsBackToMenuButtonPositionX = halfSceneWight - buttonWight - buttonBetweenDistance;
+    const int settingsMainButtonPositionY = sceneHeight - buttonHeight - 100;
+    const int settingsSaveButtonPositionX = halfSceneWight + buttonBetweenDistance;
+    const int pauseCancelButtonPositionX = halfSceneWight - buttonWight - buttonBetweenDistance;
+    const int pauseContinueButtonPositionX  = halfSceneWight + buttonBetweenDistance;
     const int pauseBottomButtonPositionY    = halfSceneHeight;
     const int gameoverSaveButtonPositionX   = pauseContinueButtonPositionX;
     const int gameoverBackButtonPositionX   = pauseCancelButtonPositionX;
     const int gameoverBottomButtonPositionY = gameoverPlayerNameFieldPositionY
                                             + gameoverPlayerNameFieldHeight + 100;
+
+    //Settings menu
+    //Labels
+    const int settingsLabelWidth = 400;
+    const int settingsLabelHeight = 100;
+    const int settingsLabelPositionX = def::halfSceneWight - (def::settingsLabelWidth / 2);
+    const int settingsMusicLabelPositionY = def::labelPositionY + def::settingsLabelHeight + buttonBetweenDistance;
+    const int settingsSoundsLabelPositionY = def::settingsMusicLabelPositionY + def::settingsLabelHeight + def::buttonBetweenDistance;
+    const int settingsControlLabelPositionY = def::settingsSoundsLabelPositionY + def::settingsLabelHeight + def::buttonBetweenDistance;
+    //Check boxs
+    const int settingsCheckBoxWidth = 30;
+    const int settingsCheckBoxHeight = settingsCheckBoxWidth;
+    const int settingsCheckBoxPositionX = def::settingsLabelPositionX + def::settingsLabelWidth - def::settingsCheckBoxWidth - 10;
+    const int settingsMusicCheckBoxPositionY = def::settingsMusicLabelPositionY + 10;
+    const int settingsSoundsCheckBoxPositionY = def::settingsSoundsLabelPositionY + 10;
+    const int settingsControlCheckBoxWidth = 165;
+    const int settingsControlCheckBoxHeight = 40;
+    const int settingsControlMouseCheckBoxPositionX = def::settingsLabelPositionX + 20;
+    const int settingsControlKeyboardCheckBoxPositionX = def::settingsLabelPositionX + def::settingsLabelWidth - def::settingsControlCheckBoxWidth - 20;
+    const int settingsControlCheckBoxPositionY = def::settingsControlLabelPositionY + 45;
+    //Sliders
+    const int settingsSliderWidth = def::settingsLabelWidth - 30;
+    const int settingsSliderHeight = 20;
+    const int settingsSliderPositionX = def::settingsLabelPositionX + 15;
+    const int settingsMusicSliderPositionY = def::settingsMusicLabelPositionY + 60;
+    const int settingsSoundsSliderPositionY = def::settingsSoundsLabelPositionY + 60;
+
     //Interface
     const int healthGraphicsCenterPositionX = 130;
     const int healthGraphicsCenterPositionY = sceneHeight - 45;
@@ -240,6 +277,12 @@ namespace def
     const QString startgameText = "START GAME";
     const QString saveText = "SAVE";
     const QString quitText = "QUIT";
+    const QString settingsText = "SETTINGS";
+    const QString settingsMusicText = "MUSIC";
+    const QString settingsSoundsText = "SOUNDS";
+    const QString settingsControlText = "CONTROL";
+    const QString settingsMouseText = "MOUSE";
+    const QString settingsKeyboardText = "KEYBOARD";
 
     //Colors
     const QString darkRedHex    = "#DE0101";

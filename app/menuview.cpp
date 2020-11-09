@@ -7,10 +7,23 @@ MenuView::MenuView(QWidget* displayWidget)
     : m_mainTitleLabel(def::gameTitle, displayWidget),
       m_mainStartButton(def::startgameText, displayWidget),
       m_mainHighscoreButton(def::highscoreText, displayWidget),
+      m_mainSettingsButton(def::settingsText, displayWidget),
       m_mainQuitButton(def::quitText, displayWidget),
       m_highscoreTitleLabel(def::highscoreText, displayWidget),
       m_highscoreTable(displayWidget),
       m_highscoreBackToMenu(def::backText, displayWidget),
+      m_settingsTitleLabel(def::settingsText, displayWidget),
+      m_settingsMusicLabel(def::settingsMusicText, displayWidget),
+      m_settingsMusicCheckBox(displayWidget),
+      m_settingsMusicSlider(Qt::Horizontal, displayWidget),
+      m_settingsSoundsLabel(def::settingsSoundsText, displayWidget),
+      m_settingsSoundsCheckBox(displayWidget),
+      m_settingsSoundsSlider(Qt::Horizontal, displayWidget),
+      m_settingsControlLabel(def::settingsControlText, displayWidget),
+      m_settingsControlMouseCheckBox(def::settingsMouseText, displayWidget),
+      m_settingsControlKeyboardCheckBox(def::settingsKeyboardText, displayWidget),
+      m_settingsBackToMenuButton(def::backText, displayWidget),
+      m_settingsSaveButton(def::saveText, displayWidget),
       m_pauseTitleLabel(def::pauseText, displayWidget),
       m_pauseCancelButton(def::cancelText, displayWidget),
       m_pauseContinueButton(def::continueText, displayWidget),
@@ -28,6 +41,10 @@ MenuView::MenuView(QWidget* displayWidget)
                                   def::startButtonPositionY);
     m_mainHighscoreButton.setPosition(def::centerButtonPositionX,
                                       def::highscoreButtonPositionY);
+    m_mainSettingsButton.setPosition(
+        def::centerButtonPositionX,
+        def::settingsButtonPositionY
+    );
     m_mainQuitButton.setPosition(def::centerButtonPositionX,
                                  def::quitButtonPositionY);
 
@@ -42,6 +59,153 @@ MenuView::MenuView(QWidget* displayWidget)
     m_highscoreBackToMenu.setPosition(def::centerButtonPositionX,
                                       def::highscoreBackButtonPositionY);
 
+    //Init settings menu
+    m_settingsTitleLabel.setPosition(
+        def::labelPositionX,
+        def::labelPositionY
+    );
+
+    QString settingsLabelsStyle(
+        "QLabel {"
+            "border: 2px solid white;"
+            "border-radius: 5px;"
+            "background-color: transparent;"
+            "text-align: top left;"
+            "font-size: 20px;"
+            "color: white;"
+            "padding: 2px;"
+        "}"
+    );
+    QString settingsCheckBoxsStyle(
+        "QCheckBox {"
+            "border: none;"
+            "background-color: transparent;"
+        "}"
+        "QCheckBox::indicator {"
+            "width: 20px;"
+            "height: 20px;"
+            "background: none;"
+            "border: 2px solid white;"
+            "border-radius: 5px;"
+        "}"
+        "QCheckBox::indicator:checked {"
+            "background: rgba(255,255,255,230);"
+        "}"
+    );
+    QString settingsSlidersStyle(
+        "QSlider {"
+            "border: 2px solid white;"
+            "border-radius: 5px;"
+            "background: none;"
+        "}"
+        "QSlider::handle {"
+            "border: 2px solid white;"
+            "border-radius: 4px;"
+            "width: 30px;"
+            "background: white;"
+        "}"
+        "QSlider::groove {"
+            "border: none;"
+            "background: none;"
+        "}"
+        "QSlider::sub-page:horizontal {"
+            "background: rgba(255,255,255,200);"
+        "}"
+    );
+
+    m_settingsMusicLabel.setGeometry(
+        def::settingsLabelPositionX,
+        def::settingsMusicLabelPositionY,
+        def::settingsLabelWidth,
+        def::settingsLabelHeight
+    );
+    m_settingsMusicLabel.setStyleSheet(settingsLabelsStyle);
+    m_settingsMusicLabel.setAlignment(Qt::AlignTop);
+    m_settingsMusicCheckBox.setGeometry(
+        def::settingsCheckBoxPositionX,
+        def::settingsMusicCheckBoxPositionY,
+        def::settingsCheckBoxWidth,
+        def::settingsCheckBoxHeight
+    );
+    m_settingsMusicCheckBox.setStyleSheet(settingsCheckBoxsStyle);
+    m_settingsMusicSlider.setGeometry(
+        def::settingsSliderPositionX,
+        def::settingsMusicSliderPositionY,
+        def::settingsSliderWidth,
+        def::settingsSliderHeight
+    );
+    m_settingsMusicSlider.setStyleSheet(settingsSlidersStyle);
+    m_settingsSoundsLabel.setGeometry(
+        def::settingsLabelPositionX,
+        def::settingsSoundsLabelPositionY,
+        def::settingsLabelWidth,
+        def::settingsLabelHeight
+    );
+    m_settingsSoundsLabel.setStyleSheet(settingsLabelsStyle);
+    m_settingsSoundsLabel.setAlignment(Qt::AlignTop);
+    m_settingsSoundsCheckBox.setGeometry(
+        def::settingsCheckBoxPositionX,
+        def::settingsSoundsCheckBoxPositionY,
+        def::settingsCheckBoxWidth,
+        def::settingsCheckBoxHeight
+    );
+    m_settingsSoundsCheckBox.setStyleSheet(settingsCheckBoxsStyle);
+    m_settingsSoundsSlider.setGeometry(
+        def::settingsSliderPositionX,
+        def::settingsSoundsSliderPositionY,
+        def::settingsSliderWidth,
+        def::settingsSliderHeight
+    );
+    m_settingsSoundsSlider.setStyleSheet(settingsSlidersStyle);
+    m_settingsControlLabel.setGeometry(
+        def::settingsLabelPositionX,
+        def::settingsControlLabelPositionY,
+        def::settingsLabelWidth,
+        def::settingsLabelHeight
+    );
+    m_settingsControlLabel.setStyleSheet(settingsLabelsStyle);
+    m_settingsControlLabel.setAlignment(Qt::AlignTop);
+    m_settingsControlMouseCheckBox.setGeometry(
+        def::settingsControlMouseCheckBoxPositionX,
+        def::settingsControlCheckBoxPositionY,
+        def::settingsControlCheckBoxWidth,
+        def::settingsControlCheckBoxHeight
+    );
+    m_settingsControlKeyboardCheckBox.setGeometry(
+        def::settingsControlKeyboardCheckBoxPositionX,
+        def::settingsControlCheckBoxPositionY,
+        def::settingsControlCheckBoxWidth,
+        def::settingsControlCheckBoxHeight
+    );
+    QString settingsControlCheckBoxsStyle = (
+        "QCheckBox {"
+            "border: none;"
+            "background-color: transparent;"
+            "color: white;"
+            "font-size: 18px;"
+            "padding: 5px;"
+        "}"
+        "QCheckBox::indicator {"
+            "width: 20px;"
+            "height: 20px;"
+            "background: none;"
+            "border: 2px solid white;"
+            "border-radius: 5px;"
+        "}"
+        "QCheckBox::indicator:checked {"
+            "background: rgba(255,255,255,230);"
+        "}"
+    );
+    m_settingsControlMouseCheckBox.setStyleSheet(settingsControlCheckBoxsStyle);
+    m_settingsControlKeyboardCheckBox.setStyleSheet(settingsControlCheckBoxsStyle);
+    m_settingsBackToMenuButton.setPosition(
+        def::settingsBackToMenuButtonPositionX,
+        def::settingsMainButtonPositionY
+    );
+    m_settingsSaveButton.setPosition(
+        def::settingsSaveButtonPositionX,
+        def::settingsMainButtonPositionY
+    );
 
     //Init pause menu
     m_pauseTitleLabel.setPosition(def::labelPositionX,
@@ -56,13 +220,13 @@ MenuView::MenuView(QWidget* displayWidget)
                                      def::labelPositionY);
     m_gameoverScoreLabel.setPosition(def::gameoverScoreLabelPositionX,
                                      def::gameoverScoreLabelPositionY);
-    m_gameoverPlayerNameField.setStyleSheet(QString("border-style:     solid;"
-                                                    "border-width:     2px;"
-                                                    "border-radius:    5px;"
-                                                    "border-color:     #FFFFFF;"
-                                                    "color:            #FFFFFF;"
-                                                    "background-color: transparent;"
-                                                    "font-size:        30px"));
+    m_gameoverPlayerNameField.setStyleSheet(
+        "border: 2px, solid white;"
+        "border-radius: 5px;"
+        "color: white;"
+        "background-color: transparent;"
+        "font-size: 30px;"
+    );
     m_gameoverPlayerNameField.setGeometry(def::gameoverPlayerNameFieldPositionX,
                                           def::gameoverPlayerNameFieldPositionY,
                                           def::gameoverPlayerNameFieldWidth,
@@ -84,8 +248,11 @@ MenuView::MenuView(QWidget* displayWidget)
 
     connect(&m_mainStartButton,          SIGNAL(clicked()), this, SLOT(startGame()));
     connect(&m_mainHighscoreButton,      SIGNAL(clicked()), this, SLOT(showHighscoreMenu()));
+    connect(&m_mainSettingsButton,       SIGNAL(clicked()), this, SLOT(showSettingsMenu()));
     connect(&m_mainQuitButton,           SIGNAL(clicked()), this, SLOT(quitGame()));
     connect(&m_highscoreBackToMenu,      SIGNAL(clicked()), this, SLOT(showMainMenu()));
+    connect(&m_settingsBackToMenuButton, SIGNAL(clicked()), this, SLOT(showMainMenu()));
+    connect(&m_settingsSaveButton,       SIGNAL(clicked()), this, SLOT(saveSettings()));
     connect(&m_pauseContinueButton,      SIGNAL(clicked()), this, SLOT(continueGame()));
     connect(&m_pauseCancelButton,        SIGNAL(clicked()), this, SLOT(cancelGame()));
     connect(&m_gameoverSaveScoreButton,  SIGNAL(clicked()), this, SLOT(saveScore()));
@@ -201,10 +368,23 @@ void MenuView::hideAllMenu()
     m_mainTitleLabel.hide();
     m_mainStartButton.hide();
     m_mainHighscoreButton.hide();
+    m_mainSettingsButton.hide();
     m_mainQuitButton.hide();
     m_highscoreTitleLabel.hide();
     m_highscoreTable.hide();
     m_highscoreBackToMenu.hide();
+    m_settingsTitleLabel.hide();
+    m_settingsMusicLabel.hide();
+    m_settingsMusicCheckBox.hide();
+    m_settingsMusicSlider.hide();
+    m_settingsSoundsLabel.hide();
+    m_settingsSoundsCheckBox.hide();
+    m_settingsSoundsSlider.hide();
+    m_settingsControlLabel.hide();
+    m_settingsControlMouseCheckBox.hide();
+    m_settingsControlKeyboardCheckBox.hide();
+    m_settingsBackToMenuButton.hide();
+    m_settingsSaveButton.hide();
     m_pauseTitleLabel.hide();
     m_pauseCancelButton.hide();
     m_pauseContinueButton.hide();
@@ -222,6 +402,7 @@ void MenuView::showMainMenu()
     m_mainTitleLabel.show();
     m_mainStartButton.show();
     m_mainHighscoreButton.show();
+    m_mainSettingsButton.show();
     m_mainQuitButton.show();
     m_authorLabel.show();
 }
@@ -233,6 +414,22 @@ void MenuView::showHighscoreMenu()
     m_highscoreTable.show();
     m_highscoreBackToMenu.show();
     m_authorLabel.show();
+}
+
+void MenuView::showSettingsMenu() {
+    hideAllMenu();
+    m_settingsTitleLabel.show();
+    m_settingsMusicLabel.show();
+    m_settingsMusicCheckBox.show();
+    m_settingsMusicSlider.show();
+    m_settingsSoundsLabel.show();
+    m_settingsSoundsCheckBox.show();
+    m_settingsSoundsSlider.show();
+    m_settingsControlLabel.show();
+    m_settingsControlMouseCheckBox.show();
+    m_settingsControlKeyboardCheckBox.show();
+    m_settingsBackToMenuButton.show();
+    m_settingsSaveButton.show();
 }
 
 void MenuView::showPauseMenu()
@@ -278,4 +475,9 @@ void MenuView::quitGame()
 void MenuView::saveScore()
 {
     emit saveClicked();
+}
+
+void MenuView::saveSettings() {
+    emit saveSettingsClicked();
+    showMainMenu();
 }
