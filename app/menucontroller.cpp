@@ -11,6 +11,7 @@ MenuController::MenuController(
     GameplayView* gameplayView,
     AnimationPlaneView* animationView,
     IBackgroundMusicPlayer* backgroundMusicPlayer,
+    ISoundStorage* soundStorage,
     IFileManager* fileManager
 ) :
     m_model(fileManager),
@@ -26,6 +27,8 @@ MenuController::MenuController(
             this,    SLOT(exitGame()));
     connect(&m_view, SIGNAL(saveClicked()),
             this,    SLOT(saveScore()));
+    connect(&m_view, SIGNAL(saveSettingsClicked(Settings)),
+            this,    SLOT(saveSettings(Settings)));
 
     connect(controller, SIGNAL(mouseLeaveWindow()),
             this,       SLOT(pauseGame()));
@@ -39,6 +42,8 @@ MenuController::MenuController(
             controller, SLOT(activate()));
     connect(this,       SIGNAL(gameOver()),
             controller, SLOT(deactivate()));
+    connect(this,       SIGNAL(settingsChanged(Settings)),
+            controller, SLOT(applyNewSettings(Settings)));
 
     connect(this,         SIGNAL(gamePaused()),
             gameplayView, SLOT(deactivate()));
@@ -74,10 +79,22 @@ MenuController::MenuController(
         this, SIGNAL(gameOver()),
         backgroundMusicPlayer, SLOT(switchToMenuMusic())
     );
+    connect(
+        this, SIGNAL(settingsChanged(Settings)),
+        backgroundMusicPlayer, SLOT(applyNewSettings(Settings))
+    );
+
+    connect(
+        this, SIGNAL(settingsChanged(Settings)),
+        soundStorage, SLOT(applyNewSettings(Settings))
+    );
 
     m_model.loadHighscoreFromFile();
     m_view.updateHighscore(m_model.getHighscoreBeginIterator(),
                            m_model.getHighscoreEndIterator());
+    m_view.setSettingsView(m_model.getSettings());
+
+    emit settingsChanged(m_model.getSettings());
 }
 
 MenuController::~MenuController()
@@ -135,6 +152,12 @@ void MenuController::saveScore()
     }
 
     m_view.showMainMenu();
+}
+
+void MenuController::saveSettings(Settings newSettings) {
+    m_model.setSettings(newSettings);
+
+    emit settingsChanged(m_model.getSettings());
 }
 
 void MenuController::endGame()

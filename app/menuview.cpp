@@ -22,6 +22,7 @@ MenuView::MenuView(QWidget* displayWidget)
       m_settingsControlLabel(def::settingsControlText, displayWidget),
       m_settingsControlMouseCheckBox(def::settingsMouseText, displayWidget),
       m_settingsControlKeyboardCheckBox(def::settingsKeyboardText, displayWidget),
+      m_settingsControlButtonGroup(displayWidget),
       m_settingsBackToMenuButton(def::backText, displayWidget),
       m_settingsSaveButton(def::saveText, displayWidget),
       m_pauseTitleLabel(def::pauseText, displayWidget),
@@ -135,6 +136,8 @@ MenuView::MenuView(QWidget* displayWidget)
         def::settingsSliderHeight
     );
     m_settingsMusicSlider.setStyleSheet(settingsSlidersStyle);
+    m_settingsMusicSlider.setMinimum(def::settingsSlidersMinValue);
+    m_settingsMusicSlider.setMaximum(def::settingsSlidersMaxValue);
     m_settingsSoundsLabel.setGeometry(
         def::settingsLabelPositionX,
         def::settingsSoundsLabelPositionY,
@@ -157,6 +160,8 @@ MenuView::MenuView(QWidget* displayWidget)
         def::settingsSliderHeight
     );
     m_settingsSoundsSlider.setStyleSheet(settingsSlidersStyle);
+    m_settingsSoundsSlider.setMinimum(def::settingsSlidersMinValue);
+    m_settingsSoundsSlider.setMaximum(def::settingsSlidersMaxValue);
     m_settingsControlLabel.setGeometry(
         def::settingsLabelPositionX,
         def::settingsControlLabelPositionY,
@@ -198,6 +203,8 @@ MenuView::MenuView(QWidget* displayWidget)
     );
     m_settingsControlMouseCheckBox.setStyleSheet(settingsControlCheckBoxsStyle);
     m_settingsControlKeyboardCheckBox.setStyleSheet(settingsControlCheckBoxsStyle);
+    m_settingsControlButtonGroup.addButton(&m_settingsControlMouseCheckBox);
+    m_settingsControlButtonGroup.addButton(&m_settingsControlKeyboardCheckBox);
     m_settingsBackToMenuButton.setPosition(
         def::settingsBackToMenuButtonPositionX,
         def::settingsMainButtonPositionY
@@ -298,6 +305,21 @@ void MenuView::setPlayerNameField(QString playerName) {
 void MenuView::setGameoverScoreLabel(int scoreValue)
 {
     m_gameoverScoreLabel.setText(QString::number(scoreValue));
+}
+
+void MenuView::setSettingsView(Settings settings) {
+    m_settingsMusicCheckBox.setChecked(settings.musicEnabled);
+    m_settingsMusicSlider.setValue(settings.musicVolume);
+
+    m_settingsSoundsCheckBox.setChecked(settings.soundsEnabled);
+    m_settingsSoundsSlider.setValue(settings.soundsVolume * def::settingsSlidersMaxValue);
+
+    if(control_type::mouse == settings.controlType) {
+        m_settingsControlMouseCheckBox.setChecked(true);
+    }
+    else {
+        m_settingsControlKeyboardCheckBox.setChecked(true);
+    }
 }
 
 int MenuView::getScoreFromLabel()
@@ -478,6 +500,19 @@ void MenuView::saveScore()
 }
 
 void MenuView::saveSettings() {
-    emit saveSettingsClicked();
+    Settings newSettings;
+    newSettings.musicEnabled = (Qt::Checked == m_settingsMusicCheckBox.checkState());
+    newSettings.musicVolume = m_settingsMusicSlider.value();
+    newSettings.soundsEnabled = (Qt::Checked == m_settingsSoundsCheckBox.checkState());
+    newSettings.soundsVolume = m_settingsSoundsSlider.value() / def::settingsSlidersMaxValue;
+    if(Qt::Checked == m_settingsControlMouseCheckBox.checkState()) {
+        newSettings.controlType = control_type::mouse;
+    }
+    else {
+        newSettings.controlType = control_type::keyboard;
+    }
+
+    emit saveSettingsClicked(newSettings);
+
     showMainMenu();
 }

@@ -2,6 +2,7 @@
 #define MENUMODEL_HPP
 
 #include "ifilemanager.hpp"
+#include "settings.hpp"
 #include <QVector>
 #include <QPair>
 
@@ -20,10 +21,13 @@ public:
     PlayerScoreIterator getHighscoreBeginIterator();
     PlayerScoreIterator getHighscoreEndIterator();
     int getHighscoreSize() const;
+    void setSettings(Settings newSettings);
+    Settings getSettings() const;
 
 protected:
     PlayerScoreTable m_highscore;
     IFileManager* m_fileManager;
+    Settings m_settings;
 };
 
 #endif // MENUMODEL_HPP

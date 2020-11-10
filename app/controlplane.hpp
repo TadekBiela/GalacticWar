@@ -1,6 +1,7 @@
 #ifndef CONTROLPLANE_HPP
 #define CONTROLPLANE_HPP
 
+#include "settings.hpp"
 #include <QEvent>
 #include <QKeyEvent>
 #include <QGraphicsView>
@@ -30,6 +31,7 @@ signals:
 public slots:
     void activate();
     void deactivate();
+    void applyNewSettings(Settings newSettings);
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
@@ -45,6 +47,7 @@ protected:
     controller_state m_state;
     QPixmap          m_arrowCursorMap;
     QPixmap          m_crossCursorMap;
+    control_type m_controlType;
 };
 
 #endif // CONTROLPLANE_HPP

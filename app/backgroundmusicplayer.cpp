@@ -22,6 +22,11 @@ BackgroundMusicPlayer::~BackgroundMusicPlayer() {
 
 }
 
+void BackgroundMusicPlayer::applyNewSettings(Settings newSettings) {
+    m_mediaPlayer.setMuted(!newSettings.musicEnabled);
+    m_mediaPlayer.setVolume(newSettings.musicVolume);
+}
+
 void BackgroundMusicPlayer::play() {
     m_mediaPlayer.play();
 }

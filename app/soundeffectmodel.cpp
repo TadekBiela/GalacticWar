@@ -4,7 +4,6 @@ SoundEffectModel::SoundEffectModel(QString soundName)
 {
     QSoundEffect* sound = g_soundStorage->getSound(soundName);
     m_sound = sound;
-    m_sound->setVolume(50);
     connect(m_sound, SIGNAL(playingChanged()), this, SLOT(destroy()));
 }
 

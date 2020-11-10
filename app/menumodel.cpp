@@ -14,6 +14,12 @@ MenuModel::MenuModel(
     else {
         m_fileManager = fileManager;
     }
+
+    m_settings.musicEnabled = true;
+    m_settings.musicVolume = 50;
+    m_settings.soundsEnabled = true;
+    m_settings.soundsVolume = 0.5;
+    m_settings.controlType = control_type::mouse;
 }
 
 MenuModel::~MenuModel() {
@@ -82,3 +88,12 @@ PlayerScoreIterator MenuModel::getHighscoreEndIterator()
 int MenuModel::getHighscoreSize() const {
     return m_highscore.size();
 }
+
+void MenuModel::setSettings(Settings newSettings) {
+    m_settings = newSettings;
+}
+
+Settings MenuModel::getSettings() const {
+    return m_settings;
+}
+

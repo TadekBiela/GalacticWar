@@ -1,6 +1,7 @@
 #ifndef MENUVIEW_HPP
 #define MENUVIEW_HPP
 
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QLabel>
 #include <QLineEdit>
@@ -12,6 +13,7 @@
 #include "label.hpp"
 #include "menumodel.hpp"
 #include "pushbutton.hpp"
+#include "settings.hpp"
 
 class MenuView : public QObject
 {
@@ -25,6 +27,7 @@ public:
     int     getScoreFromLabel();
     void setPlayerNameField(QString);
     void    setGameoverScoreLabel(int scoreValue);
+    void setSettingsView(Settings settings);
 
 signals:
     void startClicked();
@@ -32,7 +35,7 @@ signals:
     void cancelClicked();
     void quitClicked();
     void saveClicked();
-    void saveSettingsClicked();
+    void saveSettingsClicked(Settings newSettings);
 
 public slots:
     void hideAllMenu();
@@ -68,6 +71,7 @@ protected:
     QCheckBox m_settingsSoundsCheckBox;
     QSlider m_settingsSoundsSlider;
     QLabel m_settingsControlLabel;
+    QButtonGroup m_settingsControlButtonGroup;
     QCheckBox m_settingsControlMouseCheckBox;
     QCheckBox m_settingsControlKeyboardCheckBox;
     PushButton m_settingsSaveButton;

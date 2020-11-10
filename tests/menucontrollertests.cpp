@@ -28,6 +28,7 @@ public:
             gameplayView,
             animationView,
             backgroundMusicPlayerStub,
+            g_soundStorage,
             new FileManagerStub()
         )
     {}

@@ -50,3 +50,15 @@ QSoundEffect* SoundStorage::getSound(QString name) {
 
     return it.value();
 }
+
+void SoundStorage::applyNewSettings(Settings newSettings) {
+    std::for_each(
+        m_soundStorage.begin(),
+        m_soundStorage.end(),
+        [&newSettings](QSoundEffect* sound) {
+            sound->setMuted(!newSettings.soundsEnabled);
+            sound->setVolume(newSettings.soundsVolume);
+        }
+    );
+}
+

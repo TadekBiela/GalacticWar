@@ -107,6 +107,7 @@ add_executable(${PROJECT_NAME} main.cpp
                                rewardspecialmodel.hpp
                                rewardspecialmodel.cpp
                                rewardtypes.hpp
+                               settings.hpp
                                scorecontroller.hpp
                                scorecontroller.cpp
                                scoremodel.hpp

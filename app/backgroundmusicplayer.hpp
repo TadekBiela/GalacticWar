@@ -2,6 +2,7 @@
 #define BACKGROUNDMUSICPLAYER_HPP
 
 #include "ibackgroundmusicplayer.hpp"
+#include "settings.hpp"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 
@@ -17,6 +18,7 @@ public slots:
     void pause();
     void switchToMenuMusic();
     void switchToGameMusic();
+    void applyNewSettings(Settings newSettings);
 
 protected:
     QMediaPlayer m_mediaPlayer;

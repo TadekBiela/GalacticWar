@@ -248,6 +248,8 @@ namespace def
     const int settingsSliderPositionX = def::settingsLabelPositionX + 15;
     const int settingsMusicSliderPositionY = def::settingsMusicLabelPositionY + 60;
     const int settingsSoundsSliderPositionY = def::settingsSoundsLabelPositionY + 60;
+    const int settingsSlidersMinValue = 0;
+    const int settingsSlidersMaxValue = 100;
 
     //Interface
     const int healthGraphicsCenterPositionX = 130;

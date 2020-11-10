@@ -7,6 +7,8 @@
 #include "menuview.hpp"
 #include "gameplayview.hpp"
 #include "ibackgroundmusicplayer.hpp"
+#include "isoundstorage.hpp"
+#include "settings.hpp"
 #include <QObject>
 
 class MenuController : public QObject
@@ -19,6 +21,7 @@ public:
         GameplayView* gameplayView,
         AnimationPlaneView* animationView,
         IBackgroundMusicPlayer* backgroundMusicPlayer,
+        ISoundStorage* soundStorage,
         IFileManager* fileManager = nullptr
     );
     virtual ~MenuController();
@@ -30,6 +33,7 @@ signals:
     void gameCanceled();
     void gameOver();
     void gameExit();
+    void settingsChanged(Settings newSettings);
 
 public slots:
     void startGame();
@@ -38,6 +42,7 @@ public slots:
     void cancelGame();
     void updateScore(int totalScore);
     void saveScore();
+    void saveSettings(Settings newSettings);
     void endGame();
     void exitGame();
 

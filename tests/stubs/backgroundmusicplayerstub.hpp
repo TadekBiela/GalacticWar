@@ -3,6 +3,7 @@
 
 #include <gmock/gmock.h>
 #include "../app/ibackgroundmusicplayer.hpp"
+#include "../app/settings.hpp"
 
 using namespace testing;
 
@@ -16,6 +17,7 @@ public:
     MOCK_METHOD(void, pause, (), ());
     MOCK_METHOD(void, switchToMenuMusic, (), ());
     MOCK_METHOD(void, switchToGameMusic, (), ());
+    MOCK_METHOD(void, applyNewSettings, (Settings), ());
 };
 
 #endif //BACKGROUNDMUSICPLAYERSTUB_HPP

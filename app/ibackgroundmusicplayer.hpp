@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+struct Settings;
+
 class IBackgroundMusicPlayer : public QObject
 {
     Q_OBJECT
@@ -15,6 +17,7 @@ public slots:
     virtual void pause() = 0;
     virtual void switchToMenuMusic() = 0;
     virtual void switchToGameMusic() = 0;
+    virtual void applyNewSettings(Settings) = 0;
 };
 
 #endif //IBACKGROUNDMUSICPLAYER_HPP

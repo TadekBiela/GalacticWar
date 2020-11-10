@@ -2,6 +2,7 @@
 #define SOUNDSTORAGESTUB_HPP
 
 #include "../../app/isoundstorage.hpp"
+#include "../../app/settings.hpp"
 
 class SoundStorageStub : public ISoundStorage
 {
@@ -12,6 +13,9 @@ public:
     {
         return &dummySound;
     }
+public slots:
+    void applyNewSettings(Settings newSettings) {}
+
 private:
     QSoundEffect dummySound;
 };

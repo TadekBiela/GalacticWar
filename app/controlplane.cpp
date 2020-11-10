@@ -45,6 +45,10 @@ void ControlPlane::deactivate()
     changeCursorToArrow();
 }
 
+void ControlPlane::applyNewSettings(Settings newSettings) {
+    m_controlType = newSettings.controlType;
+}
+
 void ControlPlane::mousePressEvent(QMouseEvent* event)
 {
     if(Qt::MouseButton::LeftButton == event->button() &&

@@ -65,7 +65,8 @@ int main(int argc, char *argv[])
         &controller,
         &gameplayView,
         g_animationPlaneView,
-        &backgroundMusicPlayer
+        &backgroundMusicPlayer,
+        g_soundStorage
     );
     PlayerController playerController(&controller,
                                       &gameplayView);
