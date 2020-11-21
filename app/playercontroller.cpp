@@ -19,11 +19,38 @@ void PlayerController::create()
 {
     m_model = new PlayerModel;
 
-    connect(m_model,      SIGNAL(addHealthPoints(int)),      this,    SLOT(addHealth(int)));
-    connect(m_model,      SIGNAL(subtractHealthPoints(int)), this,    SLOT(subtractHealth(int)));
-    connect(m_controller, SIGNAL(mousePressed()),            m_model, SLOT(startFire()));
-    connect(m_controller, SIGNAL(mouseReleased()),           m_model, SLOT(stopFire()));
-    connect(m_controller, SIGNAL(mouseMoved(QPointF)),       m_model, SLOT(changeMovePosition(QPointF)));
+    connect(
+        m_model, SIGNAL(addHealthPoints(int)),
+        this, SLOT(addHealth(int))
+    );
+    connect(
+        m_model, SIGNAL(subtractHealthPoints(int)),
+        this, SLOT(subtractHealth(int))
+    );
+    connect(
+        m_controller, SIGNAL(startFire()),
+        m_model, SLOT(startFire())
+    );
+    connect(
+        m_controller, SIGNAL(stopFire()),
+        m_model, SLOT(stopFire())
+    );
+    connect(
+        m_controller, SIGNAL(changeMovePosition(QPointF)),
+        m_model, SLOT(changeMovePosition(QPointF))
+    );
+    connect(
+        m_controller, SIGNAL(stopMoveOnAxeX()),
+        m_model, SLOT(stopMoveOnAxeX())
+    );
+    connect(
+        m_controller, SIGNAL(stopMoveOnAxeY()),
+        m_model, SLOT(stopMoveOnAxeY())
+    );
+    connect(
+        m_model, SIGNAL(getCurrentPosition(QPointF)),
+        m_controller, SLOT(setMovePosition(QPointF))
+    );
 
     m_model->setFocus();
     m_model->start();

@@ -199,6 +199,16 @@ void PlayerModel::startFire()
     m_fireTimer.start();
 }
 
+void PlayerModel::stopMoveOnAxeX() {
+    m_movePosition.setX(getCenterPosition().x());
+    emit getCurrentPosition(m_movePosition);
+}
+
+void PlayerModel::stopMoveOnAxeY() {
+    m_movePosition.setY(getCenterPosition().y());
+    emit getCurrentPosition(m_movePosition);
+}
+
 void PlayerModel::stopFire()
 {
     m_fireTimer.stop();

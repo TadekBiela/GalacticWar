@@ -18,12 +18,15 @@ public:
 signals:
     void addHealthPoints(int healthPoints);
     void subtractHealthPoints(int healthPoints);
+    void getCurrentPosition(QPointF currentPosition);
 
 public slots:
     void start();
     void stop();
     void startFire();
     void stopFire();
+    void stopMoveOnAxeX();
+    void stopMoveOnAxeY();
     void changeMovePosition(QPointF newMovePosition);
     void changeAtribute(special_type specialReward);
 

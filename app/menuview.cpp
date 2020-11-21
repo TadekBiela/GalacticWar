@@ -314,7 +314,7 @@ void MenuView::setSettingsView(Settings settings) {
     m_settingsSoundsCheckBox.setChecked(settings.soundsEnabled);
     m_settingsSoundsSlider.setValue(settings.soundsVolume * def::settingsSlidersMaxValue);
 
-    if(control_type::mouse == settings.controlType) {
+    if(control_mode::mouse == settings.controlMode) {
         m_settingsControlMouseCheckBox.setChecked(true);
     }
     else {
@@ -506,10 +506,10 @@ void MenuView::saveSettings() {
     newSettings.soundsEnabled = (Qt::Checked == m_settingsSoundsCheckBox.checkState());
     newSettings.soundsVolume = m_settingsSoundsSlider.value() / def::settingsSlidersMaxValue;
     if(Qt::Checked == m_settingsControlMouseCheckBox.checkState()) {
-        newSettings.controlType = control_type::mouse;
+        newSettings.controlMode = control_mode::mouse;
     }
     else {
-        newSettings.controlType = control_type::keyboard;
+        newSettings.controlMode = control_mode::keyboard;
     }
 
     emit saveSettingsClicked(newSettings);

@@ -1,7 +1,7 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
-enum class control_type {
+enum class control_mode {
     mouse,
     keyboard
 };
@@ -11,7 +11,7 @@ struct Settings {
     int musicVolume;
     bool soundsEnabled;
     float soundsVolume;
-    control_type controlType;
+    control_mode controlMode;
 };
 
 #endif //SETTINGS_HPP
