@@ -542,7 +542,7 @@ void MenuView::saveSettings() {
     newSettings.musicEnabled = (Qt::Checked == m_settingsMusicCheckBox.checkState());
     newSettings.musicVolume = m_settingsMusicSlider.value();
     newSettings.soundsEnabled = (Qt::Checked == m_settingsSoundsCheckBox.checkState());
-    newSettings.soundsVolume = m_settingsSoundsSlider.value() / def::settingsSlidersMaxValue;
+    newSettings.soundsVolume = static_cast<float>(m_settingsSoundsSlider.value()) / def::settingsSlidersMaxValue;
     if(Qt::Checked == m_settingsControlMouseCheckBox.checkState()) {
         newSettings.controlMode = control_mode::mouse;
     }
