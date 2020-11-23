@@ -50,7 +50,7 @@ TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0B
     QWidget              displayWidget;
     ControlPlane         controlPlane(&displayWidget);
     ScoreControllerTest  scoreController(&displayWidget, &controlPlane);
-    RandomGeneratorStub* generatorStub = new RandomGeneratorStub;
+    NiceMock<RandomGeneratorStub>* generatorStub = new NiceMock<RandomGeneratorStub>;
     ON_CALL(*generatorStub, bounded).WillByDefault(Return(10));
     scoreController.setGenerator(generatorStub);
     QSignalSpy signalMaxScore(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);
@@ -67,7 +67,7 @@ TEST_F(ScoreControllerTestsClass, AddScorePointsBasedOnCoinType_CurrnetScoreIs0G
     QWidget              displayWidget;
     ControlPlane         controlPlane(&displayWidget);
     ScoreControllerTest  scoreController(&displayWidget, &controlPlane);
-    RandomGeneratorStub* generatorStub = new RandomGeneratorStub;
+    NiceMock<RandomGeneratorStub>* generatorStub = new NiceMock<RandomGeneratorStub>;
     ON_CALL(*generatorStub, bounded(_, _)).WillByDefault(Return(10000));
     scoreController.setGenerator(generatorStub);
     QSignalSpy signalMaxScore(&scoreController, &ScoreControllerTest::maxScorePerLevelAchieved);

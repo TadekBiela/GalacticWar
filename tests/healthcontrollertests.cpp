@@ -57,9 +57,11 @@ TEST_F(HealthControllerTestsClass, SubtractHealthPoints_currentHealthIsMaxSubtra
 {
     QWidget              displayWidget;
     ControlPlane         controlPlane(&displayWidget);
-    HealthModelMock      modelMock;
-    BarViewStub          viewMock(&displayWidget,
-                                  &controlPlane);
+    NiceMock<HealthModelMock> modelMock;
+    NiceMock<BarViewStub> viewMock(
+        &displayWidget,
+        &controlPlane
+    );
     HealthControllerTest controller(&displayWidget,
                                     &controlPlane,
                                     &modelMock,
@@ -78,9 +80,11 @@ TEST_F(HealthControllerTestsClass, SubtractHealthPoints_currentHealthIsMaxSubtra
 {
     QWidget              displayWidget;
     ControlPlane         controlPlane(&displayWidget);
-    HealthModelMock      modelMock;
-    BarViewStub          viewMock(&displayWidget,
-                                  &controlPlane);
+    NiceMock<HealthModelMock> modelMock;
+    NiceMock<BarViewStub> viewMock(
+        &displayWidget,
+        &controlPlane
+    );
     HealthControllerTest controller(&displayWidget,
                                     &controlPlane,
                                     &modelMock,

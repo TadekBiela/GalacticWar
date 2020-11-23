@@ -60,7 +60,7 @@ TEST_F(MenuControllerTestsClass, PauseGame_CheckCorrectWorking_ShouldSendGamePau
     ControlPlane controller(&displayWidget);
     GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
-    BackgroundMusicPlayerStub backgroundMusicPlayerStub;
+    NiceMock<BackgroundMusicPlayerStub> backgroundMusicPlayerStub;
     MenuControllerTest menuController(
         &displayWidget,
         &controller,
@@ -85,7 +85,7 @@ TEST_F(MenuControllerTestsClass, SaveScore_PlayerNameIsFilled_ShouldSavePlayerSc
     ControlPlane controller(&displayWidget);
     GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
-    BackgroundMusicPlayerStub backgroundMusicPlayerStub;
+    NiceMock<BackgroundMusicPlayerStub> backgroundMusicPlayerStub;
     MenuControllerTest menuController(
         &displayWidget,
         &controller,
@@ -106,7 +106,7 @@ TEST_F(MenuControllerTestsClass, SaveScore_PlayerNameIsEmpty_ShouldDontSavePlaye
     ControlPlane controller(&displayWidget);
     GameplayView gameplayView(&displayWidget);
     AnimationPlaneView animationView(&displayWidget);
-    BackgroundMusicPlayerStub backgroundMusicPlayerStub;
+    NiceMock<BackgroundMusicPlayerStub> backgroundMusicPlayerStub;
     MenuControllerTest menuController(
         &displayWidget,
         &controller,

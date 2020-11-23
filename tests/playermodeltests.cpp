@@ -191,7 +191,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1_Play
 {
     QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
-    RandomGeneratorStub* generator = new RandomGeneratorStub;
+    NiceMock<RandomGeneratorStub>* generator = new NiceMock<RandomGeneratorStub>;
     ON_CALL(*generator, bounded(_,_)).WillByDefault(Return(0));
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
     PlayerModelTest*     player    = new PlayerModelTest;
@@ -230,7 +230,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
                                                      50);
     RewardCoinModel*     coin      = new RewardCoinModel(coin_type::bronze);
     RewardSpecialModel*  special   = new RewardSpecialModel(special_type::weaponRed);
-    RandomGeneratorStub* generator = new RandomGeneratorStub;
+    NiceMock<RandomGeneratorStub>* generator = new NiceMock<RandomGeneratorStub>;
     ON_CALL(*generator, bounded(_,_)).WillByDefault(Return(0));
     EnemyModel*          enemy     = new EnemyModelType1(QPointF(0,0), generator);
     PlayerModelTest*     player    = new PlayerModelTest;
