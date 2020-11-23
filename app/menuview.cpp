@@ -25,9 +25,12 @@ MenuView::MenuView(QWidget* displayWidget)
       m_settingsControlButtonGroup(displayWidget),
       m_settingsBackToMenuButton(def::backText, displayWidget),
       m_settingsSaveButton(def::saveText, displayWidget),
+      m_settingsPauseBackToMenuButton(def::backText, displayWidget),
+      m_settingsPauseSaveButton(def::saveText, displayWidget),
       m_pauseTitleLabel(def::pauseText, displayWidget),
       m_pauseCancelButton(def::cancelText, displayWidget),
       m_pauseContinueButton(def::continueText, displayWidget),
+      m_pauseSettingsButton(def::settingsText, displayWidget),
       m_gameoverTitleLabel(def::gameoverText, displayWidget),
       m_gameoverScoreLabel("", displayWidget),
       m_gameoverPlayerNameField("", displayWidget),
@@ -213,6 +216,14 @@ MenuView::MenuView(QWidget* displayWidget)
         def::settingsSaveButtonPositionX,
         def::settingsMainButtonPositionY
     );
+    m_settingsPauseBackToMenuButton.setPosition(
+        def::settingsBackToMenuButtonPositionX,
+        def::settingsMainButtonPositionY
+    );
+    m_settingsPauseSaveButton.setPosition(
+        def::settingsSaveButtonPositionX,
+        def::settingsMainButtonPositionY
+    );
 
     //Init pause menu
     m_pauseTitleLabel.setPosition(def::labelPositionX,
@@ -221,6 +232,10 @@ MenuView::MenuView(QWidget* displayWidget)
                                    def::pauseBottomButtonPositionY);
     m_pauseContinueButton.setPosition(def::pauseContinueButtonPositionX,
                                       def::pauseBottomButtonPositionY);
+    m_pauseSettingsButton.setPosition(
+        def::pauseSettingsButtonPositionX,
+        def::pauseSettingsButtonPositionY
+    );
 
     //Init gameover menu
     m_gameoverTitleLabel.setPosition(def::labelPositionX,
@@ -259,9 +274,12 @@ MenuView::MenuView(QWidget* displayWidget)
     connect(&m_mainQuitButton,           SIGNAL(clicked()), this, SLOT(quitGame()));
     connect(&m_highscoreBackToMenu,      SIGNAL(clicked()), this, SLOT(showMainMenu()));
     connect(&m_settingsBackToMenuButton, SIGNAL(clicked()), this, SLOT(showMainMenu()));
-    connect(&m_settingsSaveButton,       SIGNAL(clicked()), this, SLOT(saveSettings()));
+    connect(&m_settingsSaveButton,       SIGNAL(clicked()), this, SLOT(saveSettingsInMenu()));
+    connect(&m_settingsPauseBackToMenuButton, SIGNAL(clicked()), this, SLOT(showPauseMenu()));
+    connect(&m_settingsPauseSaveButton,  SIGNAL(clicked()), this, SLOT(saveSettingsOnPause()));
     connect(&m_pauseContinueButton,      SIGNAL(clicked()), this, SLOT(continueGame()));
     connect(&m_pauseCancelButton,        SIGNAL(clicked()), this, SLOT(cancelGame()));
+    connect(&m_pauseSettingsButton,      SIGNAL(clicked()), this, SLOT(showPauseSettingsMenu()));
     connect(&m_gameoverSaveScoreButton,  SIGNAL(clicked()), this, SLOT(saveScore()));
     connect(&m_gameoverBackToMenuButton, SIGNAL(clicked()), this, SLOT(showMainMenu()));
 
@@ -407,9 +425,12 @@ void MenuView::hideAllMenu()
     m_settingsControlKeyboardCheckBox.hide();
     m_settingsBackToMenuButton.hide();
     m_settingsSaveButton.hide();
+    m_settingsPauseBackToMenuButton.hide();
+    m_settingsPauseSaveButton.hide();
     m_pauseTitleLabel.hide();
     m_pauseCancelButton.hide();
     m_pauseContinueButton.hide();
+    m_pauseSettingsButton.hide();
     m_gameoverTitleLabel.hide();
     m_gameoverScoreLabel.hide();
     m_gameoverPlayerNameField.hide();
@@ -454,12 +475,29 @@ void MenuView::showSettingsMenu() {
     m_settingsSaveButton.show();
 }
 
+void MenuView::showPauseSettingsMenu() {
+    hideAllMenu();
+    m_settingsTitleLabel.show();
+    m_settingsMusicLabel.show();
+    m_settingsMusicCheckBox.show();
+    m_settingsMusicSlider.show();
+    m_settingsSoundsLabel.show();
+    m_settingsSoundsCheckBox.show();
+    m_settingsSoundsSlider.show();
+    m_settingsControlLabel.show();
+    m_settingsControlMouseCheckBox.show();
+    m_settingsControlKeyboardCheckBox.show();
+    m_settingsPauseBackToMenuButton.show();
+    m_settingsPauseSaveButton.show();
+}
+
 void MenuView::showPauseMenu()
 {
     hideAllMenu();
     m_pauseTitleLabel.show();
     m_pauseCancelButton.show();
     m_pauseContinueButton.show();
+    m_pauseSettingsButton.show();
     m_authorLabel.show();
 }
 
@@ -513,6 +551,15 @@ void MenuView::saveSettings() {
     }
 
     emit saveSettingsClicked(newSettings);
+}
 
+void MenuView::saveSettingsInMenu() {
+    saveSettings();
     showMainMenu();
 }
+
+void MenuView::saveSettingsOnPause() {
+    saveSettings();
+    showPauseMenu();
+}
+

@@ -218,6 +218,8 @@ namespace def
     const int pauseCancelButtonPositionX = halfSceneWight - buttonWight - buttonBetweenDistance;
     const int pauseContinueButtonPositionX  = halfSceneWight + buttonBetweenDistance;
     const int pauseBottomButtonPositionY    = halfSceneHeight;
+    const int pauseSettingsButtonPositionX = halfSceneWight - (buttonWight / 2);
+    const int pauseSettingsButtonPositionY = pauseBottomButtonPositionY + buttonHeight + buttonBetweenDistance;
     const int gameoverSaveButtonPositionX   = pauseContinueButtonPositionX;
     const int gameoverBackButtonPositionX   = pauseCancelButtonPositionX;
     const int gameoverBottomButtonPositionY = gameoverPlayerNameFieldPositionY

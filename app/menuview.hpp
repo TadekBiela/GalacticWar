@@ -43,13 +43,15 @@ public slots:
     void showHighscoreMenu();
     void showSettingsMenu();
     void showPauseMenu();
+    void showPauseSettingsMenu();
     void showGameoverMenu();
     void startGame();
     void continueGame();
     void cancelGame();
     void quitGame();
     void saveScore();
-    void saveSettings();
+    void saveSettingsInMenu();
+    void saveSettingsOnPause();
 
 protected:
     //Main
@@ -76,10 +78,13 @@ protected:
     QCheckBox m_settingsControlKeyboardCheckBox;
     PushButton m_settingsSaveButton;
     PushButton m_settingsBackToMenuButton;
+    PushButton m_settingsPauseSaveButton;
+    PushButton m_settingsPauseBackToMenuButton;
     //Pause
     Label        m_pauseTitleLabel;
     PushButton   m_pauseCancelButton;
     PushButton   m_pauseContinueButton;
+    PushButton m_pauseSettingsButton;
     //Gameover
     Label        m_gameoverTitleLabel;
     Label        m_gameoverScoreLabel;
@@ -91,6 +96,7 @@ protected:
 
 private:
     void setupHighscoreTableStyle();
+    void saveSettings();
 };
 
 #endif // MENUVIEW_HPP
