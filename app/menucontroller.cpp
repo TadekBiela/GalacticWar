@@ -90,6 +90,8 @@ MenuController::MenuController(
     );
 
     m_model.loadHighscoreFromFile();
+    m_model.loadSettingsFromFile();
+
     m_view.updateHighscore(m_model.getHighscoreBeginIterator(),
                            m_model.getHighscoreEndIterator());
     m_view.setSettingsView(m_model.getSettings());
@@ -156,6 +158,7 @@ void MenuController::saveScore()
 
 void MenuController::saveSettings(Settings newSettings) {
     m_model.setSettings(newSettings);
+    m_model.saveSettingsToFile();
 
     emit settingsChanged(m_model.getSettings());
 }

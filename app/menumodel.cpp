@@ -1,6 +1,8 @@
 #include "definitions.hpp"
 #include "filemanager.hpp"
 #include "menumodel.hpp"
+#include <QStringList>
+#include <QVariant>
 #include <algorithm>
 
 MenuModel::MenuModel(
@@ -95,5 +97,59 @@ void MenuModel::setSettings(Settings newSettings) {
 
 Settings MenuModel::getSettings() const {
     return m_settings;
+}
+
+void MenuModel::saveSettingsToFile() const {
+    QString dataToSave;
+
+    dataToSave += "[Music]\n";
+    dataToSave += "music enabled: " + QVariant(m_settings.musicEnabled).toString() + "\n";
+    dataToSave += "music volume: " + QString::number(m_settings.musicVolume) + "\n\n";
+    dataToSave += "[Sounds]\n";
+    dataToSave += "sounds enabled: " + QVariant(m_settings.soundsEnabled).toString() + "\n";
+    dataToSave += "sounds volume: " + QString::number(m_settings.soundsVolume) + "\n\n";
+    dataToSave += "[Control]\n";
+    QString controlModeStr = (m_settings.controlMode == control_mode::mouse) ?
+        "mouse" :
+        "keyboard";
+    dataToSave += "control mode: " + controlModeStr + "\n";
+
+    m_fileManager->saveFile("settings.txt", dataToSave);
+}
+
+void MenuModel::loadSettingsFromFile() {
+    QString data = m_fileManager->loadFile("settings.txt");
+    QStringList dataList = data.split("\n", QString::SplitBehavior::SkipEmptyParts);
+
+    if(not dataList.isEmpty()) {
+        const int settingValueOffset = 1;
+
+        int musicEnabledIdx = 1;
+        auto musicEnabledLineList = dataList.at(musicEnabledIdx).split(": ");
+        auto musicEnabledStr = musicEnabledLineList.at(settingValueOffset);
+        m_settings.musicEnabled = QVariant(musicEnabledStr).toBool();
+
+        int musicVolumeIdx = musicEnabledIdx + 1;
+        auto musicVolumeLineList = dataList.at(musicVolumeIdx).split(": ");
+        auto musicVolumeStr = musicVolumeLineList.at(settingValueOffset);
+        m_settings.musicVolume = QVariant(musicVolumeStr).toInt();
+
+        int soundsEnabledIdx = musicVolumeIdx + 2;
+        auto soundsEnabledLineList = dataList.at(soundsEnabledIdx).split(": ");
+        auto soundsEnabledStr = soundsEnabledLineList.at(settingValueOffset);
+        m_settings.soundsEnabled = QVariant(soundsEnabledStr).toBool();
+
+        int soundsVolumeIdx = soundsEnabledIdx + 1;
+        auto soundsVolumeLineList = dataList.at(soundsVolumeIdx).split(": ");
+        auto soundsVolumeStr = soundsVolumeLineList.at(settingValueOffset);
+        m_settings.soundsVolume = QVariant(soundsVolumeStr).toFloat();
+
+        int controlModeIdx = soundsVolumeIdx + 2;
+        auto controlModeLineList = dataList.at(controlModeIdx).split(": ");
+        auto controlModeStr = controlModeLineList.at(settingValueOffset);
+        m_settings.controlMode = (controlModeStr == "mouse") ?
+            control_mode::mouse :
+            control_mode::keyboard;
+    }
 }
 

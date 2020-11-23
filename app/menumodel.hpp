@@ -23,6 +23,8 @@ public:
     int getHighscoreSize() const;
     void setSettings(Settings newSettings);
     Settings getSettings() const;
+    void saveSettingsToFile() const;
+    void loadSettingsFromFile();
 
 protected:
     PlayerScoreTable m_highscore;

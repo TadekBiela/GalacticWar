@@ -296,3 +296,136 @@ TEST_F(MenuModelTestsClass, LoadHighscoreFromFile_ZeroRecordsInFileCheckCorrectW
 
     EXPECT_EQ(resultHighscore, expectedHighscore);
 }
+
+TEST_F(MenuModelTestsClass, saveSettingsToFile_MouseControlMode_ShouldSaveAllSettingsAndControlModeAsMouse)
+{
+    QString expectedSettingFileContent(
+        "[Music]\n"
+        "music enabled: false\n"
+        "music volume: 81\n\n"
+        "[Sounds]\n"
+        "sounds enabled: true\n"
+        "sounds volume: 0.5\n\n"
+        "[Control]\n"
+        "control mode: mouse\n"
+    );
+    FileManagerMock* fileManager = new FileManagerMock();
+    MenuModel menuModel(fileManager);
+    Settings inputSettings;
+    inputSettings.musicEnabled = false;
+    inputSettings.musicVolume = 81;
+    inputSettings.soundsEnabled = true;
+    inputSettings.soundsVolume = 0.5;
+    inputSettings.controlMode = control_mode::mouse;
+    menuModel.setSettings(inputSettings);
+
+    menuModel.saveSettingsToFile();
+
+    EXPECT_EQ(expectedSettingFileContent, fileManager->getFileContent());
+}
+
+TEST_F(MenuModelTestsClass, saveSettingsToFile_KeyboardControl_ShouldSaveAllSettingsAndControlModeAsKeyboard)
+{
+    QString expectedSettingFileContent(
+        "[Music]\n"
+        "music enabled: true\n"
+        "music volume: 40\n\n"
+        "[Sounds]\n"
+        "sounds enabled: false\n"
+        "sounds volume: 0\n\n"
+        "[Control]\n"
+        "control mode: keyboard\n"
+    );
+    FileManagerMock* fileManager = new FileManagerMock();
+    MenuModel menuModel(fileManager);
+    Settings inputSettings;
+    inputSettings.musicEnabled = true;
+    inputSettings.musicVolume = 40;
+    inputSettings.soundsEnabled = false;
+    inputSettings.soundsVolume = 0;
+    inputSettings.controlMode = control_mode::keyboard;
+    menuModel.setSettings(inputSettings);
+
+    menuModel.saveSettingsToFile();
+
+    EXPECT_EQ(expectedSettingFileContent, fileManager->getFileContent());
+}
+
+TEST_F(MenuModelTestsClass, loadSettingsFromFile_MouseControl_ShouldLoadAllSettingsAndControlModeAsMouse)
+{
+    Settings expectedSettings;
+    expectedSettings.musicEnabled = false;
+    expectedSettings.musicVolume = 0;
+    expectedSettings.soundsEnabled = true;
+    expectedSettings.soundsVolume = 1;
+    expectedSettings.controlMode = control_mode::mouse;
+    FileManagerMock* fileManager = new FileManagerMock;
+    fileManager->setFileContent(QString(
+        "[Music]\n"
+        "music enabled: false\n"
+        "music volume: 0\n\n"
+        "[Sounds]\n"
+        "sounds enabled: true\n"
+        "sounds volume: 1\n\n"
+        "[Control]\n"
+        "control mode: mouse\n"
+    ));
+    MenuModel menuModel(fileManager);
+
+    menuModel.loadSettingsFromFile();
+
+    Settings resultSettings = menuModel.getSettings();
+    EXPECT_EQ(expectedSettings.musicEnabled, resultSettings.musicEnabled);
+    EXPECT_EQ(expectedSettings.musicVolume, resultSettings.musicVolume);
+    EXPECT_EQ(expectedSettings.soundsEnabled, resultSettings.soundsEnabled);
+    EXPECT_EQ(expectedSettings.soundsVolume, resultSettings.soundsVolume);
+    EXPECT_EQ(expectedSettings.controlMode, resultSettings.controlMode);
+}
+
+TEST_F(MenuModelTestsClass, loadSettingsFromFile_KeyboardControl_ShouldLoadAllSettingsAndControlModeAsKeyboard)
+{
+    Settings expectedSettings;
+    expectedSettings.musicEnabled = true;
+    expectedSettings.musicVolume = 40;
+    expectedSettings.soundsEnabled = false;
+    expectedSettings.soundsVolume = 0;
+    expectedSettings.controlMode = control_mode::keyboard;
+    FileManagerMock* fileManager = new FileManagerMock;
+    fileManager->setFileContent(QString(
+        "[Music]\n"
+        "music enabled: true\n"
+        "music volume: 40\n\n"
+        "[Sounds]\n"
+        "sounds enabled: false\n"
+        "sounds volume: 0\n\n"
+        "[Control]\n"
+        "control mode: keyboard\n"
+    ));
+    MenuModel menuModel(fileManager);
+
+    menuModel.loadSettingsFromFile();
+
+    Settings resultSettings = menuModel.getSettings();
+    EXPECT_EQ(expectedSettings.musicEnabled, resultSettings.musicEnabled);
+    EXPECT_EQ(expectedSettings.musicVolume, resultSettings.musicVolume);
+    EXPECT_EQ(expectedSettings.soundsEnabled, resultSettings.soundsEnabled);
+    EXPECT_EQ(expectedSettings.soundsVolume, resultSettings.soundsVolume);
+    EXPECT_EQ(expectedSettings.controlMode, resultSettings.controlMode);
+}
+
+TEST_F(MenuModelTestsClass, loadSettingsFromFile_LoadEmptyFile_ShouldDoNothing)
+{
+    FileManagerStub* fileManager = new FileManagerStub;
+    MenuModel menuModel(fileManager);
+    Settings expectedSettings = menuModel.getSettings();
+
+    menuModel.loadSettingsFromFile();
+
+    Settings resultSettings = menuModel.getSettings();
+    EXPECT_EQ(expectedSettings.musicEnabled, resultSettings.musicEnabled);
+    EXPECT_EQ(expectedSettings.musicVolume, resultSettings.musicVolume);
+    EXPECT_EQ(expectedSettings.soundsEnabled, resultSettings.soundsEnabled);
+    EXPECT_EQ(expectedSettings.soundsVolume, resultSettings.soundsVolume);
+    EXPECT_EQ(expectedSettings.controlMode, resultSettings.controlMode);
+}
+
