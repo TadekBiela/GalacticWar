@@ -281,7 +281,7 @@ MenuView::MenuView(QWidget* displayWidget)
     connect(&m_pauseCancelButton,        SIGNAL(clicked()), this, SLOT(cancelGame()));
     connect(&m_pauseSettingsButton,      SIGNAL(clicked()), this, SLOT(showPauseSettingsMenu()));
     connect(&m_gameoverSaveScoreButton,  SIGNAL(clicked()), this, SLOT(saveScore()));
-    connect(&m_gameoverBackToMenuButton, SIGNAL(clicked()), this, SLOT(showMainMenu()));
+    connect(&m_gameoverBackToMenuButton, SIGNAL(clicked()), this, SLOT(cancelGame()));
 
     showMainMenu();
 }
@@ -535,6 +535,7 @@ void MenuView::quitGame()
 void MenuView::saveScore()
 {
     emit saveClicked();
+    emit cancelGame();
 }
 
 void MenuView::saveSettings() {

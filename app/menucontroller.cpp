@@ -152,8 +152,6 @@ void MenuController::saveScore()
             m_model.getHighscoreEndIterator()
         );
     }
-
-    m_view.showMainMenu();
 }
 
 void MenuController::saveSettings(Settings newSettings) {
