@@ -136,13 +136,13 @@ TEST_F(EnemyModelType1TestClass, Constructor_SpawnPositionIsOnRightSideOfSceneDi
     ON_CALL(*generatorStub, bounded(_, _)).WillByDefault(Return(0));
 
     EnemyModelType1Test enemy(
-        QPointF(def::halfSceneWight + 1, 0),
+        QPointF(def::halfSceneWidth + 1, 0),
         generatorStub
     );
 
     EXPECT_EQ(def::enemy1Level, enemy.getLevel());
     QPointF resultPosition = enemy.getCenterPosition();
-    EXPECT_FLOAT_EQ(def::halfSceneWight + 1, resultPosition.x());
+    EXPECT_FLOAT_EQ(def::halfSceneWidth + 1, resultPosition.x());
     EXPECT_FLOAT_EQ(0, resultPosition.y());
     EXPECT_EQ(def::enemy1MaxHealthPoints, enemy.getHealth());
     EXPECT_EQ(def::enemy1BaseDamage, enemy.getDamage());
@@ -167,13 +167,13 @@ TEST_F(EnemyModelType1TestClass, Constructor_SpawnPositionIsOnRightSideOfSceneDi
     ON_CALL(*generatorStub, bounded(_, _)).WillByDefault(Return(1));
 
     EnemyModelType1Test enemy(
-        QPointF(def::halfSceneWight + 1, 0),
+        QPointF(def::halfSceneWidth + 1, 0),
         generatorStub
     );
 
     EXPECT_EQ(def::enemy1Level, enemy.getLevel());
     QPointF resultPosition = enemy.getCenterPosition();
-    EXPECT_FLOAT_EQ(def::halfSceneWight + 1, resultPosition.x());
+    EXPECT_FLOAT_EQ(def::halfSceneWidth + 1, resultPosition.x());
     EXPECT_FLOAT_EQ(0, resultPosition.y());
     EXPECT_EQ(def::enemy1MaxHealthPoints, enemy.getHealth());
     EXPECT_EQ(def::enemy1BaseDamage, enemy.getDamage());
@@ -280,7 +280,7 @@ TEST_F(EnemyModelType1TestClass, Fire_EnemyDirectionIsLeft_ShouldAddBulletToScen
     //- enemy direction set on def::enemy1LeftMoveDirection
     ON_CALL(*generatorStub, bounded(_, _)).WillByDefault(Return(1));
     QGraphicsScene mockScene;
-    QPointF expectedEnemyPosition(def::halfSceneWight + 1, 100);
+    QPointF expectedEnemyPosition(def::halfSceneWidth + 1, 100);
     QPointF expectedBulletPosition(
         expectedEnemyPosition.x() - 4.86,
         expectedEnemyPosition.y() + 27.57
@@ -416,9 +416,9 @@ INSTANTIATE_TEST_SUITE_P(
         std::tr1::make_tuple(
             1,
             1,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                (def::halfSceneWight + 1) - 0.87,
+                (def::halfSceneWidth + 1) - 0.87,
                 4.92
             ),
             def::enemy1LeftMoveDirection
@@ -426,9 +426,9 @@ INSTANTIATE_TEST_SUITE_P(
         std::tr1::make_tuple(
             100,
             1,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                (def::halfSceneWight + 1) - 86.82,
+                (def::halfSceneWidth + 1) - 86.82,
                 492.40
             ),
             def::enemy1LeftMoveDirection

@@ -99,11 +99,11 @@ TEST_F(EnemyModelType5TestClass, Constructor_SpawnPositionIsOnLeftSideOfScene_Sh
 
 TEST_F(EnemyModelType5TestClass, Constructor_SpawnPositionIsOnRightSideOfScene_ShouldStartOfRightSideAndSetMoveSideToLeft)
 {
-    EnemyModelType5Test enemyModel(QPointF(def::halfSceneWight + 1, 7));
+    EnemyModelType5Test enemyModel(QPointF(def::halfSceneWidth + 1, 7));
 
     EXPECT_EQ(def::enemy5Level, enemyModel.getLevel());
     QPointF resultPosition = enemyModel.getCenterPosition();
-    EXPECT_FLOAT_EQ(def::sceneWight - def::enemy5StartXCoordinate, resultPosition.x());
+    EXPECT_FLOAT_EQ(def::sceneWidth - def::enemy5StartXCoordinate, resultPosition.x());
     EXPECT_FLOAT_EQ(def::enemy5StartYCoordinate, resultPosition.y());
     EXPECT_EQ(def::enemy5MaxHealthPoints, enemyModel.getHealth());
     EXPECT_EQ(def::enemy5BaseDamage, enemyModel.getDamage());

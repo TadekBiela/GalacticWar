@@ -26,7 +26,7 @@ public:
                  fireTimeDelay)
     {
         //Simple graphic needed to tests
-        QPixmap map(QSize(def::animationFrameWight, def::animationFrameHeight));
+        QPixmap map(QSize(def::animationFrameWidth, def::animationFrameHeight));
         map.fill(Qt::red);
         setPixmap(map);
         setPos(QPointF(100, 100));

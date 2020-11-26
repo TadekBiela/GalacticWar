@@ -148,11 +148,11 @@ INSTANTIATE_TEST_SUITE_P(OutOfScene,
                                          std::make_pair(QPointF(                  -9,                    -9), false),
                                          std::make_pair(QPointF(                 -10,                    20), true),
                                          std::make_pair(QPointF(                  20,                   -10), true),
-                                         std::make_pair(QPointF(def::sceneWight + 10,                    10), true),
-                                         std::make_pair(QPointF(def::sceneWight + 10,                     9), true),
-                                         std::make_pair(QPointF(     def::sceneWight,      def::sceneHeight), false),
+                                         std::make_pair(QPointF(def::sceneWidth + 10,                    10), true),
+                                         std::make_pair(QPointF(def::sceneWidth + 10,                     9), true),
+                                         std::make_pair(QPointF(     def::sceneWidth,      def::sceneHeight), false),
                                          std::make_pair(QPointF(                  10, def::sceneHeight + 10), true),
                                          std::make_pair(QPointF(                   9, def::sceneHeight + 10), true),
-                                         std::make_pair(QPointF(def::sceneWight + 10, def::sceneHeight + 10), true),
-                                         std::make_pair(QPointF(def::sceneWight +  9, def::sceneHeight +  9), false)
+                                         std::make_pair(QPointF(def::sceneWidth + 10, def::sceneHeight + 10), true),
+                                         std::make_pair(QPointF(def::sceneWidth +  9, def::sceneHeight +  9), false)
                                         ));

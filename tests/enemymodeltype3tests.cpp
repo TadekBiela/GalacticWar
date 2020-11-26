@@ -80,13 +80,13 @@ public:
     }
 };
 
-TEST_F(EnemyModelType3TestClass, Constructor_SpawnPositionIsOnLeftSideOfScene_ShouldSetXCoordinateAsAnimationFrameWightOffset)
+TEST_F(EnemyModelType3TestClass, Constructor_SpawnPositionIsOnLeftSideOfScene_ShouldSetXCoordinateAsAnimationFrameWidthOffset)
 {
     EnemyModelType3Test enemyModel(QPointF(2, 7));
 
     EXPECT_EQ(def::enemy3Level, enemyModel.getLevel());
     QPointF resultPosition = enemyModel.getCenterPosition();
-    EXPECT_FLOAT_EQ(def::animationFrameWight, resultPosition.x());
+    EXPECT_FLOAT_EQ(def::animationFrameWidth, resultPosition.x());
     EXPECT_FLOAT_EQ(7, resultPosition.y());
     EXPECT_EQ(def::enemy3MaxHealthPoints, enemyModel.getHealth());
     EXPECT_EQ(def::enemy3BaseDamage, enemyModel.getDamage());
@@ -109,11 +109,11 @@ TEST_F(EnemyModelType3TestClass, Constructor_SpawnPositionIsOnLeftSideOfScene_Sh
 
 TEST_F(EnemyModelType3TestClass, Constructor_SpawnPositionIsOnRightSideOfScene_ShouldSetXCoordinateAsSceneWidhtSubtractAnimationFrameWidthOffset)
 {
-    EnemyModelType3Test enemyModel(QPointF((def::halfSceneWight + 1), 0));
+    EnemyModelType3Test enemyModel(QPointF((def::halfSceneWidth + 1), 0));
 
     EXPECT_EQ(def::enemy3Level, enemyModel.getLevel());
     QPointF resultPosition = enemyModel.getCenterPosition();
-    EXPECT_FLOAT_EQ((def::sceneWight - def::animationFrameWight), resultPosition.x());
+    EXPECT_FLOAT_EQ((def::sceneWidth - def::animationFrameWidth), resultPosition.x());
     EXPECT_FLOAT_EQ(0, resultPosition.y());
     EXPECT_EQ(def::enemy3MaxHealthPoints, enemyModel.getHealth());
     EXPECT_EQ(def::enemy3BaseDamage, enemyModel.getDamage());
@@ -136,7 +136,7 @@ TEST_F(EnemyModelType3TestClass, Constructor_SpawnPositionIsOnRightSideOfScene_S
 
 TEST_F(EnemyModelType3TestClass, Fire_ExecutionOnce_ShouldCreateOneBulletOnTheRightSideOfEnemy)
 {
-    QPointF expectedEnemyPosition(def::animationFrameWight, 0);
+    QPointF expectedEnemyPosition(def::animationFrameWidth, 0);
     QPointF expectedBulletPosition(
         expectedEnemyPosition.x() + def::enemy3FireSideOffset,
         expectedEnemyPosition.y()
@@ -165,7 +165,7 @@ TEST_F(EnemyModelType3TestClass, Fire_ExecutionOnce_ShouldCreateOneBulletOnTheRi
 
 TEST_F(EnemyModelType3TestClass, Fire_ExecutionTwice_ShouldCreateTwoBulletsOnBothSidesOfEnemy)
 {
-    QPointF expectedEnemyPosition(def::animationFrameWight, 0);
+    QPointF expectedEnemyPosition(def::animationFrameWidth, 0);
     QPointF expectedBulletPosition1(
         expectedEnemyPosition.x() + def::enemy3FireSideOffset,
         expectedEnemyPosition.y()
@@ -206,7 +206,7 @@ TEST_F(EnemyModelType3TestClass, Fire_ExecutionTwice_ShouldCreateTwoBulletsOnBot
 
 TEST_F(EnemyModelType3TestClass, Fire_ExecutionTwiceButEnemyRotateBetweenFire_ShouldCreateTwoBulletsOnBothSidesOfEnemySecondWithDifferentDirection)
 {
-    QPointF expectedEnemyPosition(def::animationFrameWight, 0);
+    QPointF expectedEnemyPosition(def::animationFrameWidth, 0);
     QPointF expectedBulletPosition1(
         expectedEnemyPosition.x() + def::enemy3FireSideOffset,
         expectedEnemyPosition.y()
@@ -289,14 +289,14 @@ INSTANTIATE_TEST_SUITE_P(
         std::tr1::make_tuple(
             1,
             QPointF(0, 0),
-            QPointF(def::animationFrameWight, def::enemy3MoveSlowFactor),
+            QPointF(def::animationFrameWidth, def::enemy3MoveSlowFactor),
             def::down - def::enemy3RotateAngle
         ),
         std::tr1::make_tuple(
             def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 319
             ),
             def::down - (def::enemy3RotateAngle * (def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor))
@@ -305,7 +305,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 1,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 322
             ),
             def::down - (def::enemy3RotateAngle * (def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 1))
@@ -314,7 +314,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 2,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 325
             ),
             def::down - (def::enemy3RotateAngle * (def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 2))
@@ -323,7 +323,7 @@ INSTANTIATE_TEST_SUITE_P(
             40,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 373
             ),
             def::enemy3RotateLeftSideMinBorder
@@ -332,7 +332,7 @@ INSTANTIATE_TEST_SUITE_P(
             41,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 376
             ),
             def::enemy3RotateLeftSideMinBorder + def::enemy3MinMoveSlowFactor
@@ -341,7 +341,7 @@ INSTANTIATE_TEST_SUITE_P(
             80,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 493
             ),
             def::enemy3RotateLeftSideMaxBorder
@@ -350,76 +350,76 @@ INSTANTIATE_TEST_SUITE_P(
             81,
             QPointF(0, 0),
             QPointF(
-                def::animationFrameWight,
+                def::animationFrameWidth,
                 496
             ),
             def::enemy3RotateLeftSideMaxBorder - def::enemy3MinMoveSlowFactor
         ),
         std::tr1::make_tuple(
             1,
-            QPointF(def::halfSceneWight + 1, 0),
-            QPointF(def::sceneWight - def::animationFrameWight, def::enemy3MoveSlowFactor),
+            QPointF(def::halfSceneWidth + 1, 0),
+            QPointF(def::sceneWidth - def::animationFrameWidth, def::enemy3MoveSlowFactor),
             def::down + def::enemy3RotateAngle
         ),
         std::tr1::make_tuple(
             def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 319
             ),
             def::down + (def::enemy3RotateAngle * (def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor))
         ),
         std::tr1::make_tuple(
             def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 1,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 322
             ),
             def::down + (def::enemy3RotateAngle * (def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 1))
         ),
         std::tr1::make_tuple(
             def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 2,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 325
             ),
             def::down + (def::enemy3RotateAngle * (def::enemy3MoveSlowFactor - def::enemy3MinMoveSlowFactor + 2))
         ),
         std::tr1::make_tuple(
             40,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 373
             ),
             def::enemy3RotateRightSideMaxBorder
         ),
         std::tr1::make_tuple(
             41,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 376
             ),
             def::enemy3RotateRightSideMaxBorder - def::enemy3MinMoveSlowFactor
         ),
         std::tr1::make_tuple(
             80,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 493
             ),
             def::enemy3RotateRightSideMinBorder
         ),
         std::tr1::make_tuple(
             81,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::sceneWight - def::animationFrameWight,
+                def::sceneWidth - def::animationFrameWidth,
                 496
             ),
             def::enemy3RotateRightSideMinBorder + def::enemy3MinMoveSlowFactor

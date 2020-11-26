@@ -55,7 +55,7 @@ TEST_F(AnimationEffectModelTestsClass, AnimationEffectModel_CheckCorrectModelBui
     QGraphicsScene*           scene              = new QGraphicsScene();
     AnimationEffectModelTest* animation          = new AnimationEffectModelTest("explosion",
                                                                                 QPointF(50, 50),
-                                                                                def::animationFrameWight,
+                                                                                def::animationFrameWidth,
                                                                                 def::animationFrameHeight,
                                                                                 def::maxAnimationFrames);
     int                       resultAnimFrameIdx = animation->getAnimationFrameIdx();
@@ -72,7 +72,7 @@ TEST_F(AnimationEffectModelTestsClass, Animation_CheckIfAnimationFrameIdxWasIncr
     QGraphicsScene*           scene     = new QGraphicsScene();
     AnimationEffectModelTest* animation = new AnimationEffectModelTest("explosion",
                                                                        QPointF(50, 50),
-                                                                       def::animationFrameWight,
+                                                                       def::animationFrameWidth,
                                                                        def::animationFrameHeight,
                                                                        def::maxAnimationFrames);
 
@@ -88,7 +88,7 @@ TEST_F(AnimationEffectModelTestsClass, Animation_AnimationFrameIdxPointsToLastFr
     QGraphicsScene*           scene     = new QGraphicsScene();
     AnimationEffectModelTest* animation = new AnimationEffectModelTest("explosion",
                                                                        QPointF(50, 50),
-                                                                       def::animationFrameWight,
+                                                                       def::animationFrameWidth,
                                                                        def::animationFrameHeight,
                                                                        def::maxAnimationFrames);
     animation->setAnimationFrameIdx(def::maxAnimationFrameIdx);

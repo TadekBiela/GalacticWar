@@ -153,14 +153,14 @@ TEST_F(EnemyModelType6TestClass, EnemyModelType6Constructor_StartPositionIsOnRig
     ).WillByDefault(Return(def::enemy6MinRotationTimeDelay));
 
     EnemyModelType6Test enemyModel(
-        QPointF(def::sceneWight - 1, 7),
+        QPointF(def::sceneWidth - 1, 7),
         generatorStub
     );
 
     int resultLevel = enemyModel.getLevel();
     EXPECT_EQ(def::enemy6Level, resultLevel);
     QPointF resultPosition = enemyModel.getCenterPosition();
-    EXPECT_FLOAT_EQ((def::sceneWight + 112), resultPosition.x());
+    EXPECT_FLOAT_EQ((def::sceneWidth + 112), resultPosition.x());
     EXPECT_FLOAT_EQ(def::enemy6MinStartYCoordinate, resultPosition.y());
     int resultHealth = enemyModel.getHealth();
     EXPECT_EQ(def::enemy6MaxHealthPoints, resultHealth);
@@ -362,7 +362,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(710.03, 68.35),
             260
         ),
@@ -371,7 +371,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(142.78, 168.37),
             260
         ),
@@ -380,7 +380,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(140.81, 168.72),
             259
         ),
@@ -389,7 +389,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(138.85, 169.10),
             258
         ),
@@ -398,7 +398,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(47.11, 282.39),
             def::down
         ),
@@ -407,7 +407,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(47.11, 284.39),
             def::down
         ),
@@ -416,7 +416,7 @@ INSTANTIATE_TEST_SUITE_P(
             def::enemy6MaxRotationDegrees,
             def::enemy6MaxStartYCoordinate,
             def::enemy6MaxRotationTimeDelay,
-            QPointF((def::halfSceneWight + 1), 0),
+            QPointF((def::halfSceneWidth + 1), 0),
             QPointF(47.11, 482.39),
             def::down
         )

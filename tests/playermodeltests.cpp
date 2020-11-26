@@ -83,7 +83,7 @@ private:
 
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyBulletPlayer_ShouldHitButDontBeDefeated)
 {
-    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          playerPosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
     BulletModel*     bullet = new BulletModel("bullet_enemy",
                                               game_object_type::enemy_bullet,
@@ -110,7 +110,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyBulletPlay
 
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlayer_ShouldDoNothing)
 {
-    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          playerPosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
     BulletModel*     bullet = new BulletModel("bullet_default",
                                               game_object_type::player_bullet,
@@ -138,7 +138,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSelfBulletPlaye
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinReward_RewardShouldBeCollected)
 {
     qRegisterMetaType<coin_type>();
-    QPointF          playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          playerPosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
     RewardCoinModel* coin   = new RewardCoinModel(coin_type::bronze);
     PlayerModelTest* player = new PlayerModelTest;
@@ -164,7 +164,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithCoinReward_Rewa
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialReward_RewardShouldBeCollected)
 {
     qRegisterMetaType<special_type>();
-    QPointF             playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF             playerPosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*     scene   = new QGraphicsScene();
     RewardSpecialModel* special = new RewardSpecialModel(special_type::weaponRed);
     PlayerModelTest*    player  = new PlayerModelTest;
@@ -189,7 +189,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithSpecialReward_R
 
 TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithEnemyTier1_PlayerShouldHit)
 {
-    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF              playerPosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
     NiceMock<RandomGeneratorStub>* generator = new NiceMock<RandomGeneratorStub>;
     ON_CALL(*generator, bounded(_,_)).WillByDefault(Return(0));
@@ -220,7 +220,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
 {
     qRegisterMetaType<coin_type>();
     qRegisterMetaType<special_type>();
-    QPointF              playerPosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF              playerPosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*      scene     = new QGraphicsScene();
     BulletModel*         bullet    = new BulletModel("bullet_enemy",
                                                      game_object_type::enemy_bullet,
@@ -268,7 +268,7 @@ TEST_F(PlayerModelTestsClass, CheckCollisions_PlayerCollidingWithAllCollidingTyp
 
 TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInCurrentPositionRange_ShouldReturnTrueAndDirectionShouldBe90)
 {
-    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
+    QPointF          movePosition(def::halfSceneWidth, def::halfSceneHeight);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);
@@ -284,7 +284,7 @@ TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInCurrentPositionRan
 
 TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentButInRange_ShouldReturnTrueAndDirectionShouldBe315)
 {
-    QPointF          movePosition(def::halfSceneWight - 3, def::halfSceneHeight - 3);
+    QPointF          movePosition(def::halfSceneWidth - 3, def::halfSceneHeight - 3);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);
@@ -300,7 +300,7 @@ TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentButInRange
 
 TEST_F(PlayerModelTestsClass, IsOnMovePosition_NewPositionIsInDiffrentAndOutOfRange_ShouldReturnFalseAndDirectionShouldBe78)
 {
-    QPointF          movePosition(def::halfSceneWight + 100, def::halfSceneHeight - 20);
+    QPointF          movePosition(def::halfSceneWidth + 100, def::halfSceneHeight - 20);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);
@@ -342,9 +342,9 @@ TEST_F(PlayerModelTestsClass, Stop_CheckIfAllTimersWillBeNotActive_ShouldDeactiv
 
 TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTrue_PlayerShouldNotMove)
 {
-    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight);
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
-                                      def::halfSceneHeight - def::animationFrameWight  / 2);
+    QPointF          movePosition(def::halfSceneWidth, def::halfSceneHeight);
+    QPointF          expectedPosition(def::halfSceneWidth  - def::animationFrameWidth  / 2,
+                                      def::halfSceneHeight - def::animationFrameWidth  / 2);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
     scene->addItem(player);
@@ -360,8 +360,8 @@ TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsTrue_PlayerShouldNotMove)
 
 TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalse_PlayerShouldMoveUpBy5Pixels)
 {
-    QPointF          movePosition(def::halfSceneWight, def::halfSceneHeight - 100);
-    QPointF          expectedPosition(def::halfSceneWight  - def::animationFrameWight  / 2,
+    QPointF          movePosition(def::halfSceneWidth, def::halfSceneHeight - 100);
+    QPointF          expectedPosition(def::halfSceneWidth  - def::animationFrameWidth  / 2,
                                       def::halfSceneHeight - def::animationFrameHeight / 2 - def::moveVectorLength);
     QGraphicsScene*  scene  = new QGraphicsScene();
     PlayerModelTest* player = new PlayerModelTest;
@@ -378,10 +378,10 @@ TEST_F(PlayerModelTestsClass, Move_IsOnMovePositionIsFalse_PlayerShouldMoveUpBy5
 
 TEST_F(PlayerModelTestsClass, ChangeMovePosition_NewDirectionIsDiffrentThanCurrent_IsEqual)
 {
-    QPointF         expectedMovePosition(def::halfSceneWight + 50, def::halfSceneHeight + 50);
+    QPointF         expectedMovePosition(def::halfSceneWidth + 50, def::halfSceneHeight + 50);
     PlayerModelTest playerModel;
 
-    playerModel.changeMovePosition(QPointF(def::halfSceneWight + 50, def::halfSceneHeight + 50));
+    playerModel.changeMovePosition(QPointF(def::halfSceneWidth + 50, def::halfSceneHeight + 50));
     QPointF resultMovePosition = playerModel.getMovePosition();
 
     EXPECT_FLOAT_EQ(expectedMovePosition.x(), resultMovePosition.x());

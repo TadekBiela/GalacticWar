@@ -13,7 +13,7 @@ public:
     RewardModelTest()
     {
         //Simple graphic needed to tests
-        QPixmap map(QSize(def::animationSmallFrameWight, def::animationSmallFrameHeight));
+        QPixmap map(QSize(def::animationSmallFrameWidth, def::animationSmallFrameHeight));
         map.fill(Qt::red);
         setPixmap(map);
     }

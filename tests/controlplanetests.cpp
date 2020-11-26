@@ -575,7 +575,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             false,
-            QPointF(def::halfSceneWight, def::halfSceneHeight)
+            QPointF(def::halfSceneWidth, def::halfSceneHeight)
         ),
         std::tr1::make_tuple(
             Qt::Key_Space,
@@ -586,7 +586,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             false,
-            QPointF(def::halfSceneWight, def::halfSceneHeight)
+            QPointF(def::halfSceneWidth, def::halfSceneHeight)
         ),
         std::tr1::make_tuple(
             Qt::Key_Escape,
@@ -597,7 +597,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             false,
-            QPointF(def::halfSceneWight, def::halfSceneHeight)
+            QPointF(def::halfSceneWidth, def::halfSceneHeight)
         ),
         std::tr1::make_tuple(
             Qt::Key_W,
@@ -608,7 +608,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             false,
-            QPointF(def::halfSceneWight, 0)
+            QPointF(def::halfSceneWidth, 0)
         ),
         std::tr1::make_tuple(
             Qt::Key_Up,
@@ -619,7 +619,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             false,
-            QPointF(def::halfSceneWight, 0)
+            QPointF(def::halfSceneWidth, 0)
         ),
         std::tr1::make_tuple(
             Qt::Key_S,
@@ -630,7 +630,7 @@ INSTANTIATE_TEST_SUITE_P(
             true,
             false,
             false,
-            QPointF(def::halfSceneWight, def::sceneHeight)
+            QPointF(def::halfSceneWidth, def::sceneHeight)
         ),
         std::tr1::make_tuple(
             Qt::Key_Down,
@@ -641,7 +641,7 @@ INSTANTIATE_TEST_SUITE_P(
             true,
             false,
             false,
-            QPointF(def::halfSceneWight, def::sceneHeight)
+            QPointF(def::halfSceneWidth, def::sceneHeight)
         ),
         std::tr1::make_tuple(
             Qt::Key_A,
@@ -674,7 +674,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             true,
-            QPointF(def::sceneWight, def::halfSceneHeight)
+            QPointF(def::sceneWidth, def::halfSceneHeight)
         ),
         std::tr1::make_tuple(
             Qt::Key_Right,
@@ -685,7 +685,7 @@ INSTANTIATE_TEST_SUITE_P(
             false,
             false,
             true,
-            QPointF(def::sceneWight, def::halfSceneHeight)
+            QPointF(def::sceneWidth, def::halfSceneHeight)
         )
     )
 );

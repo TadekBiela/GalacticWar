@@ -94,7 +94,7 @@ TEST_F(EnemyModelType2TestClass, Constructor_SpawnPositionIsOnLeftSideofScene_Sh
 
 TEST_F(EnemyModelType2TestClass, Constructor_SpawnPositionIsOnRightSideofScene_ShouldSubtractXCoordinateOffsetOfStartPosition)
 {
-    const QPointF startPosition(def::halfSceneWight + 1, 0);
+    const QPointF startPosition(def::halfSceneWidth + 1, 0);
 
     EnemyModelType2Test enemyModel(startPosition);
 

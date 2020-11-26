@@ -102,11 +102,11 @@ TEST_F(EnemyModelType4TestClass, Constructor_SpawnPositionIsOnLeftSideOfScene_Sh
 
 TEST_F(EnemyModelType4TestClass, Constructor_SpawnPositionIsOnRightSideOfScene_ShouldSetJumpSideToLeft)
 {
-    EnemyModelType4Test enemyModel(QPointF(def::halfSceneWight + 1, 7));
+    EnemyModelType4Test enemyModel(QPointF(def::halfSceneWidth + 1, 7));
 
     EXPECT_EQ(def::enemy4Level, enemyModel.getLevel());
     QPointF resultPosition = enemyModel.getCenterPosition();
-    EXPECT_FLOAT_EQ(def::halfSceneWight + 1, resultPosition.x());
+    EXPECT_FLOAT_EQ(def::halfSceneWidth + 1, resultPosition.x());
     EXPECT_FLOAT_EQ(7, resultPosition.y());
     EXPECT_EQ(def::enemy4MaxHealthPoints, enemyModel.getHealth());
     EXPECT_EQ(def::enemy4BaseDamage, enemyModel.getDamage());
@@ -253,41 +253,41 @@ INSTANTIATE_TEST_SUITE_P(
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::halfSceneWight + 1,
+                def::halfSceneWidth + 1,
                 def::moveVectorLength * def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay * 2,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                (def::halfSceneWight + 1) - (def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay),
+                (def::halfSceneWidth + 1) - (def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay),
                 (def::moveVectorLength * def::enemy4JumpTimeDelay) + def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay * 3,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                (def::halfSceneWight + 1) - (def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay),
+                (def::halfSceneWidth + 1) - (def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay),
                 (def::moveVectorLength * def::enemy4JumpTimeDelay * 2) + def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay * 4,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::halfSceneWight + 1,
+                def::halfSceneWidth + 1,
                 (def::moveVectorLength * def::enemy4JumpTimeDelay * 2) + (def::enemy4JumpTimeDelay * 2)
             )
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay * 5,
-            QPointF(def::halfSceneWight + 1, 0),
+            QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
-                def::halfSceneWight + 1,
+                def::halfSceneWidth + 1,
                 (def::moveVectorLength * def::enemy4JumpTimeDelay * 3) + (def::enemy4JumpTimeDelay * 2)
             )
         )

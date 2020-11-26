@@ -37,8 +37,8 @@ public:
         g_imageStorage = new ImageStorageStub;
         g_soundStorage = new SoundStorageStub;
         ImageStorageStub* imageStorageStub = dynamic_cast<ImageStorageStub*>(g_imageStorage);
-        imageStorageStub->setDummyImageSize(def::animationSmallFrameWight,
-                                            def::animationSmallFrameWight);
+        imageStorageStub->setDummyImageSize(def::animationSmallFrameWidth,
+                                            def::animationSmallFrameWidth);
         m_displayWidget      = new QWidget;
         g_animationPlaneView = new AnimationPlaneView(m_displayWidget);
     }
