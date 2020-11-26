@@ -41,7 +41,9 @@ for:
         - configuration: RunUts
     build_script:
       - mkdir tests\platforms
-      - ls C:\Qt\5.12.10\mingw73_32\plugins\platforms
       - cp C:\Qt\5.12.10\mingw73_32\plugins\platforms\qwindows.dll tests\platforms
+      - mkdir tests\mediaservice
+      - cp C:\Qt\5.12.10\mingw73_32\plugins\mediaservice\dsengine.dll tests\mediaservice
+      - cp C:\Qt\5.12.10\mingw73_32\plugins\mediaservice\qtmedia_audioengine.dll tests\mediaservice
       - cmake ../ -G "MSYS Makefiles"
       - make runut
