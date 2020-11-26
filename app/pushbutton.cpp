@@ -7,7 +7,7 @@ PushButton::PushButton(const QString& text, QWidget* parent)
 {
     QString style("border-style: solid; border-width: 2px; border-radius: 5px; border-color: #FFFFFF; color: #FFFFFF; background-color: transparent; font-size: 20px;");
     setStyleSheet(style);
-    setGeometry(0, 0, def::buttonWight, def::buttonHeight);
+    setGeometry(0, 0, def::buttonWidth, def::buttonHeight);
 }
 
 void PushButton::setPosition(int x, int y)

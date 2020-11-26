@@ -22,7 +22,7 @@ public:
                int damage,
                int moveTimeDelay,
                int fireTimeDelay,
-               int animationFrameWidth  = def::animationFrameWight,
+               int animationFrameWidth  = def::animationFrameWidth,
                int animationFrameHeight = def::animationFrameHeight);
     virtual ~EnemyModel();
     void destroy();

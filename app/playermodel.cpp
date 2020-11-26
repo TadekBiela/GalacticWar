@@ -14,7 +14,7 @@
 
 PlayerModel::PlayerModel()
     : GameObject(game_object_type::player),
-      m_movePosition(QPointF(def::halfSceneWight, def::halfSceneHeight)),
+      m_movePosition(QPointF(def::halfSceneWidth, def::halfSceneHeight)),
       m_direction(0),
       m_weapon(defaultWeapon),
       m_weaponTier(0),
@@ -28,10 +28,10 @@ PlayerModel::PlayerModel()
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
                                 0,
-                                def::animationFrameWight,
+                                def::animationFrameWidth,
                                 def::animationFrameHeight));
 
-    setCenterPosition(def::halfSceneWight, def::halfSceneHeight);
+    setCenterPosition(def::halfSceneWidth, def::halfSceneHeight);
 
     connect(&m_moveTimer,      SIGNAL(timeout()), this, SLOT(move()));
     connect(&m_fireTimer,      SIGNAL(timeout()), this, SLOT(fire()));
@@ -133,7 +133,7 @@ void PlayerModel::move()
         int x = newPosition.x();
         int y = newPosition.y();
         int minX = 0;
-        int maxX = def::sceneWight - pixmap().size().width();
+        int maxX = def::sceneWidth - pixmap().size().width();
         int minY = 0;
         int maxY = def::sceneHeight - pixmap().size().height();
 
@@ -176,7 +176,7 @@ void PlayerModel::animation()
     setPixmap(getAnimationFrame(m_image,
                                 m_animationFrameIdx,
                                 def::animationFrameHeight * animYIdx,
-                                def::animationFrameWight,
+                                def::animationFrameWidth,
                                 def::animationFrameHeight));
 }
 

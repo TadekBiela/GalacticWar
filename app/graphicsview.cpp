@@ -5,13 +5,13 @@
 
 GraphicsView::GraphicsView(QWidget *displayWidget)
     : QGraphicsView(displayWidget),
-      m_scene(0, 0, def::sceneWight, def::sceneHeight, this)
+      m_scene(0, 0, def::sceneWidth, def::sceneHeight, this)
 {
     m_scene.setBackgroundBrush(QBrush(Qt::transparent));
     this->setScene(&m_scene);
     this->setStyleSheet("background: transparent;");
     this->setBackgroundBrush(QBrush(Qt::transparent));
-    this->setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
+    this->setGeometry(1, 1, def::sceneWidth + 2, def::sceneHeight + 2);
     this->show();
 }
 

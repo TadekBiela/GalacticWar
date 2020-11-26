@@ -47,7 +47,7 @@ bool isOutOfScene(QPointF pos, QPixmap pixmap)
     int y = pos.y();
     int maxPixmapDimension = std::max(pixmap.width(), pixmap.height());
     int minX = 0 - maxPixmapDimension;
-    int maxX = def::sceneWight + maxPixmapDimension;
+    int maxX = def::sceneWidth + maxPixmapDimension;
     int minY = 0 - maxPixmapDimension;
     int maxY = def::sceneHeight + maxPixmapDimension;
     if(x <= minX || maxX <= x || y <= minY || maxY <= y)

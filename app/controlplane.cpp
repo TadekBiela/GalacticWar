@@ -5,11 +5,11 @@
 ControlPlane::ControlPlane(QWidget* displayWidget)
     : QGraphicsView(displayWidget),
       m_displayWidget(displayWidget),
-      m_scene(0, 0, def::sceneWight, def::sceneHeight, this),
+      m_scene(0, 0, def::sceneWidth, def::sceneHeight, this),
       m_state(controller_state::deactivated),
       m_arrowCursorMap(),
       m_crossCursorMap(),
-      m_movePosition(def::halfSceneWight, def::halfSceneHeight),
+      m_movePosition(def::halfSceneWidth, def::halfSceneHeight),
       m_keyMoveUpPressed(false),
       m_keyMoveDownPressed(false),
       m_keyMoveLeftPressed(false),
@@ -23,7 +23,7 @@ ControlPlane::ControlPlane(QWidget* displayWidget)
     this->setScene(&m_scene);
     this->setStyleSheet("background: transparent;");
     this->setBackgroundBrush(QBrush(Qt::transparent));
-    this->setGeometry(1, 1, def::sceneWight + 2, def::sceneHeight + 2);
+    this->setGeometry(1, 1, def::sceneWidth + 2, def::sceneHeight + 2);
     this->setMouseTracking(true);
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
     this->show();
@@ -185,7 +185,7 @@ void ControlPlane::keyboardPressControlInKeyboardMode(QKeyEvent* event) {
             case Qt::Key_D:
             case Qt::Key_Right:
                 m_keyMoveRightPressed = true;
-                m_movePosition.setX(def::sceneWight);
+                m_movePosition.setX(def::sceneWidth);
                 emit changeMovePosition(m_movePosition);
                 break;
             case Qt::Key_Space:

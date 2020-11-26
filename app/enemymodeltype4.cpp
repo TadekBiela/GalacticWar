@@ -19,7 +19,7 @@ EnemyModelType4::EnemyModelType4(
     m_jumpMoveTimeDelay(def::enemy4JumpTimeDelay),
     m_isJumpMove(false)
 {
-    if(position.x() <= def::halfSceneWight) {
+    if(position.x() <= def::halfSceneWidth) {
         m_jumpSide = enemy_jump_side::left;
     }
     else {

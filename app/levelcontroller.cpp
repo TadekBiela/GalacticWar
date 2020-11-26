@@ -58,11 +58,11 @@ void LevelController::hide()
 
 void LevelController::nextLevel()
 {
-    QPointF position(def::halfSceneWight,
+    QPointF position(def::halfSceneWidth,
                      def::halfSceneHeight - def::halfSceneHeight / 4);
     AnimationEffectModel* levelUpAnim = new AnimationEffectModel("level_up",
                                                                  position,
-                                                                 def::animationLevelUpFrameWight,
+                                                                 def::animationLevelUpFrameWidth,
                                                                  def::animationLevelUpFrameHeight,
                                                                  def::animationLevelUpNumOfFrames);
     levelUpAnim->play();

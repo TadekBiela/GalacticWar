@@ -57,7 +57,7 @@ MenuView::MenuView(QWidget* displayWidget)
                                       def::labelPositionY);
     m_highscoreTable.setGeometry(def::highscoreTablePositionX,
                                  def::highscoreTablePositionY,
-                                 def::highscoreTableWight,
+                                 def::highscoreTableWidth,
                                  def::highscoreTableHeight);
     setupHighscoreTableStyle();
     m_highscoreBackToMenu.setPosition(def::centerButtonPositionX,
@@ -349,8 +349,8 @@ int MenuView::getScoreFromLabel()
 void MenuView::setupHighscoreTableStyle()
 {
     m_highscoreTable.setColumnCount(2);
-    m_highscoreTable.setColumnWidth(0, def::highscoreTableWight / 2 - 10);
-    m_highscoreTable.setColumnWidth(1, def::highscoreTableWight / 2 - 38);
+    m_highscoreTable.setColumnWidth(0, def::highscoreTableWidth / 2 - 10);
+    m_highscoreTable.setColumnWidth(1, def::highscoreTableWidth / 2 - 38);
     QStringList labels = { "Player", "Score" };
     m_highscoreTable.setHorizontalHeaderLabels(labels);
     m_highscoreTable.horizontalHeader()->setSectionsClickable(false);

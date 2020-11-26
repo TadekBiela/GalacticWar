@@ -62,7 +62,7 @@ void PlayerController::destroy()
     QPointF destroyedPlayerPosition = m_model->getCenterPosition();
     AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
                                                                    destroyedPlayerPosition,
-                                                                   def::animationFrameWight,
+                                                                   def::animationFrameWidth,
                                                                    def::animationFrameHeight);
     explosionAnim->play();
     SoundEffectModel* explosionSound = new SoundEffectModel("explosion");

@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     //Main window setup
     QMainWindow mainWindow;
-    mainWindow.setFixedSize(QSize(def::windowWight, def::windowHeight));
+    mainWindow.setFixedSize(QSize(def::windowWidth, def::windowHeight));
     mainWindow.show();
 
     //Media storages setup
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
     QObject::connect(&menuController,       SIGNAL(gameExit()),                     //Exit game
                      &mainWindow,           SLOT(close()));
 
-    mainWindow.resize(QSize(def::windowWight, def::windowHeight));
+    mainWindow.resize(QSize(def::windowWidth, def::windowHeight));
 	return a.exec();
 }
 

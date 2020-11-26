@@ -17,7 +17,7 @@ BackgroundView::BackgroundView(QWidget* displayWidget)
     m_backgroundGraphics.convertFromImage(*backgroundImage);
     m_backgroundLabelWindow.setGeometry(1,
                                         1,
-                                        def::sceneWight,
+                                        def::sceneWidth,
                                         def::sceneHeight);
     m_backgroundLabelWindow.stackUnder(this);
     m_backgroundLabelWindow.show();
@@ -76,7 +76,7 @@ void BackgroundView::backgroundAnimation()
     m_backgroundLabelWindow.setPixmap(
                 m_backgroundGraphics.copy(0,
                 startBackgroundGraphicsPositionY - m_backgroundGraphicsPosOffset,
-                def::sceneWight,
+                def::sceneWidth,
                 def::sceneHeight));
     m_backgroundGraphicsPosOffset++;
 }

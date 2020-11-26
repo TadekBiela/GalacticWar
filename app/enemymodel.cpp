@@ -53,7 +53,7 @@ void EnemyModel::destroy()
     emit this->destroyed(positionOfDestroyedEnemy, m_level);
     AnimationEffectModel* explosionAnim = new AnimationEffectModel("explosion",
                                                                    positionOfDestroyedEnemy,
-                                                                   def::animationFrameWight,
+                                                                   def::animationFrameWidth,
                                                                    def::animationFrameHeight);
     explosionAnim->play();
     SoundEffectModel* explosionSound = new SoundEffectModel("explosion");

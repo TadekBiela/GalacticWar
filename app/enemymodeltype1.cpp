@@ -22,7 +22,7 @@ EnemyModelType1::EnemyModelType1(
         m_direction = def::down;
         m_animationFrameYIdx = 0;
     }
-    else if(position.x() <= def::halfSceneWight) {
+    else if(position.x() <= def::halfSceneWidth) {
         m_direction = def::enemy1RightMoveDirection;
         m_animationFrameYIdx = 1;
     }

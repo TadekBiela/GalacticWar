@@ -98,8 +98,8 @@ void EnemyController::spawnEnemy() {
 
     QPointF enemyPosition(
         m_generator->bounded(
-            def::animationFrameWight,
-            def::sceneWight - (def::animationFrameWight)
+            def::animationFrameWidth,
+            def::sceneWidth - (def::animationFrameWidth)
         ),
         -def::animationFrameHeight / 2
     );

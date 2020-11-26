@@ -18,16 +18,16 @@ EnemyModelType3::EnemyModelType3(
     m_fireSide(enemy_fire_side::right_cannon),
     m_moveSlowFactor(def::enemy3MoveSlowFactor)
 {
-    int positionSideOffset = def::animationFrameWight;
+    int positionSideOffset = def::animationFrameWidth;
 
-    if(position.x() < def::halfSceneWight) {
+    if(position.x() < def::halfSceneWidth) {
         setCenterPosition(positionSideOffset, position.y());
         m_moveRotationSide = enemy_rotation_direction::left;
         m_rotateMinBorder = def::enemy3RotateLeftSideMinBorder;
         m_rotateMaxBorder = def::enemy3RotateLeftSideMaxBorder;
     }
     else {
-        setCenterPosition((def::sceneWight - positionSideOffset), position.y());
+        setCenterPosition((def::sceneWidth - positionSideOffset), position.y());
         m_moveRotationSide = enemy_rotation_direction::right;
         m_rotateMinBorder = def::enemy3RotateRightSideMinBorder;
         m_rotateMaxBorder = def::enemy3RotateRightSideMaxBorder;

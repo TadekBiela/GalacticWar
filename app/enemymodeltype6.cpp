@@ -28,7 +28,7 @@ EnemyModelType6::EnemyModelType6(
         def::enemy6MaxRotationDegrees
     );
     const int directionOffset = def::right - m_rotationCounter;
-    if(startPosition.x() <= def::halfSceneWight) {
+    if(startPosition.x() <= def::halfSceneWidth) {
         startXCoordinate = 0 - def::enemy6StartXCoordinateOffset;
         m_direction = def::right + directionOffset;
         m_rotationDirection = enemy_rotation_direction::right;
@@ -52,7 +52,7 @@ EnemyModelType6::EnemyModelType6(
         );
     }
     else {
-        startXCoordinate = def::sceneWight + def::enemy6StartXCoordinateOffset;
+        startXCoordinate = def::sceneWidth + def::enemy6StartXCoordinateOffset;
         m_direction = def::left - directionOffset;
         m_rotationDirection = enemy_rotation_direction::left;
         m_frontTurret = new EnemyTurretDoubleCannon(

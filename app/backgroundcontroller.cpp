@@ -57,7 +57,7 @@ void BackgroundController::spawnItem()
                                      background_effect::last_element));
     const int sceneBorderOffset = 10;
     int startPositionX = m_generator->bounded(sceneBorderOffset,
-                                              def::sceneWight  - sceneBorderOffset);
+                                              def::sceneWidth  - sceneBorderOffset);
     int startPositionY = m_generator->bounded(sceneBorderOffset,
                                               def::sceneHeight - sceneBorderOffset);
     QPointF startPosition(startPositionX, startPositionY);

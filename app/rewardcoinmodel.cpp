@@ -41,7 +41,7 @@ void RewardCoinModel::collect()
     QPointF collectedRewardPosition = getCenterPosition();
     AnimationEffectModel* collectAnim = new AnimationEffectModel("collect_reward",
                                                                  collectedRewardPosition,
-                                                                 def::animationSmallFrameWight,
+                                                                 def::animationSmallFrameWidth,
                                                                  def::animationSmallFrameHeight);
     collectAnim->play();
     SoundEffectModel* collectSound = new SoundEffectModel("collect_coin");

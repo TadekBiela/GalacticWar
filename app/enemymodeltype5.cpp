@@ -33,13 +33,13 @@ QPointF position
         def::enemy5BaseDamage,
         def::enemy5MoveTimeDelay,
         def::enemy5FireTimeDelay,
-        def::enemy5AnimationFrameWight,
+        def::enemy5AnimationFrameWidth,
         def::enemy5AnimationFrameHeight
     ),
     m_weaponMode(mode_first_element),
     m_changeMoveSideTimeDelay(def::enemy5ChangeMoveSideTimeDelay)
 {
-    if(position.x() <= def::halfSceneWight) {
+    if(position.x() <= def::halfSceneWidth) {
         setCenterPosition(
             def::enemy5StartXCoordinate,
             def::enemy5StartYCoordinate
@@ -48,7 +48,7 @@ QPointF position
     }
     else {
         setCenterPosition(
-            def::sceneWight - def::enemy5StartXCoordinate,
+            def::sceneWidth - def::enemy5StartXCoordinate,
             def::enemy5StartYCoordinate
         );
         m_moveSide = enemy_move_side::left;

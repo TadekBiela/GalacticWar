@@ -19,7 +19,7 @@ EnemyModelType2::EnemyModelType2(
     m_direction = def::enemy2MinDirectionRange;
     setRotation(m_direction);
 
-    if(position.x() <= def::halfSceneWight) {
+    if(position.x() <= def::halfSceneWidth) {
         position.setX(position.x() + def::enemy2XCoordinateOffset);
     }
     else {

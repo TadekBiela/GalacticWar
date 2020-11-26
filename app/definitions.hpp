@@ -6,11 +6,11 @@
 namespace def
 {
     const int    animationFrameDuration          = 100;
-    const int    animationFrameWight             = 64;
+    const int    animationFrameWidth             = 64;
     const int    animationFrameHeight            = 64;
-    const int    animationSmallFrameWight        = 32;
+    const int    animationSmallFrameWidth        = 32;
     const int    animationSmallFrameHeight       = 32;
-    const int    animationLevelUpFrameWight      = 200;
+    const int    animationLevelUpFrameWidth      = 200;
     const int    animationLevelUpFrameHeight     = 27;
     const int    animationLevelUpNumOfFrames     = 11;
     const int    collisionDamageFactor           = 300;
@@ -80,7 +80,7 @@ namespace def
     const int enemy3RotateRightSideMinBorder = 180;
     const int enemy3RotateRightSideMaxBorder = 300;
     const int enemy3FireSideOffset = 14;
-    const int enemy3BulletSpeed = (def::defaultBulletSpeed - 5);
+    const int enemy3BulletSpeed = (defaultBulletSpeed - 5);
     const int enemy3RotateAngle = 3;
     const int enemy3MinMoveSlowFactor = 3;
 
@@ -90,7 +90,7 @@ namespace def
     const int enemy4MoveTimeDelay = 50;
     const int enemy4FireTimeDelay = 500;
     const int enemy4SpeedupFireTimeDelay = 250;
-    const int enemy4BulletSpeed = def::defaultBulletSpeed - 6;
+    const int enemy4BulletSpeed = defaultBulletSpeed - 6;
     const int enemy4BulletYCoordinateOffsetInPx = 12;
     const int enemy4JumpTimeDelay =
         (animationFrameDuration * maxAnimationFrames)
@@ -102,22 +102,22 @@ namespace def
     const int enemy5BaseDamage = 10;
     const int enemy5MoveTimeDelay = 70;
     const int enemy5FireTimeDelay = 1500;
-    const int enemy5AnimationFrameWight = (animationFrameWight * 2);
+    const int enemy5AnimationFrameWidth = (animationFrameWidth * 2);
     const int enemy5AnimationFrameHeight = animationFrameHeight;
-    const int enemy5StartXCoordinate = def::animationFrameWight + 10;
+    const int enemy5StartXCoordinate = animationFrameWidth + 10;
     const int enemy5StartYCoordinate = -enemy5AnimationFrameHeight + 5;
     const int enemy5YCoordinateOffsetInPx = 1;
     const int enemy5ChangeMoveSideTimeDelay = 70;
     const int enemy5XCoordinateOffsetInPx = 2;
     const int enemy5SmallWeaponDamage = 30;
     const int enemy5SmallWeaponXOffset = 42;
-    const int enemy5SmallWeaponBulletMoveTimeDelay = def::defaultBulletSpeed + 5;
+    const int enemy5SmallWeaponBulletMoveTimeDelay = defaultBulletSpeed + 5;
     const int enemy5MediumWeaponDamage = 40;
     const int enemy5MediumWeaponXOffset = 32;
-    const int enemy5MediumWeaponBulletMoveTimeDelay = def::defaultBulletSpeed + 8;
+    const int enemy5MediumWeaponBulletMoveTimeDelay = defaultBulletSpeed + 8;
     const int enemy5BigWeaponDamage = 60;
-    const int enemy5BigWeaponYOffset = def::enemy5AnimationFrameHeight / 2;
-    const int enemy5BigWeaponBulletMoveTimeDelay = def::defaultBulletSpeed + 12;
+    const int enemy5BigWeaponYOffset = enemy5AnimationFrameHeight / 2;
+    const int enemy5BigWeaponBulletMoveTimeDelay = defaultBulletSpeed + 12;
 
     const int enemy6Level = 6;
     const int enemy6MaxHealthPoints = 2000;
@@ -163,62 +163,62 @@ namespace def
     const int maxPointsForGoldCoin           = 300;
 
     //Window size
-    const int windowWight     = 604;
+    const int windowWidth     = 604;
     const int windowHeight    = 804;
 
     //Scene size
-    const int sceneWight      = 600;
+    const int sceneWidth      = 600;
     const int sceneHeight     = 800;
-    const int halfSceneWight  = sceneWight  / 2;
+    const int halfSceneWidth  = sceneWidth  / 2;
     const int halfSceneHeight = sceneHeight / 2;
 
     //Labels
     const int labelWidth                  = 500;
     const int labelHeight                 = 100;
-    const int labelPositionX              = halfSceneWight - (labelWidth / 2);
+    const int labelPositionX              = halfSceneWidth - (labelWidth / 2);
     const int labelPositionY              = (halfSceneHeight / 3) - (labelHeight / 2);
-    const int gameoverScoreLabelPositionX = halfSceneWight    - (labelWidth  / 2);
+    const int gameoverScoreLabelPositionX = halfSceneWidth    - (labelWidth  / 2);
     const int gameoverScoreLabelPositionY = (sceneHeight / 3) - (labelHeight / 2);
     const int authorLabelWidth            = 150;
     const int authorLabelHeight           = 15;
-    const int authorLabelPositionX        = sceneWight  - authorLabelWidth;
+    const int authorLabelPositionX        = sceneWidth  - authorLabelWidth;
     const int authorLabelPositionY        = sceneHeight - authorLabelHeight;
 
     //Tabels
-    const int highscoreTableWight     = 500;
+    const int highscoreTableWidth     = 500;
     const int highscoreTableHeight    = 400;
-    const int highscoreTablePositionX = halfSceneWight - (highscoreTableWight / 2);
+    const int highscoreTablePositionX = halfSceneWidth - (highscoreTableWidth / 2);
     const int highscoreTablePositionY = labelPositionY + labelHeight + 30;
 
     //EditLines
     const int gameoverPlayerNameFieldWidth     = 300;
     const int gameoverPlayerNameFieldHeight    = 50;
-    const int gameoverPlayerNameFieldPositionX = halfSceneWight - (gameoverPlayerNameFieldWidth / 2);
+    const int gameoverPlayerNameFieldPositionX = halfSceneWidth - (gameoverPlayerNameFieldWidth / 2);
     const int gameoverPlayerNameFieldPositionY = gameoverScoreLabelPositionY
                                                + labelHeight + 25;
     //Checkbox
     const int settingsMusicOnOffWidth = 50;
     const int settingsMusicOnOffHeight = 200;
-    const int settingsMusicOnOffPoxitionX = halfSceneWight;
+    const int settingsMusicOnOffPoxitionX = halfSceneWidth;
     const int settingsMusicOnOffPoxitionY = labelPositionY + 100;
 
     //Buttons
-    const int buttonWight  = 200;
+    const int buttonWidth  = 200;
     const int buttonHeight = 50;
     const int buttonBetweenDistance = 25;
-    const int centerButtonPositionX = halfSceneWight - (buttonWight / 2);
+    const int centerButtonPositionX = halfSceneWidth - (buttonWidth / 2);
     const int startButtonPositionY = labelPositionY + labelHeight + 100;
     const int highscoreButtonPositionY = startButtonPositionY     + buttonHeight + buttonBetweenDistance;
     const int settingsButtonPositionY = highscoreButtonPositionY + buttonHeight + buttonBetweenDistance;
     const int quitButtonPositionY = settingsButtonPositionY + buttonHeight + buttonBetweenDistance;
     const int highscoreBackButtonPositionY = highscoreTablePositionY  + highscoreTableHeight + buttonBetweenDistance;
-    const int settingsBackToMenuButtonPositionX = halfSceneWight - buttonWight - buttonBetweenDistance;
+    const int settingsBackToMenuButtonPositionX = halfSceneWidth - buttonWidth - buttonBetweenDistance;
     const int settingsMainButtonPositionY = sceneHeight - buttonHeight - 100;
-    const int settingsSaveButtonPositionX = halfSceneWight + buttonBetweenDistance;
-    const int pauseCancelButtonPositionX = halfSceneWight - buttonWight - buttonBetweenDistance;
-    const int pauseContinueButtonPositionX  = halfSceneWight + buttonBetweenDistance;
+    const int settingsSaveButtonPositionX = halfSceneWidth + buttonBetweenDistance;
+    const int pauseCancelButtonPositionX = halfSceneWidth - buttonWidth - buttonBetweenDistance;
+    const int pauseContinueButtonPositionX  = halfSceneWidth + buttonBetweenDistance;
     const int pauseBottomButtonPositionY    = halfSceneHeight;
-    const int pauseSettingsButtonPositionX = halfSceneWight - (buttonWight / 2);
+    const int pauseSettingsButtonPositionX = halfSceneWidth - (buttonWidth / 2);
     const int pauseSettingsButtonPositionY = pauseBottomButtonPositionY + buttonHeight + buttonBetweenDistance;
     const int gameoverSaveButtonPositionX   = pauseContinueButtonPositionX;
     const int gameoverBackButtonPositionX   = pauseCancelButtonPositionX;
@@ -229,36 +229,36 @@ namespace def
     //Labels
     const int settingsLabelWidth = 400;
     const int settingsLabelHeight = 100;
-    const int settingsLabelPositionX = def::halfSceneWight - (def::settingsLabelWidth / 2);
-    const int settingsMusicLabelPositionY = def::labelPositionY + def::settingsLabelHeight + buttonBetweenDistance;
-    const int settingsSoundsLabelPositionY = def::settingsMusicLabelPositionY + def::settingsLabelHeight + def::buttonBetweenDistance;
-    const int settingsControlLabelPositionY = def::settingsSoundsLabelPositionY + def::settingsLabelHeight + def::buttonBetweenDistance;
+    const int settingsLabelPositionX = halfSceneWidth - (settingsLabelWidth / 2);
+    const int settingsMusicLabelPositionY = labelPositionY + settingsLabelHeight + buttonBetweenDistance;
+    const int settingsSoundsLabelPositionY = settingsMusicLabelPositionY + settingsLabelHeight + buttonBetweenDistance;
+    const int settingsControlLabelPositionY = settingsSoundsLabelPositionY + settingsLabelHeight + buttonBetweenDistance;
     //Check boxs
     const int settingsCheckBoxWidth = 30;
     const int settingsCheckBoxHeight = settingsCheckBoxWidth;
-    const int settingsCheckBoxPositionX = def::settingsLabelPositionX + def::settingsLabelWidth - def::settingsCheckBoxWidth - 10;
-    const int settingsMusicCheckBoxPositionY = def::settingsMusicLabelPositionY + 10;
-    const int settingsSoundsCheckBoxPositionY = def::settingsSoundsLabelPositionY + 10;
+    const int settingsCheckBoxPositionX = settingsLabelPositionX + settingsLabelWidth - settingsCheckBoxWidth - 10;
+    const int settingsMusicCheckBoxPositionY = settingsMusicLabelPositionY + 10;
+    const int settingsSoundsCheckBoxPositionY = settingsSoundsLabelPositionY + 10;
     const int settingsControlCheckBoxWidth = 165;
     const int settingsControlCheckBoxHeight = 40;
-    const int settingsControlMouseCheckBoxPositionX = def::settingsLabelPositionX + 20;
-    const int settingsControlKeyboardCheckBoxPositionX = def::settingsLabelPositionX + def::settingsLabelWidth - def::settingsControlCheckBoxWidth - 20;
-    const int settingsControlCheckBoxPositionY = def::settingsControlLabelPositionY + 45;
+    const int settingsControlMouseCheckBoxPositionX = settingsLabelPositionX + 20;
+    const int settingsControlKeyboardCheckBoxPositionX = settingsLabelPositionX + settingsLabelWidth - settingsControlCheckBoxWidth - 20;
+    const int settingsControlCheckBoxPositionY = settingsControlLabelPositionY + 45;
     //Sliders
-    const int settingsSliderWidth = def::settingsLabelWidth - 30;
+    const int settingsSliderWidth = settingsLabelWidth - 30;
     const int settingsSliderHeight = 20;
-    const int settingsSliderPositionX = def::settingsLabelPositionX + 15;
-    const int settingsMusicSliderPositionY = def::settingsMusicLabelPositionY + 60;
-    const int settingsSoundsSliderPositionY = def::settingsSoundsLabelPositionY + 60;
+    const int settingsSliderPositionX = settingsLabelPositionX + 15;
+    const int settingsMusicSliderPositionY = settingsMusicLabelPositionY + 60;
+    const int settingsSoundsSliderPositionY = settingsSoundsLabelPositionY + 60;
     const int settingsSlidersMinValue = 0;
     const int settingsSlidersMaxValue = 100;
 
     //Interface
     const int healthGraphicsCenterPositionX = 130;
     const int healthGraphicsCenterPositionY = sceneHeight - 45;
-    const int scoreGraphicsCenterPositionX  = sceneWight  - 130;
+    const int scoreGraphicsCenterPositionX  = sceneWidth  - 130;
     const int scoreGraphicsCenterPositionY  = healthGraphicsCenterPositionY;
-    const int levelGraphicsCenterPositionX  = halfSceneWight;
+    const int levelGraphicsCenterPositionX  = halfSceneWidth;
     const int levelGraphicsCenterPositionY  = sceneHeight - 45;
 
     //Defalut directions
