@@ -56,13 +56,19 @@ void BackgroundController::spawnItem()
                 m_generator->bounded(background_effect::first_element,
                                      background_effect::last_element));
     const int sceneBorderOffset = 10;
-    int startPositionX = m_generator->bounded(sceneBorderOffset,
-                                              def::sceneWidth  - sceneBorderOffset);
-    int startPositionY = m_generator->bounded(sceneBorderOffset,
-                                              def::sceneHeight - sceneBorderOffset);
+    int startPositionX = m_generator->bounded(-sceneBorderOffset,
+                                              def::sceneWidth + sceneBorderOffset);
+    int startPositionY = -sceneBorderOffset;
     QPointF startPosition(startPositionX, startPositionY);
-    int moveDirection = m_generator->bounded(def::minBackgroundDirectionRange,
+    int moveDirection = 0;
+    if(startPositionX <= def::halfSceneWidth) {
+        moveDirection = m_generator->bounded(def::minBackgroundDirectionRange,
+                                             def::down);
+    }
+    else{
+        moveDirection = m_generator->bounded(def::down,
                                              def::maxBackgroundDirectionRange);
+    }
     BackgroundEffectModel* newBgEffect = new BackgroundEffectModel(type,
                                                                    startPosition,
                                                                    moveDirection,

@@ -10,10 +10,12 @@ struct BackgroundEffect
     int     moveTimeDelay;
 };
 
-const BackgroundEffect BackgroundEffectModel::s_backgroundEffectsConfig[background_effect::last_element + 1] =
-    { { "star",  32, 32, 20, 20 },
-      { "star2", 32, 32, 10, 20 },
-      { "star3", 32, 32,  5, 15 }};
+const BackgroundEffect BackgroundEffectModel::s_backgroundEffectsConfig[background_effect::last_element + 1] = {
+    { "star",  32, 32, 20, 20 },
+    { "star2", 32, 32, 10, 20 },
+    { "star3", 32, 32,  5, 15 },
+    { "comet",  4, 56,  7,  5 }
+};
 
 BackgroundEffectModel::BackgroundEffectModel(background_effect type,
                                              QPointF           startPosition,
@@ -28,6 +30,7 @@ BackgroundEffectModel::BackgroundEffectModel(background_effect type,
       m_moveDirection(moveDirection),
       m_moveTimer()
 {
+    setRotation(m_moveDirection);
     connect(&m_moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     m_moveTimer.setInterval(s_backgroundEffectsConfig[type].moveTimeDelay);
 }

@@ -9,7 +9,8 @@ enum background_effect
     star          = 0,
     star2         = 1,
     star3         = 2,
-    last_element  = 2
+    comet         = 3,
+    last_element  = 3
 };
 
 struct BackgroundEffect;
