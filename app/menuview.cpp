@@ -243,7 +243,7 @@ MenuView::MenuView(QWidget* displayWidget)
     m_gameoverScoreLabel.setPosition(def::gameoverScoreLabelPositionX,
                                      def::gameoverScoreLabelPositionY);
     m_gameoverPlayerNameField.setStyleSheet(
-        "border: 2px, solid white;"
+        "border: 2px solid white;"
         "border-radius: 5px;"
         "color: white;"
         "background-color: transparent;"
