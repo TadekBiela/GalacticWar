@@ -1,7 +1,6 @@
 #include "firefunctions.hpp"
 #include "functions.hpp"
 #include "bulletmodel.hpp"
-#include "definitions.hpp"
 
 void defaultFireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage)
 {
@@ -564,4 +563,520 @@ void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     scene->addItem(bullet4);
     fireLeft *= -1;
 }
+
+void redExtraBeamFireFunc(
+    QGraphicsScene* scene,
+    QPointF startPosition,
+    int baseDamage
+) {
+    QPointF bullet1Position = startPosition;
+    bullet1Position.ry() += 20;
+    BulletModel* bullet1 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet1Position,
+        baseDamage,
+        def::up,
+        30
+    );
+    scene->addItem(bullet1);
+
+    QPointF bullet2Position = startPosition;
+    bullet2Position.ry() -= 20;
+    BulletModel* bullet2 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet2Position,
+        baseDamage,
+        def::down,
+        30
+    );
+    scene->addItem(bullet2);
+
+    QPointF bullet3Position = startPosition;
+    bullet3Position.rx() += 20;
+    BulletModel* bullet3 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet3Position,
+        baseDamage,
+        def::right,
+        30
+    );
+    scene->addItem(bullet3);
+
+    QPointF bullet4Position = startPosition;
+    bullet4Position.rx() -= 20;
+    BulletModel* bullet4 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet4Position,
+        baseDamage,
+        def::left,
+        30
+    );
+    scene->addItem(bullet4);
+
+    QPointF bullet5Position = startPosition;
+    bullet5Position.rx() -= 10;
+    bullet5Position.ry() -= 10;
+    BulletModel* bullet5 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet5Position,
+        baseDamage / 2,
+        def::up - 45,
+        30,
+        0.5
+    );
+    scene->addItem(bullet5);
+
+    QPointF bullet6Position = startPosition;
+    bullet6Position.rx() += 10;
+    bullet6Position.ry() -= 10;
+    BulletModel* bullet6 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet6Position,
+        baseDamage / 2,
+        def::up + 45,
+        30,
+        0.5
+    );
+    scene->addItem(bullet6);
+
+    QPointF bullet7Position = startPosition;
+    bullet7Position.rx() -= 10;
+    bullet7Position.ry() += 10;
+    BulletModel* bullet7 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet7Position,
+        baseDamage / 2,
+        def::down + 45,
+        30,
+        0.5
+    );
+    scene->addItem(bullet7);
+
+    QPointF bullet8Position = startPosition;
+    bullet8Position.rx() -= 10;
+    bullet8Position.ry() -= 10;
+    BulletModel* bullet8 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet8Position,
+        baseDamage / 2,
+        def::down - 45,
+        30,
+        0.5
+    );
+    scene->addItem(bullet8);
+
+    QPointF bullet9Position = startPosition;
+    bullet9Position.rx() += 5;
+    bullet9Position.ry() -= 15;
+    BulletModel* bullet9 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet9Position,
+        baseDamage / 3,
+        def::up + 22,
+        30,
+        0.25
+    );
+    scene->addItem(bullet9);
+
+    QPointF bullet10Position = startPosition;
+    bullet10Position.rx() += 15;
+    bullet10Position.ry() -= 5;
+    BulletModel* bullet10 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet10Position,
+        baseDamage / 3,
+        def::up + 69,
+        30,
+        0.25
+    );
+    scene->addItem(bullet10);
+
+    QPointF bullet11Position = startPosition;
+    bullet11Position.rx() -= 5;
+    bullet11Position.ry() -= 15;
+    BulletModel* bullet11 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet11Position,
+        baseDamage / 3,
+        def::up - 22,
+        30,
+        0.25
+    );
+    scene->addItem(bullet11);
+
+    QPointF bullet12Position = startPosition;
+    bullet12Position.rx() -= 15;
+    bullet12Position.ry() -= 5;
+    BulletModel* bullet12 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet12Position,
+        baseDamage / 3,
+        def::up - 69,
+        30,
+        0.25
+    );
+    scene->addItem(bullet12);
+
+    QPointF bullet13Position = startPosition;
+    bullet13Position.rx() += 5;
+    bullet13Position.ry() += 15;
+    BulletModel* bullet13 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet13Position,
+        baseDamage / 3,
+        def::down - 22,
+        30,
+        0.25
+    );
+    scene->addItem(bullet13);
+
+    QPointF bullet14Position = startPosition;
+    bullet14Position.rx() += 15;
+    bullet14Position.ry() += 5;
+    BulletModel* bullet14 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet14Position,
+        baseDamage / 3,
+        def::down - 69,
+        30,
+        0.25
+    );
+    scene->addItem(bullet14);
+
+    QPointF bullet15Position = startPosition;
+    bullet15Position.rx() -= 5;
+    bullet15Position.ry() += 15;
+    BulletModel* bullet15 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet15Position,
+        baseDamage / 3,
+        def::down + 22,
+        30,
+        0.25
+    );
+    scene->addItem(bullet15);
+
+    QPointF bullet16Position = startPosition;
+    bullet16Position.rx() -= 15;
+    bullet16Position.ry() += 5;
+    BulletModel* bullet16 = new BulletModel(
+        "bullet_red",
+        game_object_type::player_bullet,
+        bullet16Position,
+        baseDamage / 3,
+        def::down + 69,
+        30,
+        0.25
+    );
+    scene->addItem(bullet16);
+}
+
+void yellowExtraBeamFireFunc(
+    QGraphicsScene* scene,
+    QPointF startPosition,
+    int baseDamage
+) {
+    QPointF bullet1Position = startPosition;
+    bullet1Position.rx() += 10;
+    bullet1Position.ry() -= 20;
+    BulletModel* bullet1 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet1Position,
+        baseDamage * 2,
+        def::up,
+        def::defaultBulletSpeed,
+        1.2
+    );
+    scene->addItem(bullet1);
+
+    QPointF bullet2Position = startPosition;
+    bullet2Position.rx() -= 10;
+    bullet2Position.ry() -= 20;
+    BulletModel* bullet2 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet2Position,
+        baseDamage * 2,
+        def::up,
+        def::defaultBulletSpeed,
+        1.2
+    );
+    scene->addItem(bullet2);
+
+    QPointF bullet3Position = startPosition;
+    bullet3Position.rx() += 15;
+    bullet3Position.ry() -= 15;
+    BulletModel* bullet3 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet3Position,
+        baseDamage * 1.8,
+        def::up + 5,
+        def::defaultBulletSpeed
+    );
+    scene->addItem(bullet3);
+
+    QPointF bullet4Position = startPosition;
+    bullet4Position.rx() -= 15;
+    bullet4Position.ry() -= 15;
+    BulletModel* bullet4 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet4Position,
+        baseDamage * 1.8,
+        def::up - 5,
+        def::defaultBulletSpeed
+    );
+    scene->addItem(bullet4);
+
+    QPointF bullet5Position = startPosition;
+    bullet5Position.rx() += 30;
+    bullet5Position.ry() -= 5;
+    BulletModel* bullet5 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet5Position,
+        baseDamage * 1.5,
+        def::up + 10,
+        def::defaultBulletSpeed,
+        0.8
+    );
+    scene->addItem(bullet5);
+
+    QPointF bullet6Position = startPosition;
+    bullet6Position.rx() -= 30;
+    bullet6Position.ry() -= 5;
+    BulletModel* bullet6 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet6Position,
+        baseDamage * 1.5,
+        def::up - 10,
+        def::defaultBulletSpeed,
+        0.8
+    );
+    scene->addItem(bullet6);
+
+    QPointF bullet7Position = startPosition;
+    bullet7Position.rx() += 35;
+    BulletModel* bullet7 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet7Position,
+        baseDamage * 1.2,
+        def::up + 15,
+        def::defaultBulletSpeed,
+        0.6
+    );
+    scene->addItem(bullet7);
+
+    QPointF bullet8Position = startPosition;
+    bullet8Position.rx() -= 35;
+    BulletModel* bullet8 = new BulletModel(
+        "bullet_yellow",
+        game_object_type::player_bullet,
+        bullet8Position,
+        baseDamage * 1.2,
+        def::up - 15,
+        def::defaultBulletSpeed,
+        0.6
+    );
+    scene->addItem(bullet8);
+}
+
+void blueExtraBeamFireFunc(
+    QGraphicsScene* scene,
+    QPointF startPosition,
+    int baseDamage
+) {
+    QPointF bullet1Position = startPosition;
+    bullet1Position.rx() -= 15;
+    bullet1Position.ry() -= 15;
+    BulletModel* bullet1 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet1Position,
+        baseDamage * 4,
+        def::up - 45,
+        def::defaultBulletSpeed - 10,
+        2
+    );
+    scene->addItem(bullet1);
+
+    QPointF bullet2Position = startPosition;
+    bullet2Position.rx() += 15;
+    bullet2Position.ry() -= 15;
+    BulletModel* bullet2 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet2Position,
+        baseDamage * 4,
+        def::up + 45,
+        def::defaultBulletSpeed - 10,
+        2
+    );
+    scene->addItem(bullet2);
+
+    QPointF bullet3Position = startPosition;
+    bullet3Position.rx() -= 15;
+    bullet3Position.ry() += 15;
+    BulletModel* bullet3 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet3Position,
+        baseDamage * 4,
+        def::down + 45,
+        def::defaultBulletSpeed - 10,
+        2
+    );
+    scene->addItem(bullet3);
+
+    QPointF bullet4Position = startPosition;
+    bullet4Position.rx() += 15;
+    bullet4Position.ry() += 15;
+    BulletModel* bullet4 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet4Position,
+        baseDamage * 4,
+        def::down - 45,
+        def::defaultBulletSpeed - 10,
+        2
+    );
+    scene->addItem(bullet4);
+
+    QPointF bullet5Position = startPosition;
+    bullet5Position.rx() -= 10;
+    bullet5Position.ry() -= 10;
+    BulletModel* bullet5 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet5Position,
+        baseDamage * 3,
+        def::up - 35,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet5);
+
+    QPointF bullet6Position = startPosition;
+    bullet6Position.rx() -= 20;
+    bullet6Position.ry() -= 20;
+    BulletModel* bullet6 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet6Position,
+        baseDamage * 3,
+        def::up - 55,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet6);
+
+    QPointF bullet7Position = startPosition;
+    bullet7Position.rx() += 10;
+    bullet7Position.ry() -= 10;
+    BulletModel* bullet7 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet7Position,
+        baseDamage * 3,
+        def::up + 35,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet7);
+
+    QPointF bullet8Position = startPosition;
+    bullet8Position.rx() += 20;
+    bullet8Position.ry() -= 20;
+    BulletModel* bullet8 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet8Position,
+        baseDamage * 3,
+        def::up + 55,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet8);
+
+    QPointF bullet9Position = startPosition;
+    bullet9Position.rx() -= 10;
+    bullet9Position.ry() += 10;
+    BulletModel* bullet9 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet9Position,
+        baseDamage * 3,
+        def::down + 35,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet9);
+
+    QPointF bullet10Position = startPosition;
+    bullet10Position.rx() -= 20;
+    bullet10Position.ry() += 20;
+    BulletModel* bullet10 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet10Position,
+        baseDamage * 3,
+        def::down + 55,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet10);
+
+    QPointF bullet11Position = startPosition;
+    bullet11Position.rx() += 10;
+    bullet11Position.ry() += 10;
+    BulletModel* bullet11 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet11Position,
+        baseDamage * 3,
+        def::down - 35,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet11);
+
+    QPointF bullet12Position = startPosition;
+    bullet12Position.rx() += 20;
+    bullet12Position.ry() += 20;
+    BulletModel* bullet12 = new BulletModel(
+        "bullet_blue",
+        game_object_type::player_bullet,
+        bullet12Position,
+        baseDamage * 3,
+        def::down - 55,
+        def::defaultBulletSpeed - 10,
+        1.5
+    );
+    scene->addItem(bullet12);
+}
+
+fire extraBeamAttack[def::maxWeaponTypes] {
+    &redExtraBeamFireFunc,
+    &yellowExtraBeamFireFunc,
+    &blueExtraBeamFireFunc
+};
 

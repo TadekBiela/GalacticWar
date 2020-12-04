@@ -107,18 +107,21 @@ void PlayerModel::checkCollisions()
     scene->update();
 }
 
-void PlayerModel::changeWeapon(weapon_type weapon)
-{
-    if(weapon != m_weapon.type)
-    {
-        m_weapon     = weapons[weapon * def::maxWeaponLevel];
+void PlayerModel::changeWeapon(weapon_type weapon){
+    if(weapon != m_weapon.type){
+        m_weapon = weapons[weapon * def::maxWeaponLevel];
         m_weaponTier = 0;
     }
-    else
-    {
-        if(m_weaponTier < 4)
-        {
+    else{
+        if(m_weaponTier < def::maxWeaponLevelIdx){
             m_weaponTier++;
+        }
+        else {
+            extraBeamAttack[m_weapon.type](
+                QGraphicsItem::scene(),
+                getCenterPosition(),
+                m_weapon.damage
+            );
         }
         m_weapon = weapons[(weapon * def::maxWeaponLevel) + m_weaponTier];
     }

@@ -4,9 +4,9 @@
 enum weapon_type
 {
     redWeapon = 0,
-    yellowWeapon,
-    blueWeapon,
-    defWeapon
+    yellowWeapon = 1,
+    blueWeapon = 2,
+    defWeapon = 3
 };
 
 #endif // WEAPONTYPE_HPP

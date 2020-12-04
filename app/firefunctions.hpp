@@ -1,6 +1,7 @@
 #ifndef FIREFUNCTIONS_HPP
 #define FIREFUNCTIONS_HPP
 
+#include "definitions.hpp"
 #include <QPointF>
 #include <QGraphicsScene>
 
@@ -25,5 +26,25 @@ void blueLevel2FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
 void blueLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 void blueLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
 void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDamage);
+
+void redExtraBeamFireFunc(
+    QGraphicsScene* scene,
+    QPointF startPosition,
+    int baseDamage
+);
+
+void yellowExtraBeamFireFunc(
+    QGraphicsScene* scene,
+    QPointF startPosition,
+    int baseDamage
+);
+
+void blueExtraBeamFireFunc(
+    QGraphicsScene* scene,
+    QPointF startPosition,
+    int baseDamage
+);
+
+extern fire extraBeamAttack[def::maxWeaponTypes];
 
 #endif // FIREFUNCTIONS_HPP

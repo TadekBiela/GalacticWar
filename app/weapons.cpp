@@ -20,4 +20,4 @@ weapon weapons[def::maxWeaponTypes * def::maxWeaponLevel] = {
     { weapon_type::blueWeapon, 15, &blueLevel3FireFunc, 100 },
     { weapon_type::blueWeapon, 20, &blueLevel4FireFunc,  80 },
     { weapon_type::blueWeapon, 30, &blueLevel5FireFunc,  60 }
-                                          };
+};

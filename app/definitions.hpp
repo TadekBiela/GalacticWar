@@ -26,6 +26,7 @@ namespace def
     const int    maxNumOfLevel                   = 10;
     const int    maxWeaponTypes                  = 3;
     const int    maxWeaponLevel                  = 5;
+    const int    maxWeaponLevelIdx               = 4;
     const int    minEnemySpawnTimeDelay          = 1000;
     const int    maxEnemySpawnTimeDelay          = 5000;
     const int minEnemySpawnTimeDelayDecreaseFactor = 100;
