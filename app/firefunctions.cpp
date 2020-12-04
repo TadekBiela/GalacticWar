@@ -57,10 +57,10 @@ void redLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
     BulletModel* bullet2 = new BulletModel("bullet_red",
                                            game_object_type::player_bullet,
                                            bulletPosition2,
-                                           baseDamage / 4,
+                                           baseDamage / 3,
                                            def::up + 5,
                                            30,
-                                           0.25);
+                                           0.4);
     scene->addItem(bullet2);
 
     QPointF bulletPosition3 = startPosition;
@@ -69,10 +69,10 @@ void redLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
     BulletModel* bullet3 = new BulletModel("bullet_red",
                                            game_object_type::player_bullet,
                                            bulletPosition3,
-                                           baseDamage / 4,
+                                           baseDamage / 3,
                                            def::up - 5,
                                            30,
-                                           0.25);
+                                           0.4);
     scene->addItem(bullet3);
 }
 
@@ -97,7 +97,7 @@ void redLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
                                            baseDamage / 3,
                                            def::up + 4,
                                            30,
-                                           0.35);
+                                           0.45);
     scene->addItem(bullet2);
 
     QPointF bulletPosition3 = startPosition;
@@ -109,7 +109,7 @@ void redLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
                                            baseDamage / 3,
                                            def::up - 4,
                                            30,
-                                           0.35);
+                                           0.45);
     scene->addItem(bullet3);
 
     QPointF bulletPosition4 = startPosition;
@@ -121,7 +121,7 @@ void redLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
                                            baseDamage / 4,
                                            def::up + 8,
                                            30,
-                                           0.25);
+                                           0.30);
     scene->addItem(bullet4);
 
     QPointF bulletPosition5 = startPosition;
@@ -133,7 +133,7 @@ void redLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
                                            baseDamage / 4,
                                            def::up - 8,
                                            30,
-                                           0.25);
+                                           0.30);
     scene->addItem(bullet5);
 }
 
@@ -158,7 +158,7 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
                                            baseDamage / 2,
                                            def::up + 5,
                                            30,
-                                           0.5);
+                                           0.6);
     scene->addItem(bullet2);
 
     QPointF bulletPosition3 = startPosition;
@@ -170,7 +170,7 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
                                            baseDamage / 2,
                                            def::up - 5,
                                            30,
-                                           0.5);
+                                           0.6);
     scene->addItem(bullet3);
 
     QPointF bulletPosition4 = startPosition;
@@ -179,10 +179,10 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
     BulletModel* bullet4 = new BulletModel("bullet_red",
                                            game_object_type::player_bullet,
                                            bulletPosition4,
-                                           baseDamage / 3,
+                                           baseDamage / 2.5,
                                            def::up + 10,
                                            30,
-                                           0.35);
+                                           0.45);
     scene->addItem(bullet4);
 
     QPointF bulletPosition5 = startPosition;
@@ -191,10 +191,10 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
     BulletModel* bullet5 = new BulletModel("bullet_red",
                                            game_object_type::player_bullet,
                                            bulletPosition5,
-                                           baseDamage / 3,
+                                           baseDamage / 2.5,
                                            def::up - 10,
                                            30,
-                                           0.35);
+                                           0.45);
     scene->addItem(bullet5);
 
     QPointF bulletPosition6 = startPosition;
@@ -203,10 +203,10 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
     BulletModel* bullet6 = new BulletModel("bullet_red",
                                            game_object_type::player_bullet,
                                            bulletPosition6,
-                                           baseDamage / 4,
+                                           baseDamage / 3,
                                            def::up + 15,
                                            30,
-                                           0.25);
+                                           0.35);
     scene->addItem(bullet6);
 
     QPointF bulletPosition7 = startPosition;
@@ -215,10 +215,10 @@ void redLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDam
     BulletModel* bullet7 = new BulletModel("bullet_red",
                                            game_object_type::player_bullet,
                                            bulletPosition7,
-                                           baseDamage / 4,
+                                           baseDamage / 3,
                                            def::up - 15,
                                            30,
-                                           0.25);
+                                           0.35);
     scene->addItem(bullet7);
 }
 
@@ -439,7 +439,7 @@ void blueLevel2FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet2 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition2,
-                                           baseDamage / 2,
+                                           baseDamage / 1.2,
                                            def::up - 30 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet2);
@@ -468,7 +468,7 @@ void blueLevel3FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet2 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition2,
-                                           baseDamage / 2,
+                                           baseDamage / 1.2,
                                            def::up - 30 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet2);
@@ -496,7 +496,7 @@ void blueLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet2 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition2,
-                                           baseDamage / 2,
+                                           baseDamage / 1.2,
                                            def::up - 30 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet2);
@@ -507,7 +507,7 @@ void blueLevel4FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet3 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition3,
-                                           baseDamage / 3,
+                                           baseDamage / 2,
                                            def::up - 45 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet3);
@@ -535,7 +535,7 @@ void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet2 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition2,
-                                           baseDamage / 2,
+                                           baseDamage / 1.2,
                                            def::up - 45 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet2);
@@ -546,7 +546,7 @@ void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet3 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition3,
-                                           baseDamage / 3,
+                                           baseDamage / 2,
                                            def::up - 75 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet3);
@@ -557,7 +557,7 @@ void blueLevel5FireFunc(QGraphicsScene* scene, QPointF startPosition, int baseDa
     BulletModel* bullet4 = new BulletModel("bullet_blue",
                                            game_object_type::player_bullet,
                                            bulletPosition4,
-                                           baseDamage / 4,
+                                           baseDamage / 2,
                                            def::up + 90 * fireLeft,
                                            def::defaultBulletSpeed);
     scene->addItem(bullet4);

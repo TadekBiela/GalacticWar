@@ -480,13 +480,15 @@ TEST_P(PlayerModelTestsParamClass, ChangeAtribute_CollectedWeapon_IsEqual)
     special_type    newWeaponRewardType   = std::tr1::get<2>(GetParam());
     weapon_type     expectedWeaponType    = std::tr1::get<3>(GetParam()).type;
     int             expectedFireTimeDelay = std::tr1::get<3>(GetParam()).fireTimeDelay;
-    PlayerModelTest playerModel;
-    playerModel.setWeapon(currentWeapon);
-    playerModel.setWeaponTier(currentWeaponTier);
+    QGraphicsScene scene;
+    PlayerModelTest* player = new PlayerModelTest;
+    player->setWeapon(currentWeapon);
+    player->setWeaponTier(currentWeaponTier);
+    scene.addItem(player);
 
-    playerModel.changeAtribute(newWeaponRewardType);
-    weapon        resultWeapon    = playerModel.getWeapon();
-    const QTimer& resultFireTimer = playerModel.getFireTimer();
+    player->changeAtribute(newWeaponRewardType);
+    weapon        resultWeapon    = player->getWeapon();
+    const QTimer& resultFireTimer = player->getFireTimer();
 
     EXPECT_EQ(expectedWeaponType, resultWeapon.type);
     EXPECT_FLOAT_EQ(expectedFireTimeDelay, resultFireTimer.interval());

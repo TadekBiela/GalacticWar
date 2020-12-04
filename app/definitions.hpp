@@ -86,7 +86,7 @@ namespace def
     const int enemy3MinMoveSlowFactor = 3;
 
     const int enemy4Level = 4;
-    const int enemy4MaxHealthPoints = 120;
+    const int enemy4MaxHealthPoints = 220;
     const int enemy4BaseDamage = 20;
     const int enemy4MoveTimeDelay = 50;
     const int enemy4FireTimeDelay = 500;
@@ -97,12 +97,13 @@ namespace def
         (animationFrameDuration * maxAnimationFrames)
         / enemy4MoveTimeDelay;
     const int enemy4JumpMoveOffsetInPx = 5;
+    const int enemy4MoveYCoordinateOffset = 8;
 
     const int enemy5Level = 5;
-    const int enemy5MaxHealthPoints = 500;
+    const int enemy5MaxHealthPoints = 1100;
     const int enemy5BaseDamage = 10;
-    const int enemy5MoveTimeDelay = 70;
-    const int enemy5FireTimeDelay = 1500;
+    const int enemy5MoveTimeDelay = 30;
+    const int enemy5FireTimeDelay = 1000;
     const int enemy5AnimationFrameWidth = (animationFrameWidth * 2);
     const int enemy5AnimationFrameHeight = animationFrameHeight;
     const int enemy5StartXCoordinate = animationFrameWidth + 10;
@@ -123,7 +124,7 @@ namespace def
     const int enemy6Level = 6;
     const int enemy6MaxHealthPoints = 2000;
     const int enemy6BaseDamage = 0;
-    const int enemy6MoveTimeDelay = 100;
+    const int enemy6MoveTimeDelay = 90;
     const int enemy6FireTimeDelay = 1000;
     const int enemy6AnimationFrameWidth = 64;
     const int enemy6AnimationFrameHeight = 256;

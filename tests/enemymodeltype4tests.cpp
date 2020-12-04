@@ -196,19 +196,19 @@ INSTANTIATE_TEST_SUITE_P(
         std::tr1::make_tuple(
             1,
             QPointF(0, 0),
-            QPointF(0, def::moveVectorLength)
+            QPointF(0, def::enemy4MoveYCoordinateOffset)
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay - 1,
             QPointF(0, 0),
-            QPointF(0, def::moveVectorLength * (def::enemy4JumpTimeDelay - 1))
+            QPointF(0, def::enemy4MoveYCoordinateOffset * (def::enemy4JumpTimeDelay - 1))
         ),
         std::tr1::make_tuple(
             def::enemy4JumpTimeDelay,
             QPointF(0, 0),
             QPointF(
                 0,
-                def::moveVectorLength * def::enemy4JumpTimeDelay
+                def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
@@ -216,7 +216,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(0, 0),
             QPointF(
                 def::enemy4JumpMoveOffsetInPx,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay) + 1
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay) + 1
             )
         ),
         std::tr1::make_tuple(
@@ -224,7 +224,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(0, 0),
             QPointF(
                 def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay) + def::enemy4JumpTimeDelay
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay) + def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
@@ -232,7 +232,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(0, 0),
             QPointF(
                 def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay * 2) + def::enemy4JumpTimeDelay
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay * 2) + def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
@@ -240,7 +240,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(0, 0),
             QPointF(
                 0,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay * 2) + (def::enemy4JumpTimeDelay * 2)
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay * 2) + (def::enemy4JumpTimeDelay * 2)
             )
         ),
         std::tr1::make_tuple(
@@ -248,7 +248,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(0, 0),
             QPointF(
                 0,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay * 3) + (def::enemy4JumpTimeDelay * 2)
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay * 3) + (def::enemy4JumpTimeDelay * 2)
             )
         ),
         std::tr1::make_tuple(
@@ -256,7 +256,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
                 def::halfSceneWidth + 1,
-                def::moveVectorLength * def::enemy4JumpTimeDelay
+                def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
@@ -264,7 +264,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
                 (def::halfSceneWidth + 1) - (def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay),
-                (def::moveVectorLength * def::enemy4JumpTimeDelay) + def::enemy4JumpTimeDelay
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay) + def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
@@ -272,7 +272,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
                 (def::halfSceneWidth + 1) - (def::enemy4JumpMoveOffsetInPx * def::enemy4JumpTimeDelay),
-                (def::moveVectorLength * def::enemy4JumpTimeDelay * 2) + def::enemy4JumpTimeDelay
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay * 2) + def::enemy4JumpTimeDelay
             )
         ),
         std::tr1::make_tuple(
@@ -280,7 +280,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
                 def::halfSceneWidth + 1,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay * 2) + (def::enemy4JumpTimeDelay * 2)
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay * 2) + (def::enemy4JumpTimeDelay * 2)
             )
         ),
         std::tr1::make_tuple(
@@ -288,7 +288,7 @@ INSTANTIATE_TEST_SUITE_P(
             QPointF(def::halfSceneWidth + 1, 0),
             QPointF(
                 def::halfSceneWidth + 1,
-                (def::moveVectorLength * def::enemy4JumpTimeDelay * 3) + (def::enemy4JumpTimeDelay * 2)
+                (def::enemy4MoveYCoordinateOffset * def::enemy4JumpTimeDelay * 3) + (def::enemy4JumpTimeDelay * 2)
             )
         )
     )

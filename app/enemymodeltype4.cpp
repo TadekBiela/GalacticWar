@@ -77,7 +77,13 @@ void EnemyModelType4::move() {
         jumpMove();
     }
     else {
-        setPos(moveForward(pos(), m_direction));
+        setPos(
+            moveForward(
+                pos(),
+                m_direction,
+                def::enemy4MoveYCoordinateOffset
+            )
+        );
     }
 
     if(isOutOfScene(pos(), pixmap())) {
