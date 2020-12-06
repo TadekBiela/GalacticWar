@@ -2,8 +2,8 @@
 
 ### 1. Requirements
 
-    Qt 5.12.6 (it includes cmake and make)
-    GTest 1.10.0
+  * Qt 5.12.6 (it includes cmake and make) [link](http://download.qt.io/archive/qt/5.12/5.12.6/)
+  * GTest 1.10.0 [link](https://github.com/google/googletest)
 
 
 ### 2. Prepare project to build
