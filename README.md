@@ -5,6 +5,7 @@
   * Python3 [link](https://www.python.org/downloads/)
   * Qt 5.12.6 [link](http://download.qt.io/archive/qt/5.12/5.12.6/)
   * GTest 1.10.0 [link](https://github.com/google/googletest)
+  * GraphicsGale as graphics editor [link](https://graphicsgale.com/us/download.html)  (not nessesary to build)
 
 
 ### 2. Prepare project to build
