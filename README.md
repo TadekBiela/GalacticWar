@@ -17,7 +17,7 @@
       `C:\Qt\Qt5.12.6\5.12.6\mingw73_32\bin` \
       `C:\Qt\Qt5.12.6\Tools\mingw730_32\bin`
 
-  * Jump into `C:\Qt\Qt5.12.6\Tools\mingw730_32\bin` and copy mingw32-make.exe as make.exe:
+  * Jump into `C:\Qt\Qt5.12.6\Tools\mingw730_32\bin` and copy mingw32-make.exe as make.exe: \
       `cp mingw32-make.exe make.exe`
 
   * And GTest for Unit Tests in this path: \
