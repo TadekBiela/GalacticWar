@@ -5,8 +5,6 @@ set(PROJECT_NAME ut)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-set(STD_LIB C:/Qt/Tools/mingw730_32/bin/libstdc++-6.dll)
-
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 find_package(Qt5Test REQUIRED)
 
