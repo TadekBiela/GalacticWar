@@ -16,7 +16,7 @@ namespace def
     const int    collisionDamageFactor           = 300;
     const int    defaultBulletSpeed              = 15;
     const int    shortBackgroundAnimTimeDelay    = 5;
-    const int    defaultBackgroundAnimTimeDelay  = 10;
+    const int    defaultBackgroundAnimTimeDelay  = 15;
     const int    healthRewardValue               = 100;
     const int    maxAnimationFrames              = 10;
     const int    maxAnimationFrameIdx            = 9;

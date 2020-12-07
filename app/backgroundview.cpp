@@ -78,5 +78,5 @@ void BackgroundView::backgroundAnimation()
                 startBackgroundGraphicsPositionY - m_backgroundGraphicsPosOffset,
                 def::sceneWidth,
                 def::sceneHeight));
-    m_backgroundGraphicsPosOffset++;
+    m_backgroundGraphicsPosOffset+=2;
 }
