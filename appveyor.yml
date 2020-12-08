@@ -52,6 +52,7 @@ for:
       only:
         - configuration: Valgrind
     build_script:
+      - sh: sudo apt-get install valgrind
       - mkdir tests\platforms
       - cp C:\Qt\5.12.10\mingw73_32\plugins\platforms\qwindows.dll tests\platforms
       - mkdir tests\mediaservice
@@ -59,4 +60,4 @@ for:
       - cp C:\Qt\5.12.10\mingw73_32\plugins\mediaservice\qtmedia_audioengine.dll tests\mediaservice
       - cmake ../ -G "MSYS Makefiles"
       - make -j buildut
-      - valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./tests/ut
+      - sh: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./tests/ut
