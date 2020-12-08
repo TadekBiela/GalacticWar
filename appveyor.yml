@@ -2,6 +2,7 @@ configuration:
   - BuildApp
   - BuildUts
   - RunUts
+  - Valgrind
 
 install:
   - set PATH=C:\Qt\5.12.10\mingw73_32\bin;C:\Qt\5.12.10\mingw73_64\bin;C:\Qt\Tools\CMake_32\bin;C:\Qt\Tools\CMake_64\bin;C:\Qt\Tools\mingw730_32\bin;C:\Qt\Tools\mingw730_64\bin;%PATH%
@@ -47,3 +48,15 @@ for:
       - cp C:\Qt\5.12.10\mingw73_32\plugins\mediaservice\qtmedia_audioengine.dll tests\mediaservice
       - cmake ../ -G "MSYS Makefiles"
       - make runut
+  - matrix:
+      only:
+        - configuration: Valgrind
+    build_script:
+      - mkdir tests\platforms
+      - cp C:\Qt\5.12.10\mingw73_32\plugins\platforms\qwindows.dll tests\platforms
+      - mkdir tests\mediaservice
+      - cp C:\Qt\5.12.10\mingw73_32\plugins\mediaservice\dsengine.dll tests\mediaservice
+      - cp C:\Qt\5.12.10\mingw73_32\plugins\mediaservice\qtmedia_audioengine.dll tests\mediaservice
+      - cmake ../ -G "MSYS Makefiles"
+      - make -j buildut
+      - valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./tests/ut
