@@ -118,7 +118,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                soundstorage.cpp
                                weapons.hpp
                                weapons.cpp
-                               weapontype.hpp)
+                               weapontype.hpp
+                               app.rc)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Multimedia)
 add_dependencies(app ${PROJECT_NAME})
