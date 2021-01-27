@@ -6,7 +6,7 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 
-add_executable(${PROJECT_NAME} main.cpp
+add_executable(${PROJECT_NAME} WIN32 main.cpp
                                animationeffectmodel.hpp
                                animationeffectmodel.cpp
                                animationplaneview.hpp
