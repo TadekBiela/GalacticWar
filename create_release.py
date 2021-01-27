@@ -6,27 +6,17 @@ def create_dir(directory):
         os.system("mkdir " + directory)
 
 
-def create_build_dir(project_directory):
-    build_directory = (project_directory + "/build")
-    create_dir(build_directory)
-
-
-def build_project(project_directory):
-    create_build_dir(project_directory)
-    os.system('cd ' + project_directory +'/build && cmake ../ -G "MSYS Makefiles" && make -j4 app && cd ..')
-
-
 def remove_file_or_directory_if_exist(direcotry):
     if os.path.exists(direcotry):
-        os.system("rm -rf " + direcotry)
+        os.system("rm -rf" + direcotry)
 
 
 def clear_build_dir(build_directory):
     remove_file_or_directory_if_exist(build_directory + "/CMakeFiles")
     remove_file_or_directory_if_exist(build_directory + "/galacticwar_autogen")
-    remove_file_or_directory_if_exist(build_directory + "/images/*.gal")
-    remove_file_or_directory_if_exist(build_directory + "/*.cmake")
-    remove_file_or_directory_if_exist(build_directory + "/Makefile")
+    os.system("rm " + build_directory + "/images/*.gal")
+    os.system("rm " + build_directory + "/*.cmake")
+    os.system("rm " + build_directory + "/Makefile")
 
 
 def collect_all_dependancy(build_directory):
@@ -71,8 +61,6 @@ def run_inno_setup_script(project_directory):
 
 
 def create_release(project_directory, release_version):
-#    build_project(project_directory)
-
     build_directory = (project_directory + "/build/app")
     clear_build_dir(build_directory)
     collect_all_dependancy(build_directory)
