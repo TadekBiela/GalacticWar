@@ -8,7 +8,7 @@
   * GraphicsGale as graphics editor [link](https://graphicsgale.com/us/download.html)  (not nessesary to build)
 
 
-### 2. Prepare project to build
+### 2. Prepare project to build for Windows
 
   * To build you need install Qt in this path: \
       `C:/Qt/`
@@ -22,7 +22,7 @@
       `cp mingw32-make.exe make.exe`
 
   * And GTest for Unit Tests in this path: \
-      `C:/GTest/`
+      `C:/googletest/`
 
   * Clone repo: \
       `git clone https://github.com/TadekBiela/GalacticWar.git`
