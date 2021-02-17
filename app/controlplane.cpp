@@ -158,13 +158,13 @@ void ControlPlane::changeToGameCursor()
 }
 
 void ControlPlane::switchControlToMouseMode() {
-    m_keyboardPressControl = &this->keyboardPressControlInMouseMode;
-    m_keyboardReleaseControl = &this->keyboardReleaseControlInMouseMode;
+    m_keyboardPressControl = &ControlPlane::keyboardPressControlInMouseMode;
+    m_keyboardReleaseControl = &ControlPlane::keyboardReleaseControlInMouseMode;
 }
 
 void ControlPlane::switchControlToKeyboardMode() {
-    m_keyboardPressControl = &this->keyboardPressControlInKeyboardMode;
-    m_keyboardReleaseControl = &this->keyboardReleaseControlInKeyboardMode;
+    m_keyboardPressControl = &ControlPlane::keyboardPressControlInKeyboardMode;
+    m_keyboardReleaseControl = &ControlPlane::keyboardReleaseControlInKeyboardMode;
 }
 
 void ControlPlane::keyboardPressControlInMouseMode(QKeyEvent* event) {
