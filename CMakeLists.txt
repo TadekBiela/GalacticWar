@@ -15,6 +15,8 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/fonts/
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/fonts)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/music/
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/app/music)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/music/
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tests/music)
 
 project("Galacic War")
 enable_testing()
