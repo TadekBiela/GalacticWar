@@ -1,8 +1,10 @@
 if(UNIX)
   set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/tests/ut)
+  set(Qt5Test_DIR "/opt/Qt5.12.6/5.12.6/gcc_64/lib/cmake/Qt5Test/")
   set(GTEST_DIR "/opt/googletest")
 else()
   set(EXEC_COMMAND ${CMAKE_BINARY_DIR}/tests/ut.exe)
+  set(Qt5Test_DIR "C:/Qt/Qt5.12.6/5.12.6/mingw73_32/lib/cmake/Qt5Test/")
   set(GTEST_DIR "C:/googletest")
 endif()
 
