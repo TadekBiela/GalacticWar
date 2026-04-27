@@ -49,3 +49,23 @@
 
   * If you want build and run Uts use this command: \
       ` cmake ../ -G "MSYS Makefiles" && make -j4 runut`
+
+## Security Note
+
+### Why do I see a Windows SmartScreen warning?
+
+When attempting to run the galacticwarsetup.exe installer, you may encounter a message stating: "Windows protected your PC" along with an "Unknown Publisher" warning.
+
+Rest assured – this is a standard aspect of distributing open-source software:
+
+* No Digital Signature: As a hobbyist open-source project, GalacticWar does not have a paid Code Signing Certificate, which typically costs around $400 per year.
+* Transparency: The entire source code for the game and the installer script (.iss) are publicly available in this repository. Anyone can verify exactly how the application is built and what it does.
+* Detailed Metadata: While the file is not digitally signed, it has been prepared with professional care. You can find correct version and author information in the file properties.
+
+### How to run the game?
+
+To proceed with the installation, click "More info".
+
+Then, click the "Run anyway" button.
+
+I believe in technical honesty and quality. Instead of ignoring this hurdle, I prefer to provide a clear and direct explanation to my users.
