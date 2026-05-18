@@ -1,54 +1,36 @@
 # GalacticWar
 
 ### 1. Requirements
-  * CMake [link](https://cmake.org/download/)
-  * Python3 [link](https://www.python.org/downloads/)
-  * Qt 5.12.6 [link](http://download.qt.io/archive/qt/5.12/5.12.6/)
-  * GTest 1.10.0 [link](https://github.com/google/googletest)
-  * GraphicsGale as graphics editor [link](https://graphicsgale.com/us/download.html)  (not nessesary to build)
-
+  * [CMake](https://cmake.org/download/){:target="_blank" rel="noopener"}
+  * [Git Bash](https://git-scm.com/install/windows){:target="_blank" rel="noopener"}
+  * [Qt 5.12.6](http://download.qt.io/archive/qt/5.12/5.12.6/){:target="_blank" rel="noopener"}
+  * [googletest](https://github.com/google/googletest){:target="_blank" rel="noopener"}
+  * [GraphicsGale](https://graphicsgale.com/us/download.html){:target="_blank" rel="noopener"} as graphics editor (not necessary to build)
+  * [Python3](https://www.python.org/downloads/){:target="_blank" rel="noopener"} (not necessary to build)
 
 ### 2. Prepare project to build
-
-  * To build you need install Qt in this path: \
+  * To build you need install **Qt** in this path: \
       `C:/Qt/`
-
-  * Add Qt, C and C++ compilers dirs to PATH env variable: \
-    on Windows: \
-      `C:\Qt\Qt5.12.6\5.12.6\mingw73_32\bin` \
-      `C:\Qt\Qt5.12.6\Tools\mingw730_32\bin`
-
-  * Jump into `C:\Qt\Qt5.12.6\Tools\mingw730_32\bin` and copy mingw32-make.exe as make.exe: \
-      `cp mingw32-make.exe make.exe`
-
-  * And GTest for Unit Tests in this path: \
-      `C:/GTest/`
-
-  * Clone repo: \
+  * And **googletest** for unit tests in this path: \
+      `C:/googletest/`
+  * Run **Git Bash** and clone repo: \
       `git clone https://github.com/TadekBiela/GalacticWar.git`
-
-  * Create folder `build` in repo directory and enter it in Git Bash console: \
-      `mkdir build && cd build`
-
+  * Setup environment in repo directory( creates new shell, no changes in system needed): \
+      `./build-msys.sh`
+  * Now project is ready to build!
 
 ### 3. Build game on Windows
-
   * Run this commands combination to build game as galacticwar.exe file in Git Bash console: \
-      `cmake ../ -G "MSYS Makefiles" && make -j4 app`
-
+      `cmake --build . --target app --parallel 4`
   * Game exe file is in `app/` folder. **Enjoy!**
 
-
 ### 4. Build and run Unit Tests on Windows
-
   * Run this commands combination to build Unit Tests as ut.exe file: \
-      `cmake ../ -G "MSYS Makefiles" && make -j4 buildut`
-
+      `cmake --build . --target buildut --parallel 4`
   * If you want run only one or part of UTs just use gtest_filter: \
-      `cmake ../ -G "MSYS Makefiles" && make -j4 buildut && tests/ut --gtest_filter="*ControlPlane*"`
-
+      `cmake --build . --target buildut --parallel 4 && tests/ut --gtest_filter="*ControlPlane*"`
   * If you want build and run Uts use this command: \
-      ` cmake ../ -G "MSYS Makefiles" && make -j4 runut`
+      `cmake --build . --target runut --parallel 4`
 
 ## Security Note
 

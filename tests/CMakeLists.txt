@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Gui Multimedia)
 find_package(Qt5Test REQUIRED)
 
-add_subdirectory("C:/GTest" ${CMAKE_BINARY_DIR}/gtest)
+add_subdirectory("C:/googletest" ${CMAKE_BINARY_DIR}/gtest)
 enable_testing()
 include_directories(${GTEST_INCLUDE_DIRS})
 include_directories(${GMOCK_INCLUDE_DIRS})

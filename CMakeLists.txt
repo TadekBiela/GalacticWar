@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_CXX_FLAGS "-std=c++11 -g")
 set(BUILD_SHARED_LIBS OFF)
