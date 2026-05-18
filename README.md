@@ -1,12 +1,12 @@
 # GalacticWar
 
 ### 1. Requirements
-  * [CMake](https://cmake.org/download/){:target="_blank" rel="noopener"}
-  * [Git Bash](https://git-scm.com/install/windows){:target="_blank" rel="noopener"}
-  * [Qt 5.12.6](http://download.qt.io/archive/qt/5.12/5.12.6/){:target="_blank" rel="noopener"}
-  * [googletest](https://github.com/google/googletest){:target="_blank" rel="noopener"}
-  * [GraphicsGale](https://graphicsgale.com/us/download.html){:target="_blank" rel="noopener"} as graphics editor (not necessary to build)
-  * [Python3](https://www.python.org/downloads/){:target="_blank" rel="noopener"} (not necessary to build)
+  * [CMake](https://cmake.org/download/)
+  * [Git Bash](https://git-scm.com/install/windows)
+  * [Qt 5.12.6](http://download.qt.io/archive/qt/5.12/5.12.6/)
+  * [googletest](https://github.com/google/googletest)
+  * [GraphicsGale](https://graphicsgale.com/us/download.html) as graphics editor (not necessary to build)
+  * [Python3](https://www.python.org/downloads/) (not necessary to build)
 
 ### 2. Prepare project to build
   * To build you need install **Qt** in this path: \
