@@ -26,6 +26,8 @@ add_executable(${PROJECT_NAME} main.cpp
                                ../app/bulletmodel.cpp
                                ../app/controlplane.hpp
                                ../app/controlplane.cpp
+                               ../app/cursorcontroller.hpp
+                               ../app/cursorcontroller.cpp
                                ../app/definitions.hpp
                                ../app/enemyconfiguration.hpp
                                ../app/enemycontroller.hpp

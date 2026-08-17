@@ -1,5 +1,5 @@
 #define MyAppName "GalacticWar"
-#define MyAppVersion "1.0.0.1"
+#define MyAppVersion "1.0.2"
 #define MyAppPublisher "Tadeusz Biela (TED)"
 #define MyAppURL "https://github.com/TadekBiela/GalacticWar"
 #define MyAppExeName "galacticwar.exe"

@@ -15,15 +15,16 @@
 *************************************************************************************/
 
 
-#ifndef CONTROLPLANE_HPP
-#define CONTROLPLANE_HPP
+#pragma once
 
+#include "cursorcontroller.hpp"
 #include "settings.hpp"
 #include <QEvent>
 #include <QKeyEvent>
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QPoint>
+#include <memory>
 
 enum class controller_state {
     activated,
@@ -38,7 +39,10 @@ class ControlPlane : public QGraphicsView
 {
     Q_OBJECT
 public:
-    ControlPlane(QWidget* displayWidget);
+    ControlPlane(
+        QWidget* displayWidget,
+        std::unique_ptr<CursorController> cursorController = std::make_unique<CursorController>()
+    );
     virtual ~ControlPlane();
 
 signals:
@@ -55,14 +59,30 @@ public slots:
     void deactivate();
     void applyNewSettings(Settings newSettings);
     void setMovePosition(QPointF movePosition);
-    void mousePressEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
-    void leaveEvent(QEvent* event);
-    void keyPressEvent(QKeyEvent* event);
-    void keyReleaseEvent(QKeyEvent* event);
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void leaveEvent(QEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
 protected:
+    QWidget* m_displayWidget;
+    QGraphicsScene m_scene;
+    controller_state m_state;
+    QPixmap m_arrowCursorMap;
+    QPixmap m_crossCursorMap;
+    control_mode m_controlMode;
+    std::unique_ptr<CursorController> m_cursorController;
+    QPointF m_movePosition;
+    keyboardControlFuncPrt m_keyboardPressControl;
+    keyboardControlFuncPrt m_keyboardReleaseControl;
+    bool m_keyMoveUpPressed;
+    bool m_keyMoveDownPressed;
+    bool m_keyMoveLeftPressed;
+    bool m_keyMoveRightPressed;
+
+private:
     void changeToMenuCursor();
     void changeToGameCursor();
     void switchControlToMouseMode();
@@ -71,20 +91,4 @@ protected:
     void keyboardReleaseControlInMouseMode(QKeyEvent* event);
     void keyboardPressControlInKeyboardMode(QKeyEvent* event);
     void keyboardReleaseControlInKeyboardMode(QKeyEvent* event);
-
-    QWidget* m_displayWidget;
-    QGraphicsScene m_scene;
-    controller_state m_state;
-    QPixmap m_arrowCursorMap;
-    QPixmap m_crossCursorMap;
-    control_mode m_controlMode;
-    QPointF m_movePosition;
-    keyboardControlFuncPrt m_keyboardPressControl;
-    keyboardControlFuncPrt m_keyboardReleaseControl;
-    bool m_keyMoveUpPressed;
-    bool m_keyMoveDownPressed;
-    bool m_keyMoveLeftPressed;
-    bool m_keyMoveRightPressed;
 };
-
-#endif // CONTROLPLANE_HPP

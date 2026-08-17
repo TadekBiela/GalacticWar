@@ -18,14 +18,17 @@
 #include "controlplane.hpp"
 #include "definitions.hpp"
 #include "imagestorage.hpp"
+#include <algorithm>
+#include <QCursor>
 
-ControlPlane::ControlPlane(QWidget* displayWidget)
+ControlPlane::ControlPlane(QWidget* displayWidget, std::unique_ptr<CursorController> cursorController)
     : QGraphicsView(displayWidget),
       m_displayWidget(displayWidget),
       m_scene(0, 0, def::sceneWidth, def::sceneHeight, this),
       m_state(controller_state::deactivated),
       m_arrowCursorMap(),
       m_crossCursorMap(),
+      m_cursorController(std::move(cursorController)),
       m_movePosition(def::halfSceneWidth, def::halfSceneHeight),
       m_keyMoveUpPressed(false),
       m_keyMoveDownPressed(false),
@@ -40,7 +43,7 @@ ControlPlane::ControlPlane(QWidget* displayWidget)
     this->setScene(&m_scene);
     this->setStyleSheet("background: transparent;");
     this->setBackgroundBrush(QBrush(Qt::transparent));
-    this->setGeometry(1, 1, def::sceneWidth + 2, def::sceneHeight + 2);
+    this->setGeometry(-1, -1, def::sceneWidth + 3, def::sceneHeight + 3);
     this->setMouseTracking(true);
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
     this->show();
@@ -108,10 +111,25 @@ void ControlPlane::mouseReleaseEvent(QMouseEvent* event)
 
 void ControlPlane::mouseMoveEvent(QMouseEvent* event)
 {
+    static const double minXPos{ 15.0 };
+    static const double maxXPos{ def::sceneWidth - 15.0 };
+    static const double minYPos{ 15.0 };
+    static const double maxYPos{ def::sceneHeight - 15.0 };
+
     if(controller_state::activated == m_state &&
-       control_mode::mouse == m_controlMode) {
-        m_movePosition = event->pos();
+       control_mode::mouse == m_controlMode)
+    {
+        const QPointF rawMovePosition{ event->pos() };
+        m_movePosition.setX(std::max(minXPos, std::min(rawMovePosition.x(), maxXPos)));
+        m_movePosition.setY(std::max(minYPos, std::min(rawMovePosition.y(), maxYPos)));
+
+        if(rawMovePosition != m_movePosition)
+        {
+            QCursor::setPos(m_displayWidget->mapToGlobal(m_movePosition.toPoint()));
+        }
+
         emit changeMovePosition(m_movePosition);
+
     }
     event->ignore();
 }

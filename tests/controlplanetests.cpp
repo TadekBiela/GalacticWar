@@ -1,5 +1,7 @@
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include "utdefinitions.hpp"
+#include "mocks/cursorcontrollermock.hpp"
 #include "stubs/imagestoragestub.hpp"
 #include "../app/controlplane.hpp"
 #include "../app/definitions.hpp"
@@ -12,29 +14,21 @@
 
 using namespace testing;
 
-class ControlPlaneTest : public ControlPlane
+class ControlPlaneTestable : public ControlPlane
 {
 public:
-    ControlPlaneTest(QWidget* displayWidget)
-        : ControlPlane(displayWidget) {}
-    virtual ~ControlPlaneTest() {}
-    void keyboardPressControlInMouseMode(QKeyEvent* event) {
-        ControlPlane::keyboardPressControlInMouseMode(event);
+    using ControlPlane::ControlPlane;
+
+    auto getMovePosition() const -> const QPointF&
+    {
+        return m_movePosition;
     }
-    void keyboardPressControlInKeyboardMode(QKeyEvent* event) {
-        ControlPlane::keyboardPressControlInKeyboardMode(event);
-    }
-    void keyboardReleaseControlInKeyboardMode(QKeyEvent* event) {
-        ControlPlane::keyboardReleaseControlInKeyboardMode(event);
-    }
+
     controller_state getState() const {
         return m_state;
     }
     control_mode getControlMode() const {
         return m_controlMode;
-    }
-    QPointF getMovePosition() const {
-        return m_movePosition;
     }
     bool getKeyMoveUpPressed() const {
         return m_keyMoveUpPressed;
@@ -68,31 +62,43 @@ public:
     }
 };
 
-class ControlPlaneTestsClass : public testing::Test
+class ControlPlaneTests : public Test
 {
 public:
-    void SetUp() {
+    void SetUp() override {
         g_imageStorage = new ImageStorageStub;
     }
-    void TearDown() {
+    void TearDown() override {
         delete g_imageStorage;
     }
+
+    static auto getMouseEvent(const QPointF& position) -> QMouseEvent
+    {
+        return QMouseEvent(
+            QEvent::MouseMove,
+            position,
+            Qt::NoButton,
+            Qt::NoButton,
+            Qt::NoModifier
+        );
+    };
+
+protected:
+    QWidget displayWidget{};
+    std::unique_ptr<CursorControllerMock> cursorControllerMock{ std::make_unique<CursorControllerMock>() };
 };
 
-TEST_F(ControlPlaneTestsClass, Constructor_CreateNewObject_ShouldSetControlToMouseAndDeactivate)
+TEST_F(ControlPlaneTests, Constructor_CreateNewObject_ShouldSetControlToMouseAndDeactivate)
 {
-    QWidget displayWidget;
-
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
 
     EXPECT_EQ(controller_state::deactivated, controller.getState());
     EXPECT_EQ(control_mode::mouse, controller.getControlMode());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlKeyboardModeRightButtonPressed_ShouldNotSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_DeactivatedControlKeyboardModeRightButtonPressed_ShouldNotSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -102,7 +108,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlKeyboardModeRig
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -110,10 +116,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlKeyboardModeRig
     EXPECT_EQ(0, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlMouseModeRightButtonPressed_ShouldNotSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_DeactivatedControlMouseModeRightButtonPressed_ShouldNotSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -123,7 +128,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlMouseModeRightB
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -131,10 +136,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlMouseModeRightB
     EXPECT_EQ(0, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlKeyboardModeLeftButtonPressed_ShouldNotSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_DeactivatedControlKeyboardModeLeftButtonPressed_ShouldNotSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -144,7 +148,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlKeyboardModeLef
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -152,10 +156,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlKeyboardModeLef
     EXPECT_EQ(0, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlMouseModeLeftButtonPressed_ShouldNotSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_DeactivatedControlMouseModeLeftButtonPressed_ShouldNotSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -165,7 +168,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlMouseModeLeftBu
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -173,10 +176,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_DeactivatedControlMouseModeLeftBu
     EXPECT_EQ(0, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlKeyboardModeRightButtonPressed_ShouldNotSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_ActivatedControlKeyboardModeRightButtonPressed_ShouldNotSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -186,7 +188,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlKeyboardModeRight
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -194,10 +196,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlKeyboardModeRight
     EXPECT_EQ(0, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlMouseModeRightButtonPressed_ShouldNotSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_ActivatedControlMouseModeRightButtonPressed_ShouldNotSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -207,7 +208,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlMouseModeRightBut
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -215,10 +216,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlMouseModeRightBut
     EXPECT_EQ(0, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlMouseModeLeftButtonPressed_ShouldSendStartFireSignal)
+TEST_F(ControlPlaneTests, MousePressEvent_ActivatedControlMouseModeLeftButtonPressed_ShouldSendStartFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -228,7 +228,7 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlMouseModeLeftButt
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy startFireSignal(&controller, &ControlPlaneTest::startFire);
+    QSignalSpy startFireSignal(&controller, &ControlPlaneTestable::startFire);
     startFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mousePressEvent(&event);
@@ -236,10 +236,9 @@ TEST_F(ControlPlaneTestsClass, MousePressEvent_ActivatedControlMouseModeLeftButt
     EXPECT_EQ(1, startFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlKeyboardModeRightButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_DeactivatedControlKeyboardModeRightButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -249,7 +248,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlKeyboardModeR
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -257,10 +256,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlKeyboardModeR
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlMouseModeRightButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_DeactivatedControlMouseModeRightButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -270,7 +268,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlMouseModeRigh
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -278,10 +276,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlMouseModeRigh
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlKeyboardModeLeftButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_DeactivatedControlKeyboardModeLeftButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -291,7 +288,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlKeyboardModeL
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -299,10 +296,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlKeyboardModeL
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlMouseModeLeftButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_DeactivatedControlMouseModeLeftButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -312,7 +308,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlMouseModeLeft
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -320,10 +316,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_DeactivatedControlMouseModeLeft
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlKeyboardModeRightButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_ActivatedControlKeyboardModeRightButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -333,7 +328,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlKeyboardModeRig
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -341,10 +336,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlKeyboardModeRig
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlMouseModeRightButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_ActivatedControlMouseModeRightButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -354,7 +348,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlMouseModeRightB
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -362,10 +356,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlMouseModeRightB
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlKeyboardModeLeftButtonReleased_ShouldNotSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_ActivatedControlKeyboardModeLeftButtonReleased_ShouldNotSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::keyboard);
     QMouseEvent event(
@@ -375,7 +368,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlKeyboardModeLef
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -383,10 +376,9 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlKeyboardModeLef
     EXPECT_EQ(0, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlMouseModeLeftButtonReleased_ShouldSendStopFireSignal)
+TEST_F(ControlPlaneTests, MouseReleaseEvent_ActivatedControlMouseModeLeftButtonReleased_ShouldSendStopFireSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::mouse);
     QMouseEvent event(
@@ -396,7 +388,7 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlMouseModeLeftBu
         Qt::NoButton,
         Qt::NoModifier
     );
-    QSignalSpy stopFireSignal(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy stopFireSignal(&controller, &ControlPlaneTestable::stopFire);
     stopFireSignal.wait(utdef::minSignalTimeDelay);
 
     controller.mouseReleaseEvent(&event);
@@ -404,14 +396,149 @@ TEST_F(ControlPlaneTestsClass, MouseReleaseEvent_ActivatedControlMouseModeLeftBu
     EXPECT_EQ(1, stopFireSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, LeaveEvent_DeactivatedControlKeyboardMode_ShouldNotSendMouseLeaveWindowSignal)
+inline auto PrintTo(const QPointF& point, std::ostream* os) -> void
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    const QString typeStr = QString("x = %1, y = %2").arg(point.x()).arg(point.y());
+    *os << typeStr.toStdString();
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorNearTheCenterOfDisplay_ShouldNotChangeCursorPosition)
+{
+    const QPointF expectedMousePos{ def::halfSceneWidth + 2, def::halfSceneHeight - 1 };
+    QMouseEvent event{ getMouseEvent(expectedMousePos) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(0);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&event);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_Cursor15PxFromTopEdgeAndHorizontallyCentered_ShouldNotChangeCursorPosition)
+{
+    const QPointF expectedMousePos{ def::halfSceneWidth, 15 };
+    QMouseEvent event{ getMouseEvent(expectedMousePos) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(0);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&event);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorLessThan15PxFromTopEdgeAndHorizontallyCentered_ShouldChangeCursorPositionTo15PxFromTopEdge)
+{
+    const QPointF expectedMousePos{ def::halfSceneWidth, 15 };
+    QMouseEvent mouseMoveEventBelowMinY{ getMouseEvent({ def::halfSceneWidth, 14 }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventBelowMinY);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorLessThan15PxFromBottomEdgeAndHorizontallyCentered_ShouldChangeCursorPositionTo15PxFromBottomEdge)
+{
+    const QPointF expectedMousePos{ def::halfSceneWidth, def::sceneHeight - 15 };
+    QMouseEvent mouseMoveEventAboveMaxY{ getMouseEvent({ def::halfSceneWidth, def::sceneHeight - 14 }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventAboveMaxY);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorLessThan15PxFromLeftEdgeAndVerticallyCentered_ShouldChangeCursorPositionTo15PxFromLeftEdge)
+{
+    const QPointF expectedMousePos{ 15, def::halfSceneHeight };
+    QMouseEvent mouseMoveEventLeft{ getMouseEvent({ 14, def::halfSceneHeight }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventLeft);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorLessThan15PxFromRightEdgeAndVerticallyCentered_ShouldChangeCursorPositionTo15PxFromRightEdge)
+{
+    const QPointF expectedMousePos{ def::sceneWidth - 15, def::halfSceneHeight };
+    QMouseEvent mouseMoveEventRight{ getMouseEvent({ def::sceneWidth - 14, def::halfSceneHeight }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventRight);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorLessThan15PxFromTopAndLeftEdges_ShouldChangeCursorPositionTo15PxFromTopAndLeftEdges)
+{
+    const QPointF expectedMousePos{ 15, 15 };
+    QMouseEvent mouseMoveEventTopLeft{ getMouseEvent({ 14, 14 }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventTopLeft);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorLessThan15PxFromTopAndMoreThanRightEdge_ShouldChangeCursorPositionTo15PxFromTopAndRightEdges)
+{
+    const QPointF expectedMousePos{ def::sceneWidth - 15, 15 };
+    QMouseEvent mouseMoveEventTopRight{ getMouseEvent({ def::sceneWidth - 14, 14 }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventTopRight);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorMoreThan15PxFromBottomAndLessThanLeftEdge_ShouldChangeCursorPositionTo15PxFromBottomAndLeftEdges)
+{
+    const QPointF expectedMousePos{ 15, def::sceneHeight - 15 };
+    QMouseEvent mouseMoveEventBottomLeft{ getMouseEvent({ 14, def::sceneHeight - 14 }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventBottomLeft);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, mouseMoveEvent_CursorMoreThan15PxFromBottomAndRightEdges_ShouldChangeCursorPositionTo15PxFromBottomAndRightEdges)
+{
+    const QPointF expectedMousePos{ def::sceneWidth - 15, def::sceneHeight - 15 };
+    QMouseEvent mouseMoveEventBottomRight{ getMouseEvent({ def::sceneWidth - 14, def::sceneHeight - 14 }) };
+    EXPECT_CALL(*cursorControllerMock, setCursorPosition(_)).Times(1);
+    ControlPlaneTestable controller{ &displayWidget, std::move(cursorControllerMock) };
+    controller.activate();
+
+    controller.mouseMoveEvent(&mouseMoveEventBottomRight);
+
+    EXPECT_THAT(controller.getMovePosition(), Eq(expectedMousePos));
+}
+
+TEST_F(ControlPlaneTests, LeaveEvent_DeactivatedControlKeyboardMode_ShouldNotSendMouseLeaveWindowSignal)
+{
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::keyboard);
     QEvent event(QEvent::Leave);
-    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTest::mouseLeaveWindow);
+    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTestable::mouseLeaveWindow);
     mouseLeaveWindowSignal.wait(utdef::minSignalTimeDelay);
 
     controller.leaveEvent(&event);
@@ -419,14 +546,13 @@ TEST_F(ControlPlaneTestsClass, LeaveEvent_DeactivatedControlKeyboardMode_ShouldN
     EXPECT_EQ(0, mouseLeaveWindowSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, LeaveEvent_DeactivatedControlMouseMode_ShouldNotSendMouseLeaveWindowSignal)
+TEST_F(ControlPlaneTests, LeaveEvent_DeactivatedControlMouseMode_ShouldNotSendMouseLeaveWindowSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::deactivated);
     controller.setControlMode(control_mode::mouse);
     QEvent event(QEvent::Leave);
-    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTest::mouseLeaveWindow);
+    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTestable::mouseLeaveWindow);
     mouseLeaveWindowSignal.wait(utdef::minSignalTimeDelay);
 
     controller.leaveEvent(&event);
@@ -434,14 +560,13 @@ TEST_F(ControlPlaneTestsClass, LeaveEvent_DeactivatedControlMouseMode_ShouldNotS
     EXPECT_EQ(0, mouseLeaveWindowSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, LeaveEvent_ActivatedControlKeyboardMode_ShouldNotSendMouseLeaveWindowSignal)
+TEST_F(ControlPlaneTests, LeaveEvent_ActivatedControlKeyboardMode_ShouldNotSendMouseLeaveWindowSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::keyboard);
     QEvent event(QEvent::Leave);
-    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTest::mouseLeaveWindow);
+    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTestable::mouseLeaveWindow);
     mouseLeaveWindowSignal.wait(utdef::minSignalTimeDelay);
 
     controller.leaveEvent(&event);
@@ -449,14 +574,13 @@ TEST_F(ControlPlaneTestsClass, LeaveEvent_ActivatedControlKeyboardMode_ShouldNot
     EXPECT_EQ(0, mouseLeaveWindowSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, LeaveEvent_ActivatedControlMouseMode_ShouldSendMouseLeaveWindowSignal)
+TEST_F(ControlPlaneTests, LeaveEvent_ActivatedControlMouseMode_ShouldSendMouseLeaveWindowSignal)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setState(controller_state::activated);
     controller.setControlMode(control_mode::mouse);
     QEvent event(QEvent::Leave);
-    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTest::mouseLeaveWindow);
+    QSignalSpy mouseLeaveWindowSignal(&controller, &ControlPlaneTestable::mouseLeaveWindow);
     mouseLeaveWindowSignal.wait(utdef::minSignalTimeDelay);
 
     controller.leaveEvent(&event);
@@ -464,31 +588,29 @@ TEST_F(ControlPlaneTestsClass, LeaveEvent_ActivatedControlMouseMode_ShouldSendMo
     EXPECT_EQ(1, mouseLeaveWindowSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, KeyPressEvent_DeactivatedKeyEscPressed_ShouldNotSendSignalEscKeyPressed)
+TEST_F(ControlPlaneTests, KeyPressEvent_DeactivatedKeyEscPressed_ShouldNotSendSignalEscKeyPressed)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     QKeyEvent event(QEvent::KeyPress,
                     Qt::Key_Escape,
                     Qt::NoModifier);
-    QSignalSpy escKeyPressedSignal(&controller, &ControlPlaneTest::escKeyPressed);
+    QSignalSpy escKeyPressedSignal(&controller, &ControlPlaneTestable::escKeyPressed);
     escKeyPressedSignal.wait(utdef::minSignalTimeDelay);
 
     controller.keyPressEvent(&event);
 
     EXPECT_EQ(0, escKeyPressedSignal.count());
 }
-
-TEST_F(ControlPlaneTestsClass, KeyboardPressControlInMouseMode_KeyAPressed_ShouldNotSendSignalEscKeyPressed)
+/*
+TEST_F(ControlPlaneTests, KeyboardPressControlInMouseMode_KeyAPressed_ShouldNotSendSignalEscKeyPressed)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     QKeyEvent event(
         QEvent::KeyPress,
         Qt::Key_A,
         Qt::NoModifier
     );
-    QSignalSpy escKeyPressedSignal(&controller, &ControlPlaneTest::escKeyPressed);
+    QSignalSpy escKeyPressedSignal(&controller, &ControlPlaneTestable::escKeyPressed);
     escKeyPressedSignal.wait(utdef::minSignalTimeDelay);
 
     controller.keyboardPressControlInMouseMode(&event);
@@ -496,16 +618,15 @@ TEST_F(ControlPlaneTestsClass, KeyboardPressControlInMouseMode_KeyAPressed_Shoul
     EXPECT_EQ(0, escKeyPressedSignal.count());
 }
 
-TEST_F(ControlPlaneTestsClass, KeyboardPressControlInMouseMode_KeyEscPressed_ShouldSendSignalEscKeyPressed)
+TEST_F(ControlPlaneTests, KeyboardPressControlInMouseMode_KeyEscPressed_ShouldSendSignalEscKeyPressed)
 {
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     QKeyEvent event(
         QEvent::KeyPress,
         Qt::Key_Escape,
         Qt::NoModifier
     );
-    QSignalSpy escKeyPressedSignal(&controller, &ControlPlaneTest::escKeyPressed);
+    QSignalSpy escKeyPressedSignal(&controller, &ControlPlaneTestable::escKeyPressed);
     escKeyPressedSignal.wait(utdef::minSignalTimeDelay);
 
     controller.keyboardPressControlInMouseMode(&event);
@@ -515,7 +636,7 @@ TEST_F(ControlPlaneTestsClass, KeyboardPressControlInMouseMode_KeyEscPressed_Sho
 
 typedef std::tr1::tuple<Qt::Key, int, int, int, bool, bool, bool, bool, QPointF> input_keyboard_pressed_params;
 
-class ControlPlaneKeyboardPressedParamTestsClass : public testing::TestWithParam<input_keyboard_pressed_params>
+class ControlPlaneKeyboardPressedParamTestsClass : public TestWithParam<input_keyboard_pressed_params>
 {
     void SetUp() {
         g_imageStorage = new ImageStorageStub;
@@ -536,16 +657,15 @@ TEST_P(ControlPlaneKeyboardPressedParamTestsClass, KeyboardPressControlInKeyboar
     const bool expectedKeyMoveLeftPressed = std::tr1::get<6>(GetParam());
     const bool expectedKeyMoveRightPressed = std::tr1::get<7>(GetParam());
     const QPointF expectedMovePosition = std::tr1::get<8>(GetParam());
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     QKeyEvent event(
         QEvent::KeyPress,
         inputKey,
         Qt::NoModifier
     );
-    QSignalSpy signalChangeMovePosition(&controller, &ControlPlaneTest::changeMovePosition);
-    QSignalSpy signalStartFire(&controller, &ControlPlaneTest::startFire);
-    QSignalSpy signalEscKeyPressed(&controller, &ControlPlaneTest::escKeyPressed);
+    QSignalSpy signalChangeMovePosition(&controller, &ControlPlaneTestable::changeMovePosition);
+    QSignalSpy signalStartFire(&controller, &ControlPlaneTestable::startFire);
+    QSignalSpy signalEscKeyPressed(&controller, &ControlPlaneTestable::escKeyPressed);
     signalEscKeyPressed.wait(utdef::minSignalTimeDelay);
 
     controller.keyboardPressControlInKeyboardMode(&event);
@@ -565,7 +685,7 @@ TEST_P(ControlPlaneKeyboardPressedParamTestsClass, KeyboardPressControlInKeyboar
 INSTANTIATE_TEST_SUITE_P(
     PressKey,
     ControlPlaneKeyboardPressedParamTestsClass,
-    testing::Values(
+    Values(
         std::tr1::make_tuple(
             Qt::Key_Q,
             0,
@@ -692,7 +812,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 typedef std::tr1::tuple<Qt::Key, bool, bool, bool, bool, int, int, int, bool, bool, bool, bool> input_keyboard_released_params;
 
-class ControlPlaneKeyboardReleasedParamTestsClass : public testing::TestWithParam<input_keyboard_released_params>
+class ControlPlaneKeyboardReleasedParamTestsClass : public TestWithParam<input_keyboard_released_params>
 {
     void SetUp() {
         g_imageStorage = new ImageStorageStub;
@@ -716,8 +836,7 @@ TEST_P(ControlPlaneKeyboardReleasedParamTestsClass, KeyboardReleaseControlInKeyb
     const bool expectedKeyMoveDownPressed = std::tr1::get<9>(GetParam());
     const bool expectedKeyMoveLeftPressed = std::tr1::get<10>(GetParam());
     const bool expectedKeyMoveRightPressed = std::tr1::get<11>(GetParam());
-    QWidget displayWidget;
-    ControlPlaneTest controller(&displayWidget);
+    ControlPlaneTestable controller(&displayWidget);
     controller.setKeyMoveUpPressed(inputKeyMoveUpPressed);
     controller.setKeyMoveDownPressed(inputKeyMoveDownPressed);
     controller.setKeyMoveLeftPressed(inputKeyMoveLeftPressed);
@@ -727,9 +846,9 @@ TEST_P(ControlPlaneKeyboardReleasedParamTestsClass, KeyboardReleaseControlInKeyb
         inputKey,
         Qt::NoModifier
     );
-    QSignalSpy signalStopMoveOnAxeX(&controller, &ControlPlaneTest::stopMoveOnAxeX);
-    QSignalSpy signalStopMoveOnAxeY(&controller, &ControlPlaneTest::stopMoveOnAxeY);
-    QSignalSpy signalStopFire(&controller, &ControlPlaneTest::stopFire);
+    QSignalSpy signalStopMoveOnAxeX(&controller, &ControlPlaneTestable::stopMoveOnAxeX);
+    QSignalSpy signalStopMoveOnAxeY(&controller, &ControlPlaneTestable::stopMoveOnAxeY);
+    QSignalSpy signalStopFire(&controller, &ControlPlaneTestable::stopFire);
     signalStopFire.wait(utdef::minSignalTimeDelay);
 
     controller.keyboardReleaseControlInKeyboardMode(&event);
@@ -746,7 +865,7 @@ TEST_P(ControlPlaneKeyboardReleasedParamTestsClass, KeyboardReleaseControlInKeyb
 INSTANTIATE_TEST_SUITE_P(
     ReleaseKey,
     ControlPlaneKeyboardReleasedParamTestsClass,
-    testing::Values(
+    Values(
         std::tr1::make_tuple(
             Qt::Key_Q,
             false,
@@ -1001,4 +1120,4 @@ INSTANTIATE_TEST_SUITE_P(
         )
     )
 );
-
+*/

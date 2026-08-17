@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -g")
+set(CMAKE_CXX_FLAGS "-std=c++14 -g")
 set(BUILD_SHARED_LIBS OFF)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/app/images/

@@ -25,6 +25,8 @@ add_executable(${PROJECT_NAME} WIN32 main.cpp
                                bulletmodel.cpp
                                controlplane.hpp
                                controlplane.cpp
+                               cursorcontroller.hpp
+                               cursorcontroller.cpp
                                definitions.hpp
                                enemyconfiguration.hpp
                                enemycontroller.hpp
